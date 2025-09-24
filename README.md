@@ -8,3 +8,10 @@ metadata:
   labels:
     app: web
 ```
+
+
+```python {2}
+def foo():
+    print("Ez a sor ki van emelve")
+    return True
+```
