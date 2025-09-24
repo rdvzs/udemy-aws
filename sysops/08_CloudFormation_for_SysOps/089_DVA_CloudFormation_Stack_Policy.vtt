@@ -1,0 +1,122 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:02.220
+<v Instructor>So now, let's do a quick lecture</v>
+
+2
+00:00:02.220 --> 00:00:04.980
+on CloudFormation Stack policies.
+
+3
+00:00:04.980 --> 00:00:07.980
+So, when you have a CloudFormation Stack update, by default,
+
+4
+00:00:07.980 --> 00:00:10.710
+any action is going to be allowed on all resources
+
+5
+00:00:10.710 --> 00:00:13.800
+so you can change your stack as you wish,
+
+6
+00:00:13.800 --> 00:00:16.650
+but sometimes, you may want to protect your stack
+
+7
+00:00:16.650 --> 00:00:19.920
+against updates, or part of your stack against updates.
+
+8
+00:00:19.920 --> 00:00:22.740
+This is where Stack policies come in.
+
+9
+00:00:22.740 --> 00:00:25.200
+Stack policies are JSON documents,
+
+10
+00:00:25.200 --> 00:00:28.980
+and they define what update actions are allowed
+
+11
+00:00:28.980 --> 00:00:31.860
+on specific resources during Stack updates.
+
+12
+00:00:31.860 --> 00:00:35.130
+So here, we have an example where the first statement
+
+13
+00:00:35.130 --> 00:00:37.710
+is saying "Allow update*" on everything,
+
+14
+00:00:37.710 --> 00:00:40.770
+meaning that everything in your CloudFormation Stack
+
+15
+00:00:40.770 --> 00:00:45.480
+can be updated, and the second part is saying "Deny update*"
+
+16
+00:00:45.480 --> 00:00:48.330
+on Resource Production Database.
+
+17
+00:00:48.330 --> 00:00:51.750
+That means that whatever is named "Production Database"
+
+18
+00:00:51.750 --> 00:00:54.990
+in your CloudFormation Stack is going to be protected
+
+19
+00:00:54.990 --> 00:00:56.820
+against any kind of updates,
+
+20
+00:00:56.820 --> 00:00:59.910
+so by default, and your production database is fine.
+
+21
+00:00:59.910 --> 00:01:02.220
+So, the goal of Stack policies is really
+
+22
+00:01:02.220 --> 00:01:05.700
+to protect resources against unintentional updates
+
+23
+00:01:05.700 --> 00:01:08.640
+and when you set a Stack policy by default,
+
+24
+00:01:08.640 --> 00:01:10.440
+all the resources are protected,
+
+25
+00:01:10.440 --> 00:01:13.710
+and so what you need is to have an explicit "allow"
+
+26
+00:01:13.710 --> 00:01:17.100
+for the resources that you want to be allowed to be updated.
+
+27
+00:01:17.100 --> 00:01:17.933
+So, that's it.
+
+28
+00:01:17.933 --> 00:01:19.950
+You should know enough to answer maybe one question
+
+29
+00:01:19.950 --> 00:01:21.210
+on the exam on this.
+
+30
+00:01:21.210 --> 00:01:24.393
+I hope you liked it and I will see you in the next lecture.
+

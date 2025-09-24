@@ -1,0 +1,110 @@
+WEBVTT
+
+1
+00:00:00.390 --> 00:00:02.400
+<v Instructors>You would use AWS Budgets</v>
+
+2
+00:00:02.400 --> 00:00:05.640
+if you wanted to create a budget based on actual charges
+
+3
+00:00:05.640 --> 00:00:07.860
+or future estimated charges
+
+4
+00:00:07.860 --> 00:00:11.760
+and send alarms whenever your cost will exceed your budgets.
+
+5
+00:00:11.760 --> 00:00:14.070
+So you have four types of budgets you can set
+
+6
+00:00:14.070 --> 00:00:15.000
+in the budget console.
+
+7
+00:00:15.000 --> 00:00:18.450
+You can use usage, cost, reservation and savings plan,
+
+8
+00:00:18.450 --> 00:00:20.220
+and we'll see them in a second.
+
+9
+00:00:20.220 --> 00:00:22.980
+In case of signing a budget for a reserve instance,
+
+10
+00:00:22.980 --> 00:00:26.700
+you can track utilization of your reserve instances overall
+
+11
+00:00:26.700 --> 00:00:29.430
+and it supports RIs for different services
+
+12
+00:00:29.430 --> 00:00:33.720
+such as EC2, ElastiCache, RDS, and Redshift.
+
+13
+00:00:33.720 --> 00:00:37.320
+You can set up to five notifications per budgets
+
+14
+00:00:37.320 --> 00:00:40.590
+and you can filter your budget by many different options
+
+15
+00:00:40.590 --> 00:00:43.170
+such as service, linked account, tag, purchase options,
+
+16
+00:00:43.170 --> 00:00:44.003
+and so on.
+
+17
+00:00:44.003 --> 00:00:45.840
+So that means that you get a lot of options,
+
+18
+00:00:45.840 --> 00:00:47.760
+actually the same as Cost Explorer,
+
+19
+00:00:47.760 --> 00:00:50.730
+and so that makes budgets something that is going
+
+20
+00:00:50.730 --> 00:00:53.370
+to be a lot more granular, a lot more flexible
+
+21
+00:00:53.370 --> 00:00:54.960
+when it comes to tracking your cost
+
+22
+00:00:54.960 --> 00:00:57.330
+and setting up alarms than, for example,
+
+23
+00:00:57.330 --> 00:00:58.710
+your billing alarms.
+
+24
+00:00:58.710 --> 00:01:00.540
+So the first two budgets are going to be free
+
+25
+00:01:00.540 --> 00:01:03.210
+and then you're going to pay 2 cents per day per budget.
+
+26
+00:01:03.210 --> 00:01:04.620
+So now let's go have a look in the console
+
+27
+00:01:04.620 --> 00:01:05.820
+to see how budgets work.
+

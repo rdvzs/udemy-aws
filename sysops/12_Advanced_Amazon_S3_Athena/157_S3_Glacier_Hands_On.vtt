@@ -1,0 +1,254 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:03.140
+<v Instructor>So let me show you how to use S3 Glacier</v>
+
+2
+00:00:03.140 --> 00:00:05.140
+as a storage class from Amazon S3.
+
+3
+00:00:05.140 --> 00:00:08.290
+So if we take, for example, this copy of the JPEG file
+
+4
+00:00:08.290 --> 00:00:10.410
+and I'm going to do Action,
+
+5
+00:00:10.410 --> 00:00:12.530
+and then I can change its storage class.
+
+6
+00:00:12.530 --> 00:00:14.850
+So I can do Edit storage class.
+
+7
+00:00:14.850 --> 00:00:17.510
+In which case I can go into Glacier or Glacier Deep Archive.
+
+8
+00:00:17.510 --> 00:00:19.730
+So I'm going to go into Glacier. Okay.
+
+9
+00:00:19.730 --> 00:00:22.210
+And it has to stay there for at least 90 days.
+
+10
+00:00:22.210 --> 00:00:24.200
+Okay. So I will save my changes.
+
+11
+00:00:24.200 --> 00:00:26.690
+And now my object is being sent
+
+12
+00:00:26.690 --> 00:00:28.140
+into the Glacier storage class.
+
+13
+00:00:28.140 --> 00:00:29.220
+So this is good.
+
+14
+00:00:29.220 --> 00:00:31.770
+Now back in it, as we can see, the storage class has changed
+
+15
+00:00:31.770 --> 00:00:32.603
+for my objects.
+
+16
+00:00:32.603 --> 00:00:34.030
+So in my coffee.jpg,
+
+17
+00:00:34.030 --> 00:00:39.030
+I can see in the bottom that the storage class is Glacier.
+
+18
+00:00:39.040 --> 00:00:42.010
+And what I can do is that I can initiate a restore for it.
+
+19
+00:00:42.010 --> 00:00:43.810
+So I can do right here.
+
+20
+00:00:43.810 --> 00:00:45.930
+The object is stored in the Glacier storage class.
+
+21
+00:00:45.930 --> 00:00:48.460
+And to use it, I can initiate a restore.
+
+22
+00:00:48.460 --> 00:00:50.760
+Now I can say how many days I want the restored copy
+
+23
+00:00:50.760 --> 00:00:51.660
+to be available.
+
+24
+00:00:51.660 --> 00:00:54.060
+So I can say one day I want it to be available. Okay.
+
+25
+00:00:54.060 --> 00:00:55.790
+So this will be available until that date.
+
+26
+00:00:55.790 --> 00:00:57.860
+And then I have three options for retrieval.
+
+27
+00:00:57.860 --> 00:01:00.410
+I have Bulk, Standard, and Expedited,
+
+28
+00:01:00.410 --> 00:01:01.480
+but if I do Expedited,
+
+29
+00:01:01.480 --> 00:01:03.220
+I need to purchase what's called capacity units.
+
+30
+00:01:03.220 --> 00:01:05.910
+So PCU to allow myself
+
+31
+00:01:05.910 --> 00:01:09.390
+to go and retrieve this file faster.
+
+32
+00:01:09.390 --> 00:01:12.140
+So we'll go into a Standard retrieval
+
+33
+00:01:12.140 --> 00:01:13.780
+of these specified objects,
+
+34
+00:01:13.780 --> 00:01:16.230
+and I can initiate a restore. Okay.
+
+35
+00:01:16.230 --> 00:01:18.710
+So as you can see, the restore has been initiated.
+
+36
+00:01:18.710 --> 00:01:22.010
+And for me to be notified of this restore,
+
+37
+00:01:22.010 --> 00:01:24.200
+well, I can use event notifications.
+
+38
+00:01:24.200 --> 00:01:26.530
+So you can see there is a restoration in progress
+
+39
+00:01:26.530 --> 00:01:29.140
+and it is going to be here,
+
+40
+00:01:29.140 --> 00:01:30.160
+is going to be in Standard retrieval.
+
+41
+00:01:30.160 --> 00:01:32.470
+So we're going to wait until this is done.
+
+42
+00:01:32.470 --> 00:01:34.600
+But if I want it to go into my bucket,
+
+43
+00:01:34.600 --> 00:01:38.600
+and then you go into Properties.
+
+44
+00:01:38.600 --> 00:01:41.590
+Scroll down and go to Event notifications.
+
+45
+00:01:41.590 --> 00:01:44.020
+I can create an event notification in my bucket
+
+46
+00:01:44.020 --> 00:01:46.323
+called RestoreNotifications.
+
+47
+00:01:48.000 --> 00:01:48.833
+And at the Event type,
+
+48
+00:01:48.833 --> 00:01:51.160
+I'm going to look for is going to be around
+
+49
+00:01:51.160 --> 00:01:52.320
+the Restore object events.
+
+50
+00:01:52.320 --> 00:01:56.020
+So we have Restore initiated and Restore completed.
+
+51
+00:01:56.020 --> 00:01:57.680
+So this is when I initiate restore request
+
+52
+00:01:57.680 --> 00:02:00.150
+and it would have triggered a notification.
+
+53
+00:02:00.150 --> 00:02:02.490
+And restore completed is when I initiate,
+
+54
+00:02:02.490 --> 00:02:04.910
+I want the restoration soon as it is done.
+
+55
+00:02:04.910 --> 00:02:07.260
+And then I can send it as a destination
+
+56
+00:02:07.260 --> 00:02:08.410
+to a Lambda function,
+
+57
+00:02:08.410 --> 00:02:09.540
+an SNS topic,
+
+58
+00:02:09.540 --> 00:02:10.810
+or an SQS queue
+
+59
+00:02:10.810 --> 00:02:12.780
+and be notified accordingly.
+
+60
+00:02:12.780 --> 00:02:14.010
+So that's it. I will not create it.
+
+61
+00:02:14.010 --> 00:02:17.420
+But it gives you all the options on Glacier on AWS.
+
+62
+00:02:17.420 --> 00:02:18.253
+I hope you liked it.
+
+63
+00:02:18.253 --> 00:02:20.060
+And I will see you in the next lecture.
+

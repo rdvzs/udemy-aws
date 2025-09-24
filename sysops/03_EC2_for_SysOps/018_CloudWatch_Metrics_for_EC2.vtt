@@ -1,0 +1,506 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:02.580
+<v Instructor>Okay, this is super important for the exam</v>
+
+2
+00:00:02.580 --> 00:00:05.940
+to know how CloudWatch is linked to EC2.
+
+3
+00:00:05.940 --> 00:00:06.900
+Super, super important.
+
+4
+00:00:06.900 --> 00:00:08.463
+So let's go ahead and see this.
+
+5
+00:00:09.660 --> 00:00:12.090
+AWS provides some metric for your EC2 instances
+
+6
+00:00:12.090 --> 00:00:14.700
+and AWS will push these metrics for you.
+
+7
+00:00:14.700 --> 00:00:16.470
+You have some basic monitoring,
+
+8
+00:00:16.470 --> 00:00:18.750
+such as the metrics will be collected
+
+9
+00:00:18.750 --> 00:00:21.240
+at five minutes interval,
+
+10
+00:00:21.240 --> 00:00:23.700
+but you can enable detailed monitoring,
+
+11
+00:00:23.700 --> 00:00:25.560
+in which case these metrics will be collected
+
+12
+00:00:25.560 --> 00:00:27.960
+at a one minute interval.
+
+13
+00:00:27.960 --> 00:00:30.960
+And these metrics include CPU, network, disc
+
+14
+00:00:30.960 --> 00:00:32.940
+and status check metric.
+
+15
+00:00:32.940 --> 00:00:36.150
+Remember these four, they're very, very important.
+
+16
+00:00:36.150 --> 00:00:39.360
+Then you're able to use custom metrics and custom metrics,
+
+17
+00:00:39.360 --> 00:00:42.870
+by definition, they're yours to push, they're custom.
+
+18
+00:00:42.870 --> 00:00:44.100
+So the basic resolution
+
+19
+00:00:44.100 --> 00:00:46.290
+of your custom metric is one minute,
+
+20
+00:00:46.290 --> 00:00:49.080
+but you can go into a high resolution custom metric,
+
+21
+00:00:49.080 --> 00:00:51.420
+which is all the way to one second.
+
+22
+00:00:51.420 --> 00:00:54.150
+And the custom metrics for EC2 you may want to push,
+
+23
+00:00:54.150 --> 00:00:56.400
+well, that includes RAM or application level
+
+24
+00:00:56.400 --> 00:00:58.050
+metrics, for example.
+
+25
+00:00:58.050 --> 00:01:00.210
+If you do do that then too you have to make sure
+
+26
+00:01:00.210 --> 00:01:03.120
+that your EC2 instance does have an IAM role
+
+27
+00:01:03.120 --> 00:01:06.720
+that allows it to push metrics to CloudWatch.
+
+28
+00:01:06.720 --> 00:01:09.720
+So all the metrics included for EC2, you need to know them.
+
+29
+00:01:09.720 --> 00:01:12.750
+So the first metric you need to know is CPU.
+
+30
+00:01:12.750 --> 00:01:15.540
+We will get the CPU utilization as a metric
+
+31
+00:01:15.540 --> 00:01:20.540
+and also in case we have T2 or T3 instances that do burst,
+
+32
+00:01:20.550 --> 00:01:22.830
+then we can get the credit usage for the burst
+
+33
+00:01:22.830 --> 00:01:24.900
+and the credit balance.
+
+34
+00:01:24.900 --> 00:01:27.090
+For the network, we're able to figure out
+
+35
+00:01:27.090 --> 00:01:29.160
+how much network is going in our instance
+
+36
+00:01:29.160 --> 00:01:31.110
+and out of our instance.
+
+37
+00:01:31.110 --> 00:01:33.000
+For the status check, it's basically checking
+
+38
+00:01:33.000 --> 00:01:34.920
+whether or not our instance is healthy.
+
+39
+00:01:34.920 --> 00:01:36.660
+We get an instant status,
+
+40
+00:01:36.660 --> 00:01:40.980
+which is Amazon checking if the EC2 VM is working
+
+41
+00:01:40.980 --> 00:01:42.540
+or a system status,
+
+42
+00:01:42.540 --> 00:01:45.240
+which is Amazon checking if the underlying
+
+43
+00:01:45.240 --> 00:01:46.680
+hardware is working.
+
+44
+00:01:46.680 --> 00:01:48.900
+So these are very important ones.
+
+45
+00:01:48.900 --> 00:01:50.610
+These are Amazon health checks,
+
+46
+00:01:50.610 --> 00:01:52.200
+so you don't have any controls over that,
+
+47
+00:01:52.200 --> 00:01:53.490
+but it basically gives you an idea
+
+48
+00:01:53.490 --> 00:01:55.380
+and you need to be able to differentiate
+
+49
+00:01:55.380 --> 00:01:58.080
+between your instant status and your system status.
+
+50
+00:01:58.080 --> 00:02:00.840
+The last status check is an attached EBS status,
+
+51
+00:02:00.840 --> 00:02:02.490
+which is going to check the state
+
+52
+00:02:02.490 --> 00:02:05.160
+of any attached EBS volumes.
+
+53
+00:02:05.160 --> 00:02:07.680
+Finally, only for instance stores,
+
+54
+00:02:07.680 --> 00:02:10.800
+instance store backed EC2 instances,
+
+55
+00:02:10.800 --> 00:02:12.450
+we get disc information.
+
+56
+00:02:12.450 --> 00:02:14.310
+We'll get the read and write operations
+
+57
+00:02:14.310 --> 00:02:17.370
+or bytes for our instant store.
+
+58
+00:02:17.370 --> 00:02:22.370
+And finally, RAM is not included in the AWS EC2 metrics.
+
+59
+00:02:22.560 --> 00:02:25.170
+This is a common question at the exam.
+
+60
+00:02:25.170 --> 00:02:27.720
+They ask you, can you get the RAM from CloudWatch?
+
+61
+00:02:27.720 --> 00:02:29.190
+No, you cannot.
+
+62
+00:02:29.190 --> 00:02:31.850
+AWS does not push the RAM usage in CloudWatch.
+
+63
+00:02:31.850 --> 00:02:33.930
+It is for yours to push.
+
+64
+00:02:33.930 --> 00:02:35.490
+Okay, so let's have a look at
+
+65
+00:02:35.490 --> 00:02:37.740
+our monitoring metrics for EC2 instance.
+
+66
+00:02:37.740 --> 00:02:40.530
+So we are going in this monitoring tab
+
+67
+00:02:40.530 --> 00:02:42.930
+and then we can have a look at all the metrics in here,
+
+68
+00:02:42.930 --> 00:02:44.940
+which I can add into a cloud dashboard
+
+69
+00:02:44.940 --> 00:02:47.640
+to make it a little easier to see.
+
+70
+00:02:47.640 --> 00:02:49.500
+So I can create a new dashboard
+
+71
+00:02:49.500 --> 00:02:53.760
+and I'll call it EC2 metrics.
+
+72
+00:02:53.760 --> 00:02:57.570
+And okay, click on add to dashboard,
+
+73
+00:02:57.570 --> 00:02:59.310
+and that's my dashboard name.
+
+74
+00:02:59.310 --> 00:03:03.573
+I'll just call it EC2, and click on create.
+
+75
+00:03:04.500 --> 00:03:05.333
+Here we go.
+
+76
+00:03:05.333 --> 00:03:06.990
+And then add to dashboard.
+
+77
+00:03:06.990 --> 00:03:09.060
+So I am in my dashboard from CloudWatch
+
+78
+00:03:09.060 --> 00:03:11.250
+and we can have a look at all the metrics.
+
+79
+00:03:11.250 --> 00:03:13.770
+So first of all, CPU utilization, we know it.
+
+80
+00:03:13.770 --> 00:03:15.690
+So this is something that can be varying
+
+81
+00:03:15.690 --> 00:03:17.130
+between zero and 100%,
+
+82
+00:03:17.130 --> 00:03:19.530
+and this is a very common metric to monitor.
+
+83
+00:03:19.530 --> 00:03:22.830
+Status checks is going to be something we'll see soon,
+
+84
+00:03:22.830 --> 00:03:26.880
+which is around how to have a look at if your EC2 instances
+
+85
+00:03:26.880 --> 00:03:29.160
+is having a failure on the hardware level
+
+86
+00:03:29.160 --> 00:03:30.270
+or the software level,
+
+87
+00:03:30.270 --> 00:03:33.630
+and so we can have the metrics on the failure
+
+88
+00:03:33.630 --> 00:03:35.880
+by being between zero and one.
+
+89
+00:03:35.880 --> 00:03:37.410
+Network in and out is quite obvious,
+
+90
+00:03:37.410 --> 00:03:39.570
+which is how much network goes in and out
+
+91
+00:03:39.570 --> 00:03:42.480
+of your EC2 instance and number of packets as well.
+
+92
+00:03:42.480 --> 00:03:45.930
+Disc read and disc writes look like they're zero
+
+93
+00:03:45.930 --> 00:03:49.109
+and it's normal because we have an EBS volume
+
+94
+00:03:49.109 --> 00:03:50.310
+attached to our EC2 instance.
+
+95
+00:03:50.310 --> 00:03:52.380
+The disc reads and writes metrics
+
+96
+00:03:52.380 --> 00:03:56.070
+are going to be seen on the EBS volume itself, okay?
+
+97
+00:03:56.070 --> 00:03:59.100
+But if your EC2 instance was an EC2 instance
+
+98
+00:03:59.100 --> 00:04:02.940
+with an instance store, that means that the drive
+
+99
+00:04:02.940 --> 00:04:05.760
+and the storage is directly physically attached
+
+100
+00:04:05.760 --> 00:04:07.260
+to your EC2 instance,
+
+101
+00:04:07.260 --> 00:04:10.230
+then you would see these metrics being populated, okay?
+
+102
+00:04:10.230 --> 00:04:13.650
+This is something common to know and to be aware of.
+
+103
+00:04:13.650 --> 00:04:16.230
+Finally, for CPU credit usage,
+
+104
+00:04:16.230 --> 00:04:17.820
+this is going to be seen here
+
+105
+00:04:17.820 --> 00:04:20.126
+for burstable type of instances,
+
+106
+00:04:20.126 --> 00:04:21.150
+otherwise it will be zero,
+
+107
+00:04:21.150 --> 00:04:24.030
+and we can have also a look at the CPU credit balance.
+
+108
+00:04:24.030 --> 00:04:25.470
+As you can see, as we're not using
+
+109
+00:04:25.470 --> 00:04:26.790
+our EC2 instance right now,
+
+110
+00:04:26.790 --> 00:04:30.510
+the CPU credit balance is going up, up, up over time.
+
+111
+00:04:30.510 --> 00:04:33.360
+And finally, if you wanted to enable detailed monitoring
+
+112
+00:04:33.360 --> 00:04:35.220
+for your EC2 instance, this is how you would do it.
+
+113
+00:04:35.220 --> 00:04:36.180
+So you click on monitoring
+
+114
+00:04:36.180 --> 00:04:38.220
+and click on manage detailed monitoring
+
+115
+00:04:38.220 --> 00:04:39.450
+and you can enable it.
+
+116
+00:04:39.450 --> 00:04:40.920
+So this is going to show you graphs
+
+117
+00:04:40.920 --> 00:04:43.530
+with a one minute period instead of five.
+
+118
+00:04:43.530 --> 00:04:45.090
+So right now, this is a five minute period,
+
+119
+00:04:45.090 --> 00:04:47.310
+but we can go into one minute period,
+
+120
+00:04:47.310 --> 00:04:50.340
+but you're going to incur extra cost if you do enable
+
+121
+00:04:50.340 --> 00:04:52.200
+detailed monitoring, which I will not do.
+
+122
+00:04:52.200 --> 00:04:53.033
+Okay?
+
+123
+00:04:53.033 --> 00:04:54.510
+So (indistinct) lecture, I hope you liked it,
+
+124
+00:04:54.510 --> 00:04:59.340
+and make sure at the end to delete your cloud dashboard.
+
+125
+00:04:59.340 --> 00:05:01.830
+So delete this dashboard and you're good to go.
+
+126
+00:05:01.830 --> 00:05:03.580
+I will see you in the next lecture.
+

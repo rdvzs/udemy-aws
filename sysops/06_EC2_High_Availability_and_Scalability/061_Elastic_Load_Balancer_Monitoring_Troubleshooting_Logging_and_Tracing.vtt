@@ -1,0 +1,590 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:02.760
+<v Stephane>Okay, so let's have a look at the type</v>
+
+2
+00:00:02.760 --> 00:00:04.890
+of errors that can be generated from a load balancer.
+
+3
+00:00:04.890 --> 00:00:07.380
+So a successful request is going to be 200,
+
+4
+00:00:07.380 --> 00:00:08.550
+which is pretty standard,
+
+5
+00:00:08.550 --> 00:00:11.490
+but then if the clients did do an error,
+
+6
+00:00:11.490 --> 00:00:13.680
+so if your web browser, for example, did do an error,
+
+7
+00:00:13.680 --> 00:00:16.650
+you're going to receive a 4XX type of error, okay.
+
+8
+00:00:16.650 --> 00:00:18.480
+You don't need to remember all that I'm going to give you,
+
+9
+00:00:18.480 --> 00:00:19.800
+but it just to give you illustrations.
+
+10
+00:00:19.800 --> 00:00:23.040
+So 400 is bad request, 401 is unauthorized,
+
+11
+00:00:23.040 --> 00:00:26.910
+403 is forbidden, 460 is client closed connection,
+
+12
+00:00:26.910 --> 00:00:31.910
+463 is that the header X-forwarded for was malformed, okay,
+
+13
+00:00:32.040 --> 00:00:34.050
+and anything that is going to be an error
+
+14
+00:00:34.050 --> 00:00:36.540
+on the server side, so it could be the load balancer,
+
+15
+00:00:36.540 --> 00:00:38.700
+or it could be your backend EC2 instances,
+
+16
+00:00:38.700 --> 00:00:41.310
+is going to be a 5xx type of code.
+
+17
+00:00:41.310 --> 00:00:44.280
+So 500 means that there is an internal server error,
+
+18
+00:00:44.280 --> 00:00:47.790
+502 is bad gateway, 503 is service unavailable,
+
+19
+00:00:47.790 --> 00:00:50.730
+which is when your EC2 instances are not available
+
+20
+00:00:50.730 --> 00:00:53.220
+to send back the reply to the load balancer,
+
+21
+00:00:53.220 --> 00:00:55.080
+which is an important code to know,
+
+22
+00:00:55.080 --> 00:00:59.910
+504 is gateway timeouts, and 561 is unauthorized, okay.
+
+23
+00:00:59.910 --> 00:01:01.650
+So from an exam perspective,
+
+24
+00:01:01.650 --> 00:01:05.760
+just remember that 4XX codes are client-side errors,
+
+25
+00:01:05.760 --> 00:01:08.100
+so it hints at a client problem,
+
+26
+00:01:08.100 --> 00:01:11.820
+and 5xx errors are going to be server problems, okay.
+
+27
+00:01:11.820 --> 00:01:14.100
+So this is just for you to be able to determine
+
+28
+00:01:14.100 --> 00:01:16.770
+the kind of metrics to look at on your load balancer.
+
+29
+00:01:16.770 --> 00:01:18.390
+So talking about metrics on your load balancer.
+
+30
+00:01:18.390 --> 00:01:22.260
+So there are metrics pushed directly from the ALB,
+
+31
+00:01:22.260 --> 00:01:24.930
+I mean to any load balancer really, to CloudWatch metrics.
+
+32
+00:01:24.930 --> 00:01:27.840
+So it could be backend connection errors to monitor
+
+33
+00:01:27.840 --> 00:01:30.900
+if you're EC2 instances are erroring out.
+
+34
+00:01:30.900 --> 00:01:33.660
+UnHealthyHostCount and a HealthyHostCount
+
+35
+00:01:33.660 --> 00:01:36.360
+is super important, which is illustrated right here.
+
+36
+00:01:36.360 --> 00:01:39.090
+So say you have a load balancer, six instances,
+
+37
+00:01:39.090 --> 00:01:40.530
+and two of them are down.
+
+38
+00:01:40.530 --> 00:01:44.160
+So, in this case, the HealthyHostCount is going to be four,
+
+39
+00:01:44.160 --> 00:01:48.150
+and the UnHealthyHostCount is going to be two, okay.
+
+40
+00:01:48.150 --> 00:01:51.120
+Just to illustrate it, but this is important to see it once.
+
+41
+00:01:51.120 --> 00:01:54.300
+Next, the number of times that there was a 2XX
+
+42
+00:01:54.300 --> 00:01:57.750
+successful request in the backend, 3XX, 4XX,
+
+43
+00:01:57.750 --> 00:02:00.060
+which is hinting at the client error codes,
+
+44
+00:02:00.060 --> 00:02:03.480
+and 5XX, which is hinting at server error codes, okay.
+
+45
+00:02:03.480 --> 00:02:06.330
+Then we have latency information.
+
+46
+00:02:06.330 --> 00:02:10.560
+So how fast is it to get a request back to the clients?
+
+47
+00:02:10.560 --> 00:02:12.450
+The RequestCounts, which is the overall
+
+48
+00:02:12.450 --> 00:02:14.190
+request counts for your ALB,
+
+49
+00:02:14.190 --> 00:02:16.680
+the RequestCountPerTarget, which is very interesting,
+
+50
+00:02:16.680 --> 00:02:20.610
+which is how many EC2 instances receive
+
+51
+00:02:20.610 --> 00:02:21.930
+a request on average,
+
+52
+00:02:21.930 --> 00:02:25.440
+which is a good metric to monitor and to scale on,
+
+53
+00:02:25.440 --> 00:02:26.940
+and the SurgeQueueLength.
+
+54
+00:02:26.940 --> 00:02:29.490
+So this is the number of total number of requests
+
+55
+00:02:29.490 --> 00:02:31.350
+that are pending and being routed
+
+56
+00:02:31.350 --> 00:02:33.090
+to healthy instances, okay,
+
+57
+00:02:33.090 --> 00:02:35.550
+and this can help, for example, scale out your ASG.
+
+58
+00:02:35.550 --> 00:02:37.110
+The max value is 1000,
+
+59
+00:02:37.110 --> 00:02:40.140
+so you don't want to have a big queue of request.
+
+60
+00:02:40.140 --> 00:02:41.520
+You want to make sure that, of course,
+
+61
+00:02:41.520 --> 00:02:44.730
+this queue remains close, the queue remains close to zero.
+
+62
+00:02:44.730 --> 00:02:46.950
+And Spillover is that the number of requests
+
+63
+00:02:46.950 --> 00:02:50.310
+that were rejected because the queue was full, okay.
+
+64
+00:02:50.310 --> 00:02:52.260
+And this is something you never want
+
+65
+00:02:52.260 --> 00:02:54.690
+to have better over zero.
+
+66
+00:02:54.690 --> 00:02:55.890
+That means that if you're over zero,
+
+67
+00:02:55.890 --> 00:02:57.660
+you need to really scale your backend
+
+68
+00:02:57.660 --> 00:02:59.490
+to serve these additional requests
+
+69
+00:02:59.490 --> 00:03:02.520
+and that the clients are losing some requests.
+
+70
+00:03:02.520 --> 00:03:04.650
+Now if you wanted to troubleshoot using metrics.
+
+71
+00:03:04.650 --> 00:03:06.810
+So a 400: Bad_Request means that the client
+
+72
+00:03:06.810 --> 00:03:08.923
+sent a malformed request.
+
+73
+00:03:08.923 --> 00:03:12.300
+A 503 means that, again, there are no healthy instances
+
+74
+00:03:12.300 --> 00:03:13.950
+available for your load balancer,
+
+75
+00:03:13.950 --> 00:03:15.330
+and so you could have a look
+
+76
+00:03:15.330 --> 00:03:18.313
+at the HealthyHostCount, metric, and CloudWatch.
+
+77
+00:03:18.313 --> 00:03:20.580
+A 504 is a Gateway Timeout.
+
+78
+00:03:20.580 --> 00:03:22.920
+So check if the keep-alive setting on your EC2 instances
+
+79
+00:03:22.920 --> 00:03:25.470
+are enabled, and make sure that a keep-alive timeout
+
+80
+00:03:25.470 --> 00:03:27.360
+is greater than the idle timeout setting
+
+81
+00:03:27.360 --> 00:03:28.650
+of the load balancer.
+
+82
+00:03:28.650 --> 00:03:31.410
+And, overall, set alarms for your load balancer
+
+83
+00:03:31.410 --> 00:03:34.410
+and troubleshoot using the documentation.
+
+84
+00:03:34.410 --> 00:03:36.510
+I recommend you take a look at this link just to understand
+
+85
+00:03:36.510 --> 00:03:38.510
+things better, and you'll be good to go.
+
+86
+00:03:39.810 --> 00:03:42.690
+Next, for your load balancer access logs, okay.
+
+87
+00:03:42.690 --> 00:03:44.790
+So these are the access logs from the load balancer,
+
+88
+00:03:44.790 --> 00:03:47.550
+and they can be stored in S3, and they will contain
+
+89
+00:03:47.550 --> 00:03:49.590
+all the requests made to your load balancer.
+
+90
+00:03:49.590 --> 00:03:51.510
+So this includes just the metadata, though,
+
+91
+00:03:51.510 --> 00:03:54.660
+so the time, the client IP address, the latencies,
+
+92
+00:03:54.660 --> 00:03:57.960
+request paths, server response, trace ID,
+
+93
+00:03:57.960 --> 00:04:01.470
+and you're only going to pay for the S3 storage
+
+94
+00:04:01.470 --> 00:04:03.570
+of sending these logs to Amazon S3.
+
+95
+00:04:03.570 --> 00:04:06.840
+It's very helpful for compliance reason and for debugging,
+
+96
+00:04:06.840 --> 00:04:10.530
+and it's helpful to keep access data even after the ELB
+
+97
+00:04:10.530 --> 00:04:13.230
+or your EC2 instances are terminated.
+
+98
+00:04:13.230 --> 00:04:17.040
+And the access logs are encrypted for additional security.
+
+99
+00:04:17.040 --> 00:04:20.460
+Finally, for request tracing, so there is a request tracing.
+
+100
+00:04:20.460 --> 00:04:24.300
+There is a custom header called X-Amzn-Trace-Id
+
+101
+00:04:24.300 --> 00:04:26.670
+that is being added to every HTTP request.
+
+102
+00:04:26.670 --> 00:04:28.410
+And here's an example.
+
+103
+00:04:28.410 --> 00:04:30.450
+So this is going to be very helpful in logs
+
+104
+00:04:30.450 --> 00:04:32.190
+or for distributed tracing platforms
+
+105
+00:04:32.190 --> 00:04:33.750
+to track a single request.
+
+106
+00:04:33.750 --> 00:04:36.630
+But just so you know, the ALB is not yet integrated
+
+107
+00:04:36.630 --> 00:04:40.050
+with X-Ray, so you're not going to see that request tracing
+
+108
+00:04:40.050 --> 00:04:41.520
+appearing in X-Ray just yet,
+
+109
+00:04:41.520 --> 00:04:44.520
+but I will update it as soon as this is available.
+
+110
+00:04:44.520 --> 00:04:47.010
+So let's have a look at our DemoALB
+
+111
+00:04:47.010 --> 00:04:49.710
+and look at the different monitoring options.
+
+112
+00:04:49.710 --> 00:04:52.290
+So, first of all, under Monitoring,
+
+113
+00:04:52.290 --> 00:04:56.310
+as you can see right here, I'm able to have a look
+
+114
+00:04:56.310 --> 00:05:00.600
+at all the metrics available for my load balancer.
+
+115
+00:05:00.600 --> 00:05:02.010
+So we have some very interesting ones,
+
+116
+00:05:02.010 --> 00:05:03.270
+which are the Target Response Time,
+
+117
+00:05:03.270 --> 00:05:06.090
+which gives us some insights to latency,
+
+118
+00:05:06.090 --> 00:05:07.650
+number of requests over time,
+
+119
+00:05:07.650 --> 00:05:09.660
+which is good to evaluate load.
+
+120
+00:05:09.660 --> 00:05:11.640
+We get a bunch of error code metric,
+
+121
+00:05:11.640 --> 00:05:13.350
+which allows us to understand
+
+122
+00:05:13.350 --> 00:05:14.520
+where the problem is coming from.
+
+123
+00:05:14.520 --> 00:05:16.500
+Is it coming from a server error,
+
+124
+00:05:16.500 --> 00:05:18.930
+or an application error, and so on?
+
+125
+00:05:18.930 --> 00:05:20.250
+We also have a look, for example,
+
+126
+00:05:20.250 --> 00:05:21.780
+at the Active Connection Count.
+
+127
+00:05:21.780 --> 00:05:23.490
+This is a very popular metric
+
+128
+00:05:23.490 --> 00:05:26.160
+to scale on for an auto scaling group.
+
+129
+00:05:26.160 --> 00:05:27.330
+And we can have a look, for example,
+
+130
+00:05:27.330 --> 00:05:30.570
+at the Consumed Load Balancer Capacity Units,
+
+131
+00:05:30.570 --> 00:05:32.340
+which represents how much we are paying
+
+132
+00:05:32.340 --> 00:05:33.510
+for this load balancer,
+
+133
+00:05:33.510 --> 00:05:36.600
+how much we're actually consuming of its scale.
+
+134
+00:05:36.600 --> 00:05:37.750
+So this is pretty good.
+
+135
+00:05:40.320 --> 00:05:44.280
+The other thing we can look at is around the logs.
+
+136
+00:05:44.280 --> 00:05:46.710
+So, and look at the Attributes right here.
+
+137
+00:05:46.710 --> 00:05:49.473
+I can edit them, and if I scroll down,
+
+138
+00:05:50.970 --> 00:05:53.070
+I will have the access logs for monitoring.
+
+139
+00:05:53.070 --> 00:05:55.230
+I can enable it, and this will make sure
+
+140
+00:05:55.230 --> 00:05:58.770
+that all requests that are sent to my load balancer
+
+141
+00:05:58.770 --> 00:06:00.960
+are sent into an S3 bucket.
+
+142
+00:06:00.960 --> 00:06:04.200
+So we have to just define an S3 bucket for logging
+
+143
+00:06:04.200 --> 00:06:06.990
+with, maybe, a prefix, and we could have all the access logs
+
+144
+00:06:06.990 --> 00:06:09.240
+available there, and we can query, for example,
+
+145
+00:06:09.240 --> 00:06:13.110
+these access logs using the Amazon Athena service.
+
+146
+00:06:13.110 --> 00:06:14.070
+So that's it for this lecture.
+
+147
+00:06:14.070 --> 00:06:17.163
+I hope you liked it, and I will see you in the next lecture.
+

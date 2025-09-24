@@ -1,0 +1,618 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:01.410
+<v Instructor>So now let's talk about</v>
+
+2
+00:00:01.410 --> 00:00:03.960
+CloudFormation parameters in detail.
+
+3
+00:00:03.960 --> 00:00:07.140
+So parameters are a way for you to provide inputs
+
+4
+00:00:07.140 --> 00:00:09.660
+into your CloudFormation templates.
+
+5
+00:00:09.660 --> 00:00:10.920
+So you have a CloudFormation template
+
+6
+00:00:10.920 --> 00:00:14.520
+and you want your user to provide parameter values,
+
+7
+00:00:14.520 --> 00:00:16.290
+and these parameters are defined
+
+8
+00:00:16.290 --> 00:00:18.660
+as part of the CloudFormation templates.
+
+9
+00:00:18.660 --> 00:00:20.370
+We actually used them before
+
+10
+00:00:20.370 --> 00:00:24.180
+when we were giving a security group a description.
+
+11
+00:00:24.180 --> 00:00:26.820
+So, they're super important to know about
+
+12
+00:00:26.820 --> 00:00:30.210
+if you want to reuse your templates across the company
+
+13
+00:00:30.210 --> 00:00:32.449
+so that many people can put many parameters
+
+14
+00:00:32.449 --> 00:00:37.350
+and because the inputs cannot be determined ahead of time.
+
+15
+00:00:37.350 --> 00:00:39.270
+So the parameters are extremely powerful,
+
+16
+00:00:39.270 --> 00:00:42.150
+they're controlled, and they also can prevent errors
+
+17
+00:00:42.150 --> 00:00:44.520
+from happening in your templates thanks to the types,
+
+18
+00:00:44.520 --> 00:00:47.220
+and we'll have a look at those in a second.
+
+19
+00:00:47.220 --> 00:00:49.980
+So when should you use a parameter?
+
+20
+00:00:49.980 --> 00:00:52.920
+So this is the SecurityGroupDescription parameter
+
+21
+00:00:52.920 --> 00:00:54.930
+we have used from before,
+
+22
+00:00:54.930 --> 00:00:58.140
+and the question you need to ask yourself
+
+23
+00:00:58.140 --> 00:00:59.850
+when defining if something should
+
+24
+00:00:59.850 --> 00:01:02.610
+or shouldn't be a parameter is this.
+
+25
+00:01:02.610 --> 00:01:06.150
+Is this CloudFormation resource configuration
+
+26
+00:01:06.150 --> 00:01:08.580
+likely to change in the future?
+
+27
+00:01:08.580 --> 00:01:10.800
+If so, make it a parameter,
+
+28
+00:01:10.800 --> 00:01:14.400
+because whenever you want to update that value,
+
+29
+00:01:14.400 --> 00:01:16.680
+you will not have to re-upload the template
+
+30
+00:01:16.680 --> 00:01:18.450
+to change its contents.
+
+31
+00:01:18.450 --> 00:01:21.300
+Also, if it cannot be determined ahead of time,
+
+32
+00:01:21.300 --> 00:01:23.613
+then again, you should make it a parameter.
+
+33
+00:01:24.480 --> 00:01:27.210
+So the parameters have multiple settings
+
+34
+00:01:27.210 --> 00:01:28.560
+and the first one is Type.
+
+35
+00:01:28.560 --> 00:01:32.520
+It could be a String, a Number, a CommaDelimitedList,
+
+36
+00:01:32.520 --> 00:01:33.600
+a List of numbers.
+
+37
+00:01:33.600 --> 00:01:37.050
+It could be an AWS-Specific Parameter,
+
+38
+00:01:37.050 --> 00:01:40.110
+for example, to help you catch invalid values
+
+39
+00:01:40.110 --> 00:01:41.460
+or a list of those.
+
+40
+00:01:41.460 --> 00:01:43.560
+It could be an SSM Parameter.
+
+41
+00:01:43.560 --> 00:01:45.840
+It could also have a Description.
+
+42
+00:01:45.840 --> 00:01:47.950
+It could have a DonstraintDescription
+
+43
+00:01:47.950 --> 00:01:49.367
+if you have a constraint.
+
+44
+00:01:49.367 --> 00:01:51.240
+It could have a Min and a MaxLength,
+
+45
+00:01:51.240 --> 00:01:54.600
+a Min and a Max Vlue, a Default value,
+
+46
+00:01:54.600 --> 00:01:55.893
+a list of AllowedValues,
+
+47
+00:01:57.450 --> 00:02:00.780
+regex of an AllowedPattern and NoEcho,
+
+48
+00:02:00.780 --> 00:02:02.070
+and it could have other things
+
+49
+00:02:02.070 --> 00:02:04.230
+maybe not represented in this slide.
+
+50
+00:02:04.230 --> 00:02:06.750
+So you don't have to remember all of those,
+
+51
+00:02:06.750 --> 00:02:07.770
+but what you need remember
+
+52
+00:02:07.770 --> 00:02:10.110
+is that the parameters are not just strings.
+
+53
+00:02:10.110 --> 00:02:12.090
+You can have constraints and validation,
+
+54
+00:02:12.090 --> 00:02:15.480
+allowing you to make sure they are safe to use.
+
+55
+00:02:15.480 --> 00:02:18.030
+So I want to give you two important examples
+
+56
+00:02:18.030 --> 00:02:19.500
+going into the exam.
+
+57
+00:02:19.500 --> 00:02:21.900
+The first one is AllowedValues.
+
+58
+00:02:21.900 --> 00:02:23.490
+So here is an example.
+
+59
+00:02:23.490 --> 00:02:26.520
+We have a parameter called InstanceType.
+
+60
+00:02:26.520 --> 00:02:29.310
+To choose an EC2 InstanceType of Type: String.
+
+61
+00:02:29.310 --> 00:02:33.090
+But we have defined AllowedValues being t2.micro,
+
+62
+00:02:33.090 --> 00:02:35.550
+t2.small, or t2.medium
+
+63
+00:02:35.550 --> 00:02:38.490
+with a Default being t2.micro.
+
+64
+00:02:38.490 --> 00:02:41.940
+And this parameter is reused in the EC2Instance.
+
+65
+00:02:41.940 --> 00:02:44.460
+So thanks to it, we'll have a dropdown
+
+66
+00:02:44.460 --> 00:02:48.660
+and the user can only select one of these three values,
+
+67
+00:02:48.660 --> 00:02:52.710
+hence giving them choice while giving you control.
+
+68
+00:02:52.710 --> 00:02:54.450
+Then we have NoEcho.
+
+69
+00:02:54.450 --> 00:02:56.850
+So for example, say we want as a parameter
+
+70
+00:02:56.850 --> 00:02:59.970
+to put in the database password,
+
+71
+00:02:59.970 --> 00:03:01.830
+but of course it is a password
+
+72
+00:03:01.830 --> 00:03:04.140
+so we have to keep it secret.
+
+73
+00:03:04.140 --> 00:03:06.720
+So we want to remove it from the logs and so on.
+
+74
+00:03:06.720 --> 00:03:08.910
+So we'll have NoEcho: true
+
+75
+00:03:08.910 --> 00:03:11.853
+so that the password is not displayed anywhere.
+
+76
+00:03:12.870 --> 00:03:16.590
+Now, how do we actually use these parameters?
+
+77
+00:03:16.590 --> 00:03:20.310
+So it is this little !Ref function you've seen before.
+
+78
+00:03:20.310 --> 00:03:23.610
+Maybe if you had to look at the CloudFormation templates.
+
+79
+00:03:23.610 --> 00:03:26.580
+So this function !Ref can be leveraged
+
+80
+00:03:26.580 --> 00:03:28.860
+to reference parameters,
+
+81
+00:03:28.860 --> 00:03:30.660
+and these parameters can be used then
+
+82
+00:03:30.660 --> 00:03:32.520
+anywhere in the templates.
+
+83
+00:03:32.520 --> 00:03:36.750
+So you've seen I wrote Fn::Ref,
+
+84
+00:03:36.750 --> 00:03:39.540
+but actually there's a shorthand version in YAML
+
+85
+00:03:39.540 --> 00:03:43.230
+called the !Ref.
+
+86
+00:03:43.230 --> 00:03:45.750
+So it's easier to use and easier to read.
+
+87
+00:03:45.750 --> 00:03:49.770
+And so this function allows you to reference parameters,
+
+88
+00:03:49.770 --> 00:03:52.950
+but also reference other elements within the template.
+
+89
+00:03:52.950 --> 00:03:55.170
+So let's have a look at the templates
+
+90
+00:03:55.170 --> 00:03:57.900
+we have to see how this was being used.
+
+91
+00:03:57.900 --> 00:04:01.290
+So here I am in my template,
+
+92
+00:04:01.290 --> 00:04:03.990
+and as you can see, one parameter was being defined.
+
+93
+00:04:03.990 --> 00:04:05.340
+We named it.
+
+94
+00:04:05.340 --> 00:04:08.340
+We had the description, Security Group Description,
+
+95
+00:04:08.340 --> 00:04:09.300
+and a Type: String.
+
+96
+00:04:09.300 --> 00:04:11.250
+So it was a very simple parameter.
+
+97
+00:04:11.250 --> 00:04:14.820
+We did not have any types of constraint on it.
+
+98
+00:04:14.820 --> 00:04:17.430
+Now, this SecurityGroupDescription
+
+99
+00:04:17.430 --> 00:04:19.980
+is representing the description of a security group
+
+100
+00:04:19.980 --> 00:04:22.920
+and therefore we're going to find its usage
+
+101
+00:04:22.920 --> 00:04:24.570
+by scrolling down.
+
+102
+00:04:24.570 --> 00:04:28.170
+And in here for our second EC2 SecurityGroup,
+
+103
+00:04:28.170 --> 00:04:32.790
+under properties GroupDescription, we have a !Ref.
+
+104
+00:04:32.790 --> 00:04:35.220
+So here the !Ref function,
+
+105
+00:04:35.220 --> 00:04:36.940
+pointing to SecurityGroupDescription,
+
+106
+00:04:36.940 --> 00:04:39.330
+which is the exact same name here
+
+107
+00:04:39.330 --> 00:04:42.150
+as the name of our parameter above.
+
+108
+00:04:42.150 --> 00:04:44.910
+So this is the usage of the !Ref function
+
+109
+00:04:44.910 --> 00:04:47.070
+and how to reference a parameter
+
+110
+00:04:47.070 --> 00:04:49.980
+within your CloudFormation templates.
+
+111
+00:04:49.980 --> 00:04:52.170
+But on top of it, this !Ref function
+
+112
+00:04:52.170 --> 00:04:54.150
+is used in other places.
+
+113
+00:04:54.150 --> 00:04:57.030
+For example, under the SecurityGroups property
+
+114
+00:04:57.030 --> 00:05:00.843
+of our EC2::Instance we had a !Ref for SSHSecurityGroup.
+
+115
+00:05:02.040 --> 00:05:03.960
+And this SSHSecurityGroup
+
+116
+00:05:03.960 --> 00:05:08.070
+is the exact name as the resource SSHSecurityGroup
+
+117
+00:05:08.070 --> 00:05:09.090
+defined in our template.
+
+118
+00:05:09.090 --> 00:05:11.610
+So here we have used the !Ref function
+
+119
+00:05:11.610 --> 00:05:14.220
+to reference a resource and not a parameter.
+
+120
+00:05:14.220 --> 00:05:16.230
+So they're used the same way.
+
+121
+00:05:16.230 --> 00:05:17.250
+And that's why you need to make sure
+
+122
+00:05:17.250 --> 00:05:20.130
+that your resources don't have the same name
+
+123
+00:05:20.130 --> 00:05:21.600
+as your parameters.
+
+124
+00:05:21.600 --> 00:05:24.300
+So here we have the !Ref to SSHSecurityGroup.
+
+125
+00:05:24.300 --> 00:05:26.850
+We have a !Ref to ServiceSecurityGroup.
+
+126
+00:05:26.850 --> 00:05:29.400
+And then for the elastic IP we have a reference
+
+127
+00:05:29.400 --> 00:05:33.120
+to MyInstance, which was defined right above.
+
+128
+00:05:33.120 --> 00:05:36.000
+Now that we've had a look at parameters in depth,
+
+129
+00:05:36.000 --> 00:05:38.160
+let's look at pseudo parameters.
+
+130
+00:05:38.160 --> 00:05:41.250
+So AWS is offering us pseudo parameters
+
+131
+00:05:41.250 --> 00:05:43.320
+in any CloudFormation templates.
+
+132
+00:05:43.320 --> 00:05:45.990
+And these are things that are already existing
+
+133
+00:05:45.990 --> 00:05:47.580
+even if you don't create them,
+
+134
+00:05:47.580 --> 00:05:50.820
+and they can be used at any time and are enabled by default.
+
+135
+00:05:50.820 --> 00:05:54.150
+So I'm giving you a list of important ones, not all of them,
+
+136
+00:05:54.150 --> 00:05:55.620
+but so you can understand.
+
+137
+00:05:55.620 --> 00:05:57.690
+So for example, if you use a !Ref
+
+138
+00:05:57.690 --> 00:06:01.980
+to the AWS AccountID reference value,
+
+139
+00:06:01.980 --> 00:06:04.950
+then the return value will be your actual account ID.
+
+140
+00:06:04.950 --> 00:06:07.170
+So from your CloudFormation template, it is possible
+
+141
+00:06:07.170 --> 00:06:10.260
+to figure out automatically your account ID.
+
+142
+00:06:10.260 --> 00:06:14.790
+Or the AWS region you are in, or the stack ID
+
+143
+00:06:14.790 --> 00:06:17.730
+or the stack name or notifications ARN
+
+144
+00:06:17.730 --> 00:06:19.320
+or just no value too.
+
+145
+00:06:19.320 --> 00:06:21.750
+You don't get any kind of value.
+
+146
+00:06:21.750 --> 00:06:24.030
+So these pseudo parameters are very handy
+
+147
+00:06:24.030 --> 00:06:26.310
+and I think one of the most used is, for example,
+
+148
+00:06:26.310 --> 00:06:28.980
+to figure out the region and the account ID.
+
+149
+00:06:28.980 --> 00:06:31.290
+So you don't need the user to actually tell
+
+150
+00:06:31.290 --> 00:06:35.790
+your CloudFormation templates that they are in us-east-1.
+
+151
+00:06:35.790 --> 00:06:39.270
+The template knows itself that it is in us-east-1
+
+152
+00:06:39.270 --> 00:06:41.220
+thanks to pseudo parameters.
+
+153
+00:06:41.220 --> 00:06:43.140
+Okay, so that's it for this lecture.
+
+154
+00:06:43.140 --> 00:06:46.353
+I hope you liked it and I will see you in the next lecture.
+

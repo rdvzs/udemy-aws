@@ -1,0 +1,42 @@
+WEBVTT
+
+1
+00:00:00.780 --> 00:00:02.730
+<v Instructor>Okay, so to clean up this section,</v>
+
+2
+00:00:02.730 --> 00:00:04.840
+if we go into Fleet Manager,
+
+3
+00:00:04.840 --> 00:00:06.240
+as we can see under Fleet Manager,
+
+4
+00:00:06.240 --> 00:00:08.690
+we have three managed instances.
+
+5
+00:00:08.690 --> 00:00:10.200
+And so that means that we need to terminate them,
+
+6
+00:00:10.200 --> 00:00:12.510
+so to make sure we don't have any running cost,
+
+7
+00:00:12.510 --> 00:00:15.460
+take your three instances and terminate them
+
+8
+00:00:15.460 --> 00:00:16.810
+and you should be good to go.
+
+9
+00:00:16.810 --> 00:00:18.640
+So that's it for this lecture, I hope you liked it,
+
+10
+00:00:18.640 --> 00:00:20.590
+and I will see you in the next lecture.
+

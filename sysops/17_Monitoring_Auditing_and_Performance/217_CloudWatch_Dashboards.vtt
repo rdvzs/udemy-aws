@@ -1,0 +1,482 @@
+WEBVTT
+
+1
+00:00:00.220 --> 00:00:02.070
+<v ->Now that we have metrics it's possible for us</v>
+
+2
+00:00:02.070 --> 00:00:04.810
+to present them into a CloudWatch dashboard.
+
+3
+00:00:04.810 --> 00:00:05.930
+So it is very easy.
+
+4
+00:00:05.930 --> 00:00:08.800
+You can access to your key metrics and your alarms
+
+5
+00:00:08.800 --> 00:00:10.410
+and the dashboards are going to be global.
+
+6
+00:00:10.410 --> 00:00:12.550
+So they're going to be across many regions
+
+7
+00:00:12.550 --> 00:00:15.300
+and you can include graphs from different accounts in AWS
+
+8
+00:00:15.300 --> 00:00:16.140
+or different regions.
+
+9
+00:00:16.140 --> 00:00:18.390
+And this is very important from an exam perspective.
+
+10
+00:00:18.390 --> 00:00:21.460
+You can have metrics from US east one and then EUS one,
+
+11
+00:00:21.460 --> 00:00:24.770
+and then AP Southeast two in the same CloudWatch dashboard.
+
+12
+00:00:24.770 --> 00:00:26.630
+You can change the time zone and the time range
+
+13
+00:00:26.630 --> 00:00:27.463
+on the dashboard,
+
+14
+00:00:27.463 --> 00:00:28.900
+you can set up automatic refresh,
+
+15
+00:00:28.900 --> 00:00:30.530
+and you can share the dashboard with people
+
+16
+00:00:30.530 --> 00:00:33.270
+who do not have an account in AWS.
+
+17
+00:00:33.270 --> 00:00:34.300
+The pricing is very easy.
+
+18
+00:00:34.300 --> 00:00:36.780
+You'll get three dashboards up to 50 metrics for free,
+
+19
+00:00:36.780 --> 00:00:37.613
+and then you're going
+
+20
+00:00:37.613 --> 00:00:40.270
+to pay $3 per dashboard per month afterwards.
+
+21
+00:00:40.270 --> 00:00:43.440
+So let's go ahead and see how we can create a dashboard.
+
+22
+00:00:43.440 --> 00:00:45.640
+So let's go ahead and have a look at our dashboards.
+
+23
+00:00:45.640 --> 00:00:47.340
+So right, currently we have zero custom dashboards,
+
+24
+00:00:47.340 --> 00:00:49.461
+but we can create an automatic dashboard based
+
+25
+00:00:49.461 --> 00:00:51.000
+on a specific service.
+
+26
+00:00:51.000 --> 00:00:52.430
+So you could create, for example,
+
+27
+00:00:52.430 --> 00:00:54.010
+an auto-scaling dashboard,
+
+28
+00:00:54.010 --> 00:00:56.460
+and this would create already a pre-configured dashboard
+
+29
+00:00:56.460 --> 00:00:58.480
+for you, which you can filter by resource group.
+
+30
+00:00:58.480 --> 00:01:00.850
+For example, DevGroup, FinanceGroup, ProdGoup
+
+31
+00:01:00.850 --> 00:01:02.560
+and we had created these groups from before.
+
+32
+00:01:02.560 --> 00:01:04.467
+And then this would show you all the metrics
+
+33
+00:01:04.467 --> 00:01:06.490
+that AWS thinks is relevant
+
+34
+00:01:06.490 --> 00:01:07.900
+for your auto scaling group, okay?
+
+35
+00:01:07.900 --> 00:01:08.860
+But this is,
+
+36
+00:01:08.860 --> 00:01:10.240
+these are your automatic dashboards.
+
+37
+00:01:10.240 --> 00:01:11.510
+What you can do instead
+
+38
+00:01:11.510 --> 00:01:12.980
+is you can create a custom dashboard.
+
+39
+00:01:12.980 --> 00:01:15.370
+So if you go to dashboard and then create a dashboard,
+
+40
+00:01:15.370 --> 00:01:18.770
+you can create a demo dashboard.
+
+41
+00:01:18.770 --> 00:01:21.160
+Now in here, you can add many different things.
+
+42
+00:01:21.160 --> 00:01:24.470
+You can add a line, a stacked area, a number, some texts,
+
+43
+00:01:24.470 --> 00:01:26.940
+some logs table, alarm status, and so on
+
+44
+00:01:26.940 --> 00:01:29.180
+so lots of different widgets that you can use
+
+45
+00:01:29.180 --> 00:01:30.300
+within your dashboard.
+
+46
+00:01:30.300 --> 00:01:32.810
+So for now I'll use a number and I'll use a number, why?
+
+47
+00:01:32.810 --> 00:01:35.980
+Because we pushed a custom metric in my namespace
+
+48
+00:01:35.980 --> 00:01:37.450
+and then we choose this number.
+
+49
+00:01:37.450 --> 00:01:40.150
+And this is going to show you the size of my buffer.
+
+50
+00:01:40.150 --> 00:01:42.770
+So this is quite handy and it will create this widget.
+
+51
+00:01:42.770 --> 00:01:46.020
+So remember this number was pushed using the put
+
+52
+00:01:46.020 --> 00:01:48.420
+metric data API code that we used from before
+
+53
+00:01:48.420 --> 00:01:51.020
+from the documentation in this CLI.
+
+54
+00:01:51.020 --> 00:01:52.820
+So here we have this number and it's pretty cool,
+
+55
+00:01:52.820 --> 00:01:53.810
+but for example,
+
+56
+00:01:53.810 --> 00:01:55.650
+you wanted to add another widget or you can have,
+
+57
+00:01:55.650 --> 00:01:58.250
+for example, a line and a metric,
+
+58
+00:01:58.250 --> 00:01:59.610
+and then you choose a metric.
+
+59
+00:01:59.610 --> 00:02:00.680
+For example, again,
+
+60
+00:02:00.680 --> 00:02:04.050
+you see two and you get your per instance metric
+
+61
+00:02:04.050 --> 00:02:08.170
+and you get your CPU credit balance, and you can add it.
+
+62
+00:02:08.170 --> 00:02:10.600
+Now, we don't have any information right now
+
+63
+00:02:10.600 --> 00:02:12.010
+in this dashboard because, well,
+
+64
+00:02:12.010 --> 00:02:13.730
+we don't have any EC2 instances is running.
+
+65
+00:02:13.730 --> 00:02:15.700
+And so therefore this credit balance
+
+66
+00:02:15.700 --> 00:02:17.690
+for that EC2 instance is not happening
+
+67
+00:02:17.690 --> 00:02:19.130
+to be populated, okay?
+
+68
+00:02:19.130 --> 00:02:21.010
+But you could go back in time again
+
+69
+00:02:21.010 --> 00:02:23.713
+and display one month of data.
+
+70
+00:02:25.160 --> 00:02:27.360
+And this would show you a little bit of information
+
+71
+00:02:27.360 --> 00:02:28.420
+and you can zoom in.
+
+72
+00:02:28.420 --> 00:02:30.290
+And as you can see, as I zoom in, well,
+
+73
+00:02:30.290 --> 00:02:32.080
+the buffer did not show any data
+
+74
+00:02:32.080 --> 00:02:34.610
+because during that timeframe that I'm zooming in right now,
+
+75
+00:02:34.610 --> 00:02:36.860
+well, the buffer that was a custom metric
+
+76
+00:02:36.860 --> 00:02:37.900
+did not have any data.
+
+77
+00:02:37.900 --> 00:02:40.950
+So you can definitely have a look at CloudWatch dashboards.
+
+78
+00:02:40.950 --> 00:02:42.470
+And the cool thing is that all the metrics
+
+79
+00:02:42.470 --> 00:02:45.030
+and all the widgets that you're sharing side to side
+
+80
+00:02:45.030 --> 00:02:47.240
+are going to be shown during the exact same timeframe.
+
+81
+00:02:47.240 --> 00:02:50.740
+So you can get a more complete information around the story
+
+82
+00:02:50.740 --> 00:02:54.490
+of your metrics as you go and explore your dashboard, okay?
+
+83
+00:02:54.490 --> 00:02:57.110
+So right now I can just display the last one hour
+
+84
+00:02:57.950 --> 00:03:00.000
+and I can just save this dashboard,
+
+85
+00:03:00.000 --> 00:03:00.833
+and then we'll be good to go.
+
+86
+00:03:00.833 --> 00:03:01.666
+So we can say, hey,
+
+87
+00:03:01.666 --> 00:03:06.580
+show me the last 180 minutes and she should be good to go.
+
+88
+00:03:06.580 --> 00:03:07.413
+Okay.
+
+89
+00:03:07.413 --> 00:03:09.490
+So now you can also do something else for your dashboard.
+
+90
+00:03:09.490 --> 00:03:10.720
+I told you dashboards are global.
+
+91
+00:03:10.720 --> 00:03:13.060
+So therefore you can add a widget
+
+92
+00:03:13.060 --> 00:03:15.810
+and you can add a line again, okay?
+
+93
+00:03:15.810 --> 00:03:16.670
+A metric.
+
+94
+00:03:16.670 --> 00:03:17.570
+But this time, as you can see,
+
+95
+00:03:17.570 --> 00:03:20.490
+the metric can be chosen from any specific regions.
+
+96
+00:03:20.490 --> 00:03:22.370
+So right now we're in Frankfurt,
+
+97
+00:03:22.370 --> 00:03:24.050
+but if you go to US east one,
+
+98
+00:03:24.050 --> 00:03:26.110
+you could find some metrics around US east one.
+
+99
+00:03:26.110 --> 00:03:29.100
+For example, some storage metrics of a bucket,
+
+100
+00:03:29.100 --> 00:03:32.400
+and you can get the buckets sized bites and plot that
+
+101
+00:03:32.400 --> 00:03:35.580
+or the number of metrics, a number of objects, for example,
+
+102
+00:03:35.580 --> 00:03:37.220
+and add this directly.
+
+103
+00:03:37.220 --> 00:03:39.640
+So this metric right here comes from US east one.
+
+104
+00:03:39.640 --> 00:03:40.960
+Even though there is no data available.
+
+105
+00:03:40.960 --> 00:03:43.580
+So not very, very interesting, but as you can see,
+
+106
+00:03:43.580 --> 00:03:45.520
+metrics can come from different regions
+
+107
+00:03:45.520 --> 00:03:47.670
+in the same CloudWatch dashboard, which is quite handy.
+
+108
+00:03:47.670 --> 00:03:48.503
+Okay.
+
+109
+00:03:48.503 --> 00:03:49.820
+And then when you're done with the dashboard,
+
+110
+00:03:49.820 --> 00:03:51.440
+make sure you save your dashboard
+
+111
+00:03:51.440 --> 00:03:53.840
+to have it saved and therefore all
+
+112
+00:03:53.840 --> 00:03:57.070
+the changes you've done are going to be permanent, okay?
+
+113
+00:03:57.070 --> 00:03:58.450
+So let's say for CloudWatch dashboard,
+
+114
+00:03:58.450 --> 00:04:00.740
+just remember multiple accounts, multiple regions,
+
+115
+00:04:00.740 --> 00:04:01.573
+that's very important.
+
+116
+00:04:01.573 --> 00:04:03.590
+And you can show multiple widgets just by clicking
+
+117
+00:04:03.590 --> 00:04:05.010
+on the add widget button,
+
+118
+00:04:05.010 --> 00:04:07.780
+including for your custom metrics, okay?
+
+119
+00:04:07.780 --> 00:04:08.760
+So hope that was helpful.
+
+120
+00:04:08.760 --> 00:04:10.710
+And I will see you in the next lecture.
+

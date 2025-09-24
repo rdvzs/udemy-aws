@@ -1,0 +1,558 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:01.830
+<v Instructor>So there are two types</v>
+
+2
+00:00:01.830 --> 00:00:05.070
+of ElastiCache Replication you can have for Redis
+
+3
+00:00:05.070 --> 00:00:06.960
+and we need to know them both.
+
+4
+00:00:06.960 --> 00:00:09.990
+So the first one is called Cluster Mode Disabled.
+
+5
+00:00:09.990 --> 00:00:12.210
+And in this case, you have one primary node
+
+6
+00:00:12.210 --> 00:00:14.280
+and up to five replicas for your node.
+
+7
+00:00:14.280 --> 00:00:15.630
+So this is for Redis.
+
+8
+00:00:15.630 --> 00:00:17.070
+And so we have one shard,
+
+9
+00:00:17.070 --> 00:00:19.560
+so all your data is in this shard,
+
+10
+00:00:19.560 --> 00:00:22.050
+we'll have one primary cache node
+
+11
+00:00:22.050 --> 00:00:24.120
+and then we can option optionally set up
+
+12
+00:00:24.120 --> 00:00:26.760
+up to five cache replicas.
+
+13
+00:00:26.760 --> 00:00:29.550
+So from zero to five replica nodes.
+
+14
+00:00:29.550 --> 00:00:31.950
+The idea is that when you have a primary node
+
+15
+00:00:31.950 --> 00:00:33.150
+and some replicas,
+
+16
+00:00:33.150 --> 00:00:35.730
+in case of the failure of the primary node,
+
+17
+00:00:35.730 --> 00:00:38.070
+then the replicas can take over.
+
+18
+00:00:38.070 --> 00:00:41.490
+So the replication is a synchronous between the caches
+
+19
+00:00:41.490 --> 00:00:44.730
+and the primary node will be used for read and writes
+
+20
+00:00:44.730 --> 00:00:47.070
+while the other nodes are going to be read-only.
+
+21
+00:00:47.070 --> 00:00:49.830
+So on top of disaster recovery,
+
+22
+00:00:49.830 --> 00:00:52.230
+you can also scale your read capability
+
+23
+00:00:52.230 --> 00:00:55.890
+in ElastiCache for Redis by enabling read replicas.
+
+24
+00:00:55.890 --> 00:00:57.090
+So you have one shard,
+
+25
+00:00:57.090 --> 00:00:59.820
+that means that all the nodes will have all the data
+
+26
+00:00:59.820 --> 00:01:01.530
+in your Redis cluster.
+
+27
+00:01:01.530 --> 00:01:03.480
+The idea here is that you are guarding
+
+28
+00:01:03.480 --> 00:01:06.930
+against data loss if there is a node failure
+
+29
+00:01:06.930 --> 00:01:08.850
+and you can also enable Multi-AZ,
+
+30
+00:01:08.850 --> 00:01:10.230
+it is enabled by default by the way,
+
+31
+00:01:10.230 --> 00:01:13.320
+in case you won't have Multi-AZ failover.
+
+32
+00:01:13.320 --> 00:01:15.900
+So again, this is helpful for Multi-AZ
+
+33
+00:01:15.900 --> 00:01:18.540
+and also for scaling the read performance
+
+34
+00:01:18.540 --> 00:01:20.163
+of your ElastiCache cluster.
+
+35
+00:01:21.150 --> 00:01:23.250
+So now when you've disable the Cluster Mode,
+
+36
+00:01:23.250 --> 00:01:24.450
+you have two kind of scaling.
+
+37
+00:01:24.450 --> 00:01:26.100
+You have horizontal scaling
+
+38
+00:01:26.100 --> 00:01:29.130
+and you do this by adding or removing read replicas.
+
+39
+00:01:29.130 --> 00:01:32.400
+Remember you have a maximum of five read replicas.
+
+40
+00:01:32.400 --> 00:01:34.110
+And then you have vertical scaling.
+
+41
+00:01:34.110 --> 00:01:36.330
+And so you can scale up or down
+
+42
+00:01:36.330 --> 00:01:40.260
+to either larger or smaller node type.
+
+43
+00:01:40.260 --> 00:01:41.790
+In that case, behind the scenes,
+
+44
+00:01:41.790 --> 00:01:45.660
+there will be a old node group that is going to be upgraded.
+
+45
+00:01:45.660 --> 00:01:48.780
+So a new node group is going to be created.
+
+46
+00:01:48.780 --> 00:01:50.670
+Replication will happen automatically.
+
+47
+00:01:50.670 --> 00:01:52.230
+Again, this is behind the scenes.
+
+48
+00:01:52.230 --> 00:01:54.810
+And then once the new node group is up to date,
+
+49
+00:01:54.810 --> 00:01:57.330
+the DNS will update and our applications
+
+50
+00:01:57.330 --> 00:02:00.003
+will be using the new node group.
+
+51
+00:02:00.900 --> 00:02:02.220
+Now there is a second mode
+
+52
+00:02:02.220 --> 00:02:04.980
+and this says with Cluster Mode Enabled.
+
+53
+00:02:04.980 --> 00:02:07.800
+And in this mode, the data is going to be partitioned
+
+54
+00:02:07.800 --> 00:02:09.510
+across many shards,
+
+55
+00:02:09.510 --> 00:02:12.330
+which is helpful if you want to scale your writes.
+
+56
+00:02:12.330 --> 00:02:13.710
+So let's have a look at a second.
+
+57
+00:02:13.710 --> 00:02:18.600
+So we have Shard 1 and Shard 2 or 3 or Shard N.
+
+58
+00:02:18.600 --> 00:02:21.000
+And the idea is that the data is going
+
+59
+00:02:21.000 --> 00:02:24.690
+to be partially on Shard 1, partially on Shard 2,
+
+60
+00:02:24.690 --> 00:02:25.980
+all the way up to Shard N.
+
+61
+00:02:25.980 --> 00:02:29.610
+So it's going to be divided across all your shards.
+
+62
+00:02:29.610 --> 00:02:33.180
+Now each shard will work just as what we saw before
+
+63
+00:02:33.180 --> 00:02:35.220
+when Cluster Mode was disabled.
+
+64
+00:02:35.220 --> 00:02:37.470
+Now mean we can have one primary node
+
+65
+00:02:37.470 --> 00:02:39.330
+and up to five replica nodes.
+
+66
+00:02:39.330 --> 00:02:41.550
+So the data is replicated
+
+67
+00:02:41.550 --> 00:02:43.920
+and you set up the number of replicas equally
+
+68
+00:02:43.920 --> 00:02:45.666
+across all the shards, okay?
+
+69
+00:02:45.666 --> 00:02:49.590
+There is also Multi-AZ capability, it's on by default.
+
+70
+00:02:49.590 --> 00:02:51.690
+And so you can have, again,
+
+71
+00:02:51.690 --> 00:02:54.210
+failover between your primary node and your replica nodes
+
+72
+00:02:54.210 --> 00:02:56.880
+in case of an availability zone failure.
+
+73
+00:02:56.880 --> 00:02:59.910
+And you get up to 500 nodes per cluster.
+
+74
+00:02:59.910 --> 00:03:02.460
+That means that if you don't set up any replicas,
+
+75
+00:03:02.460 --> 00:03:05.940
+you have 500 shards with a single master.
+
+76
+00:03:05.940 --> 00:03:08.430
+But if you are setting up replication, for example,
+
+77
+00:03:08.430 --> 00:03:10.680
+you want one master and one replica,
+
+78
+00:03:10.680 --> 00:03:13.410
+then you get 250 shards.
+
+79
+00:03:13.410 --> 00:03:17.160
+And if you want to have, say, five replicas and one master,
+
+80
+00:03:17.160 --> 00:03:19.740
+you get 83 shards maximum.
+
+81
+00:03:19.740 --> 00:03:23.040
+So the idea here is that you are really interested
+
+82
+00:03:23.040 --> 00:03:24.360
+into sharding your data
+
+83
+00:03:24.360 --> 00:03:26.400
+when you want to enable Cluster Mode.
+
+84
+00:03:26.400 --> 00:03:29.040
+That means, again, that you want to scale your writes
+
+85
+00:03:29.040 --> 00:03:30.900
+and that the data is going to be partitioned,
+
+86
+00:03:30.900 --> 00:03:33.540
+that means that data will live across many different shards.
+
+87
+00:03:33.540 --> 00:03:35.790
+Okay, so this is the main difference
+
+88
+00:03:35.790 --> 00:03:38.370
+when you have Cluster Mode Enabled or Cluster Mode Disabled
+
+89
+00:03:38.370 --> 00:03:39.810
+for ElastiCache.
+
+90
+00:03:39.810 --> 00:03:42.660
+So therefore, when you are in Cluster Mode Enabled,
+
+91
+00:03:42.660 --> 00:03:45.750
+you can actually set up Auto Scaling for Redis.
+
+92
+00:03:45.750 --> 00:03:47.910
+So you can actually automatically increase
+
+93
+00:03:47.910 --> 00:03:51.030
+or decrease the number of shards or replicas
+
+94
+00:03:51.030 --> 00:03:52.320
+in your cluster.
+
+95
+00:03:52.320 --> 00:03:54.330
+So this supports both Target Tracking
+
+96
+00:03:54.330 --> 00:03:56.460
+and Scheduled Scaling Policies.
+
+97
+00:03:56.460 --> 00:03:59.700
+And again, you must be in Cluster Mode Enabled
+
+98
+00:03:59.700 --> 00:04:00.930
+for this to work.
+
+99
+00:04:00.930 --> 00:04:02.760
+So there is a metric we're going to track.
+
+100
+00:04:02.760 --> 00:04:05.070
+For example, the CPU utilization.
+
+101
+00:04:05.070 --> 00:04:07.620
+And then we can have a Target Tracking Policy
+
+102
+00:04:07.620 --> 00:04:10.230
+so that we want that the target CPU utilization
+
+103
+00:04:10.230 --> 00:04:12.720
+remains at around 60%.
+
+104
+00:04:12.720 --> 00:04:15.270
+If so, we can trigger a CloudWatch Alarm
+
+105
+00:04:15.270 --> 00:04:17.520
+and this CloudWatch Alarm can then increase the number
+
+106
+00:04:17.520 --> 00:04:19.770
+of shards in our cluster and, therefore,
+
+107
+00:04:19.770 --> 00:04:21.420
+new shards will come up.
+
+108
+00:04:21.420 --> 00:04:23.100
+Of course, our applications need to be able
+
+109
+00:04:23.100 --> 00:04:24.450
+to leverage these shards.
+
+110
+00:04:24.450 --> 00:04:27.450
+And so to connect to the cluster,
+
+111
+00:04:27.450 --> 00:04:28.530
+we must use what's called
+
+112
+00:04:28.530 --> 00:04:30.870
+the Cluster's Configuration Endpoint,
+
+113
+00:04:30.870 --> 00:04:34.410
+which is a way to connect entirely to the cluster.
+
+114
+00:04:34.410 --> 00:04:37.800
+So let's talk about these Connection Endpoints actually.
+
+115
+00:04:37.800 --> 00:04:41.190
+For a standalone node, you can just connect for read
+
+116
+00:04:41.190 --> 00:04:44.760
+and write operations using the one endpoint of your node.
+
+117
+00:04:44.760 --> 00:04:47.160
+If you're using Cluster Mode Disabled,
+
+118
+00:04:47.160 --> 00:04:49.380
+you will have one primary endpoint,
+
+119
+00:04:49.380 --> 00:04:51.540
+this is for all the write operations.
+
+120
+00:04:51.540 --> 00:04:53.250
+And then you will have a reader endpoint,
+
+121
+00:04:53.250 --> 00:04:55.051
+this is for the read operations
+
+122
+00:04:55.051 --> 00:04:57.630
+across all the read replicas.
+
+123
+00:04:57.630 --> 00:05:00.270
+Finally, you have also node endpoints
+
+124
+00:05:00.270 --> 00:05:02.430
+if you wanted to access individual nodes
+
+125
+00:05:02.430 --> 00:05:04.380
+for read operations.
+
+126
+00:05:04.380 --> 00:05:07.320
+If you have the Cluster Mode Enabled, it's very simple.
+
+127
+00:05:07.320 --> 00:05:10.680
+Again, remember, it's called the Configuration Endpoint
+
+128
+00:05:10.680 --> 00:05:13.260
+and it's for all read and write operations
+
+129
+00:05:13.260 --> 00:05:16.110
+that are compatible with Cluster Mode.
+
+130
+00:05:16.110 --> 00:05:18.450
+So you just need to have a recent enough client
+
+131
+00:05:18.450 --> 00:05:19.590
+and you're good to go.
+
+132
+00:05:19.590 --> 00:05:21.390
+So use the Configuration Endpoint
+
+133
+00:05:21.390 --> 00:05:22.620
+and you're good for read and writes,
+
+134
+00:05:22.620 --> 00:05:26.100
+which is the benefits of the Cluster Mode clusters.
+
+135
+00:05:26.100 --> 00:05:28.200
+Finally, you can also access individual nodes
+
+136
+00:05:28.200 --> 00:05:30.930
+if you wanted to by using the node endpoints,
+
+137
+00:05:30.930 --> 00:05:33.510
+but only for read operations.
+
+138
+00:05:33.510 --> 00:05:34.830
+And that's it for this lecture,
+
+139
+00:05:34.830 --> 00:05:38.073
+I hope you liked it, and I will see you in the next lecture.
+

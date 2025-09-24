@@ -1,0 +1,394 @@
+﻿WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.730
+<v ->So, let's have a play with vault locks</v>
+
+2
+00:00:01.730 --> 00:00:04.240
+by going into the Glacier Console.
+
+3
+00:00:04.240 --> 00:00:07.850
+And, in there, I'm able to go ahead and create a vault.
+
+4
+00:00:07.850 --> 00:00:09.540
+So, as you can see, Glacier is used
+
+5
+00:00:09.540 --> 00:00:13.010
+for creating vaults, setting data ritual policies,
+
+6
+00:00:13.010 --> 00:00:14.820
+and sending event notifications.
+
+7
+00:00:14.820 --> 00:00:17.580
+So lets create a vault, and I'm going to create
+
+8
+00:00:17.580 --> 00:00:19.260
+in my region close to me,
+
+9
+00:00:19.260 --> 00:00:22.820
+I'll collect my demo vault,
+
+10
+00:00:22.820 --> 00:00:24.190
+click on next step,
+
+11
+00:00:24.190 --> 00:00:26.070
+and here, we can set up notifications
+
+12
+00:00:26.070 --> 00:00:27.880
+in case some jobs complete.
+
+13
+00:00:27.880 --> 00:00:30.820
+So, basically, when a retrieval job is completed,
+
+14
+00:00:30.820 --> 00:00:33.280
+we can receive an SMS notification.
+
+15
+00:00:33.280 --> 00:00:34.620
+I will not enable it right now.
+
+16
+00:00:34.620 --> 00:00:36.010
+We'll set it later.
+
+17
+00:00:36.010 --> 00:00:37.860
+And then, review, everything looks good.
+
+18
+00:00:37.860 --> 00:00:39.200
+I'll submit it.
+
+19
+00:00:39.200 --> 00:00:41.760
+And here is my first Glacier vault.
+
+20
+00:00:41.760 --> 00:00:45.370
+So, basically I have just an, it's like a bucket,
+
+21
+00:00:45.370 --> 00:00:47.730
+but it's called a vault in Glacier.
+
+22
+00:00:47.730 --> 00:00:49.290
+And so, if I click on this vault,
+
+23
+00:00:49.290 --> 00:00:50.960
+I can get some information.
+
+24
+00:00:50.960 --> 00:00:55.160
+I can get some information around the details of this vault,
+
+25
+00:00:55.160 --> 00:00:58.480
+the notification that I set if I wanted to get information,
+
+26
+00:00:58.480 --> 00:01:00.330
+the permissions, so we can set
+
+27
+00:01:00.330 --> 00:01:02.950
+a vault access policy document, I just mentioned,
+
+28
+00:01:02.950 --> 00:01:05.290
+to basically say who can do what on this vault.
+
+29
+00:01:05.290 --> 00:01:07.830
+Just like a S3 bucket policy, really.
+
+30
+00:01:07.830 --> 00:01:09.570
+And then a vault lock.
+
+31
+00:01:09.570 --> 00:01:13.730
+And the vault lock basically allows you to create,
+
+32
+00:01:13.730 --> 00:01:17.020
+edit, and view details, and to create your lock policy.
+
+33
+00:01:17.020 --> 00:01:19.160
+So, this lock policy gives you compliance.
+
+34
+00:01:19.160 --> 00:01:21.000
+So if you create a lock policy,
+
+35
+00:01:21.000 --> 00:01:24.380
+and we can click here to see how to write a lock policy,
+
+36
+00:01:24.380 --> 00:01:27.280
+we could set a specific kind of lock policy.
+
+37
+00:01:27.280 --> 00:01:30.100
+For example, this one is to deny delete permissions
+
+38
+00:01:30.100 --> 00:01:33.380
+for archives less that 365 days old.
+
+39
+00:01:33.380 --> 00:01:35.760
+Or the second one would be to deny permission
+
+40
+00:01:35.760 --> 00:01:37.120
+based on the tag.
+
+41
+00:01:37.120 --> 00:01:40.050
+So, we have lots of different ways to do locks,
+
+42
+00:01:40.050 --> 00:01:41.640
+but the idea is that using locks,
+
+43
+00:01:41.640 --> 00:01:45.550
+you're able to get strong requirements on
+
+44
+00:01:45.550 --> 00:01:48.300
+how your data is going to be in Glacier.
+
+45
+00:01:48.300 --> 00:01:50.600
+The thing to know is that once you set a lock,
+
+46
+00:01:50.600 --> 00:01:51.470
+you cannot change it.
+
+47
+00:01:51.470 --> 00:01:54.639
+So, I will initiate vault lock, which says that
+
+48
+00:01:54.639 --> 00:01:58.260
+I need to match my ARN, obviously.
+
+49
+00:01:58.260 --> 00:02:00.843
+So, lets go to Glacier and find my ARN.
+
+50
+00:02:03.430 --> 00:02:05.750
+So, here's my lock and here's my ARN.
+
+51
+00:02:05.750 --> 00:02:08.650
+I'm going to copy this right here.
+
+52
+00:02:08.650 --> 00:02:13.610
+So once I set my vault policy lock,
+
+53
+00:02:13.610 --> 00:02:16.330
+then it will not be able to be changed ever.
+
+54
+00:02:16.330 --> 00:02:18.640
+So, I will click on initiate vault lock,
+
+55
+00:02:18.640 --> 00:02:21.250
+and here, I get a vault I.D.
+
+56
+00:02:21.250 --> 00:02:23.180
+So, I need to absolutely copy this.
+
+57
+00:02:23.180 --> 00:02:24.380
+You cannot lose this,
+
+58
+00:02:24.380 --> 00:02:27.450
+and it's saying we have 24 hours to validate this policy
+
+59
+00:02:27.450 --> 00:02:29.050
+and complete the lock process.
+
+60
+00:02:29.050 --> 00:02:30.700
+After which, the lock I.D. will expire
+
+61
+00:02:30.700 --> 00:02:32.910
+and your in progress policy will be deleted.
+
+62
+00:02:32.910 --> 00:02:35.520
+So, now I have 24 hours, basically,
+
+63
+00:02:35.520 --> 00:02:36.980
+to complete the lock process.
+
+64
+00:02:36.980 --> 00:02:38.340
+So, lets close this,
+
+65
+00:02:38.340 --> 00:02:40.830
+and so here I have the option to either
+
+66
+00:02:40.830 --> 00:02:45.592
+delete my vault lock, or I have 23 hours to complete it.
+
+67
+00:02:45.592 --> 00:02:47.240
+So, I want to complete it,
+
+68
+00:02:47.240 --> 00:02:48.920
+so I click on complete vault lock,
+
+69
+00:02:48.920 --> 00:02:52.940
+and I paste the lock I.D. I just got from before,
+
+70
+00:02:52.940 --> 00:02:55.410
+and if you didn't copy it, then you have to redo everything.
+
+71
+00:02:55.410 --> 00:02:57.920
+So, delete the vault lock and recreate it.
+
+72
+00:02:57.920 --> 00:02:59.760
+Then, I acknowledge the fact that
+
+73
+00:02:59.760 --> 00:03:01.600
+my vault lock, once it's configured,
+
+74
+00:03:01.600 --> 00:03:03.710
+I will not be able to change it ever.
+
+75
+00:03:03.710 --> 00:03:05.180
+It's irreversible.
+
+76
+00:03:05.180 --> 00:03:08.030
+That's why it's so strong from a regulatory perspective,
+
+77
+00:03:08.030 --> 00:03:09.950
+and I click on complete vault lock,
+
+78
+00:03:09.950 --> 00:03:10.880
+and here we go.
+
+79
+00:03:10.880 --> 00:03:12.820
+My vault lock policy is now locked.
+
+80
+00:03:12.820 --> 00:03:15.100
+And so, we'll never ever ever be able to
+
+81
+00:03:15.100 --> 00:03:19.550
+delete an archive that is less than 365 days, ever.
+
+82
+00:03:19.550 --> 00:03:20.940
+I cannot change this.
+
+83
+00:03:20.940 --> 00:03:24.610
+And so this is why vault lock policies are so important,
+
+84
+00:03:24.610 --> 00:03:26.920
+and you need to know them coming into the exam.
+
+85
+00:03:26.920 --> 00:03:29.100
+The last thing to know is that through this UI,
+
+86
+00:03:29.100 --> 00:03:32.804
+you're not able to upload files that relate to Glacier.
+
+87
+00:03:32.804 --> 00:03:35.030
+You will have to use the SDK, or the CLI,
+
+88
+00:03:35.030 --> 00:03:35.863
+or something like this.
+
+89
+00:03:35.863 --> 00:03:37.590
+I won't show you, but the idea is that
+
+90
+00:03:37.590 --> 00:03:40.800
+you don't get a full UI like you do for S3.
+
+91
+00:03:40.800 --> 00:03:43.620
+Here we have to use the API if wanting to upload file
+
+92
+00:03:43.620 --> 00:03:45.100
+into this demo vault.
+
+93
+00:03:45.100 --> 00:03:46.080
+So that's it for Glacier.
+
+94
+00:03:46.080 --> 00:03:48.080
+Just remember how we created a vault,
+
+95
+00:03:48.080 --> 00:03:51.060
+how we locked it, using some kind of lock policy,
+
+96
+00:03:51.060 --> 00:03:53.263
+and how you can set another lock policy here
+
+97
+00:03:53.263 --> 00:03:55.210
+for access to this vault,
+
+98
+00:03:55.210 --> 00:03:57.160
+and I will see you in the next lecture.
+

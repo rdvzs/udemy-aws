@@ -1,0 +1,114 @@
+WEBVTT
+
+1
+00:00:00.500 --> 00:00:03.740
+<v Instructor>Okay, so just a few notes on FSX for SysOps.</v>
+
+2
+00:00:03.740 --> 00:00:07.970
+So there is FSx for Windows in Single-AZ and Multi-AZ.
+
+3
+00:00:07.970 --> 00:00:11.620
+So in Single-AZ, while you have a Single-AZ file system,
+
+4
+00:00:11.620 --> 00:00:14.420
+and it will automatically still have data replication,
+
+5
+00:00:14.420 --> 00:00:16.900
+but just from within that AZ, okay.
+
+6
+00:00:16.900 --> 00:00:18.580
+And you have two generations for that option,
+
+7
+00:00:18.580 --> 00:00:22.550
+you have Single-AZ 1, which is just SSD and Single-AZ 2,
+
+8
+00:00:22.550 --> 00:00:27.520
+which is SSD and HDD, in terms of how the storage is done.
+
+9
+00:00:27.520 --> 00:00:29.930
+The other option is you want to have Multi-AZ is
+
+10
+00:00:29.930 --> 00:00:32.330
+to use the FSx for Windows Multi-AZ option,
+
+11
+00:00:32.330 --> 00:00:34.010
+in which case, where we have two AZs,
+
+12
+00:00:34.010 --> 00:00:35.620
+and it will be synchronous replications
+
+13
+00:00:35.620 --> 00:00:37.170
+between the two file system,
+
+14
+00:00:37.170 --> 00:00:39.690
+between the primary one and the standby.
+
+15
+00:00:39.690 --> 00:00:42.260
+So this will automatically replicate data across AZ.
+
+16
+00:00:42.260 --> 00:00:46.520
+It's synchronous, and then in case you have a problem,
+
+17
+00:00:46.520 --> 00:00:48.310
+there will be an automatic failover.
+
+18
+00:00:48.310 --> 00:00:50.000
+So in case one file system fails,
+
+19
+00:00:50.000 --> 00:00:51.780
+then a failover will happen automatically
+
+20
+00:00:51.780 --> 00:00:53.840
+to the standby replicate.
+
+21
+00:00:53.840 --> 00:00:57.660
+So it's always recommended in FSx for Windows
+
+22
+00:00:57.660 --> 00:01:01.160
+to use Multi-AZ instead of using 2 Single-AZ
+
+23
+00:01:01.160 --> 00:01:03.130
+and doing your own replication between them, okay.
+
+24
+00:01:03.130 --> 00:01:04.800
+Because this option exists in the exam,
+
+25
+00:01:04.800 --> 00:01:07.710
+you should always choose Multi-AZ over Single-AZ
+
+26
+00:01:07.710 --> 00:01:09.700
+in case you want to have failover.
+
+27
+00:01:09.700 --> 00:01:10.630
+That's it for this lecture.
+
+28
+00:01:10.630 --> 00:01:13.583
+I hope you liked it, and I will see you in the next lecture.
+

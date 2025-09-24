@@ -1,0 +1,306 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:01.283
+<v Instructor>So let's go ahead</v>
+
+2
+00:00:01.283 --> 00:00:02.850
+and practice S3 access logs.
+
+3
+00:00:02.850 --> 00:00:05.160
+And for this I'm going to create an S3 access log,
+
+4
+00:00:05.160 --> 00:00:08.340
+stephane-v3 bucket.
+
+5
+00:00:08.340 --> 00:00:12.570
+And then I will go ahead and create that bucket.
+
+6
+00:00:12.570 --> 00:00:14.940
+So that bucket is going to be our logging bucket,
+
+7
+00:00:14.940 --> 00:00:17.340
+and I'm going to keep this open here.
+
+8
+00:00:17.340 --> 00:00:21.030
+And in another tab I'm going to take one of my buckets
+
+9
+00:00:21.030 --> 00:00:22.290
+that I've created,
+
+10
+00:00:22.290 --> 00:00:26.100
+and then I'm going to enable the logging.
+
+11
+00:00:26.100 --> 00:00:27.480
+So I just took one bucket,
+
+12
+00:00:27.480 --> 00:00:29.760
+but whatever bucket you want for you really.
+
+13
+00:00:29.760 --> 00:00:33.900
+I will go on Properties and then I will scroll down
+
+14
+00:00:33.900 --> 00:00:37.440
+and look for Server access logging.
+
+15
+00:00:37.440 --> 00:00:40.770
+So we edit it. So let's Enable it.
+
+16
+00:00:40.770 --> 00:00:43.470
+And as you can see, the Bucket policy will be updated
+
+17
+00:00:43.470 --> 00:00:47.250
+for the target bucket where we want to write data.
+
+18
+00:00:47.250 --> 00:00:50.070
+So first we have to specify a destination.
+
+19
+00:00:50.070 --> 00:00:53.700
+So, oops. So I'm going to go in my bucket and type access.
+
+20
+00:00:53.700 --> 00:00:56.040
+So stephane access log v3.
+
+21
+00:00:56.040 --> 00:00:57.810
+This is the bucket I want and I will choose this
+
+22
+00:00:57.810 --> 00:00:59.910
+as my destination.
+
+23
+00:00:59.910 --> 00:01:03.810
+Then we have a destination region. So this is eu-west-1.
+
+24
+00:01:03.810 --> 00:01:05.460
+We have the destination bucket name.
+
+25
+00:01:05.460 --> 00:01:07.230
+Prefix, this is if I wanted to select
+
+26
+00:01:07.230 --> 00:01:09.570
+an optional prefix in my bucket to, for example,
+
+27
+00:01:09.570 --> 00:01:13.380
+have /logs, but we will not do this.
+
+28
+00:01:13.380 --> 00:01:16.140
+And then the Log object key format.
+
+29
+00:01:16.140 --> 00:01:18.000
+So we have this format right here,
+
+30
+00:01:18.000 --> 00:01:21.120
+and there is an example here given to me
+
+31
+00:01:21.120 --> 00:01:22.800
+as the log key example.
+
+32
+00:01:22.800 --> 00:01:25.170
+Or if I use the second one,
+
+33
+00:01:25.170 --> 00:01:28.320
+I can also specify a different S3 event time
+
+34
+00:01:28.320 --> 00:01:30.120
+or a log file delivery time.
+
+35
+00:01:30.120 --> 00:01:34.980
+And again, this would change my final key format.
+
+36
+00:01:34.980 --> 00:01:36.360
+Right now we're going to keep it as default.
+
+37
+00:01:36.360 --> 00:01:38.370
+So let's just use the first option, okay,
+
+38
+00:01:38.370 --> 00:01:39.990
+which will be enough for our use case.
+
+39
+00:01:39.990 --> 00:01:41.973
+And then click on Save changes.
+
+40
+00:01:42.840 --> 00:01:47.840
+And now my S3 Server access logging is enabled.
+
+41
+00:01:48.600 --> 00:01:50.760
+So now what I can do is I can go to my objects.
+
+42
+00:01:50.760 --> 00:01:54.840
+I can click on this one, I can maybe open it.
+
+43
+00:01:54.840 --> 00:01:58.260
+Back into my bucket, I can go in it and I can upload a file.
+
+44
+00:01:58.260 --> 00:02:01.470
+So I'll add a file and it'll be, for example, my beach.jpeg.
+
+45
+00:02:01.470 --> 00:02:04.320
+So you can do a lot of things in your bucket.
+
+46
+00:02:04.320 --> 00:02:07.710
+And all of this is going to generate activity.
+
+47
+00:02:07.710 --> 00:02:10.200
+And this activity is going to be logged
+
+48
+00:02:10.200 --> 00:02:12.390
+into your logging buckets.
+
+49
+00:02:12.390 --> 00:02:15.360
+Now if I refresh, as you can see, nothing happens yet.
+
+50
+00:02:15.360 --> 00:02:17.370
+That's because it takes a little bit of time
+
+51
+00:02:17.370 --> 00:02:21.990
+for your access logs to go into your logging buckets.
+
+52
+00:02:21.990 --> 00:02:24.180
+But what we can do in the meantime is have a look
+
+53
+00:02:24.180 --> 00:02:27.360
+at the Permissions, because when we enabled
+
+54
+00:02:27.360 --> 00:02:30.540
+the server buckets, so when were right here,
+
+55
+00:02:30.540 --> 00:02:33.750
+the Server access logging, when we enabled it,
+
+56
+00:02:33.750 --> 00:02:36.960
+it was saying that the Bucket policy will be updated.
+
+57
+00:02:36.960 --> 00:02:37.890
+So let's verify that.
+
+58
+00:02:37.890 --> 00:02:41.310
+We can scroll down and we have the Bucket policy right here.
+
+59
+00:02:41.310 --> 00:02:45.540
+And indeed, yes, the bucket policy was updated
+
+60
+00:02:45.540 --> 00:02:48.930
+to allow the logging service of Amazon S3
+
+61
+00:02:48.930 --> 00:02:52.740
+to put objects into this buckets.
+
+62
+00:02:52.740 --> 00:02:53.850
+So this is pretty good.
+
+63
+00:02:53.850 --> 00:02:57.510
+So this, now what we have to do is go back into our bucket
+
+64
+00:02:57.510 --> 00:03:00.240
+and wait for the first logs to be sent.
+
+65
+00:03:00.240 --> 00:03:02.520
+So it took a couple of hours, but I just refreshed.
+
+66
+00:03:02.520 --> 00:03:06.120
+And in my bucket, I see a lot of files now, objects,
+
+67
+00:03:06.120 --> 00:03:09.570
+and these have been created directly for my access logs.
+
+68
+00:03:09.570 --> 00:03:11.430
+So I can click on one of them
+
+69
+00:03:11.430 --> 00:03:13.260
+and I can open it, for example.
+
+70
+00:03:13.260 --> 00:03:15.840
+And in here I'm able to see, well, what happened?
+
+71
+00:03:15.840 --> 00:03:18.300
+And this is quite hard to decipher, okay?
+
+72
+00:03:18.300 --> 00:03:21.240
+But it gives you the API call, the success rate,
+
+73
+00:03:21.240 --> 00:03:24.630
+who accessed it, what bucket it was, at what time,
+
+74
+00:03:24.630 --> 00:03:26.520
+and a lot of information.
+
+75
+00:03:26.520 --> 00:03:29.820
+So, okay, that's it for S3 access logs.
+
+76
+00:03:29.820 --> 00:03:32.820
+I hope you liked it, and I will see you in the next lecture.
+

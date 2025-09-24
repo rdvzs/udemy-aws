@@ -1,0 +1,650 @@
+WEBVTT
+
+1
+00:00:00.720 --> 00:00:02.220
+<v Instructor>Okay, so let's have a look</v>
+
+2
+00:00:02.220 --> 00:00:05.610
+at Amazon EventBridge and see what this service is about.
+
+3
+00:00:05.610 --> 00:00:07.020
+So we have lots of options.
+
+4
+00:00:07.020 --> 00:00:09.060
+We have the EventBridge rules,
+
+5
+00:00:09.060 --> 00:00:10.980
+the pipes to connect event sources,
+
+6
+00:00:10.980 --> 00:00:14.760
+the schedule to invoke a target on a regular schedule
+
+7
+00:00:14.760 --> 00:00:16.800
+and the schema registry to organize your schema.
+
+8
+00:00:16.800 --> 00:00:18.540
+So lots of things to look at,
+
+9
+00:00:18.540 --> 00:00:22.290
+but first, let's go deep into the main thing of EventBridge,
+
+10
+00:00:22.290 --> 00:00:23.820
+which are rules.
+
+11
+00:00:23.820 --> 00:00:27.510
+So rules are a way for you to react
+
+12
+00:00:27.510 --> 00:00:28.620
+to events happening in your account.
+
+13
+00:00:28.620 --> 00:00:30.663
+For example, EC2InstanceStateChangeDemo.
+
+14
+00:00:35.700 --> 00:00:37.680
+So this rule is going to be triggered
+
+15
+00:00:37.680 --> 00:00:39.840
+whenever there is an event that happens in your account,
+
+16
+00:00:39.840 --> 00:00:43.500
+which is that an EC2 instance state changes.
+
+17
+00:00:43.500 --> 00:00:46.050
+And so for this we're going to have a rule type of rule
+
+18
+00:00:46.050 --> 00:00:47.550
+with an event pattern.
+
+19
+00:00:47.550 --> 00:00:51.810
+Click on next and then we're going to react to AWS events.
+
+20
+00:00:51.810 --> 00:00:56.370
+And then this event is going to follow a pattern form.
+
+21
+00:00:56.370 --> 00:00:59.220
+And here we can look for services and choose the service.
+
+22
+00:00:59.220 --> 00:01:00.120
+We can choose EC2,
+
+23
+00:01:00.960 --> 00:01:01.890
+and then the instance type
+
+24
+00:01:01.890 --> 00:01:06.810
+called Instance State-change Notification.
+
+25
+00:01:06.810 --> 00:01:09.720
+So here, as you can see, for event source,
+
+26
+00:01:09.720 --> 00:01:11.370
+you have a lot of options.
+
+27
+00:01:11.370 --> 00:01:13.680
+So either AWS services or EventBridge partners
+
+28
+00:01:13.680 --> 00:01:15.510
+and we'll have a look at those in a second.
+
+29
+00:01:15.510 --> 00:01:17.970
+And for the type of service,
+
+30
+00:01:17.970 --> 00:01:20.010
+you have all of them pretty much.
+
+31
+00:01:20.010 --> 00:01:22.830
+And so for each service, you will have an event type
+
+32
+00:01:22.830 --> 00:01:25.170
+and again, they can be described
+
+33
+00:01:25.170 --> 00:01:26.940
+in the documentation, for example.
+
+34
+00:01:26.940 --> 00:01:28.680
+So here we want to have a look
+
+35
+00:01:28.680 --> 00:01:32.070
+at whenever an EC2 instance state changes.
+
+36
+00:01:32.070 --> 00:01:32.903
+What does that mean?
+
+37
+00:01:32.903 --> 00:01:34.530
+Well, we can select the state
+
+38
+00:01:34.530 --> 00:01:36.780
+and, for example, we want to be notified
+
+39
+00:01:36.780 --> 00:01:40.019
+whenever an instance is either shutting down
+
+40
+00:01:40.019 --> 00:01:41.670
+or is terminated
+
+41
+00:01:41.670 --> 00:01:43.590
+because, for example, say that we think
+
+42
+00:01:43.590 --> 00:01:45.600
+that this is a problem in our account when this happens,
+
+43
+00:01:45.600 --> 00:01:48.240
+or we wanna be at least be aware of it.
+
+44
+00:01:48.240 --> 00:01:50.370
+So now this EventBridge rule is going
+
+45
+00:01:50.370 --> 00:01:53.130
+to be triggered every time this happens.
+
+46
+00:01:53.130 --> 00:01:55.320
+And then we click on next.
+
+47
+00:01:55.320 --> 00:01:56.550
+We need to select a target.
+
+48
+00:01:56.550 --> 00:01:59.220
+So what happens when this is triggered?
+
+49
+00:01:59.220 --> 00:02:01.560
+Well, a target could be, for example,
+
+50
+00:02:01.560 --> 00:02:04.950
+that we want to select an SNS topic
+
+51
+00:02:04.950 --> 00:02:06.720
+and send a notification to a topic.
+
+52
+00:02:06.720 --> 00:02:09.300
+But you can see you have lots and lots and lots of options
+
+53
+00:02:09.300 --> 00:02:12.000
+around what you can do for targets
+
+54
+00:02:12.000 --> 00:02:13.230
+of EventBridge rules.
+
+55
+00:02:13.230 --> 00:02:15.270
+For example, you can stop an instance,
+
+56
+00:02:15.270 --> 00:02:16.230
+terminate an instance,
+
+57
+00:02:16.230 --> 00:02:19.380
+start an ECS task, trigger another function, send a message
+
+58
+00:02:19.380 --> 00:02:22.080
+to SNS or SQS, and so on.
+
+59
+00:02:22.080 --> 00:02:24.210
+So we'll choose SNS and we'll say, okay,
+
+60
+00:02:24.210 --> 00:02:26.190
+we want to send it into a topic.
+
+61
+00:02:26.190 --> 00:02:29.850
+So you would have to go into SNS and create a topic.
+
+62
+00:02:29.850 --> 00:02:31.150
+I'll do this very quickly.
+
+63
+00:02:32.220 --> 00:02:33.053
+Demotopic.
+
+64
+00:02:34.560 --> 00:02:36.603
+And then we're going to just create it.
+
+65
+00:02:37.680 --> 00:02:41.670
+Now back here, I can refresh this and choose my demotopic.
+
+66
+00:02:41.670 --> 00:02:42.503
+Perfect.
+
+67
+00:02:42.503 --> 00:02:45.180
+And if this topic was hooked to an email
+
+68
+00:02:45.180 --> 00:02:48.900
+as a subscription, then we would receive an email every time
+
+69
+00:02:48.900 --> 00:02:51.420
+an EC2 instance state changes.
+
+70
+00:02:51.420 --> 00:02:54.930
+So we'll click on next, next.
+
+71
+00:02:54.930 --> 00:02:58.290
+And here we go, we have created our first EventBridge rule.
+
+72
+00:02:58.290 --> 00:03:00.960
+So that's extremely powerful as you can see.
+
+73
+00:03:00.960 --> 00:03:03.870
+The other type of rule we can create is a schedule,
+
+74
+00:03:03.870 --> 00:03:06.903
+for example, run every hour.
+
+75
+00:03:07.740 --> 00:03:10.680
+And so you click on continue in EventBridge Scheduler.
+
+76
+00:03:10.680 --> 00:03:13.110
+And actually this takes us to a new UI.
+
+77
+00:03:13.110 --> 00:03:15.840
+So before we were in events, in buses,
+
+78
+00:03:15.840 --> 00:03:17.550
+now we are in Scheduler.
+
+79
+00:03:17.550 --> 00:03:19.650
+And here we can set up something to happen every hour,
+
+80
+00:03:19.650 --> 00:03:23.190
+for example, okay, you want to have a recurring schedule
+
+81
+00:03:23.190 --> 00:03:25.950
+and you want it to be every one hour.
+
+82
+00:03:25.950 --> 00:03:30.360
+You can do rate every one hour, then something will happen.
+
+83
+00:03:30.360 --> 00:03:33.360
+So we can select a flexible time window, click on next,
+
+84
+00:03:33.360 --> 00:03:34.980
+and then you choose what happens.
+
+85
+00:03:34.980 --> 00:03:36.660
+So every one hour, for example,
+
+86
+00:03:36.660 --> 00:03:38.310
+you can invoke a Lambda function,
+
+87
+00:03:38.310 --> 00:03:41.370
+for example, to do a cleanup of something on your account
+
+88
+00:03:41.370 --> 00:03:42.780
+or to send a message to SQS
+
+89
+00:03:42.780 --> 00:03:45.030
+to trigger an automation or whatever you want.
+
+90
+00:03:45.030 --> 00:03:47.640
+As you can see, you have a lot of different options
+
+91
+00:03:47.640 --> 00:03:50.220
+or you can even choose any API you want for any service,
+
+92
+00:03:50.220 --> 00:03:52.050
+which is incredible.
+
+93
+00:03:52.050 --> 00:03:53.250
+So I'm not gonna go ahead with it,
+
+94
+00:03:53.250 --> 00:03:55.470
+but this is how you would set up a schedule,
+
+95
+00:03:55.470 --> 00:03:57.810
+a recurring schedule, or a one-time schedule if you wanted
+
+96
+00:03:57.810 --> 00:04:00.210
+to have something run only once.
+
+97
+00:04:00.210 --> 00:04:02.910
+Okay, so now we have event buses.
+
+98
+00:04:02.910 --> 00:04:05.100
+So by default we have an event bus called default,
+
+99
+00:04:05.100 --> 00:04:07.350
+which is the main event bus of your account.
+
+100
+00:04:07.350 --> 00:04:08.760
+But if you want to have different rules
+
+101
+00:04:08.760 --> 00:04:11.940
+for different event buses, you can click on event buses
+
+102
+00:04:11.940 --> 00:04:14.070
+and you can actually create an event bus.
+
+103
+00:04:14.070 --> 00:04:18.180
+You specify the name of it, you specify encryption.
+
+104
+00:04:18.180 --> 00:04:20.700
+And then this will be a way for you
+
+105
+00:04:20.700 --> 00:04:24.120
+to have rules specifically for that event bus.
+
+106
+00:04:24.120 --> 00:04:27.570
+And the goal of it is to have separation, for example,
+
+107
+00:04:27.570 --> 00:04:31.020
+of security, to have a special event bus, for example,
+
+108
+00:04:31.020 --> 00:04:35.100
+for targets, and events that may be super important to you.
+
+109
+00:04:35.100 --> 00:04:38.280
+You can replay events in Amazon EventBridge as well
+
+110
+00:04:38.280 --> 00:04:39.870
+in order for you to have a look
+
+111
+00:04:39.870 --> 00:04:42.300
+and do some debugging if you need to.
+
+112
+00:04:42.300 --> 00:04:43.920
+Okay, other things you can do
+
+113
+00:04:43.920 --> 00:04:46.620
+is to have a look at the partner event sources.
+
+114
+00:04:46.620 --> 00:04:51.120
+So on top of having events from AWS within your account
+
+115
+00:04:51.120 --> 00:04:53.400
+for any type of events that can happen
+
+116
+00:04:53.400 --> 00:04:57.390
+for specific services, you can also have specific partners
+
+117
+00:04:57.390 --> 00:04:59.370
+that will trigger events in your account.
+
+118
+00:04:59.370 --> 00:05:02.670
+For example, you can set up Auth0 integration
+
+119
+00:05:02.670 --> 00:05:05.100
+and for example, when the user signs up on Auth0,
+
+120
+00:05:05.100 --> 00:05:08.610
+it can send an event directly into Amazon EventBridge.
+
+121
+00:05:08.610 --> 00:05:11.100
+And from there you can run any type of rules
+
+122
+00:05:11.100 --> 00:05:12.450
+and automation you want.
+
+123
+00:05:12.450 --> 00:05:15.060
+So the idea is that this becomes a bridge,
+
+124
+00:05:15.060 --> 00:05:19.080
+hence the name EventBridge, between many SaaS software
+
+125
+00:05:19.080 --> 00:05:21.000
+and service you may use online
+
+126
+00:05:21.000 --> 00:05:24.870
+and your AWS infrastructure without you writing any type
+
+127
+00:05:24.870 --> 00:05:26.400
+of Glue code, like code
+
+128
+00:05:26.400 --> 00:05:30.570
+to link these things together, which is amazing.
+
+129
+00:05:30.570 --> 00:05:34.230
+And finally, well, you can also send the rules
+
+130
+00:05:34.230 --> 00:05:38.220
+to specific API destinations to send it outside of AWS,
+
+131
+00:05:38.220 --> 00:05:42.240
+for example, to invoke a specific bit of architecture
+
+132
+00:05:42.240 --> 00:05:43.980
+that's outside of your account if you need to.
+
+133
+00:05:43.980 --> 00:05:46.620
+It could be an external API that belongs to you
+
+134
+00:05:46.620 --> 00:05:48.750
+or to, for example, a SaaS
+
+135
+00:05:48.750 --> 00:05:50.610
+that you need to have integration with.
+
+136
+00:05:50.610 --> 00:05:53.220
+So EventBridge is super powerful.
+
+137
+00:05:53.220 --> 00:05:55.410
+And finally you have the schema registry for you
+
+138
+00:05:55.410 --> 00:05:57.180
+to have a look at all the different types
+
+139
+00:05:57.180 --> 00:05:59.520
+of event schemas in AWS.
+
+140
+00:05:59.520 --> 00:06:03.473
+For example, we can look at the EC2 instance state.
+
+141
+00:06:05.160 --> 00:06:08.160
+Let's see if we find it. No, we don't find it, it's okay.
+
+142
+00:06:08.160 --> 00:06:10.320
+But you can look at any of these events
+
+143
+00:06:10.320 --> 00:06:11.880
+and it will tell you the type
+
+144
+00:06:11.880 --> 00:06:14.970
+of things you can expect in the JSON of the event
+
+145
+00:06:14.970 --> 00:06:16.860
+and the type for each of the things.
+
+146
+00:06:16.860 --> 00:06:18.990
+So if it's a string and so on,
+
+147
+00:06:18.990 --> 00:06:21.990
+or an array of string, a date-time and so on.
+
+148
+00:06:21.990 --> 00:06:24.330
+And out of it, you can download code bindings
+
+149
+00:06:24.330 --> 00:06:26.640
+for any of these programming languages.
+
+150
+00:06:26.640 --> 00:06:27.473
+And that means
+
+151
+00:06:27.473 --> 00:06:29.250
+that you can automatically develop applications
+
+152
+00:06:29.250 --> 00:06:31.350
+that use events in EventBridge directly
+
+153
+00:06:31.350 --> 00:06:33.510
+without you setting up the schema
+
+154
+00:06:33.510 --> 00:06:34.770
+or the code for the schema.
+
+155
+00:06:34.770 --> 00:06:35.910
+And you can get started with Java,
+
+156
+00:06:35.910 --> 00:06:37.890
+Python, TypeScript and Go.
+
+157
+00:06:37.890 --> 00:06:40.050
+So all of it is super helpful.
+
+158
+00:06:40.050 --> 00:06:42.360
+EventBridge is a super helpful service.
+
+159
+00:06:42.360 --> 00:06:45.990
+As a general rule, remember how to use rules for sure
+
+160
+00:06:45.990 --> 00:06:48.120
+and how to use schedules for sure.
+
+161
+00:06:48.120 --> 00:06:49.890
+All right, that's it, I hope you liked it
+
+162
+00:06:49.890 --> 00:06:51.840
+and I will see you in the next lecture.
+

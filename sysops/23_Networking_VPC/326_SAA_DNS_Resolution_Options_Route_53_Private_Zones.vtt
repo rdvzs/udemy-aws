@@ -1,0 +1,278 @@
+WEBVTT
+
+1
+00:00:00.050 --> 00:00:02.310
+<v ->So let's talk about the two DNS settings</v>
+
+2
+00:00:02.310 --> 00:00:03.960
+you can find it in the VPC.
+
+3
+00:00:03.960 --> 00:00:05.386
+So the first one is DNS resolution called
+
+4
+00:00:05.386 --> 00:00:06.633
+ENA enableDnsSupport.
+
+5
+00:00:08.748 --> 00:00:11.680
+And this is to decide if DNS resolution from Route 53
+
+6
+00:00:11.680 --> 00:00:14.150
+resolver is supported from the VPC.
+
+7
+00:00:14.150 --> 00:00:15.940
+So by default, the setting is true.
+
+8
+00:00:15.940 --> 00:00:19.210
+And that means that each two instances within your VPC will
+
+9
+00:00:19.210 --> 00:00:22.282
+be able to query the Amazon provided DNS server at either
+
+10
+00:00:22.282 --> 00:00:26.090
+the IP 169.254.169.253,
+
+11
+00:00:26.090 --> 00:00:28.930
+or the reserved IP that we mentioned before that is at the
+
+12
+00:00:28.930 --> 00:00:32.180
+base of the VPC IP four network range plus two.
+
+13
+00:00:32.180 --> 00:00:34.600
+So the point to address. So if we have a look,
+
+14
+00:00:34.600 --> 00:00:37.580
+so we have DNS support enabled for this VPC, okay.
+
+15
+00:00:37.580 --> 00:00:38.413
+The second setting,
+
+16
+00:00:38.413 --> 00:00:40.270
+we'll see what it means in the next slide.
+
+17
+00:00:40.270 --> 00:00:44.030
+And so if we want to ask for Google.com then because we
+
+18
+00:00:44.030 --> 00:00:45.290
+have enableDnsSupport,
+
+19
+00:00:45.290 --> 00:00:47.955
+then the EC2 Instance can reach out to the routes with
+
+20
+00:00:47.955 --> 00:00:50.780
+resolver using one of the two IPs I mentioned,
+
+21
+00:00:50.780 --> 00:00:53.220
+and then we'll get the answer of where Google.com is,
+
+22
+00:00:53.220 --> 00:00:55.690
+and then we'll get access to the internet.
+
+23
+00:00:55.690 --> 00:00:58.653
+This has to be able to have DNS resolution for public
+
+24
+00:00:58.653 --> 00:01:00.610
+addresses.
+
+25
+00:01:00.610 --> 00:01:03.170
+Now, if you have no DNS support,
+
+26
+00:01:03.170 --> 00:01:05.220
+then it is still possible for you to get DNS resolution,
+
+27
+00:01:05.220 --> 00:01:07.540
+but you need to create your own custom DNS server,
+
+28
+00:01:07.540 --> 00:01:08.760
+configure it and so on.
+
+29
+00:01:08.760 --> 00:01:10.530
+And then you'll be able to get the same answer.
+
+30
+00:01:10.530 --> 00:01:13.690
+But it is quite natural to use the managed services in AWS.
+
+31
+00:01:13.690 --> 00:01:15.890
+So when you enable the DNS support setting,
+
+32
+00:01:15.890 --> 00:01:20.320
+then you can leverage route 53 to resolve the public DNS
+
+33
+00:01:20.320 --> 00:01:22.310
+names within the internet.
+
+34
+00:01:22.310 --> 00:01:25.570
+The next setting is DNS host name. So enableDnsHostnames.
+
+35
+00:01:25.570 --> 00:01:28.620
+And by default is true. If you have a default VPC or false,
+
+36
+00:01:28.620 --> 00:01:30.890
+if you have a newly created VPC.
+
+37
+00:01:30.890 --> 00:01:33.310
+It will not do anything unless you also enable the setting
+
+38
+00:01:33.310 --> 00:01:35.920
+from before. So enableDnsSupport equals true.
+
+39
+00:01:35.920 --> 00:01:38.040
+And if DNS Hostname is true,
+
+40
+00:01:38.040 --> 00:01:40.570
+that means that your EC2 instance will get a public
+
+41
+00:01:40.570 --> 00:01:41.650
+public host name.
+
+42
+00:01:41.650 --> 00:01:44.260
+If it also has a public IP for as we'll see in the next
+
+43
+00:01:44.260 --> 00:01:48.130
+lecture. So without it, so without the DNS host I'm setting,
+
+44
+00:01:48.130 --> 00:01:52.260
+as you can see, EC2 Instance just has a private DNS,
+
+45
+00:01:52.260 --> 00:01:54.150
+even though it sits in a public subnets,
+
+46
+00:01:54.150 --> 00:01:57.180
+but with DNS support and DNS Hostanme my EC2
+
+47
+00:01:57.180 --> 00:01:59.580
+instance, has a private DNS of course,
+
+48
+00:01:59.580 --> 00:02:03.840
+but also has a public DNS that corresponds to its public IP.
+
+49
+00:02:03.840 --> 00:02:06.380
+So this is what the DNS host name setting does.
+
+50
+00:02:06.380 --> 00:02:08.922
+And why do we want to enable both of these settings?
+
+51
+00:02:08.922 --> 00:02:09.755
+Well,
+
+52
+00:02:09.755 --> 00:02:12.730
+if you have a custom DNS domain name in a private hosted
+
+53
+00:02:12.730 --> 00:02:14.150
+zone in Route 53,
+
+54
+00:02:14.150 --> 00:02:16.390
+and you said to both of these attributes to true,
+
+55
+00:02:16.390 --> 00:02:19.050
+then you can create this private hosted zone as we'll see in
+
+56
+00:02:19.050 --> 00:02:20.210
+the hands-on for example,
+
+57
+00:02:20.210 --> 00:02:23.410
+web.mycompany.private as a record of type A
+
+58
+00:02:23.410 --> 00:02:26.180
+and the value 10.0.0.10.
+
+59
+00:02:26.180 --> 00:02:29.450
+And the reason we do so is that now an EC2 Instance in
+
+60
+00:02:29.450 --> 00:02:32.990
+the private subnets can have a private DNS name associated
+
+61
+00:02:32.990 --> 00:02:34.450
+with a private IP before.
+
+62
+00:02:34.450 --> 00:02:37.540
+And you're EC2 Instance when requesting that private DNS
+
+63
+00:02:37.540 --> 00:02:41.060
+name, we'll look it up to the Route 53 resolver,
+
+64
+00:02:41.060 --> 00:02:43.090
+which we'll look up the private hosted zone and say, yes,
+
+65
+00:02:43.090 --> 00:02:45.780
+I know what this is. This is 10.0.0.10.
+
+66
+00:02:45.780 --> 00:02:47.980
+And then the EC2 Instances will know how to reach out to the
+
+67
+00:02:47.980 --> 00:02:49.630
+other EC2 Instance. Okay.
+
+68
+00:02:49.630 --> 00:02:51.980
+So hopefully this will make a lot of sense in the next
+
+69
+00:02:51.980 --> 00:02:53.963
+lecture. So I will see you there.
+

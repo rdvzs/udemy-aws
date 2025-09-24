@@ -1,0 +1,662 @@
+WEBVTT
+
+1
+00:00:00.180 --> 00:00:01.800
+<v Instructor>Okay, so we are going to practice</v>
+
+2
+00:00:01.800 --> 00:00:04.590
+batch operations in Amazon S3,
+
+3
+00:00:04.590 --> 00:00:06.930
+but first I need to create a bucket
+
+4
+00:00:06.930 --> 00:00:09.180
+and whatever bucket name you give
+
+5
+00:00:09.180 --> 00:00:11.850
+open the file S3 batch dot csv
+
+6
+00:00:11.850 --> 00:00:14.400
+and replace this by the bucket you have.
+
+7
+00:00:14.400 --> 00:00:17.880
+So I'm going to name my bucket S3 batch demo Stephane v2,
+
+8
+00:00:17.880 --> 00:00:20.100
+but because you'll have a different bucket name
+
+9
+00:00:20.100 --> 00:00:24.060
+please change the CSV to have your bucket name.
+
+10
+00:00:24.060 --> 00:00:25.950
+So I'm going to create a bucket name
+
+11
+00:00:25.950 --> 00:00:28.950
+in my region with the normal settings
+
+12
+00:00:28.950 --> 00:00:31.890
+and I'm going to create these buckets.
+
+13
+00:00:31.890 --> 00:00:33.180
+And what we're going to do now
+
+14
+00:00:33.180 --> 00:00:35.280
+is view the detail of these buckets
+
+15
+00:00:35.280 --> 00:00:37.680
+and we're going to start uploading a few files.
+
+16
+00:00:37.680 --> 00:00:39.960
+So the files we're going to upload is going to be the beach,
+
+17
+00:00:39.960 --> 00:00:43.590
+the coffee, the error, and the index HTML files.
+
+18
+00:00:43.590 --> 00:00:46.020
+So we have four files in our buckets
+
+19
+00:00:46.020 --> 00:00:48.150
+and I'm going to upload them,
+
+20
+00:00:48.150 --> 00:00:53.150
+as well as actually I will upload as well the file
+
+21
+00:00:53.280 --> 00:00:54.300
+that represents the file
+
+22
+00:00:54.300 --> 00:00:56.640
+we want to do the batch operations on.
+
+23
+00:00:56.640 --> 00:00:58.530
+So if you go into S3 Advanced,
+
+24
+00:00:58.530 --> 00:01:01.020
+you will find S3 batch dot csv.
+
+25
+00:01:01.020 --> 00:01:03.480
+Now let me explain what is happening.
+
+26
+00:01:03.480 --> 00:01:05.130
+So this file uploaded, we're good to go.
+
+27
+00:01:05.130 --> 00:01:06.660
+We now have five files.
+
+28
+00:01:06.660 --> 00:01:09.960
+So in this CSV named S3 batch dot csv,
+
+29
+00:01:09.960 --> 00:01:11.730
+we indicate the bucket name,
+
+30
+00:01:11.730 --> 00:01:13.680
+as well as the file name
+
+31
+00:01:13.680 --> 00:01:16.260
+on which you want to perform batch operations.
+
+32
+00:01:16.260 --> 00:01:18.510
+And this file is going to be used by the batch service
+
+33
+00:01:18.510 --> 00:01:21.360
+to know on which files to operate.
+
+34
+00:01:21.360 --> 00:01:24.390
+So, we have done all our files in here
+
+35
+00:01:24.390 --> 00:01:26.520
+and we have the batch file here.
+
+36
+00:01:26.520 --> 00:01:27.480
+Now on these files
+
+37
+00:01:27.480 --> 00:01:29.820
+what we're going to do is a very simple operation.
+
+38
+00:01:29.820 --> 00:01:32.340
+We're going to add tags to them in batch.
+
+39
+00:01:32.340 --> 00:01:34.440
+So if you go for example to beach dot JPEG
+
+40
+00:01:34.440 --> 00:01:37.350
+and you scroll down as you can see under tags,
+
+41
+00:01:37.350 --> 00:01:39.000
+we currently have zero tags,
+
+42
+00:01:39.000 --> 00:01:41.580
+so we're going to add tags to these files in batch.
+
+43
+00:01:41.580 --> 00:01:44.220
+So to do so, I'm going to click on batch operations
+
+44
+00:01:44.220 --> 00:01:46.240
+on the left hand side of Amazon S3
+
+45
+00:01:47.100 --> 00:01:49.170
+and we're going to create a job.
+
+46
+00:01:49.170 --> 00:01:52.020
+Now you choose the correct region from EU west 1
+
+47
+00:01:52.020 --> 00:01:56.220
+and the manifest format could be S3 inventory report
+
+48
+00:01:56.220 --> 00:01:57.810
+or a CSV file.
+
+49
+00:01:57.810 --> 00:02:00.420
+And we have already created the CSV file.
+
+50
+00:02:00.420 --> 00:02:02.850
+So now we need to browse S3 for that CSV file.
+
+51
+00:02:02.850 --> 00:02:04.500
+So this is the one we have uploaded.
+
+52
+00:02:04.500 --> 00:02:06.740
+So I'm going to look at batch.
+
+53
+00:02:06.740 --> 00:02:08.910
+So it's S3 batch demo Stephane
+
+54
+00:02:08.910 --> 00:02:11.193
+and we'll choose S3 batch dot csv.
+
+55
+00:02:12.510 --> 00:02:14.010
+Okay, so we're good to go.
+
+56
+00:02:14.010 --> 00:02:14.850
+We have this file.
+
+57
+00:02:14.850 --> 00:02:19.410
+So now batch knows on which files to operate on.
+
+58
+00:02:19.410 --> 00:02:21.480
+Now you have a operation type,
+
+59
+00:02:21.480 --> 00:02:23.910
+so you can copy, you can invoke a Lambda function,
+
+60
+00:02:23.910 --> 00:02:25.890
+you can replace all object tags,
+
+61
+00:02:25.890 --> 00:02:27.480
+you can delete all object tags,
+
+62
+00:02:27.480 --> 00:02:29.520
+you can do acl, you can restore,
+
+63
+00:02:29.520 --> 00:02:31.380
+you can do object logs, and so on.
+
+64
+00:02:31.380 --> 00:02:34.350
+So we're going to actually replace object tags,
+
+65
+00:02:34.350 --> 00:02:35.760
+but you can see you have a lot
+
+66
+00:02:35.760 --> 00:02:38.070
+of different options available for you.
+
+67
+00:02:38.070 --> 00:02:41.070
+So here I'm going to say the key is demo
+
+68
+00:02:41.070 --> 00:02:43.830
+and the value is AWS.
+
+69
+00:02:43.830 --> 00:02:46.830
+So we're just going to replace all the tags in the manifest
+
+70
+00:02:46.830 --> 00:02:49.920
+with the key demo and the value AWS.
+
+71
+00:02:49.920 --> 00:02:51.240
+We click on next.
+
+72
+00:02:51.240 --> 00:02:53.910
+We have a priority for this job if we need to.
+
+73
+00:02:53.910 --> 00:02:55.530
+We want a completion report.
+
+74
+00:02:55.530 --> 00:02:58.440
+We want to know for all task or fail task only
+
+75
+00:02:58.440 --> 00:03:01.200
+and whether or not we want a destination for this.
+
+76
+00:03:01.200 --> 00:03:02.553
+So we can say,
+
+77
+00:03:03.810 --> 00:03:08.730
+we can go again into my batch bucket.
+
+78
+00:03:08.730 --> 00:03:09.780
+I will choose this path
+
+79
+00:03:09.780 --> 00:03:14.780
+and I will add batch results to the end.
+
+80
+00:03:17.340 --> 00:03:18.780
+So we are good to go.
+
+81
+00:03:18.780 --> 00:03:20.100
+Then permissions,
+
+82
+00:03:20.100 --> 00:03:22.080
+we need to actually have an IAM role
+
+83
+00:03:22.080 --> 00:03:24.240
+that will allow the S3 batch service
+
+84
+00:03:24.240 --> 00:03:25.410
+to perform this operation.
+
+85
+00:03:25.410 --> 00:03:26.940
+That makes sense because the S3 batch service
+
+86
+00:03:26.940 --> 00:03:30.060
+is going to read and write to some files.
+
+87
+00:03:30.060 --> 00:03:32.580
+So for this, we have a template right here
+
+88
+00:03:32.580 --> 00:03:34.560
+and a template trust policy.
+
+89
+00:03:34.560 --> 00:03:36.690
+So what I'm going to do is that I'm going to go into IAM
+
+90
+00:03:36.690 --> 00:03:39.270
+and I'm going to create that role right now.
+
+91
+00:03:39.270 --> 00:03:40.840
+So let's go into IAM
+
+92
+00:03:43.080 --> 00:03:46.260
+and I'm gonna go on the roles and create a role.
+
+93
+00:03:46.260 --> 00:03:48.360
+And this is for AWS service
+
+94
+00:03:48.360 --> 00:03:50.676
+and the one that I'm looking for is S3.
+
+95
+00:03:50.676 --> 00:03:52.453
+So, I'll type S3.
+
+96
+00:03:53.490 --> 00:03:56.610
+And within S3 we want S3 batch operations.
+
+97
+00:03:56.610 --> 00:03:57.990
+So click on next.
+
+98
+00:03:57.990 --> 00:03:59.460
+Next we have permission policy.
+
+99
+00:03:59.460 --> 00:04:04.140
+So, we're just going to give it good S3 permissions
+
+100
+00:04:04.140 --> 00:04:06.300
+for example, S3 full access.
+
+101
+00:04:06.300 --> 00:04:08.250
+So obviously you don't need to give
+
+102
+00:04:08.250 --> 00:04:09.690
+as much permissions as this,
+
+103
+00:04:09.690 --> 00:04:11.910
+but this is going to make the hands-on very easy.
+
+104
+00:04:11.910 --> 00:04:13.680
+So we'll give Amazon S3 full access,
+
+105
+00:04:13.680 --> 00:04:15.180
+but usually with create a role
+
+106
+00:04:15.180 --> 00:04:17.820
+that has the minimum required permissions.
+
+107
+00:04:17.820 --> 00:04:18.653
+So we're good.
+
+108
+00:04:18.653 --> 00:04:21.483
+And I'll call this one S3 Batch Demo Role.
+
+109
+00:04:22.350 --> 00:04:23.220
+So we're good to go.
+
+110
+00:04:23.220 --> 00:04:24.633
+Let's create this role.
+
+111
+00:04:27.630 --> 00:04:30.750
+And let's also make sure that from the policy template
+
+112
+00:04:30.750 --> 00:04:32.580
+as you can see, these are S3 permissions.
+
+113
+00:04:32.580 --> 00:04:34.740
+So we have all the S3 permissions required,
+
+114
+00:04:34.740 --> 00:04:35.700
+so we're good to go.
+
+115
+00:04:35.700 --> 00:04:36.690
+But as you can see,
+
+116
+00:04:36.690 --> 00:04:39.840
+this is the minimal type of policy we could have used
+
+117
+00:04:39.840 --> 00:04:43.530
+if we wanted to only use the minimum required permission.
+
+118
+00:04:43.530 --> 00:04:45.360
+So, we allow object tagging
+
+119
+00:04:45.360 --> 00:04:47.970
+on any of the resources within my buckets.
+
+120
+00:04:47.970 --> 00:04:51.900
+We allow to get the batch manifest file
+
+121
+00:04:51.900 --> 00:04:54.030
+and we allow to put the results
+
+122
+00:04:54.030 --> 00:04:56.400
+into the batch results directory.
+
+123
+00:04:56.400 --> 00:04:58.740
+So again, we're going to make it simple
+
+124
+00:04:58.740 --> 00:05:01.740
+and use the S3 full access policy.
+
+125
+00:05:01.740 --> 00:05:03.810
+So let me refresh my IAM roles
+
+126
+00:05:03.810 --> 00:05:06.040
+and here I'm going to type batch
+
+127
+00:05:08.340 --> 00:05:09.570
+S3 batch demo role
+
+128
+00:05:09.570 --> 00:05:10.980
+and we're good to go.
+
+129
+00:05:10.980 --> 00:05:12.450
+So let's click on next.
+
+130
+00:05:12.450 --> 00:05:14.700
+And then we're going to create a job.
+
+131
+00:05:14.700 --> 00:05:16.620
+And so now this is going to submit a job
+
+132
+00:05:16.620 --> 00:05:18.450
+to Amazon S3 batch.
+
+133
+00:05:18.450 --> 00:05:20.640
+And so of course if you have a lot of files,
+
+134
+00:05:20.640 --> 00:05:22.830
+the batch job may take a long time,
+
+135
+00:05:22.830 --> 00:05:24.350
+but if you have very few files
+
+136
+00:05:24.350 --> 00:05:27.900
+we just need to have it started and then to run.
+
+137
+00:05:27.900 --> 00:05:30.510
+So, the job ID has detected
+
+138
+00:05:30.510 --> 00:05:33.300
+that four files are in the manifests
+
+139
+00:05:33.300 --> 00:05:36.390
+and it's waiting for me to actually say,
+
+140
+00:05:36.390 --> 00:05:37.223
+yes, please run it.
+
+141
+00:05:37.223 --> 00:05:39.240
+So it's awaiting my confirmation.
+
+142
+00:05:39.240 --> 00:05:42.000
+So as such, I'm going to run this job
+
+143
+00:05:42.000 --> 00:05:45.390
+and then I scroll down and click on run job.
+
+144
+00:05:45.390 --> 00:05:46.950
+So now my job is starting
+
+145
+00:05:46.950 --> 00:05:49.290
+and I need to wait for it to be done.
+
+146
+00:05:49.290 --> 00:05:52.260
+So my batch jobs has now completed,
+
+147
+00:05:52.260 --> 00:05:53.220
+and if you click on it
+
+148
+00:05:53.220 --> 00:05:56.850
+we can see that we have a success rate of a hundred percent.
+
+149
+00:05:56.850 --> 00:05:59.280
+So failed jobs, which is amazing
+
+150
+00:05:59.280 --> 00:06:01.380
+and we can have a look at the result of it.
+
+151
+00:06:01.380 --> 00:06:05.340
+So if I go under my bucket now and click on,
+
+152
+00:06:05.340 --> 00:06:08.970
+for example coffee dot jpeg and scroll down
+
+153
+00:06:08.970 --> 00:06:12.390
+as you can see now we have tags, 1, demo, AWS.
+
+154
+00:06:12.390 --> 00:06:13.680
+And this tag of course,
+
+155
+00:06:13.680 --> 00:06:15.780
+if I go into another file, for example
+
+156
+00:06:15.780 --> 00:06:18.360
+beach dot JPEG has been applied
+
+157
+00:06:18.360 --> 00:06:20.220
+to this file as well, which is amazing.
+
+158
+00:06:20.220 --> 00:06:22.890
+And if you wanted to get some result information,
+
+159
+00:06:22.890 --> 00:06:24.840
+you can click on this, look at the job,
+
+160
+00:06:24.840 --> 00:06:26.730
+and you will find the results,
+
+161
+00:06:26.730 --> 00:06:28.920
+as well as the manifest for this job,
+
+162
+00:06:28.920 --> 00:06:31.380
+which is amazing for reporting purposes.
+
+163
+00:06:31.380 --> 00:06:32.850
+So that's it for this lecture.
+
+164
+00:06:32.850 --> 00:06:34.050
+I hope you liked it,
+
+165
+00:06:34.050 --> 00:06:36.003
+and I will see you in the next lecture.
+

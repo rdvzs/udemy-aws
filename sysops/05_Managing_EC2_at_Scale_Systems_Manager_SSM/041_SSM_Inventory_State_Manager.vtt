@@ -1,0 +1,710 @@
+WEBVTT
+
+1
+00:00:00.750 --> 00:00:01.640
+<v Instructor>Now let's have a look</v>
+
+2
+00:00:01.640 --> 00:00:04.030
+at the inventory feature of SSM.
+
+3
+00:00:04.030 --> 00:00:05.640
+So this is used to collect metadata
+
+4
+00:00:05.640 --> 00:00:06.770
+from your managed instances,
+
+5
+00:00:06.770 --> 00:00:08.760
+and it could be EC2 or On-premises.
+
+6
+00:00:08.760 --> 00:00:10.310
+And the metadata can include many things
+
+7
+00:00:10.310 --> 00:00:12.610
+such as the installed software,
+
+8
+00:00:12.610 --> 00:00:14.500
+the OS drivers, some configurations.
+
+9
+00:00:14.500 --> 00:00:16.490
+If you install updates and running services.
+
+10
+00:00:16.490 --> 00:00:19.150
+It creates an inventory of what's happening
+
+11
+00:00:19.150 --> 00:00:21.190
+on your managed instances.
+
+12
+00:00:21.190 --> 00:00:23.490
+So you can view this data in the console of AWS,
+
+13
+00:00:23.490 --> 00:00:24.323
+or you can store it for example,
+
+14
+00:00:24.323 --> 00:00:28.320
+in S3 and you could query and analyze it using Athena
+
+15
+00:00:28.320 --> 00:00:29.360
+for serverless.
+
+16
+00:00:29.360 --> 00:00:31.050
+And QuickSight, if you want to build some dashboards
+
+17
+00:00:31.050 --> 00:00:31.900
+around it.
+
+18
+00:00:31.900 --> 00:00:34.060
+So you can specify the metadata collection interval,
+
+19
+00:00:34.060 --> 00:00:35.940
+could be minutes, hours, and days.
+
+20
+00:00:35.940 --> 00:00:38.850
+And then you could also gather all this data
+
+21
+00:00:38.850 --> 00:00:40.850
+from multiple accounts into one account,
+
+22
+00:00:40.850 --> 00:00:43.490
+and then you can query it from a central place.
+
+23
+00:00:43.490 --> 00:00:45.330
+And finally, you can create a custom inventory
+
+24
+00:00:45.330 --> 00:00:46.690
+if you wanted to, for example.
+
+25
+00:00:46.690 --> 00:00:49.520
+The replication of each managed instance, if you wanted to.
+
+26
+00:00:49.520 --> 00:00:52.680
+So let's have a look at how inventory works in the console.
+
+27
+00:00:52.680 --> 00:00:54.750
+Okay, so on the left hand side, let's scroll down
+
+28
+00:00:54.750 --> 00:00:56.463
+and let's find the inventory.
+
+29
+00:00:57.530 --> 00:01:00.640
+So in here we are in inventory and as we can see
+
+30
+00:01:00.640 --> 00:01:02.660
+the managed instances with inventory enabled
+
+31
+00:01:02.660 --> 00:01:04.880
+are currently three disabled.
+
+32
+00:01:04.880 --> 00:01:07.550
+So we need to enable inventory for my instances.
+
+33
+00:01:07.550 --> 00:01:09.410
+So for this, I'm going to click here
+
+34
+00:01:09.410 --> 00:01:11.880
+to enable inventory on all instances,
+
+35
+00:01:11.880 --> 00:01:14.190
+and to set up this inventory request succeeded.
+
+36
+00:01:14.190 --> 00:01:18.130
+I click on view details and I'm taken into state manager.
+
+37
+00:01:18.130 --> 00:01:20.710
+And state manager is something that we'll see in a second.
+
+38
+00:01:20.710 --> 00:01:24.030
+But it is a way for you to apply state
+
+39
+00:01:24.030 --> 00:01:25.140
+to your different instances
+
+40
+00:01:25.140 --> 00:01:26.910
+to make sure that they are all in the same state.
+
+41
+00:01:26.910 --> 00:01:30.460
+And obviously the state we want our three instances to be in
+
+42
+00:01:30.460 --> 00:01:32.470
+is in a state that allows us
+
+43
+00:01:32.470 --> 00:01:35.030
+to gather the software inventory.
+
+44
+00:01:35.030 --> 00:01:36.400
+So if you look at the targets,
+
+45
+00:01:36.400 --> 00:01:39.320
+as we can see all the instance IDs are being applied
+
+46
+00:01:39.320 --> 00:01:42.350
+to this state manager execution, okay?
+
+47
+00:01:42.350 --> 00:01:44.530
+And if we look at the execution history right now,
+
+48
+00:01:44.530 --> 00:01:46.590
+it is still pending, so I can click on it
+
+49
+00:01:46.590 --> 00:01:48.130
+and as we can see,
+
+50
+00:01:48.130 --> 00:01:51.380
+one managed instance currently has had the association
+
+51
+00:01:51.380 --> 00:01:53.550
+of getting its inventory gathered,
+
+52
+00:01:53.550 --> 00:01:55.563
+but the other two are still pending.
+
+53
+00:01:58.510 --> 00:01:59.540
+Okay, so one is a success
+
+54
+00:01:59.540 --> 00:02:01.730
+and I'm waiting for the other two to be done.
+
+55
+00:02:01.730 --> 00:02:02.700
+And while this is happening,
+
+56
+00:02:02.700 --> 00:02:04.860
+well, let's have a look at what state manager is.
+
+57
+00:02:04.860 --> 00:02:07.340
+So state manager is used to automate the process
+
+58
+00:02:07.340 --> 00:02:09.250
+of keeping your managed instances,
+
+59
+00:02:09.250 --> 00:02:10.740
+in a state that you define.
+
+60
+00:02:10.740 --> 00:02:13.420
+And a use case could be to bootstrap instances
+
+61
+00:02:13.420 --> 00:02:15.560
+with software or to patch operating system
+
+62
+00:02:15.560 --> 00:02:17.290
+and software updates on a schedule.
+
+63
+00:02:17.290 --> 00:02:19.820
+And you have to create what's called an association.
+
+64
+00:02:19.820 --> 00:02:21.220
+So you define the state that you want
+
+65
+00:02:21.220 --> 00:02:24.030
+your instances to be in, for example, the one we just did
+
+66
+00:02:24.030 --> 00:02:26.080
+is that we want the state of the instances
+
+67
+00:02:26.080 --> 00:02:29.220
+that are to be monitored and gathered information
+
+68
+00:02:29.220 --> 00:02:30.810
+by the inventory.
+
+69
+00:02:30.810 --> 00:02:32.480
+And another example could be for example,
+
+70
+00:02:32.480 --> 00:02:35.330
+that you must close the port 22, no matter what
+
+71
+00:02:35.330 --> 00:02:37.500
+or that an antivirus must be installed
+
+72
+00:02:37.500 --> 00:02:39.000
+on your EC2 instances.
+
+73
+00:02:39.000 --> 00:02:40.940
+And then you specify a schedule
+
+74
+00:02:40.940 --> 00:02:43.810
+at which this association and this configuration
+
+75
+00:02:43.810 --> 00:02:45.360
+is going to be applied.
+
+76
+00:02:45.360 --> 00:02:47.640
+And to what leverage a state manager,
+
+77
+00:02:47.640 --> 00:02:50.980
+you use SSM documents and you create an association.
+
+78
+00:02:50.980 --> 00:02:52.520
+For example, you can create a document
+
+79
+00:02:52.520 --> 00:02:54.050
+to CloudWatch agent.
+
+80
+00:02:54.050 --> 00:02:57.290
+So state manager is to ensure that your fleet of instances
+
+81
+00:02:57.290 --> 00:02:59.423
+are all in a state that you desire.
+
+82
+00:03:00.320 --> 00:03:01.890
+Now back in here, as we can see,
+
+83
+00:03:01.890 --> 00:03:05.060
+my three managed instances are in the success state.
+
+84
+00:03:05.060 --> 00:03:08.013
+So if I go back into systems manager
+
+85
+00:03:08.013 --> 00:03:10.513
+on the left hand side have a look at my inventory,
+
+86
+00:03:11.490 --> 00:03:12.410
+as we can see now,
+
+87
+00:03:12.410 --> 00:03:15.310
+three instances have the inventory enabled for them,
+
+88
+00:03:15.310 --> 00:03:16.490
+which is great.
+
+89
+00:03:16.490 --> 00:03:18.090
+And now that we have a look at this
+
+90
+00:03:18.090 --> 00:03:19.940
+where we can have a look, for example,
+
+91
+00:03:19.940 --> 00:03:22.340
+at the instance coverage per type, okay?
+
+92
+00:03:22.340 --> 00:03:25.160
+And more importantly, we can look at the top OS versions.
+
+93
+00:03:25.160 --> 00:03:28.800
+So Amazon Linux 2 is used by three instances right now,
+
+94
+00:03:28.800 --> 00:03:30.380
+we don't have any custom inventory types
+
+95
+00:03:30.380 --> 00:03:31.810
+so this is not shown here.
+
+96
+00:03:31.810 --> 00:03:33.560
+We can look at the top five applications
+
+97
+00:03:33.560 --> 00:03:35.880
+because all my instances use the same AMI,
+
+98
+00:03:35.880 --> 00:03:37.240
+it's not going to be very interesting,
+
+99
+00:03:37.240 --> 00:03:40.420
+but we can see some applications installed on my instances.
+
+100
+00:03:40.420 --> 00:03:44.220
+But imagine a fleet of so many different AMIs,
+
+101
+00:03:44.220 --> 00:03:45.183
+thousands of EC2 instances,
+
+102
+00:03:45.183 --> 00:03:47.350
+it's going to be very helpful for you to get an inventory
+
+103
+00:03:47.350 --> 00:03:49.870
+of all of that, obviously.
+
+104
+00:03:49.870 --> 00:03:54.010
+But more importantly, if I go up and look at the details,
+
+105
+00:03:54.010 --> 00:03:56.280
+we can have a look at the detailed data
+
+106
+00:03:56.280 --> 00:04:00.460
+so we can create inventory Resource Data Syncs, okay?
+
+107
+00:04:00.460 --> 00:04:02.773
+For this, I will just call it DemoSync,
+
+108
+00:04:04.340 --> 00:04:06.310
+and then we need to type a bucket name
+
+109
+00:04:06.310 --> 00:04:08.600
+so to send the data into a single bucket.
+
+110
+00:04:08.600 --> 00:04:12.763
+So I'll call it demo-ssm-inventory-stephane,
+
+111
+00:04:13.690 --> 00:04:16.630
+and in this region, and then creates.
+
+112
+00:04:16.630 --> 00:04:19.450
+So we need to first create this bucket.
+
+113
+00:04:19.450 --> 00:04:23.533
+So let's go into Amazon S3, set up S3.
+
+114
+00:04:27.020 --> 00:04:30.570
+Then I will go to my bucket, I will create a bucket,
+
+115
+00:04:30.570 --> 00:04:34.343
+here's my bucket name, and then create this bucket.
+
+116
+00:04:35.590 --> 00:04:39.120
+We're good to go, so now back here, I can create this
+
+117
+00:04:40.460 --> 00:04:41.580
+and there's an access to that
+
+118
+00:04:41.580 --> 00:04:45.650
+so we need to make sure that there is enough permissions
+
+119
+00:04:45.650 --> 00:04:50.210
+for SSM to sync my data into my S3 bucket.
+
+120
+00:04:50.210 --> 00:04:53.620
+And for this, we need to probably add a bucket policy.
+
+121
+00:04:53.620 --> 00:04:56.110
+So let's find the the bucket policy right here,
+
+122
+00:04:56.110 --> 00:05:01.030
+so this is an example of the policy itself.
+
+123
+00:05:01.030 --> 00:05:03.343
+So we are going to copy this, okay?
+
+124
+00:05:05.670 --> 00:05:07.550
+And now into my managed console,
+
+125
+00:05:07.550 --> 00:05:09.860
+I'm going to have a look at my bucket I just created
+
+126
+00:05:09.860 --> 00:05:12.120
+so demo-ssm-inventory-stephane,
+
+127
+00:05:12.120 --> 00:05:14.610
+and for permissions under bucket policy,
+
+128
+00:05:14.610 --> 00:05:17.270
+I will edit it and it will paste this policy.
+
+129
+00:05:17.270 --> 00:05:19.570
+Now, I do you need to change a few things
+
+130
+00:05:19.570 --> 00:05:22.790
+so I need to copy the name of my bucket right here
+
+131
+00:05:23.670 --> 00:05:28.290
+and paste it instead of DOC-EXAMPLE-BUCKET in here,
+
+132
+00:05:28.290 --> 00:05:30.063
+as well as in here.
+
+133
+00:05:31.810 --> 00:05:35.760
+And as we allow bucket prefix, we don't have any
+
+134
+00:05:35.760 --> 00:05:39.050
+so we'll remove this and then account ID equals
+
+135
+00:05:39.050 --> 00:05:41.970
+and then I need to specify the account ID of my accounts,
+
+136
+00:05:41.970 --> 00:05:45.370
+which is right here so I will paste my account ID,
+
+137
+00:05:45.370 --> 00:05:46.250
+and we should be good to go.
+
+138
+00:05:46.250 --> 00:05:47.860
+So I will delete this, delete this,
+
+139
+00:05:47.860 --> 00:05:51.020
+and delete the last column, and now we're good to go
+
+140
+00:05:51.020 --> 00:05:53.110
+in terms of permissions on my bucket policy.
+
+141
+00:05:53.110 --> 00:05:55.700
+So let's save the changes
+
+142
+00:05:55.700 --> 00:05:57.830
+and let's see if the error now fixed.
+
+143
+00:05:57.830 --> 00:06:02.650
+So create and maybe let's make the permission
+
+144
+00:06:09.390 --> 00:06:10.500
+a little bit more permissive.
+
+145
+00:06:10.500 --> 00:06:13.880
+So keep on trying until this works, as they say.
+
+146
+00:06:13.880 --> 00:06:16.930
+So I will just say that you're allowed to write anywhere
+
+147
+00:06:16.930 --> 00:06:20.290
+and that probably helps me a little bit.
+
+148
+00:06:20.290 --> 00:06:24.180
+So, okay let's save these changes.
+
+149
+00:06:24.180 --> 00:06:26.880
+So now the permission is to allow the SSM service
+
+150
+00:06:26.880 --> 00:06:28.833
+to put an object anywhere in my bucket,
+
+151
+00:06:30.900 --> 00:06:33.530
+like in here it creates, and we're good to go.
+
+152
+00:06:33.530 --> 00:06:36.580
+So the resource data sync was successfully created.
+
+153
+00:06:36.580 --> 00:06:39.550
+So now we can look at this resource data sync itself,
+
+154
+00:06:39.550 --> 00:06:41.820
+and this will be using in the backend Athena
+
+155
+00:06:41.820 --> 00:06:45.770
+to query my data into my Amazon S3 bucket, okay?
+
+156
+00:06:45.770 --> 00:06:48.730
+So we're waiting for Athena to run this query for me,
+
+157
+00:06:48.730 --> 00:06:51.540
+and then I'll be able to see all the installed software
+
+158
+00:06:51.540 --> 00:06:53.690
+on my EC2 instances.
+
+159
+00:06:53.690 --> 00:06:56.040
+Okay, so this took about five minutes to populate.
+
+160
+00:06:56.040 --> 00:06:59.440
+Okay, but now in the inventory type,
+
+161
+00:06:59.440 --> 00:07:02.230
+I can have a look at AWS application,
+
+162
+00:07:02.230 --> 00:07:05.650
+and this is going to show me a list of all the applications
+
+163
+00:07:05.650 --> 00:07:07.950
+installed on my EC2 instances.
+
+164
+00:07:07.950 --> 00:07:10.040
+For example, we can have a look at the version,
+
+165
+00:07:10.040 --> 00:07:12.130
+the architecture, the summary, the package ID,
+
+166
+00:07:12.130 --> 00:07:14.270
+the publisher, the release, that URL,
+
+167
+00:07:14.270 --> 00:07:15.730
+as well as the name and so on.
+
+168
+00:07:15.730 --> 00:07:17.520
+So you can do a lot of different things.
+
+169
+00:07:17.520 --> 00:07:20.910
+And we see we have over eight, nine pages of the results.
+
+170
+00:07:20.910 --> 00:07:22.520
+So it can be quite tricky.
+
+171
+00:07:22.520 --> 00:07:24.470
+And if you wanted to run advanced queries,
+
+172
+00:07:24.470 --> 00:07:26.720
+you could click here and this will take you into the Athena
+
+173
+00:07:26.720 --> 00:07:28.530
+and in Athena you can run queries
+
+174
+00:07:28.530 --> 00:07:30.590
+as you want on your inventory, okay?
+
+175
+00:07:30.590 --> 00:07:32.980
+So that's it, we've seen state manager at a high level
+
+176
+00:07:32.980 --> 00:07:34.540
+and we've seen inventory
+
+177
+00:07:34.540 --> 00:07:36.490
+and I will see you in the next lecture.
+

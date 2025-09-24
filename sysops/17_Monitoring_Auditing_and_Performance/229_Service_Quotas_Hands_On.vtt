@@ -1,0 +1,302 @@
+WEBVTT
+
+1
+00:00:00.081 --> 00:00:04.170
+<v Narrator>So let's have a look at the service quota,</v>
+
+2
+00:00:04.170 --> 00:00:05.708
+service type service quotas,
+
+3
+00:00:05.708 --> 00:00:07.890
+and go to the service itself.
+
+4
+00:00:07.890 --> 00:00:10.553
+So here we can manage the quotas of all our services
+
+5
+00:00:10.553 --> 00:00:13.120
+and have a look at the limits that are in place.
+
+6
+00:00:13.120 --> 00:00:15.540
+So I'm going to click on every services,
+
+7
+00:00:15.540 --> 00:00:19.170
+and here are all the services on AWS,
+
+8
+00:00:19.170 --> 00:00:20.250
+which is quite nice.
+
+9
+00:00:20.250 --> 00:00:22.260
+And I'm just going to find one that's simple to understand.
+
+10
+00:00:22.260 --> 00:00:23.983
+For example, AWS Lambda.
+
+11
+00:00:23.983 --> 00:00:26.153
+So here we have the service quotas for Lambda,
+
+12
+00:00:26.153 --> 00:00:27.865
+and we can see that there are some limits.
+
+13
+00:00:27.865 --> 00:00:30.990
+For example, the asynchronous payload is limited
+
+14
+00:00:30.990 --> 00:00:34.170
+to 256 kilobytes, and we cannot adjust it.
+
+15
+00:00:34.170 --> 00:00:35.621
+That's why it is grayed out.
+
+16
+00:00:35.621 --> 00:00:37.192
+But some options, for example,
+
+17
+00:00:37.192 --> 00:00:40.440
+the concurrent executions is not greater.
+
+18
+00:00:40.440 --> 00:00:42.180
+So I can click on it, and I can adjust it.
+
+19
+00:00:42.180 --> 00:00:44.282
+For example, here at the account level.
+
+20
+00:00:44.282 --> 00:00:47.820
+So we click on it and we have information.
+
+21
+00:00:47.820 --> 00:00:49.860
+For example, it's been used one count.
+
+22
+00:00:49.860 --> 00:00:53.460
+That means that we use approximately one of the quota
+
+23
+00:00:53.460 --> 00:00:56.841
+out of the 50 that is applied as a limit on my account.
+
+24
+00:00:56.841 --> 00:00:59.185
+And the maximum value here,
+
+25
+00:00:59.185 --> 00:01:01.170
+or default value is 1000.
+
+26
+00:01:01.170 --> 00:01:02.078
+So we can adjust it.
+
+27
+00:01:02.078 --> 00:01:04.934
+For example, we can request an increase at account level,
+
+28
+00:01:04.934 --> 00:01:06.930
+and now we're at 50.
+
+29
+00:01:06.930 --> 00:01:09.577
+But for example, we can increase 400.
+
+30
+00:01:09.577 --> 00:01:12.720
+And so from some services, the smaller increases
+
+31
+00:01:12.720 --> 00:01:14.048
+are going to be automatically approved.
+
+32
+00:01:14.048 --> 00:01:16.819
+For the larger ones, they're submitted to the support.
+
+33
+00:01:16.819 --> 00:01:19.110
+And if it's a support, there is a timeline.
+
+34
+00:01:19.110 --> 00:01:21.526
+It takes time, and you need to wait a little bit.
+
+35
+00:01:21.526 --> 00:01:24.097
+So you could include it to a hundred if you wanted to.
+
+36
+00:01:24.097 --> 00:01:26.730
+The other thing you could do is to monitor this.
+
+37
+00:01:26.730 --> 00:01:27.580
+So you can see here,
+
+38
+00:01:27.580 --> 00:01:30.060
+we have the concurrent executions here, graph.
+
+39
+00:01:30.060 --> 00:01:31.143
+So I use it barely,
+
+40
+00:01:31.143 --> 00:01:33.389
+but if I wanted to, I could create an alarm
+
+41
+00:01:33.389 --> 00:01:34.977
+if I approach my limits.
+
+42
+00:01:34.977 --> 00:01:36.944
+For example, here on the CloudWatch alarms,
+
+43
+00:01:36.944 --> 00:01:38.382
+I can create an alarm.
+
+44
+00:01:38.382 --> 00:01:40.896
+And we say, okay, when we're at 80%
+
+45
+00:01:40.896 --> 00:01:42.914
+of the applied quota value,
+
+46
+00:01:42.914 --> 00:01:47.340
+then alarm quota,
+
+47
+00:01:47.340 --> 00:01:48.760
+Lambda, concurrent
+
+48
+00:01:49.950 --> 00:01:50.793
+execution.
+
+49
+00:01:52.200 --> 00:01:53.670
+Here we go.
+
+50
+00:01:53.670 --> 00:01:54.600
+And so we create an alarm
+
+51
+00:01:54.600 --> 00:01:57.480
+that will trigger at 80% of the quota.
+
+52
+00:01:57.480 --> 00:01:58.740
+That could be helpful for us, for example,
+
+53
+00:01:58.740 --> 00:02:00.930
+to know that we should improve the quota
+
+54
+00:02:00.930 --> 00:02:02.056
+in order not to get limited.
+
+55
+00:02:02.056 --> 00:02:04.844
+So the alarm is created, but we can configure the actions
+
+56
+00:02:04.844 --> 00:02:06.471
+by clicking on this green button.
+
+57
+00:02:06.471 --> 00:02:07.802
+And this will take us directly
+
+58
+00:02:07.802 --> 00:02:10.165
+into the CloudWatch alarms UI.
+
+59
+00:02:10.165 --> 00:02:12.341
+And so I can do action edits.
+
+60
+00:02:12.341 --> 00:02:15.316
+And in there on step two, I can configure the actions
+
+61
+00:02:15.316 --> 00:02:17.613
+and for example, send a notification
+
+62
+00:02:17.613 --> 00:02:22.613
+when we are an alarm to an SMS topic, demo topic.
+
+63
+00:02:22.620 --> 00:02:25.500
+And then we'll receive an email if we have an email set up
+
+64
+00:02:25.500 --> 00:02:26.450
+on this SMS topic
+
+65
+00:02:26.450 --> 00:02:29.273
+and then save it.
+
+66
+00:02:29.273 --> 00:02:31.890
+And now we have an alarm on the quota.
+
+67
+00:02:31.890 --> 00:02:33.510
+So these quotas are extremely helpful
+
+68
+00:02:33.510 --> 00:02:35.640
+because well, we're going to get, first of all,
+
+69
+00:02:35.640 --> 00:02:37.873
+the monitoring of the values of the quotas,
+
+70
+00:02:37.873 --> 00:02:40.068
+and then we can get alarms if we think that a quota
+
+71
+00:02:40.068 --> 00:02:41.287
+is going to reach a limit,
+
+72
+00:02:41.287 --> 00:02:43.243
+which is great when you work in an enterprise.
+
+73
+00:02:43.243 --> 00:02:44.880
+All right, that's it for this lecture.
+
+74
+00:02:44.880 --> 00:02:45.713
+I hope you liked it,
+
+75
+00:02:45.713 --> 00:02:47.823
+and I will see you in the next lecture.
+

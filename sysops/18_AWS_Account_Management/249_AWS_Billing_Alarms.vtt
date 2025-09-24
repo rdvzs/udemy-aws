@@ -1,0 +1,314 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:02.900
+<v Instructor>So let's go through creating a billing alarm.</v>
+
+2
+00:00:02.900 --> 00:00:05.970
+And billing data is going to be stored in only one region.
+
+3
+00:00:05.970 --> 00:00:09.010
+It is us-east-1 and this is in CloudWatch.
+
+4
+00:00:09.010 --> 00:00:12.160
+But the data is going to be for your overall worldwide cost.
+
+5
+00:00:12.160 --> 00:00:13.860
+Okay. So not just for that one region.
+
+6
+00:00:13.860 --> 00:00:15.050
+It is only started in one region
+
+7
+00:00:15.050 --> 00:00:17.240
+but represents worldwide costs.
+
+8
+00:00:17.240 --> 00:00:19.830
+And it's actual cost incurred into your accounts,
+
+9
+00:00:19.830 --> 00:00:22.380
+not for project-specific costs.
+
+10
+00:00:22.380 --> 00:00:25.023
+So let's go ahead and create an alarm together.
+
+11
+00:00:26.040 --> 00:00:27.050
+So for this tutorial,
+
+12
+00:00:27.050 --> 00:00:28.660
+please make sure that you are selecting
+
+13
+00:00:28.660 --> 00:00:32.180
+US East Northern Virginia us-east-1 as an option,
+
+14
+00:00:32.180 --> 00:00:34.600
+because this is how you access your billing alarm.
+
+15
+00:00:34.600 --> 00:00:37.353
+Then you go into the CloudWatch console.
+
+16
+00:00:38.420 --> 00:00:40.530
+And to find your billing alarms,
+
+17
+00:00:40.530 --> 00:00:43.060
+you need to go on the left-hand side into Alarms
+
+18
+00:00:43.060 --> 00:00:43.900
+and then Billing.
+
+19
+00:00:43.900 --> 00:00:46.770
+So this only appears in us-east-1.
+
+20
+00:00:46.770 --> 00:00:49.020
+So this is where you can create your billing alarms.
+
+21
+00:00:49.020 --> 00:00:51.580
+And this is to see whether or not
+
+22
+00:00:51.580 --> 00:00:54.590
+you have alerts based on your actual spend.
+
+23
+00:00:54.590 --> 00:00:56.040
+So let's create an alarm
+
+24
+00:00:56.040 --> 00:00:57.800
+and then when you select metric.
+
+25
+00:00:57.800 --> 00:01:00.120
+And so here, the metrics are going to be related
+
+26
+00:01:00.120 --> 00:01:01.403
+to your billing.
+
+27
+00:01:02.510 --> 00:01:04.240
+Okay. So the first thing you have to do is
+
+28
+00:01:04.240 --> 00:01:05.850
+to enable billing alerts.
+
+29
+00:01:05.850 --> 00:01:08.400
+So let's go to my billing dashboard.
+
+30
+00:01:08.400 --> 00:01:10.270
+And then on the left-hand side,
+
+31
+00:01:10.270 --> 00:01:12.470
+we have Billing preferences.
+
+32
+00:01:12.470 --> 00:01:15.310
+And then we can click on Receive Billing Alerts.
+
+33
+00:01:15.310 --> 00:01:19.550
+And this is to enable monitoring the usage charges and fees.
+
+34
+00:01:19.550 --> 00:01:20.540
+So you need to enable this
+
+35
+00:01:20.540 --> 00:01:22.640
+and then you need to wait about 15 minutes
+
+36
+00:01:22.640 --> 00:01:25.700
+for your data collection to be active.
+
+37
+00:01:25.700 --> 00:01:28.840
+So I'm going to enable this and pause the video and wait.
+
+38
+00:01:28.840 --> 00:01:30.930
+Now that I've activated my billing alerts,
+
+39
+00:01:30.930 --> 00:01:32.420
+I can go into CloudWatch
+
+40
+00:01:32.420 --> 00:01:35.220
+and start looking at my billing data.
+
+41
+00:01:35.220 --> 00:01:38.590
+So we did about maybe two or three hours to get back to you.
+
+42
+00:01:38.590 --> 00:01:41.973
+So now if I go on the left-hand side, under Billing,
+
+43
+00:01:43.390 --> 00:01:45.910
+I can create an alarm
+
+44
+00:01:45.910 --> 00:01:47.670
+and select a metric.
+
+45
+00:01:47.670 --> 00:01:49.910
+And here I have access now to the billing metrics
+
+46
+00:01:49.910 --> 00:01:52.370
+and they would not appear if you did not enable
+
+47
+00:01:52.370 --> 00:01:53.750
+that tick box here
+
+48
+00:01:53.750 --> 00:01:56.930
+and give it some time to populate.
+
+49
+00:01:56.930 --> 00:01:58.320
+So we get By Service
+
+50
+00:01:58.320 --> 00:01:59.790
+and so we can get a billing by service.
+
+51
+00:01:59.790 --> 00:02:01.500
+So if you wanted to control, for example,
+
+52
+00:02:01.500 --> 00:02:04.440
+your Amazon EC2 cost, you could just tick that.
+
+53
+00:02:04.440 --> 00:02:07.290
+And if you wanted to just look at your overall cost,
+
+54
+00:02:07.290 --> 00:02:09.270
+you would go one level up
+
+55
+00:02:09.270 --> 00:02:11.710
+and then you go Total Estimated Charges
+
+56
+00:02:11.710 --> 00:02:13.400
+and you would click on it.
+
+57
+00:02:13.400 --> 00:02:14.540
+Now, obviously there's not showing
+
+58
+00:02:14.540 --> 00:02:15.870
+something very, very interesting right now
+
+59
+00:02:15.870 --> 00:02:19.780
+because we only have one data point and it's $1.36.
+
+60
+00:02:19.780 --> 00:02:21.760
+So I don't spend a lot on my accounts.
+
+61
+00:02:21.760 --> 00:02:24.870
+But at least you could select this metric, for example,
+
+62
+00:02:24.870 --> 00:02:28.287
+and then you could, for example, define a condition,
+
+63
+00:02:30.040 --> 00:02:31.120
+being static,
+
+64
+00:02:31.120 --> 00:02:34.470
+and saying that if you become greater than $10 USD.
+
+65
+00:02:34.470 --> 00:02:36.240
+then please send me an alarm.
+
+66
+00:02:36.240 --> 00:02:38.340
+Okay. And the alarm could be, for example,
+
+67
+00:02:38.340 --> 00:02:42.000
+that you should send it out to an existing SNS topic
+
+68
+00:02:42.000 --> 00:02:44.720
+and create the relevant SNS topic.
+
+69
+00:02:44.720 --> 00:02:46.240
+So that's it for billing alarms.
+
+70
+00:02:46.240 --> 00:02:47.160
+I hope that makes sense.
+
+71
+00:02:47.160 --> 00:02:49.280
+So remember, you can set them at two levels.
+
+72
+00:02:49.280 --> 00:02:51.160
+You can send them on the metrics
+
+73
+00:02:51.160 --> 00:02:53.970
+at the overall spend for your accounts,
+
+74
+00:02:53.970 --> 00:02:56.410
+or you can also send it by service
+
+75
+00:02:56.410 --> 00:02:58.150
+and drill down for the service you want,
+
+76
+00:02:58.150 --> 00:03:02.030
+for example, Amazon S3, SNS, Config, and so on. Okay.
+
+77
+00:03:02.030 --> 00:03:03.700
+So that's it. I hope you liked this lecture.
+
+78
+00:03:03.700 --> 00:03:05.650
+And I will see you in the next lecture.
+

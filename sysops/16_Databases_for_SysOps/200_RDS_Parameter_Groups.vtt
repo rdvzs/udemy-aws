@@ -1,0 +1,418 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.440
+<v Stephane>So now, here's a short lecture</v>
+
+2
+00:00:01.440 --> 00:00:03.450
+on database parameter groups.
+
+3
+00:00:03.450 --> 00:00:04.350
+So it's possible for you
+
+4
+00:00:04.350 --> 00:00:07.620
+to customize the database engine using parameter groups.
+
+5
+00:00:07.620 --> 00:00:10.650
+The idea is that you are going to set parameters.
+
+6
+00:00:10.650 --> 00:00:11.483
+And you have two kinds.
+
+7
+00:00:11.483 --> 00:00:12.750
+You have the dynamic parameters,
+
+8
+00:00:12.750 --> 00:00:14.880
+that will be applied immediately,
+
+9
+00:00:14.880 --> 00:00:16.410
+and you have the static parameters,
+
+10
+00:00:16.410 --> 00:00:18.180
+and they're only going to be applied
+
+11
+00:00:18.180 --> 00:00:20.970
+after the database instance reboots.
+
+12
+00:00:20.970 --> 00:00:22.440
+Now, you can also decide
+
+13
+00:00:22.440 --> 00:00:24.660
+to change the parameter group altogether
+
+14
+00:00:24.660 --> 00:00:26.130
+from a database instance.
+
+15
+00:00:26.130 --> 00:00:27.630
+So you must reboot the database for this,
+
+16
+00:00:27.630 --> 00:00:29.010
+but this could be very handy
+
+17
+00:00:29.010 --> 00:00:31.110
+to switch from the default parameter group
+
+18
+00:00:31.110 --> 00:00:34.290
+to a custom one that we will create.
+
+19
+00:00:34.290 --> 00:00:36.270
+If you wanted to understand all the parameters
+
+20
+00:00:36.270 --> 00:00:37.350
+that you can modify,
+
+21
+00:00:37.350 --> 00:00:40.110
+you need to look at the AWS documentation
+
+22
+00:00:40.110 --> 00:00:43.650
+or the console also give you tips and hints.
+
+23
+00:00:43.650 --> 00:00:46.140
+But there are must-know parameters that can be helpful
+
+24
+00:00:46.140 --> 00:00:47.580
+from an exam perspective.
+
+25
+00:00:47.580 --> 00:00:51.090
+The number one is that for PostgreSQL, and SQL Server,
+
+26
+00:00:51.090 --> 00:00:52.830
+you can force SSL connections
+
+27
+00:00:52.830 --> 00:00:57.830
+by setting the rds.force_ssl parameter to the value of 1.
+
+28
+00:00:58.380 --> 00:01:00.360
+And you have a similar parameter
+
+29
+00:01:00.360 --> 00:01:04.500
+for MySQL in MariaDB called require_secure_transport= 1,
+
+30
+00:01:04.500 --> 00:01:07.200
+again, allowing you to force SSL connections.
+
+31
+00:01:07.200 --> 00:01:08.490
+Now let's go into the console console
+
+32
+00:01:08.490 --> 00:01:11.220
+and have a look at database parameter groups.
+
+33
+00:01:11.220 --> 00:01:12.750
+So parameter groups are accessible
+
+34
+00:01:12.750 --> 00:01:14.190
+from the left-hand side panel.
+
+35
+00:01:14.190 --> 00:01:16.020
+And as you can see, when we create a database,
+
+36
+00:01:16.020 --> 00:01:18.120
+it creates a default parameter groups for us.
+
+37
+00:01:18.120 --> 00:01:20.220
+And we could click on it and see anything,
+
+38
+00:01:20.220 --> 00:01:22.590
+but we won't be able to change this group.
+
+39
+00:01:22.590 --> 00:01:23.700
+In this Parameters filter,
+
+40
+00:01:23.700 --> 00:01:26.580
+you can just type any parameters and see how it is.
+
+41
+00:01:26.580 --> 00:01:28.080
+We'll create our own parameter group.
+
+42
+00:01:28.080 --> 00:01:29.967
+So I'll call it a parameter group.
+
+43
+00:01:29.967 --> 00:01:32.760
+And I need to select my database instance.
+
+44
+00:01:32.760 --> 00:01:36.660
+So for me, it's going to be postgres10 because we use 10.4.
+
+45
+00:01:36.660 --> 00:01:41.493
+The group name, and I'll call it group-demo-postgres,
+
+46
+00:01:42.690 --> 00:01:45.780
+and I'll just call it Demo Group for Postgres.
+
+47
+00:01:45.780 --> 00:01:47.520
+You have to put a description in.
+
+48
+00:01:47.520 --> 00:01:49.050
+Click on Create.
+
+49
+00:01:49.050 --> 00:01:51.600
+And here, I'm basically able, in this group,
+
+50
+00:01:51.600 --> 00:01:54.600
+to change any of my parameters to whatever I want.
+
+51
+00:01:54.600 --> 00:01:57.270
+So as you can see, we can change the authentication_timeout
+
+52
+00:01:57.270 --> 00:01:58.500
+to whatever value we wanted.
+
+53
+00:01:58.500 --> 00:02:01.050
+If we click on it and click on Edit parameters,
+
+54
+00:02:01.050 --> 00:02:03.600
+then you're literally able to change the value
+
+55
+00:02:03.600 --> 00:02:05.310
+for you want for anything.
+
+56
+00:02:05.310 --> 00:02:08.280
+But so the one parameter that I want you to look at
+
+57
+00:02:08.280 --> 00:02:11.070
+is going to be called force_ssl.
+
+58
+00:02:11.070 --> 00:02:14.190
+And as you can see, rds.force.ssl is here.
+
+59
+00:02:14.190 --> 00:02:16.170
+It's a dynamic type of parameter.
+
+60
+00:02:16.170 --> 00:02:18.480
+So we won't need to reboot our instance.
+
+61
+00:02:18.480 --> 00:02:19.680
+And it's a boolean.
+
+62
+00:02:19.680 --> 00:02:22.020
+And this is to force SSL connections.
+
+63
+00:02:22.020 --> 00:02:26.040
+So I can just click on it, edit the parameters, and say 1.
+
+64
+00:02:26.040 --> 00:02:28.260
+And this will force my database
+
+65
+00:02:28.260 --> 00:02:30.390
+to have SSL connections only.
+
+66
+00:02:30.390 --> 00:02:32.910
+So this is how I force encryption for Postgres.
+
+67
+00:02:32.910 --> 00:02:33.780
+Okay, I saved it.
+
+68
+00:02:33.780 --> 00:02:36.480
+So now my parameter group has been saved.
+
+69
+00:02:36.480 --> 00:02:37.680
+And let's see if that works.
+
+70
+00:02:37.680 --> 00:02:39.243
+So I'll just refresh my page.
+
+71
+00:02:42.060 --> 00:02:43.440
+And then after refreshing my page,
+
+72
+00:02:43.440 --> 00:02:45.660
+I'm going to type force_ssl again.
+
+73
+00:02:45.660 --> 00:02:48.630
+Okay, now the value is 1, so it means it's enabled.
+
+74
+00:02:48.630 --> 00:02:51.450
+So now what I can do is assign this parameter group
+
+75
+00:02:51.450 --> 00:02:53.190
+to my Postgres database.
+
+76
+00:02:53.190 --> 00:02:56.010
+So what I want to do is take this parameter group,
+
+77
+00:02:56.010 --> 00:02:56.843
+which by the way,
+
+78
+00:02:56.843 --> 00:02:58.860
+I can edit copy, compare, reset, or delete.
+
+79
+00:02:58.860 --> 00:03:00.630
+I want to assign it to my database.
+
+80
+00:03:00.630 --> 00:03:02.430
+So I'll go to my database,
+
+81
+00:03:02.430 --> 00:03:05.460
+and I'll click on it, and I'll modify it.
+
+82
+00:03:05.460 --> 00:03:08.460
+And within it, I can now assign my parameter group.
+
+83
+00:03:08.460 --> 00:03:10.020
+So let's scroll down.
+
+84
+00:03:10.020 --> 00:03:14.340
+And in there, I will have here the DB parameter group.
+
+85
+00:03:14.340 --> 00:03:16.830
+And I will say it's group-demo-postgres.
+
+86
+00:03:16.830 --> 00:03:18.270
+Because I changed the group,
+
+87
+00:03:18.270 --> 00:03:20.340
+I will have to reboot my instance.
+
+88
+00:03:20.340 --> 00:03:23.460
+So I'm fine. Everything else, I'll leave the same.
+
+89
+00:03:23.460 --> 00:03:26.400
+I'll click Continue and then Modify DB Instance.
+
+90
+00:03:26.400 --> 00:03:29.490
+But I will Apply immediately instead of applying
+
+91
+00:03:29.490 --> 00:03:32.040
+during the next scheduled maintenance window.
+
+92
+00:03:32.040 --> 00:03:34.590
+So I'll this right now, Modify DB Instance.
+
+93
+00:03:34.590 --> 00:03:37.080
+And now, my instance is going to be restarting
+
+94
+00:03:37.080 --> 00:03:39.780
+and rebooting using this new parameter group.
+
+95
+00:03:39.780 --> 00:03:41.010
+But this time,
+
+96
+00:03:41.010 --> 00:03:44.190
+it will basically have forced SSL connections,
+
+97
+00:03:44.190 --> 00:03:45.340
+which is what I wanted.
+
+98
+00:03:46.470 --> 00:03:47.730
+So after a few reboots,
+
+99
+00:03:47.730 --> 00:03:49.140
+it turns out that if you scroll down,
+
+100
+00:03:49.140 --> 00:03:51.960
+you see that the parameter group is group-demo-postgres,
+
+101
+00:03:51.960 --> 00:03:52.793
+and now it's in sync
+
+102
+00:03:52.793 --> 00:03:55.110
+and is using all the parameters that have specified.
+
+103
+00:03:55.110 --> 00:03:56.790
+So that's it for this lecture. I hope you enjoyed it.
+
+104
+00:03:56.790 --> 00:03:58.740
+And I will see you in the next lecture.
+

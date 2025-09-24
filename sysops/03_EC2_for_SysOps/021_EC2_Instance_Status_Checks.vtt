@@ -1,0 +1,446 @@
+WEBVTT
+
+1
+00:00:00.329 --> 00:00:03.270
+<v Instructor>So let's have a look at status checks.</v>
+
+2
+00:00:03.270 --> 00:00:06.660
+So status checks on your EC2 instances are automated checks
+
+3
+00:00:06.660 --> 00:00:10.050
+done by AWS for you that will identify hardware
+
+4
+00:00:10.050 --> 00:00:12.840
+and software issues with your EC2 instances.
+
+5
+00:00:12.840 --> 00:00:16.230
+So the first type is a system status check,
+
+6
+00:00:16.230 --> 00:00:19.903
+and this will be a monitoring of problems that will happen
+
+7
+00:00:19.903 --> 00:00:24.000
+with the systems of AWS directly, for example, a software
+
+8
+00:00:24.000 --> 00:00:27.240
+or a hardware issue on the actual physical host
+
+9
+00:00:27.240 --> 00:00:29.640
+that will be used, that will be the one
+
+10
+00:00:29.640 --> 00:00:32.100
+that your EC2 instance is placed on.
+
+11
+00:00:32.100 --> 00:00:35.580
+Or for example, if your host has a loss of system power
+
+12
+00:00:35.580 --> 00:00:36.540
+and so on.
+
+13
+00:00:36.540 --> 00:00:39.990
+To have a overview of these issues,
+
+14
+00:00:39.990 --> 00:00:42.307
+a place to look at is the Personal Health Dashboard
+
+15
+00:00:42.307 --> 00:00:44.640
+and this will give you an information
+
+16
+00:00:44.640 --> 00:00:47.340
+around any scheduled critical maintenance by AWS
+
+17
+00:00:47.340 --> 00:00:48.780
+that will affect, that will, sorry,
+
+18
+00:00:48.780 --> 00:00:51.570
+affect your EC2 instance host
+
+19
+00:00:51.570 --> 00:00:53.820
+and therefore you need to act on it.
+
+20
+00:00:53.820 --> 00:00:57.240
+So a way to act on it is to stop and start your instance.
+
+21
+00:00:57.240 --> 00:00:58.140
+So let's have a look.
+
+22
+00:00:58.140 --> 00:01:00.120
+As we can see here, we have a host one,
+
+23
+00:01:00.120 --> 00:01:01.530
+this is hidden to us, okay?
+
+24
+00:01:01.530 --> 00:01:04.470
+But this is what happens in the data center of AWS,
+
+25
+00:01:04.470 --> 00:01:08.049
+and our EC2 instance is launched onto this host one.
+
+26
+00:01:08.049 --> 00:01:11.250
+Then say that AWS has a hardware failure,
+
+27
+00:01:11.250 --> 00:01:14.610
+then this system status check will be going from zero
+
+28
+00:01:14.610 --> 00:01:17.520
+to one, and what we have to do is to stop
+
+29
+00:01:17.520 --> 00:01:19.470
+and start the EC2 instance.
+
+30
+00:01:19.470 --> 00:01:22.194
+So anytime you stop an EC2 instance
+
+31
+00:01:22.194 --> 00:01:24.030
+and then you start it again.
+
+32
+00:01:24.030 --> 00:01:26.652
+So not a reboot, right? But a stop and a start.
+
+33
+00:01:26.652 --> 00:01:29.040
+Then internally what's going to happen
+
+34
+00:01:29.040 --> 00:01:32.403
+is that your EC2 instance will automatically be migrated
+
+35
+00:01:32.403 --> 00:01:35.610
+to a different host within AWS,
+
+36
+00:01:35.610 --> 00:01:36.570
+which also explains
+
+37
+00:01:36.570 --> 00:01:39.990
+why it will get a new difference public IP,
+
+38
+00:01:39.990 --> 00:01:41.580
+because this will be the public IP
+
+39
+00:01:41.580 --> 00:01:43.050
+of the host you're on.
+
+40
+00:01:43.050 --> 00:01:46.020
+Okay? So this is a different host migration.
+
+41
+00:01:46.020 --> 00:01:48.635
+So it goes from host one to host two,
+
+42
+00:01:48.635 --> 00:01:51.570
+and because what we'll just stopped and started,
+
+43
+00:01:51.570 --> 00:01:53.250
+then we know that it's moved
+
+44
+00:01:53.250 --> 00:01:54.780
+and the host two does not have any issues
+
+45
+00:01:54.780 --> 00:01:56.070
+and so therefore we have solved
+
+46
+00:01:56.070 --> 00:01:57.989
+our hardware failure problem.
+
+47
+00:01:57.989 --> 00:02:01.650
+The second type of problem is an instance status check.
+
+48
+00:02:01.650 --> 00:02:03.060
+This is to monitor software
+
+49
+00:02:03.060 --> 00:02:05.100
+and network configuration of your instance.
+
+50
+00:02:05.100 --> 00:02:07.428
+For example, the network configuration becomes invalid.
+
+51
+00:02:07.428 --> 00:02:10.230
+There's exhausted memory, this kind of stuff,
+
+52
+00:02:10.230 --> 00:02:12.330
+in which case to just resolve this issue,
+
+53
+00:02:12.330 --> 00:02:14.610
+you should just reboot the EC2 instance
+
+54
+00:02:14.610 --> 00:02:16.556
+or change the instance configuration.
+
+55
+00:02:16.556 --> 00:02:18.780
+Finally, there is a new status check
+
+56
+00:02:18.780 --> 00:02:21.540
+called the attached EBS status check, which is going
+
+57
+00:02:21.540 --> 00:02:24.187
+to monitor the EBS volumes attached to your instance
+
+58
+00:02:24.187 --> 00:02:26.124
+to see if they are reachable
+
+59
+00:02:26.124 --> 00:02:29.147
+and to see if they can complete IO operations.
+
+60
+00:02:29.147 --> 00:02:31.849
+And in case you have an issue with your EBS volumes,
+
+61
+00:02:31.849 --> 00:02:33.390
+then you should reboot the instance
+
+62
+00:02:33.390 --> 00:02:36.690
+or replace the affected EBS volumes.
+
+63
+00:02:36.690 --> 00:02:38.309
+So that's it for the three status checks.
+
+64
+00:02:38.309 --> 00:02:41.255
+But there is a way for you to automate the recovery
+
+65
+00:02:41.255 --> 00:02:43.470
+and look at CloudWatch Metrics, so.
+
+66
+00:02:43.470 --> 00:02:46.830
+CloudWatch metrics are status check failed system,
+
+67
+00:02:46.830 --> 00:02:48.540
+status check failed instance,
+
+68
+00:02:48.540 --> 00:02:51.270
+and status check failed attached EBS,
+
+69
+00:02:51.270 --> 00:02:53.700
+or if you have any of these issue,
+
+70
+00:02:53.700 --> 00:02:55.470
+you also have status check failed,
+
+71
+00:02:55.470 --> 00:02:57.309
+which groups the three together.
+
+72
+00:02:57.309 --> 00:02:59.460
+So option one is to use CloudWatch Alarm
+
+73
+00:02:59.460 --> 00:03:01.230
+to recover your EC2 instance.
+
+74
+00:03:01.230 --> 00:03:03.415
+So there is an action called recover instance.
+
+75
+00:03:03.415 --> 00:03:06.360
+And when it's being used by CloudWatch Alarm,
+
+76
+00:03:06.360 --> 00:03:10.080
+it will recover the instance by using the same private IP,
+
+77
+00:03:10.080 --> 00:03:11.820
+the same public IP, the same EIP,
+
+78
+00:03:11.820 --> 00:03:14.880
+the same metadata and same placement group.
+
+79
+00:03:14.880 --> 00:03:16.140
+You can also send a notification
+
+80
+00:03:16.140 --> 00:03:18.720
+because it's a CloudWatch Alarm, directly to SNS.
+
+81
+00:03:18.720 --> 00:03:21.060
+So your EC2 instance will be monitored
+
+82
+00:03:21.060 --> 00:03:22.770
+by CloudWatch Metrics, for example,
+
+83
+00:03:22.770 --> 00:03:25.320
+for the status checked failed system metric.
+
+84
+00:03:25.320 --> 00:03:28.500
+The CloudWatch alarm will be triggered on top
+
+85
+00:03:28.500 --> 00:03:31.080
+of your CloudWatch Metric in case it goes to one,
+
+86
+00:03:31.080 --> 00:03:33.060
+and the action of your CloudWatch alarm will be
+
+87
+00:03:33.060 --> 00:03:37.440
+to recover your EC2 instance by placing it somewhere else.
+
+88
+00:03:37.440 --> 00:03:39.300
+You can also send an notification to Amazon SNS,
+
+89
+00:03:39.300 --> 00:03:40.410
+as I just said.
+
+90
+00:03:40.410 --> 00:03:42.960
+The option two, which is a bit more less con,
+
+91
+00:03:42.960 --> 00:03:46.080
+a bit less conventional, is to use an auto scaling group
+
+92
+00:03:46.080 --> 00:03:48.343
+with a min, max and desired of one
+
+93
+00:03:48.343 --> 00:03:52.380
+and with an health check to check for the status check
+
+94
+00:03:52.380 --> 00:03:53.760
+of your EC2 instance.
+
+95
+00:03:53.760 --> 00:03:56.100
+What will happen is that in case there is a issue
+
+96
+00:03:56.100 --> 00:03:58.110
+with your EC2 instance, it will be terminated
+
+97
+00:03:58.110 --> 00:03:59.370
+by your auto scaling group,
+
+98
+00:03:59.370 --> 00:04:01.020
+and therefore because we have a min, max
+
+99
+00:04:01.020 --> 00:04:03.750
+and desire to one, a new EC2 instance will be launched
+
+100
+00:04:03.750 --> 00:04:05.700
+within your same auto scaling group.
+
+101
+00:04:05.700 --> 00:04:07.971
+So in this case, you don't have the same EBS volumes,
+
+102
+00:04:07.971 --> 00:04:09.960
+you don't have the same private IP,
+
+103
+00:04:09.960 --> 00:04:11.850
+you don't have the same elastic IP,
+
+104
+00:04:11.850 --> 00:04:14.790
+but at least your instance is back up and running.
+
+105
+00:04:14.790 --> 00:04:16.470
+And if you automate things well,
+
+106
+00:04:16.470 --> 00:04:19.170
+then you could maybe regain back its state.
+
+107
+00:04:19.170 --> 00:04:20.430
+Okay? So these are two options.
+
+108
+00:04:20.430 --> 00:04:22.650
+Obviously, option one is going to be much preferred
+
+109
+00:04:22.650 --> 00:04:26.790
+if you have emphasis on one specific EC2 instance.
+
+110
+00:04:26.790 --> 00:04:28.410
+So that's it for this lecture, I hope you liked it
+
+111
+00:04:28.410 --> 00:04:30.360
+and I will see you in the next lecture.
+

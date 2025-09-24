@@ -1,0 +1,506 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.170
+<v Instructor>Okay, so now let's talk</v>
+
+2
+00:00:01.170 --> 00:00:03.900
+about our lambda function configuration and performance,
+
+3
+00:00:03.900 --> 00:00:06.780
+and the first one I want to address is the RAM.
+
+4
+00:00:06.780 --> 00:00:09.600
+So currently we've been using 128 megabytes of RAM,
+
+5
+00:00:09.600 --> 00:00:12.210
+but we can scale up to 10 gigabytes of RAM
+
+6
+00:00:12.210 --> 00:00:14.910
+in one megabytes increments.
+
+7
+00:00:14.910 --> 00:00:16.680
+The idea is that the more RAM
+
+8
+00:00:16.680 --> 00:00:19.290
+or memory you add into your lambda function,
+
+9
+00:00:19.290 --> 00:00:21.720
+the more vCPU credits you get.
+
+10
+00:00:21.720 --> 00:00:26.010
+So you cannot set the number of vCPUs directly.
+
+11
+00:00:26.010 --> 00:00:30.900
+You have to increase the RAM to implicitly get more vCPU.
+
+12
+00:00:30.900 --> 00:00:35.900
+So when you reach 1,792 megabytes of RAM,
+
+13
+00:00:36.090 --> 00:00:40.500
+your function will have the equivalent of one full vCPU.
+
+14
+00:00:40.500 --> 00:00:43.560
+Afterwards, you get more than one vCPU,
+
+15
+00:00:43.560 --> 00:00:45.330
+and so you need to use multi-threading
+
+16
+00:00:45.330 --> 00:00:48.180
+to benefit from the added vCPU.
+
+17
+00:00:48.180 --> 00:00:50.250
+So if your application is CPU bound,
+
+18
+00:00:50.250 --> 00:00:52.260
+that means that it has a lot of computations,
+
+19
+00:00:52.260 --> 00:00:54.840
+and you want to improve the performance of your application,
+
+20
+00:00:54.840 --> 00:00:56.400
+that means to decrease the amount
+
+21
+00:00:56.400 --> 00:00:59.130
+of time your function will run for,
+
+22
+00:00:59.130 --> 00:01:01.740
+then you need to increase your application,
+
+23
+00:01:01.740 --> 00:01:03.270
+your lambda function RAM.
+
+24
+00:01:03.270 --> 00:01:05.730
+This is a very common exam question as well.
+
+25
+00:01:05.730 --> 00:01:07.320
+Then let's talk about a timeout.
+
+26
+00:01:07.320 --> 00:01:08.550
+So your lambda function
+
+27
+00:01:08.550 --> 00:01:12.150
+by default has a timeout of three seconds.
+
+28
+00:01:12.150 --> 00:01:13.860
+That means that if your lambda function runs
+
+29
+00:01:13.860 --> 00:01:15.450
+for more than three seconds,
+
+30
+00:01:15.450 --> 00:01:17.370
+it will error out with a timeout,
+
+31
+00:01:17.370 --> 00:01:19.440
+but you can set the timeout
+
+32
+00:01:19.440 --> 00:01:24.240
+up to a maximum of 900 seconds, which is 15 minutes.
+
+33
+00:01:24.240 --> 00:01:27.600
+So any interval of an execution
+
+34
+00:01:27.600 --> 00:01:29.850
+between 0 seconds and 15 minutes
+
+35
+00:01:29.850 --> 00:01:32.010
+is a good use case for lambda.
+
+36
+00:01:32.010 --> 00:01:35.670
+Anything above 15 minutes is not a good use case for lambda
+
+37
+00:01:35.670 --> 00:01:37.800
+and is something maybe that's going to be better
+
+38
+00:01:37.800 --> 00:01:41.400
+for Fargate, ECS, or EC2.
+
+39
+00:01:41.400 --> 00:01:44.850
+This is, again, something that the exam may test you on.
+
+40
+00:01:44.850 --> 00:01:46.470
+Next we'll talk about the performance.
+
+41
+00:01:46.470 --> 00:01:49.290
+So the lambda has an execution context.
+
+42
+00:01:49.290 --> 00:01:51.570
+It's a temporary runtime environment
+
+43
+00:01:51.570 --> 00:01:54.150
+that initializes any external dependencies
+
+44
+00:01:54.150 --> 00:01:55.470
+of your lambda code.
+
+45
+00:01:55.470 --> 00:01:57.060
+So you would use that context
+
+46
+00:01:57.060 --> 00:01:59.700
+to establish database connections,
+
+47
+00:01:59.700 --> 00:02:02.790
+to create your HTTP clients, or your SDK clients.
+
+48
+00:02:02.790 --> 00:02:04.950
+The cool thing about the execution context
+
+49
+00:02:04.950 --> 00:02:06.840
+is that it's maintained for some time
+
+50
+00:02:06.840 --> 00:02:10.620
+in anticipation of another lambda function invocation.
+
+51
+00:02:10.620 --> 00:02:13.110
+That means that if you invoke lambda function multiple times
+
+52
+00:02:13.110 --> 00:02:17.370
+in a row, then that invocation context can be reused
+
+53
+00:02:17.370 --> 00:02:20.790
+and reuse all these existing database connections,
+
+54
+00:02:20.790 --> 00:02:23.490
+GP clients and so on, and that's very helpful
+
+55
+00:02:23.490 --> 00:02:25.620
+because it can speed up and improve the performance
+
+56
+00:02:25.620 --> 00:02:26.760
+of your lambda function.
+
+57
+00:02:26.760 --> 00:02:29.130
+I will show you some pseudocode in a second.
+
+58
+00:02:29.130 --> 00:02:33.450
+Now the execution context does include the /tmp directory
+
+59
+00:02:33.450 --> 00:02:35.760
+that I'll be talking about in this lecture as well,
+
+60
+00:02:35.760 --> 00:02:38.100
+which is a space where you can write files
+
+61
+00:02:38.100 --> 00:02:40.560
+and they will be available across executions.
+
+62
+00:02:40.560 --> 00:02:42.780
+So I want to show you some code that leverages
+
+63
+00:02:42.780 --> 00:02:44.400
+that execution context.
+
+64
+00:02:44.400 --> 00:02:47.490
+So this code is bad. Why?
+
+65
+00:02:47.490 --> 00:02:49.650
+So we have a function called get_user_handler,
+
+66
+00:02:49.650 --> 00:02:51.750
+which is what lambda will be invoking.
+
+67
+00:02:51.750 --> 00:02:54.270
+And if you read about this code,
+
+68
+00:02:54.270 --> 00:02:57.330
+we get the DB_URL called os.getenv,
+
+69
+00:02:57.330 --> 00:03:00.600
+so we get an environment variable, and this is great.
+
+70
+00:03:00.600 --> 00:03:04.203
+But then the next line db_client = database.connect DB_URL.
+
+71
+00:03:05.370 --> 00:03:08.070
+And so while this seems correct because to get a user,
+
+72
+00:03:08.070 --> 00:03:10.530
+we first need to connect to the database,
+
+73
+00:03:10.530 --> 00:03:13.020
+every time our lambda function will be run,
+
+74
+00:03:13.020 --> 00:03:16.110
+this connect of the database will have to run.
+
+75
+00:03:16.110 --> 00:03:18.810
+So anytime someone invokes our lambda function,
+
+76
+00:03:18.810 --> 00:03:20.970
+it first has to connect to the database
+
+77
+00:03:20.970 --> 00:03:22.470
+and then get the user.
+
+78
+00:03:22.470 --> 00:03:24.210
+That is quite inefficient
+
+79
+00:03:24.210 --> 00:03:27.030
+because our lambda function may be invoked multiple times.
+
+80
+00:03:27.030 --> 00:03:31.050
+Instead, what AWS wants you to do, and the best practice,
+
+81
+00:03:31.050 --> 00:03:34.140
+is to initialize the database connection outside
+
+82
+00:03:34.140 --> 00:03:35.760
+of your handler, why?
+
+83
+00:03:35.760 --> 00:03:38.400
+Well, because it will just be initialized once,
+
+84
+00:03:38.400 --> 00:03:41.040
+and then it can be reused across function calls,
+
+85
+00:03:41.040 --> 00:03:44.040
+and it will greatly improve your function performance.
+
+86
+00:03:44.040 --> 00:03:46.080
+So this kind of use case is, again,
+
+87
+00:03:46.080 --> 00:03:47.910
+well, something that can come up at the exam,
+
+88
+00:03:47.910 --> 00:03:49.260
+and it will show you some pseudocode
+
+89
+00:03:49.260 --> 00:03:50.820
+and try to make you understand
+
+90
+00:03:50.820 --> 00:03:52.770
+what is good and what is bad based
+
+91
+00:03:52.770 --> 00:03:54.750
+on where the database connection clients
+
+92
+00:03:54.750 --> 00:03:58.140
+or your HTTP clients or SDK clients are opened.
+
+93
+00:03:58.140 --> 00:04:00.630
+Best practices, anything that takes a lot of time
+
+94
+00:04:00.630 --> 00:04:03.960
+to initialize, put it out of your function handler
+
+95
+00:04:03.960 --> 00:04:06.540
+and reuse it across executions.
+
+96
+00:04:06.540 --> 00:04:10.350
+Okay, lastly, what if you need to write some temporary files
+
+97
+00:04:10.350 --> 00:04:11.670
+and reuse them?
+
+98
+00:04:11.670 --> 00:04:14.130
+You can use the /tmp space.
+
+99
+00:04:14.130 --> 00:04:15.210
+So this is, for example,
+
+100
+00:04:15.210 --> 00:04:17.700
+if you need to download a big file to work
+
+101
+00:04:17.700 --> 00:04:20.040
+or if you need disk space to perform operations,
+
+102
+00:04:20.040 --> 00:04:23.010
+in this case, store all these files in a /tmp,
+
+103
+00:04:23.010 --> 00:04:25.350
+which means temp or temporary.
+
+104
+00:04:25.350 --> 00:04:29.460
+The idea is that you get 10 gigabytes of disk space
+
+105
+00:04:29.460 --> 00:04:31.320
+you can use for your lambda functions,
+
+106
+00:04:31.320 --> 00:04:34.590
+and this directory contains and remains
+
+107
+00:04:34.590 --> 00:04:37.410
+for the execution time of your lambda function.
+
+108
+00:04:37.410 --> 00:04:38.940
+So even if your lambda function stops
+
+109
+00:04:38.940 --> 00:04:40.170
+and then it gets reinvoked,
+
+110
+00:04:40.170 --> 00:04:43.229
+it is possible for you to refind the exact same files
+
+111
+00:04:43.229 --> 00:04:46.380
+in the /tmp space and to win a lot of time.
+
+112
+00:04:46.380 --> 00:04:48.810
+So this is the exact same idea with the execution context.
+
+113
+00:04:48.810 --> 00:04:50.940
+Here we can write very heavy files,
+
+114
+00:04:50.940 --> 00:04:54.210
+up to half a gigabyte, into the /tmp space.
+
+115
+00:04:54.210 --> 00:04:57.960
+So if you need a permanent persistence of your objects,
+
+116
+00:04:57.960 --> 00:05:00.900
+so non-temporary, then you need to store it in a space
+
+117
+00:05:00.900 --> 00:05:03.420
+that you know will be persisted across calls,
+
+118
+00:05:03.420 --> 00:05:06.540
+and so that space will be Amazon S3, for example.
+
+119
+00:05:06.540 --> 00:05:11.040
+And if you wanted to encrypt content on the /tmp space,
+
+120
+00:05:11.040 --> 00:05:13.470
+there is no setting to do so on lambda.
+
+121
+00:05:13.470 --> 00:05:16.830
+What you must do is that you must use the KMS feature
+
+122
+00:05:16.830 --> 00:05:20.310
+to generate data keys and actually encrypt the data
+
+123
+00:05:20.310 --> 00:05:23.220
+on your temp space with these data keys.
+
+124
+00:05:23.220 --> 00:05:25.980
+So we have seen all the ways we can improve the performance
+
+125
+00:05:25.980 --> 00:05:27.180
+of our lambda functions.
+
+126
+00:05:27.180 --> 00:05:29.643
+Now let's go into the console to play with those.
+

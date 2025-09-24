@@ -1,0 +1,698 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.280
+<v Instructor>So let's use AWS Budgets.</v>
+
+2
+00:00:02.280 --> 00:00:03.870
+So in the Billing Console,
+
+3
+00:00:03.870 --> 00:00:05.400
+on the left-hand side, you have your budgets,
+
+4
+00:00:05.400 --> 00:00:07.860
+and we're going to go ahead and create a budget.
+
+5
+00:00:07.860 --> 00:00:11.400
+So now you have a simplified view for budget setup
+
+6
+00:00:11.400 --> 00:00:12.450
+and you can use a template,
+
+7
+00:00:12.450 --> 00:00:15.660
+and some of them, for example, is zero spend budget
+
+8
+00:00:15.660 --> 00:00:19.440
+to notify you once you exceed the AWS Free Tier limits.
+
+9
+00:00:19.440 --> 00:00:21.870
+You have the monthly cost budget to create a budget
+
+10
+00:00:21.870 --> 00:00:24.030
+that notifies you when you approach
+
+11
+00:00:24.030 --> 00:00:26.190
+or exceed a specified budget.
+
+12
+00:00:26.190 --> 00:00:29.310
+And then you have a Daily Savings Plan coverage budget,
+
+13
+00:00:29.310 --> 00:00:31.770
+which is to create a coverage budget for your savings plan
+
+14
+00:00:31.770 --> 00:00:34.800
+that notifies you if you fall below the defined targets
+
+15
+00:00:34.800 --> 00:00:36.750
+of your savings plan.
+
+16
+00:00:36.750 --> 00:00:37.590
+So these are for templates
+
+17
+00:00:37.590 --> 00:00:39.810
+and they're very simple to define
+
+18
+00:00:39.810 --> 00:00:41.760
+and then you go ahead and create template,
+
+19
+00:00:41.760 --> 00:00:44.400
+but you don't have all the options of budgets.
+
+20
+00:00:44.400 --> 00:00:46.860
+So let's go into Customize and advanced section.
+
+21
+00:00:46.860 --> 00:00:48.960
+And here we have all the different kinds of budget.
+
+22
+00:00:48.960 --> 00:00:50.160
+So we have cost budget,
+
+23
+00:00:50.160 --> 00:00:54.090
+usage budget, savings plan budget, and reservation budget.
+
+24
+00:00:54.090 --> 00:00:56.340
+So if you go for cost budget in here,
+
+25
+00:00:56.340 --> 00:00:59.880
+we're going to get an idea of all the cost by month.
+
+26
+00:00:59.880 --> 00:01:01.200
+And this is one of my real accounts,
+
+27
+00:01:01.200 --> 00:01:03.720
+so you can see some actual cost in there.
+
+28
+00:01:03.720 --> 00:01:06.030
+So we're going to enter a budget name.
+
+29
+00:01:06.030 --> 00:01:08.460
+So this is a DemoBudget.
+
+30
+00:01:08.460 --> 00:01:10.080
+And then you look at the period for the budget.
+
+31
+00:01:10.080 --> 00:01:12.240
+Is it daily, monthly, quarterly, annually?
+
+32
+00:01:12.240 --> 00:01:13.800
+We can keep it monthly.
+
+33
+00:01:13.800 --> 00:01:15.360
+And is it a recurring budget,
+
+34
+00:01:15.360 --> 00:01:19.020
+or an expiring budget that expires at the end of the month?
+
+35
+00:01:19.020 --> 00:01:20.700
+So we'll have it as recurring budget.
+
+36
+00:01:20.700 --> 00:01:24.270
+And we'll say for example that it's a fixed budgeted method
+
+37
+00:01:24.270 --> 00:01:28.530
+and I enter $30 of budgeted amount per month.
+
+38
+00:01:28.530 --> 00:01:30.660
+So it seems like some of my month,
+
+39
+00:01:30.660 --> 00:01:33.660
+I was actually above my $30 budget,
+
+40
+00:01:33.660 --> 00:01:36.180
+and some of the other month, I was underneath.
+
+41
+00:01:36.180 --> 00:01:38.280
+So this is good for you to visualize
+
+42
+00:01:38.280 --> 00:01:39.930
+where your budget threshold is
+
+43
+00:01:39.930 --> 00:01:42.090
+and where your actual costs are.
+
+44
+00:01:42.090 --> 00:01:44.070
+You can also filter the budget scope.
+
+45
+00:01:44.070 --> 00:01:47.280
+So right now, it's on all AWS services.
+
+46
+00:01:47.280 --> 00:01:51.720
+We can filter using specific AWS cost dimension.
+
+47
+00:01:51.720 --> 00:01:55.350
+For example, we can look at services and we say, okay,
+
+48
+00:01:55.350 --> 00:01:59.010
+please only look at the EC2 instances,
+
+49
+00:01:59.010 --> 00:02:00.450
+and apply this filter.
+
+50
+00:02:00.450 --> 00:02:02.730
+So here we see that for some months,
+
+51
+00:02:02.730 --> 00:02:06.060
+I've had EC2 instances' cost, and for others, zero.
+
+52
+00:02:06.060 --> 00:02:08.490
+So we can literally filter by services.
+
+53
+00:02:08.490 --> 00:02:11.400
+Would it be EC2 instances or another service?
+
+54
+00:02:11.400 --> 00:02:14.130
+For example, you could have KMS if you're interested.
+
+55
+00:02:14.130 --> 00:02:17.340
+So Key Management Service.
+
+56
+00:02:17.340 --> 00:02:19.680
+And again, in Cost Explorer, this will reflect
+
+57
+00:02:19.680 --> 00:02:21.510
+the filter on the right-hand side.
+
+58
+00:02:21.510 --> 00:02:23.640
+But you can go even more granular
+
+59
+00:02:23.640 --> 00:02:27.300
+and actually have more dimensions, such as the region,
+
+60
+00:02:27.300 --> 00:02:29.760
+the instance type, the usage type, the tags,
+
+61
+00:02:29.760 --> 00:02:31.860
+the availability zones, and so on.
+
+62
+00:02:31.860 --> 00:02:35.970
+So you have lots of different options for your filters.
+
+63
+00:02:35.970 --> 00:02:39.993
+Okay, so let's have region for EU as one,
+
+64
+00:02:41.130 --> 00:02:43.500
+and let's apply this filter.
+
+65
+00:02:43.500 --> 00:02:46.200
+Okay, next we have different options.
+
+66
+00:02:46.200 --> 00:02:47.790
+So do you want the unblended costs
+
+67
+00:02:47.790 --> 00:02:49.890
+or the amortized or blended cost,
+
+68
+00:02:49.890 --> 00:02:51.180
+as well as the charge types?
+
+69
+00:02:51.180 --> 00:02:55.140
+Do you want to see all of them or also refunds and credits?
+
+70
+00:02:55.140 --> 00:02:56.520
+Then it's a go Next.
+
+71
+00:02:56.520 --> 00:02:58.860
+So then we have the budgeted amounts
+
+72
+00:02:58.860 --> 00:03:01.230
+and we can create budget alerts.
+
+73
+00:03:01.230 --> 00:03:03.420
+And this is to define when you want to get alerted
+
+74
+00:03:03.420 --> 00:03:04.560
+based on your budget.
+
+75
+00:03:04.560 --> 00:03:07.770
+And for example, you can say, when you reach 80%
+
+76
+00:03:07.770 --> 00:03:11.610
+of your budgeted amounts on actual value, then trigger it.
+
+77
+00:03:11.610 --> 00:03:13.230
+And here I would probably get a trigger
+
+78
+00:03:13.230 --> 00:03:15.330
+this month based on this.
+
+79
+00:03:15.330 --> 00:03:17.400
+And we can have email recipients for it.
+
+80
+00:03:17.400 --> 00:03:21.210
+So stephane@example.com would be a recipient.
+
+81
+00:03:21.210 --> 00:03:23.070
+Also, Amazon SNS alerts
+
+82
+00:03:23.070 --> 00:03:26.820
+if you want to send it into an SNS topic or Amazon Chatbots
+
+83
+00:03:26.820 --> 00:03:28.320
+if you wanted to send it to Amazon Chime
+
+84
+00:03:28.320 --> 00:03:30.870
+or Slack chat rooms of your choices
+
+85
+00:03:30.870 --> 00:03:32.670
+through the chatbots.
+
+86
+00:03:32.670 --> 00:03:35.460
+And you could have alerts for actual amounts
+
+87
+00:03:35.460 --> 00:03:39.630
+but also you could have alerts for 80%
+
+88
+00:03:39.630 --> 00:03:43.020
+of budgeted amounts of the forecast.
+
+89
+00:03:43.020 --> 00:03:45.420
+So when it feels like you are on track
+
+90
+00:03:45.420 --> 00:03:47.550
+to reach 80% of your budgeted amount,
+
+91
+00:03:47.550 --> 00:03:49.680
+you will also get an alert, which is nice,
+
+92
+00:03:49.680 --> 00:03:52.410
+because you would get the alert beforehand and so on.
+
+93
+00:03:52.410 --> 00:03:55.230
+So these are different alerts you can set.
+
+94
+00:03:55.230 --> 00:03:58.680
+And again, I will have a recipient for it.
+
+95
+00:03:58.680 --> 00:04:02.880
+Perfect. Let's click on Next, and Next.
+
+96
+00:04:02.880 --> 00:04:04.800
+And here we review everything.
+
+97
+00:04:04.800 --> 00:04:08.070
+So we can actually attach actions into our budgets.
+
+98
+00:04:08.070 --> 00:04:09.900
+So here on step four,
+
+99
+00:04:09.900 --> 00:04:12.570
+you can do edits and we can add an action.
+
+100
+00:04:12.570 --> 00:04:16.140
+So whenever an alert is being triggered, what happens?
+
+101
+00:04:16.140 --> 00:04:19.710
+So if I reach 80% of my actual costs,
+
+102
+00:04:19.710 --> 00:04:21.480
+then we can add an action
+
+103
+00:04:21.480 --> 00:04:24.930
+and this action will require IAM permissions to run.
+
+104
+00:04:24.930 --> 00:04:27.603
+So for this, we can manually create an IAM role,
+
+105
+00:04:28.812 --> 00:04:31.920
+which will allow budgets to run the specified actions.
+
+106
+00:04:31.920 --> 00:04:33.453
+So let's create a role,
+
+107
+00:04:34.620 --> 00:04:37.890
+and the role is for an AWS service
+
+108
+00:04:37.890 --> 00:04:41.763
+and that service is going to be Budgets.
+
+109
+00:04:42.780 --> 00:04:44.190
+And this will allow budgets
+
+110
+00:04:44.190 --> 00:04:47.130
+to create and manage AWS resources on our behalf.
+
+111
+00:04:47.130 --> 00:04:48.420
+Let's click on Next.
+
+112
+00:04:48.420 --> 00:04:52.020
+And then for permission policies, I will have it here.
+
+113
+00:04:52.020 --> 00:04:56.070
+And so we have Budget Actions with AWS Resource Access.
+
+114
+00:04:56.070 --> 00:04:59.730
+So I'm just going to add them both just in case
+
+115
+00:04:59.730 --> 00:05:01.500
+and click on Next.
+
+116
+00:05:01.500 --> 00:05:06.500
+So AWSBudgetActionsRole is going to be the name of my role
+
+117
+00:05:09.030 --> 00:05:10.380
+and we'll create this role.
+
+118
+00:05:14.640 --> 00:05:16.320
+So my role is now created,
+
+119
+00:05:16.320 --> 00:05:20.310
+and so back in here, I can refresh this, select an IAM role,
+
+120
+00:05:20.310 --> 00:05:22.210
+and look for the AWSBudgetActionsRole.
+
+121
+00:05:23.760 --> 00:05:25.680
+And now that the role is selected,
+
+122
+00:05:25.680 --> 00:05:27.120
+which action do we want to apply?
+
+123
+00:05:27.120 --> 00:05:29.700
+So if we reach the budget threshold,
+
+124
+00:05:29.700 --> 00:05:32.490
+then do we want to attach an IAM policy
+
+125
+00:05:32.490 --> 00:05:35.850
+to users, groups, or roles to restrict what they can do
+
+126
+00:05:35.850 --> 00:05:37.110
+so that they cannot, for example,
+
+127
+00:05:37.110 --> 00:05:39.480
+launch anymore EC2 instances?
+
+128
+00:05:39.480 --> 00:05:42.180
+Or do you want to attach a Service Control Policy
+
+129
+00:05:42.180 --> 00:05:45.240
+to the organization roots or a specific OU
+
+130
+00:05:45.240 --> 00:05:49.110
+to guardrails what an entire organization or a OU can do?
+
+131
+00:05:49.110 --> 00:05:52.860
+Or do you want to automatically stop EC2 instances
+
+132
+00:05:52.860 --> 00:05:54.330
+or RDS instances
+
+133
+00:05:54.330 --> 00:05:56.700
+because they may be sources of a lot of cost.
+
+134
+00:05:56.700 --> 00:06:00.870
+So we can stop EC2 or stop RDS in a specified region.
+
+135
+00:06:00.870 --> 00:06:01.980
+So this is the kind of action
+
+136
+00:06:01.980 --> 00:06:05.730
+that can be run out of the AWS Budgets Console.
+
+137
+00:06:05.730 --> 00:06:08.730
+So for now, I'm not going to have any action.
+
+138
+00:06:08.730 --> 00:06:11.100
+Let's click on Next and create this budget,
+
+139
+00:06:11.100 --> 00:06:13.290
+but at least we've seen all the options.
+
+140
+00:06:13.290 --> 00:06:17.010
+So now in this console, we'll see the budget itself,
+
+141
+00:06:17.010 --> 00:06:18.270
+the amount, the forecast,
+
+142
+00:06:18.270 --> 00:06:21.270
+and nice graphs about where we are versus budgeted,
+
+143
+00:06:21.270 --> 00:06:23.970
+or where we are versus forecasted.
+
+144
+00:06:23.970 --> 00:06:26.130
+Okay, so let's look at the other budgets.
+
+145
+00:06:26.130 --> 00:06:28.917
+So let's look at the customized advanced budget.
+
+146
+00:06:28.917 --> 00:06:30.990
+And here we have usage budgets.
+
+147
+00:06:30.990 --> 00:06:33.930
+So we can have a look at specific usages.
+
+148
+00:06:33.930 --> 00:06:35.163
+So if I scroll down,
+
+149
+00:06:36.510 --> 00:06:39.090
+I have a look at usage type group or usage type.
+
+150
+00:06:39.090 --> 00:06:42.700
+So we can look for example at the Data Transfer Inter AZ
+
+151
+00:06:43.560 --> 00:06:45.420
+and have a budget on it.
+
+152
+00:06:45.420 --> 00:06:47.730
+So this is the same options.
+
+153
+00:06:47.730 --> 00:06:50.580
+Then you can create a budget again
+
+154
+00:06:50.580 --> 00:06:53.160
+and this time it's going to be a Savings Plans budget.
+
+155
+00:06:53.160 --> 00:06:56.070
+So we can track against our specified savings plan.
+
+156
+00:06:56.070 --> 00:06:57.707
+So SavingsPlanDemo,
+
+157
+00:06:58.608 --> 00:06:59.970
+and here we can track either
+
+158
+00:06:59.970 --> 00:07:02.250
+within the utilization of savings plan
+
+159
+00:07:02.250 --> 00:07:04.740
+to make sure that we are utilizing all of it,
+
+160
+00:07:04.740 --> 00:07:06.240
+or the coverage to make sure
+
+161
+00:07:06.240 --> 00:07:08.820
+that our instance usage is covered
+
+162
+00:07:08.820 --> 00:07:11.490
+by the savings plan for whatever you want.
+
+163
+00:07:11.490 --> 00:07:14.070
+And then you can scope it to specific services as well
+
+164
+00:07:14.070 --> 00:07:15.543
+or filter by dimensions.
+
+165
+00:07:16.380 --> 00:07:19.320
+And finally, we have the reservation budgets
+
+166
+00:07:19.320 --> 00:07:21.660
+and this is in case you have reservations.
+
+167
+00:07:21.660 --> 00:07:24.480
+So reservations, which I don't have right now.
+
+168
+00:07:24.480 --> 00:07:27.360
+So on this dropdown here for Service, nothing will be found.
+
+169
+00:07:27.360 --> 00:07:28.740
+But we can track, again, a budget
+
+170
+00:07:28.740 --> 00:07:31.020
+against the utilization of reservations
+
+171
+00:07:31.020 --> 00:07:33.120
+or the coverage of reservations.
+
+172
+00:07:33.120 --> 00:07:36.480
+But for this, you need to have reserved instances.
+
+173
+00:07:36.480 --> 00:07:39.570
+So that's it. We've seen all the options for budgets.
+
+174
+00:07:39.570 --> 00:07:42.783
+I hope you liked it, and I will see you in the next lecture.
+

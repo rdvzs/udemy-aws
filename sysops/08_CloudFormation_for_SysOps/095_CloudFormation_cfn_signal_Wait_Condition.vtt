@@ -1,0 +1,462 @@
+WEBVTT
+
+1
+00:00:00.510 --> 00:00:02.040
+<v Instructor>So now let's talk about a way</v>
+
+2
+00:00:02.040 --> 00:00:04.800
+for CloudFormation to know whether or not
+
+3
+00:00:04.800 --> 00:00:07.620
+your EC2 instance got properly configured
+
+4
+00:00:07.620 --> 00:00:10.200
+after running a cfn-init.
+
+5
+00:00:10.200 --> 00:00:13.410
+So for this, we'll use the cfn-signal script.
+
+6
+00:00:13.410 --> 00:00:18.300
+So the common convention is to run the cfn-signal script
+
+7
+00:00:18.300 --> 00:00:21.000
+right after the cfn-init script.
+
+8
+00:00:21.000 --> 00:00:24.300
+And it will tell CloudFormation if the resource creation
+
+9
+00:00:24.300 --> 00:00:26.670
+was a success or a failure.
+
+10
+00:00:26.670 --> 00:00:28.530
+For this, we also need to define what's called
+
+11
+00:00:28.530 --> 00:00:31.740
+a WaitCondition in CloudFormation.
+
+12
+00:00:31.740 --> 00:00:35.100
+And the WaitCondition is going to make the template wait
+
+13
+00:00:35.100 --> 00:00:38.040
+as the name indicates, until it receives a signal
+
+14
+00:00:38.040 --> 00:00:40.020
+from cfn-signal.
+
+15
+00:00:40.020 --> 00:00:42.930
+For this, we attach a creation policy,
+
+16
+00:00:42.930 --> 00:00:45.000
+and this also works on EC2 and ASG,
+
+17
+00:00:45.000 --> 00:00:48.690
+but right now will show you on WaitCondition,
+
+18
+00:00:48.690 --> 00:00:51.390
+and this is a creation policy
+
+19
+00:00:51.390 --> 00:00:54.900
+that has a resource signal including a timeout and a count.
+
+20
+00:00:54.900 --> 00:00:57.300
+If we define a count greater than one,
+
+21
+00:00:57.300 --> 00:01:00.150
+that means that we're expecting more than one resources
+
+22
+00:01:00.150 --> 00:01:03.180
+to signal their success to CloudFormation.
+
+23
+00:01:03.180 --> 00:01:05.070
+Otherwise you can keep it as one.
+
+24
+00:01:05.070 --> 00:01:06.960
+So the process is as such,
+
+25
+00:01:06.960 --> 00:01:09.300
+CloudFormation will launch an EC2 instance
+
+26
+00:01:09.300 --> 00:01:11.850
+and then it will have a WaitCondition.
+
+27
+00:01:11.850 --> 00:01:15.930
+The EC2 instance is going to run cfn-init on it.
+
+28
+00:01:15.930 --> 00:01:19.470
+Therefore we will retrieve the init data just like before,
+
+29
+00:01:19.470 --> 00:01:21.660
+but now on the init data right after,
+
+30
+00:01:21.660 --> 00:01:24.630
+we're going to do a signal from cfn-signal
+
+31
+00:01:24.630 --> 00:01:27.543
+to send data back to CloudFormation to the WaitCondition.
+
+32
+00:01:28.410 --> 00:01:30.060
+So let's have a look at the script
+
+33
+00:01:30.060 --> 00:01:32.250
+for us to better understand.
+
+34
+00:01:32.250 --> 00:01:34.320
+Okay, so here I am in my
+
+35
+00:01:34.320 --> 00:01:37.680
+CloudFormation signal template number two.
+
+36
+00:01:37.680 --> 00:01:40.800
+And we create an EC2 instance just like before
+
+37
+00:01:40.800 --> 00:01:42.690
+and we have user data.
+
+38
+00:01:42.690 --> 00:01:45.030
+And as you can see now the script is a little bit different.
+
+39
+00:01:45.030 --> 00:01:49.470
+So we still get the CloudFormation script for Bootstrap,
+
+40
+00:01:49.470 --> 00:01:52.800
+then we still run the cfn-init just like before.
+
+41
+00:01:52.800 --> 00:01:55.200
+But now we store the result
+
+42
+00:01:55.200 --> 00:01:58.173
+of the last command into this verbal named init_status.
+
+43
+00:01:59.100 --> 00:02:02.010
+So if cfn-init was successful,
+
+44
+00:02:02.010 --> 00:02:05.070
+then init status will be equal to zero.
+
+45
+00:02:05.070 --> 00:02:07.680
+And if cfn-init was not successful,
+
+46
+00:02:07.680 --> 00:02:10.830
+it would be an error code that would be different than zero
+
+47
+00:02:10.830 --> 00:02:13.980
+and init status would be equal to that error code.
+
+48
+00:02:13.980 --> 00:02:16.020
+And then we send the result back
+
+49
+00:02:16.020 --> 00:02:18.420
+to CloudFormation using cfn-signal.
+
+50
+00:02:18.420 --> 00:02:21.450
+So we're saying, hey, using the cfn-signal script,
+
+51
+00:02:21.450 --> 00:02:25.950
+send back the value of this variable init status
+
+52
+00:02:25.950 --> 00:02:29.550
+to my stack being my stack name.
+
+53
+00:02:29.550 --> 00:02:32.223
+And the resource is sample WaitCondition.
+
+54
+00:02:33.360 --> 00:02:34.500
+So let's confirm this.
+
+55
+00:02:34.500 --> 00:02:37.860
+So let's scroll down and have a look at the fact
+
+56
+00:02:37.860 --> 00:02:42.690
+that yes indeed we created a sample WaitCondition resource
+
+57
+00:02:42.690 --> 00:02:44.430
+in our templates.
+
+58
+00:02:44.430 --> 00:02:47.163
+So this is of type CloudFormation WaitCondition.
+
+59
+00:02:48.390 --> 00:02:49.920
+It's nothing physical,
+
+60
+00:02:49.920 --> 00:02:51.750
+it's just something that's going to wait
+
+61
+00:02:51.750 --> 00:02:55.260
+until the creation policy receives a signal.
+
+62
+00:02:55.260 --> 00:02:58.950
+So one signal and we have a timeout of two minutes
+
+63
+00:02:58.950 --> 00:03:00.540
+to receive that signal.
+
+64
+00:03:00.540 --> 00:03:03.180
+So if we don't receive anything within two minutes,
+
+65
+00:03:03.180 --> 00:03:06.810
+it's failed and otherwise we have two minutes to receive
+
+66
+00:03:06.810 --> 00:03:08.733
+either a success or a failure.
+
+67
+00:03:09.630 --> 00:03:10.500
+The rest is the same.
+
+68
+00:03:10.500 --> 00:03:12.210
+So we still have a security group
+
+69
+00:03:12.210 --> 00:03:16.860
+and we still have the very same CloudFormation init data.
+
+70
+00:03:16.860 --> 00:03:19.440
+So let's run this and see what happens.
+
+71
+00:03:19.440 --> 00:03:21.160
+So we're going to create a stack
+
+72
+00:03:22.050 --> 00:03:24.660
+and I'm going to upload a template file
+
+73
+00:03:24.660 --> 00:03:27.060
+choose it to cfn-signal.yaml.
+
+74
+00:03:28.470 --> 00:03:32.673
+Next, and I'll call this one demo cfn-signal.
+
+75
+00:03:34.260 --> 00:03:38.853
+Next, next, and then submit.
+
+76
+00:03:40.380 --> 00:03:42.630
+And now the create is in progress.
+
+77
+00:03:42.630 --> 00:03:47.160
+So now we can see that the SSH security group was created,
+
+78
+00:03:47.160 --> 00:03:49.890
+the instance in create is in progress.
+
+79
+00:03:49.890 --> 00:03:52.050
+And then we have a sample WaitCondition
+
+80
+00:03:52.050 --> 00:03:55.140
+that's also in create in progress.
+
+81
+00:03:55.140 --> 00:03:57.300
+Now if a refresh, even though the instance
+
+82
+00:03:57.300 --> 00:03:59.670
+is in create complete, as you can see,
+
+83
+00:03:59.670 --> 00:04:01.020
+the sample WaitCondition,
+
+84
+00:04:01.020 --> 00:04:03.570
+it's still in create in progress.
+
+85
+00:04:03.570 --> 00:04:05.520
+So before this would've been done
+
+86
+00:04:05.520 --> 00:04:07.140
+and this would've been a success,
+
+87
+00:04:07.140 --> 00:04:09.120
+but now we're actually waiting
+
+88
+00:04:09.120 --> 00:04:12.930
+to get a signal back from the EC2 instance
+
+89
+00:04:12.930 --> 00:04:15.360
+to know whether or not we have succeeded or failed.
+
+90
+00:04:15.360 --> 00:04:17.370
+So it's going to take a little bit more time
+
+91
+00:04:17.370 --> 00:04:20.940
+and as you can see now only my WaitCondition
+
+92
+00:04:20.940 --> 00:04:23.190
+is in create in progress state.
+
+93
+00:04:23.190 --> 00:04:25.560
+So for this, we need to wait
+
+94
+00:04:25.560 --> 00:04:29.700
+for the EC2 instance to actually finish its bootstrap
+
+95
+00:04:29.700 --> 00:04:32.820
+and to start the HTTP server
+
+96
+00:04:32.820 --> 00:04:36.150
+and then to signal the result back to CloudFormation.
+
+97
+00:04:36.150 --> 00:04:37.710
+So it usually doesn't take very long.
+
+98
+00:04:37.710 --> 00:04:40.350
+So as you can see now, I just refreshed and it's done.
+
+99
+00:04:40.350 --> 00:04:42.960
+And if you look into the events, as you can see,
+
+100
+00:04:42.960 --> 00:04:47.760
+the sample WaitCondition received the success signal
+
+101
+00:04:47.760 --> 00:04:49.440
+from our EC2 instance
+
+102
+00:04:49.440 --> 00:04:52.350
+and therefore our CloudFormation stack was complete.
+
+103
+00:04:52.350 --> 00:04:55.200
+And so therefore it's without any surprise
+
+104
+00:04:55.200 --> 00:04:57.900
+that if I open this public IPv4 address,
+
+105
+00:04:57.900 --> 00:05:00.000
+I see my hello world from my EC2 instance
+
+106
+00:05:00.000 --> 00:05:02.550
+because we know that for sure it was successful
+
+107
+00:05:02.550 --> 00:05:05.730
+because my CloudFormation stack received
+
+108
+00:05:05.730 --> 00:05:09.270
+a positive success signal from my EC2 instance
+
+109
+00:05:09.270 --> 00:05:11.700
+using this cfn-signal script.
+
+110
+00:05:11.700 --> 00:05:12.533
+So that's it.
+
+111
+00:05:12.533 --> 00:05:14.280
+This is the demo I want to show you.
+
+112
+00:05:14.280 --> 00:05:16.590
+Now go ahead and please delete the stack.
+
+113
+00:05:16.590 --> 00:05:18.210
+As usual, we clean up.
+
+114
+00:05:18.210 --> 00:05:19.200
+Alright, that's it.
+
+115
+00:05:19.200 --> 00:05:20.973
+I will see you in the next lecture.
+

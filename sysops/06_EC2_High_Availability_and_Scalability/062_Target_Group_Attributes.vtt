@@ -1,0 +1,526 @@
+WEBVTT
+
+1
+00:00:00.260 --> 00:00:01.790
+<v Stephane>So let's have a look at all the options</v>
+
+2
+00:00:01.790 --> 00:00:04.400
+you can set on a target group because they're necessary
+
+3
+00:00:04.400 --> 00:00:05.440
+to be known at the exam.
+
+4
+00:00:05.440 --> 00:00:08.270
+So the first one is the deregistration delay,
+
+5
+00:00:08.270 --> 00:00:10.760
+and this is a timeout you have specified in seconds,
+
+6
+00:00:10.760 --> 00:00:12.610
+which is corresponding to the time the load balancer
+
+7
+00:00:12.610 --> 00:00:15.090
+has to wait before deregistering a target.
+
+8
+00:00:15.090 --> 00:00:16.550
+And we've seen this before.
+
+9
+00:00:16.550 --> 00:00:18.990
+Then there is slow start, which is expressed in seconds.
+
+10
+00:00:18.990 --> 00:00:21.510
+And I'll discuss in the next slide.
+
+11
+00:00:21.510 --> 00:00:23.190
+There is the routing algorithm.
+
+12
+00:00:23.190 --> 00:00:25.200
+So there's going to be three algorithms
+
+13
+00:00:25.200 --> 00:00:27.130
+we'll have a look at in the next slide.
+
+14
+00:00:27.130 --> 00:00:28.620
+So there's going to be Round Robin,
+
+15
+00:00:28.620 --> 00:00:31.690
+Least Outstanding Request and then Flow Hash.
+
+16
+00:00:31.690 --> 00:00:33.390
+Then there is the stickiness settings.
+
+17
+00:00:33.390 --> 00:00:35.270
+So whether or not it's enabled, the type,
+
+18
+00:00:35.270 --> 00:00:37.650
+which is application-based or duration-based,
+
+19
+00:00:37.650 --> 00:00:40.100
+and then the cookie name, the duration in seconds
+
+20
+00:00:40.100 --> 00:00:41.400
+in terms of that cookie name
+
+21
+00:00:41.400 --> 00:00:44.120
+or for the ALB cookie, just the duration in seconds
+
+22
+00:00:44.120 --> 00:00:45.853
+in terms of the expiration period.
+
+23
+00:00:47.020 --> 00:00:50.040
+So now let's have a look at how slow start
+
+24
+00:00:50.040 --> 00:00:53.050
+and the different routing algorithm works.
+
+25
+00:00:53.050 --> 00:00:56.840
+So slow start is a way for you to send traffic gradually
+
+26
+00:00:56.840 --> 00:00:59.370
+to an EC2 instance, because by default,
+
+27
+00:00:59.370 --> 00:01:02.760
+whenever your target becomes online on your target group,
+
+28
+00:01:02.760 --> 00:01:04.770
+it will receive its full share of requests.
+
+29
+00:01:04.770 --> 00:01:07.500
+So it will start getting many, many requests at a time.
+
+30
+00:01:07.500 --> 00:01:09.310
+And if you unable slow start mode,
+
+31
+00:01:09.310 --> 00:01:12.170
+it gives a healthy target a bit of time to warm up
+
+32
+00:01:12.170 --> 00:01:15.110
+before the load balancer sends a full share of requests.
+
+33
+00:01:15.110 --> 00:01:18.630
+So the idea is that the load balancer will start at zero
+
+34
+00:01:18.630 --> 00:01:20.730
+and it will linearly increase the number of requests
+
+35
+00:01:20.730 --> 00:01:23.420
+that it sends to the target until the slow start mode
+
+36
+00:01:23.420 --> 00:01:25.830
+is ended, and then it will have its full share.
+
+37
+00:01:25.830 --> 00:01:27.010
+So here's an example.
+
+38
+00:01:27.010 --> 00:01:29.570
+If you don't have slow start mode, all of a sudden,
+
+39
+00:01:29.570 --> 00:01:32.240
+as soon as your EC2 instance is part of your target group
+
+40
+00:01:32.240 --> 00:01:34.990
+is going to receive a full share of requests,
+
+41
+00:01:34.990 --> 00:01:37.650
+which may overload the instance directly.
+
+42
+00:01:37.650 --> 00:01:39.200
+But with slow start mode,
+
+43
+00:01:39.200 --> 00:01:40.840
+there's going to be a gradual increase.
+
+44
+00:01:40.840 --> 00:01:42.500
+So at first it will receive one request,
+
+45
+00:01:42.500 --> 00:01:44.290
+then it will receive two requests,
+
+46
+00:01:44.290 --> 00:01:46.050
+then it will receive three requests
+
+47
+00:01:46.050 --> 00:01:48.850
+and so on up until the slow start is over
+
+48
+00:01:48.850 --> 00:01:51.660
+and then the EC2 instance will be at full capacity.
+
+49
+00:01:51.660 --> 00:01:55.260
+So there's a target where exit slow starts when the duration
+
+50
+00:01:55.260 --> 00:01:58.880
+period elapses or the target becomes unhealthy.
+
+51
+00:01:58.880 --> 00:02:00.520
+And if you want to disable slow start,
+
+52
+00:02:00.520 --> 00:02:02.140
+which is the default setting,
+
+53
+00:02:02.140 --> 00:02:06.100
+then you just set the slow start duration value to zero.
+
+54
+00:02:06.100 --> 00:02:08.580
+Now let's have a look at routing algorithms
+
+55
+00:02:08.580 --> 00:02:09.700
+for your request.
+
+56
+00:02:09.700 --> 00:02:12.630
+So there's one called the least outstanding request,
+
+57
+00:02:12.630 --> 00:02:15.200
+which is the next instance to receive the request
+
+58
+00:02:15.200 --> 00:02:18.290
+is the instance that has the lowest number of pending
+
+59
+00:02:18.290 --> 00:02:19.760
+or unfinished requests.
+
+60
+00:02:19.760 --> 00:02:23.400
+So basically, the instance that is the least currently busy
+
+61
+00:02:23.400 --> 00:02:26.240
+is the instance that will receive the next request,
+
+62
+00:02:26.240 --> 00:02:27.100
+which makes sense, right?
+
+63
+00:02:27.100 --> 00:02:29.130
+Because you want to make sure that if an instance
+
+64
+00:02:29.130 --> 00:02:30.500
+has less requests than another,
+
+65
+00:02:30.500 --> 00:02:33.110
+then maybe it has more capacity to receive these requests.
+
+66
+00:02:33.110 --> 00:02:35.760
+So it's available for the ALB and the CLB.
+
+67
+00:02:35.760 --> 00:02:37.440
+And so the idea is that the first request
+
+68
+00:02:37.440 --> 00:02:39.440
+will go maybe to the first instance,
+
+69
+00:02:39.440 --> 00:02:41.009
+the second request to the second
+
+70
+00:02:41.009 --> 00:02:43.670
+and then the third request has to go to the third
+
+71
+00:02:43.670 --> 00:02:45.450
+because the third instance right now
+
+72
+00:02:45.450 --> 00:02:46.860
+doesn't have any requests,
+
+73
+00:02:46.860 --> 00:02:49.240
+so it has the least outstanding request.
+
+74
+00:02:49.240 --> 00:02:50.390
+So this is how it works.
+
+75
+00:02:50.390 --> 00:02:54.320
+And then the fourth one may go again to the third instance
+
+76
+00:02:54.320 --> 00:02:57.170
+if the third instance has the least outstanding request,
+
+77
+00:02:57.170 --> 00:03:00.670
+maybe the third request was very, very quick to finish
+
+78
+00:03:00.670 --> 00:03:02.530
+and so the fourth one went again
+
+79
+00:03:02.530 --> 00:03:06.040
+to the third instance and so on, okay?
+
+80
+00:03:06.040 --> 00:03:08.610
+Now for the Round Robin, this is a bit different.
+
+81
+00:03:08.610 --> 00:03:10.600
+So the Round Robin is that the targets
+
+82
+00:03:10.600 --> 00:03:13.760
+will have one after the other then next request,
+
+83
+00:03:13.760 --> 00:03:15.990
+regardless of how many outstanding requests
+
+84
+00:03:15.990 --> 00:03:17.350
+are available on your instance.
+
+85
+00:03:17.350 --> 00:03:19.640
+And so this works for ALB and CLB.
+
+86
+00:03:19.640 --> 00:03:21.310
+The idea is that number one will go to number one,
+
+87
+00:03:21.310 --> 00:03:22.230
+number two will go to number two
+
+88
+00:03:22.230 --> 00:03:23.680
+and number three will go to number one,
+
+89
+00:03:23.680 --> 00:03:26.780
+and then number four will again go through the same cycle.
+
+90
+00:03:26.780 --> 00:03:29.740
+So number one and so on.
+
+91
+00:03:29.740 --> 00:03:33.370
+Then for the NLB, there's the flow hash request routing,
+
+92
+00:03:33.370 --> 00:03:36.350
+which a target is selected based on the hashing
+
+93
+00:03:36.350 --> 00:03:39.280
+of the protocol, source destination IP address,
+
+94
+00:03:39.280 --> 00:03:42.580
+source destination ports, and TCP sequence number.
+
+95
+00:03:42.580 --> 00:03:45.280
+That means that each TCP or UDP connection
+
+96
+00:03:45.280 --> 00:03:47.410
+is going to be routed for a single target
+
+97
+00:03:47.410 --> 00:03:48.870
+for the life of the connection,
+
+98
+00:03:48.870 --> 00:03:52.610
+which is sort of the equivalent for the sticky sessions
+
+99
+00:03:52.610 --> 00:03:54.410
+on the network load balancer.
+
+100
+00:03:54.410 --> 00:03:57.307
+So very, very simply, whenever a user makes a request
+
+101
+00:03:57.307 --> 00:04:00.320
+on EC2 instance, all the information I just said below
+
+102
+00:04:00.320 --> 00:04:03.690
+is going to be hashed through a flow hash algorithm.
+
+103
+00:04:03.690 --> 00:04:06.330
+And then thanks to this hash number, is going to route
+
+104
+00:04:06.330 --> 00:04:10.080
+the same request from the same user to the same EC2 instance
+
+105
+00:04:10.080 --> 00:04:12.710
+as long as the TCP connection is open, okay?
+
+106
+00:04:12.710 --> 00:04:16.140
+And this is specificity of your NLB.
+
+107
+00:04:16.140 --> 00:04:18.770
+So if you go into your target group action
+
+108
+00:04:18.770 --> 00:04:20.840
+and then edit attributes,
+
+109
+00:04:20.840 --> 00:04:23.690
+then we're going to see the deregistration delay, okay?
+
+110
+00:04:23.690 --> 00:04:25.900
+We know this one, the slow start duration.
+
+111
+00:04:25.900 --> 00:04:29.800
+So by default it's disabled but you can set it, for example,
+
+112
+00:04:29.800 --> 00:04:32.300
+30 to start enabling it, okay?
+
+113
+00:04:32.300 --> 00:04:36.340
+Up to 900 seconds, if you really want a slow start duration.
+
+114
+00:04:36.340 --> 00:04:38.520
+But if you have this, as you can see,
+
+115
+00:04:38.520 --> 00:04:40.610
+this attribute can now be combined with the least
+
+116
+00:04:40.610 --> 00:04:42.340
+outstanding request algorithm.
+
+117
+00:04:42.340 --> 00:04:43.680
+So we'll disable it.
+
+118
+00:04:43.680 --> 00:04:45.070
+And if you do disabled it,
+
+119
+00:04:45.070 --> 00:04:48.290
+then we have the least outstanding request algorithm, okay?
+
+120
+00:04:48.290 --> 00:04:50.360
+That's available, so Round Robin is the default,
+
+121
+00:04:50.360 --> 00:04:52.140
+but we can have this one, which is again
+
+122
+00:04:52.140 --> 00:04:55.890
+to send the request to the EC2 instance
+
+123
+00:04:55.890 --> 00:04:57.930
+that has the least amount of requests available.
+
+124
+00:04:57.930 --> 00:05:00.560
+So the one that is the least busy right now.
+
+125
+00:05:00.560 --> 00:05:01.830
+So that's pretty cool.
+
+126
+00:05:01.830 --> 00:05:04.040
+And then finally, stickiness can be enabled or disabled.
+
+127
+00:05:04.040 --> 00:05:05.500
+We've seen this before as well.
+
+128
+00:05:05.500 --> 00:05:07.610
+So that's it, you've seen all the attributes
+
+129
+00:05:07.610 --> 00:05:08.620
+for your target group.
+
+130
+00:05:08.620 --> 00:05:09.453
+I hope you liked it.
+
+131
+00:05:09.453 --> 00:05:11.280
+And I will see you in the next lecture.
+

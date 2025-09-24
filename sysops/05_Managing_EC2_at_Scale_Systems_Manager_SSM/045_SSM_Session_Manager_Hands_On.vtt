@@ -1,0 +1,226 @@
+WEBVTT
+
+1
+00:00:00.306 --> 00:00:03.810
+<v ->So on the left hand side, let's find Session Manager</v>
+
+2
+00:00:03.810 --> 00:00:05.790
+and we want to establish an SSH session
+
+3
+00:00:05.790 --> 00:00:06.880
+into our EC2 instances.
+
+4
+00:00:06.880 --> 00:00:10.240
+So if you have a look, MyDevInstance, under security,
+
+5
+00:00:10.240 --> 00:00:11.840
+the security group does not
+
+6
+00:00:11.840 --> 00:00:16.380
+have any SSH security group rules inbound. Okay?
+
+7
+00:00:16.380 --> 00:00:19.660
+Yet we're going to be able to start a session.
+
+8
+00:00:19.660 --> 00:00:21.440
+And this session is going to be started, for example,
+
+9
+00:00:21.440 --> 00:00:24.773
+on MyProdInstance, we can start the session right here.
+
+10
+00:00:26.710 --> 00:00:29.537
+And as you can see, I am connected directly into my
+
+11
+00:00:29.537 --> 00:00:34.200
+EC2 instance, so I can do echo hello world, and here we go,
+
+12
+00:00:34.200 --> 00:00:38.330
+we have some information around the hello world
+
+13
+00:00:38.330 --> 00:00:39.550
+and we can run any command.
+
+14
+00:00:39.550 --> 00:00:42.340
+So we can do LS and have a look at all the directories.
+
+15
+00:00:42.340 --> 00:00:46.537
+So we can go to home, EC2-user, and we need to go SUDO
+
+16
+00:00:46.537 --> 00:00:51.400
+to be elevated, so SUDO SU is what I use to be elevated.
+
+17
+00:00:51.400 --> 00:00:54.310
+And then we can do CD home, EC2-user,
+
+18
+00:00:54.310 --> 00:00:56.500
+And now I am in my EC2-user directory and I can do
+
+19
+00:00:56.500 --> 00:00:57.670
+whatever I want. Okay?
+
+20
+00:00:57.670 --> 00:01:01.840
+We could see if a HTTP is installed so we can do
+
+21
+00:01:01.840 --> 00:01:05.440
+SUDO YUM -y install and HTPD
+
+22
+00:01:05.440 --> 00:01:07.370
+and obviously it is going to be already installed because
+
+23
+00:01:07.370 --> 00:01:10.010
+we did install it before using a RUN command.
+
+24
+00:01:10.010 --> 00:01:13.070
+So pretty cool because this session entirely is going to be
+
+25
+00:01:13.070 --> 00:01:16.060
+logged, okay, because it is done from session manager,
+
+26
+00:01:16.060 --> 00:01:18.650
+and also my instance does not have any SSH inbound
+
+27
+00:01:18.650 --> 00:01:21.560
+security rule, yet I am able to run some commands within it.
+
+28
+00:01:21.560 --> 00:01:23.237
+So this is the power of session manager,
+
+29
+00:01:23.237 --> 00:01:25.620
+and I can just terminate this. Okay?
+
+30
+00:01:25.620 --> 00:01:28.290
+And now if I go back into my session manager,
+
+31
+00:01:28.290 --> 00:01:31.320
+I can look at session history and see that the history was
+
+32
+00:01:31.320 --> 00:01:32.860
+being created right here.
+
+33
+00:01:32.860 --> 00:01:35.750
+And finally, you could edit the preferences
+
+34
+00:01:35.750 --> 00:01:38.510
+of session manager to have an idle timeout,
+
+35
+00:01:38.510 --> 00:01:41.500
+to have KMS encryption for your sessions and to run the
+
+36
+00:01:41.500 --> 00:01:45.700
+session as a specific user for your next instances. Okay?
+
+37
+00:01:45.700 --> 00:01:47.807
+So put a username, could be, for example,
+
+38
+00:01:47.807 --> 00:01:50.440
+EC2-user, if you wanted to,
+
+39
+00:01:50.440 --> 00:01:52.790
+if it's relevant IAM Linux too.
+
+40
+00:01:52.790 --> 00:01:54.370
+You can enable CloudWatch logging.
+
+41
+00:01:54.370 --> 00:01:56.390
+So do you want to log all the sessions
+
+42
+00:01:56.390 --> 00:01:57.670
+with CloudWatch logs? Yes.
+
+43
+00:01:57.670 --> 00:01:59.810
+And S3 logging, Do we want to send all the logs data
+
+44
+00:01:59.810 --> 00:02:01.110
+into Amazon S3.
+
+45
+00:02:01.110 --> 00:02:03.320
+As well as some profile for Linux shell
+
+46
+00:02:03.320 --> 00:02:04.720
+and Windows shell profile as well.
+
+47
+00:02:04.720 --> 00:02:06.810
+So it's quite, quite handy to be honest,
+
+48
+00:02:06.810 --> 00:02:09.400
+and all this can be edited in here.
+
+49
+00:02:09.400 --> 00:02:11.810
+And I know a lot of companies and people who use
+
+50
+00:02:11.810 --> 00:02:14.210
+Session Manager from within Systems Manager
+
+51
+00:02:14.210 --> 00:02:18.250
+to do the executing actions onto your EC2 instances
+
+52
+00:02:18.250 --> 00:02:20.990
+because it is way more controlled and also has a lot more
+
+53
+00:02:20.990 --> 00:02:22.400
+compliance around it.
+
+54
+00:02:22.400 --> 00:02:23.233
+So that's it.
+
+55
+00:02:23.233 --> 00:02:24.066
+I hope you liked it.
+
+56
+00:02:24.066 --> 00:02:25.780
+And I will see you in the next lecture.
+

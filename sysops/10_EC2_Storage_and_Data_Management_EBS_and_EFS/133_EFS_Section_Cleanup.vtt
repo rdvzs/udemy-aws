@@ -1,0 +1,110 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:01.700
+<v Trainer>Hey, so to clean up this section,</v>
+
+2
+00:00:01.700 --> 00:00:02.910
+if you have any instances,
+
+3
+00:00:02.910 --> 00:00:04.500
+make sure you can terminate them
+
+4
+00:00:04.500 --> 00:00:07.610
+because it will release any EBS volumes attached to them.
+
+5
+00:00:07.610 --> 00:00:09.800
+Okay, so delete your instances.
+
+6
+00:00:09.800 --> 00:00:13.329
+Then under volumes, you can delete your volumes as well.
+
+7
+00:00:13.329 --> 00:00:15.830
+So first you need to delete the snapshot.
+
+8
+00:00:15.830 --> 00:00:17.270
+So take any snapshots
+
+9
+00:00:17.270 --> 00:00:19.640
+and then delete the snapshots themselves.
+
+10
+00:00:19.640 --> 00:00:21.070
+Then you can take a look at the volume
+
+11
+00:00:21.070 --> 00:00:23.050
+and you do action, delete volume.
+
+12
+00:00:23.050 --> 00:00:24.210
+So you can do them one by one.
+
+13
+00:00:24.210 --> 00:00:26.501
+So this one, I can delete the volume.
+
+14
+00:00:26.501 --> 00:00:28.300
+And this one right here,
+
+15
+00:00:28.300 --> 00:00:30.440
+I need to wait a little bit until it is detached
+
+16
+00:00:30.440 --> 00:00:33.730
+and then after being detached, you can delete it.
+
+17
+00:00:33.730 --> 00:00:35.490
+So I need you to probably refresh this page.
+
+18
+00:00:35.490 --> 00:00:36.510
+Here we go.
+
+19
+00:00:36.510 --> 00:00:38.611
+And then delete my volume, this is perfect,
+
+20
+00:00:38.611 --> 00:00:40.220
+which actually doesn't exist
+
+21
+00:00:40.220 --> 00:00:42.020
+because it's been deleted automatically.
+
+22
+00:00:42.020 --> 00:00:43.240
+And for EFS file systems,
+
+23
+00:00:43.240 --> 00:00:45.620
+you can just take this one and delete it
+
+24
+00:00:45.620 --> 00:00:47.640
+by entering the file system ID.
+
+25
+00:00:47.640 --> 00:00:49.190
+So that's it for this lecture,
+
+26
+00:00:49.190 --> 00:00:50.023
+I hope you liked it
+
+27
+00:00:50.023 --> 00:00:51.670
+and I will see you in the next section.
+

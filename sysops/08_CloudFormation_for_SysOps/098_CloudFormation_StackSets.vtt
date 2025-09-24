@@ -1,0 +1,334 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:01.680
+<v Stephane>So let's do a deeper dive</v>
+
+2
+00:00:01.680 --> 00:00:03.750
+into CloudFormation StackSets.
+
+3
+00:00:03.750 --> 00:00:05.250
+So StackSets, as we know,
+
+4
+00:00:05.250 --> 00:00:07.350
+is a way for you to deploy stacks
+
+5
+00:00:07.350 --> 00:00:08.640
+across multiple accounts
+
+6
+00:00:08.640 --> 00:00:11.490
+and regions all in a single operation.
+
+7
+00:00:11.490 --> 00:00:13.560
+So we have the stack instance being deployed
+
+8
+00:00:13.560 --> 00:00:15.870
+in different regions and different accounts.
+
+9
+00:00:15.870 --> 00:00:18.360
+Now the only way for you to do this
+
+10
+00:00:18.360 --> 00:00:22.140
+is to have the administrator accounts create StackSets,
+
+11
+00:00:22.140 --> 00:00:25.410
+and the target accounts are only used for the creation,
+
+12
+00:00:25.410 --> 00:00:28.470
+the adaptation, and the deletion of these instances
+
+13
+00:00:28.470 --> 00:00:29.880
+from the StackSets.
+
+14
+00:00:29.880 --> 00:00:33.120
+When you upload and update a StackSets
+
+15
+00:00:33.120 --> 00:00:34.710
+in the administrator account,
+
+16
+00:00:34.710 --> 00:00:36.630
+then all the target accounts are going
+
+17
+00:00:36.630 --> 00:00:39.660
+to receive this updates in all regions.
+
+18
+00:00:39.660 --> 00:00:43.260
+And you can also, to define what is a target account
+
+19
+00:00:43.260 --> 00:00:45.300
+and what is Administrative account,
+
+20
+00:00:45.300 --> 00:00:49.650
+apply this to accounts from within an AWS Organization.
+
+21
+00:00:49.650 --> 00:00:51.690
+So let's talk about the permission model.
+
+22
+00:00:51.690 --> 00:00:55.140
+So because there is the concept of administrator accounts
+
+23
+00:00:55.140 --> 00:00:56.940
+and then target accounts,
+
+24
+00:00:56.940 --> 00:00:58.890
+there must be permissions.
+
+25
+00:00:58.890 --> 00:01:00.330
+And so you have IAM roles
+
+26
+00:01:00.330 --> 00:01:03.450
+with trust relationships in both the administrator
+
+27
+00:01:03.450 --> 00:01:05.100
+and the target accounts.
+
+28
+00:01:05.100 --> 00:01:07.320
+And these IAM roles allow you
+
+29
+00:01:07.320 --> 00:01:09.480
+to deploy your CloudFormation templates
+
+30
+00:01:09.480 --> 00:01:11.430
+into the target accounts.
+
+31
+00:01:11.430 --> 00:01:13.830
+So in the administrator accounts,
+
+32
+00:01:13.830 --> 00:01:18.120
+there is a AWS CloudFormation StackSet administration role,
+
+33
+00:01:18.120 --> 00:01:20.070
+which has a trust relationship
+
+34
+00:01:20.070 --> 00:01:24.750
+with every AWS CloudFormation StackSet execution role
+
+35
+00:01:24.750 --> 00:01:26.730
+in every target accounts.
+
+36
+00:01:26.730 --> 00:01:30.120
+And it is for you to manually create these roles
+
+37
+00:01:30.120 --> 00:01:32.730
+if you are not using AWS Organization.
+
+38
+00:01:32.730 --> 00:01:36.090
+This is the self-managed permissions.
+
+39
+00:01:36.090 --> 00:01:38.220
+If you have service-managed permissions,
+
+40
+00:01:38.220 --> 00:01:41.040
+then you use AWS Organization,
+
+41
+00:01:41.040 --> 00:01:44.100
+and automatically, Organization is going to create
+
+42
+00:01:44.100 --> 00:01:45.810
+the IAM role on your behalf.
+
+43
+00:01:45.810 --> 00:01:47.760
+For this, we need to enable trusted access
+
+44
+00:01:47.760 --> 00:01:50.640
+within AWS Organization and all features,
+
+45
+00:01:50.640 --> 00:01:52.500
+and automatically, you can deploy
+
+46
+00:01:52.500 --> 00:01:54.990
+to any new accounts in the future,
+
+47
+00:01:54.990 --> 00:01:58.590
+including the new accounts in your organization.
+
+48
+00:01:58.590 --> 00:02:00.810
+So here, we have the management accounts
+
+49
+00:02:00.810 --> 00:02:02.610
+or a delegated administrator
+
+50
+00:02:02.610 --> 00:02:04.140
+that is deploying to the target accounts,
+
+51
+00:02:04.140 --> 00:02:06.840
+and we don't need to worry about IAM roles.
+
+52
+00:02:06.840 --> 00:02:08.730
+So on top of it,
+
+53
+00:02:08.730 --> 00:02:11.340
+if you have new accounts in your organization,
+
+54
+00:02:11.340 --> 00:02:15.030
+you can have a feature to enable deploying stack instances
+
+55
+00:02:15.030 --> 00:02:17.370
+automatically to these new accounts.
+
+56
+00:02:17.370 --> 00:02:20.460
+So this allows you to really make sure that, for example,
+
+57
+00:02:20.460 --> 00:02:22.680
+one stack is deployed across all accounts
+
+58
+00:02:22.680 --> 00:02:25.590
+in your organization as soon as they're created.
+
+59
+00:02:25.590 --> 00:02:27.030
+You can also decide
+
+60
+00:02:27.030 --> 00:02:29.670
+to delegate the StackSet administration,
+
+61
+00:02:29.670 --> 00:02:32.790
+to specific member accounts in your organization
+
+62
+00:02:32.790 --> 00:02:36.240
+for security and governance purposes.
+
+63
+00:02:36.240 --> 00:02:39.360
+Also, to make sure that this all works together,
+
+64
+00:02:39.360 --> 00:02:42.030
+you need to make sure that you have trusted access
+
+65
+00:02:42.030 --> 00:02:44.760
+within your organization to be enabled
+
+66
+00:02:44.760 --> 00:02:47.040
+so that the delegated administrator can deploy
+
+67
+00:02:47.040 --> 00:02:50.310
+to accounts managed by Organization.
+
+68
+00:02:50.310 --> 00:02:54.330
+So to summarize, StackSets with AWS Organization,
+
+69
+00:02:54.330 --> 00:02:56.040
+we have the organization itself.
+
+70
+00:02:56.040 --> 00:02:58.830
+We have maybe a delegated administrator account
+
+71
+00:02:58.830 --> 00:03:01.110
+that is going to deploy a StackSet
+
+72
+00:03:01.110 --> 00:03:03.300
+and manage stack instances
+
+73
+00:03:03.300 --> 00:03:06.540
+into all the target member accounts in different OU.
+
+74
+00:03:06.540 --> 00:03:09.960
+For example, the Prod OU and the Dev OU.
+
+75
+00:03:09.960 --> 00:03:11.640
+And if you have enabled it,
+
+76
+00:03:11.640 --> 00:03:14.100
+and you have a new account in one of the OUs,
+
+77
+00:03:14.100 --> 00:03:16.560
+then automatically, a stack instance
+
+78
+00:03:16.560 --> 00:03:18.870
+will be deployed to that new account.
+
+79
+00:03:18.870 --> 00:03:21.420
+And that is the whole power of using StackSets
+
+80
+00:03:21.420 --> 00:03:23.790
+with AWS Organization.
+
+81
+00:03:23.790 --> 00:03:25.230
+So that's it for it.
+
+82
+00:03:25.230 --> 00:03:26.460
+I hope you liked it,
+
+83
+00:03:26.460 --> 00:03:28.593
+and I will see you in the next lecture.
+

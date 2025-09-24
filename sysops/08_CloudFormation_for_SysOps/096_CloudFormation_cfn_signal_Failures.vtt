@@ -1,0 +1,378 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:02.379
+<v Instructor>So a common exam question you may get</v>
+
+2
+00:00:02.379 --> 00:00:05.430
+is the fact that the wait condition did not receive
+
+3
+00:00:05.430 --> 00:00:06.637
+the required number of signals
+
+4
+00:00:06.637 --> 00:00:09.007
+from an Amazon EC2 instance.
+
+5
+00:00:09.007 --> 00:00:11.460
+So it could be several reasons to this.
+
+6
+00:00:11.460 --> 00:00:13.514
+First of all, it could be that the AMI you're using
+
+7
+00:00:13.514 --> 00:00:17.760
+doesn't have the CloudFormation helper scripts installed.
+
+8
+00:00:17.760 --> 00:00:19.643
+So if it doesn't include them, you can install them
+
+9
+00:00:19.643 --> 00:00:21.695
+of course to your instance.
+
+10
+00:00:21.695 --> 00:00:26.370
+You must also verify the output of the cfn-init
+
+11
+00:00:26.370 --> 00:00:28.980
+and the cfn-signal commands.
+
+12
+00:00:28.980 --> 00:00:31.941
+So a couple of log files can give you a lot of information
+
+13
+00:00:31.941 --> 00:00:34.770
+into how these commands went.
+
+14
+00:00:34.770 --> 00:00:37.710
+But of course, to get access to your instance,
+
+15
+00:00:37.710 --> 00:00:38.959
+you must first disable
+
+16
+00:00:38.959 --> 00:00:42.480
+the rollback on failure of CloudFormation,
+
+17
+00:00:42.480 --> 00:00:45.060
+otherwise, automatically CloudFormation
+
+18
+00:00:45.060 --> 00:00:47.654
+is going to delete the failed EC2 instance
+
+19
+00:00:47.654 --> 00:00:49.830
+as soon as it goes into a failed state,
+
+20
+00:00:49.830 --> 00:00:50.760
+into a delete state.
+
+21
+00:00:50.760 --> 00:00:52.650
+So it's important to disable rollback
+
+22
+00:00:52.650 --> 00:00:55.410
+so you can debug and actually go into your instance
+
+23
+00:00:55.410 --> 00:00:57.360
+to figure out what happened.
+
+24
+00:00:57.360 --> 00:00:58.511
+Also, you need to make sure
+
+25
+00:00:58.511 --> 00:01:02.255
+that the EC2 instance does have access to the internet,
+
+26
+00:01:02.255 --> 00:01:04.846
+especially if you launch it in the private subnet,
+
+27
+00:01:04.846 --> 00:01:06.721
+because well, it needs to be able to communicate
+
+28
+00:01:06.721 --> 00:01:09.270
+with the CloudFormation service.
+
+29
+00:01:09.270 --> 00:01:10.354
+So for this, you can run, for example,
+
+30
+00:01:10.354 --> 00:01:15.183
+a quick connectivity test to the Amazon.com website.
+
+31
+00:01:16.350 --> 00:01:20.490
+So now I've opened the file cfn-signal-failure,
+
+32
+00:01:20.490 --> 00:01:23.666
+and you'll find that everything is the same as before.
+
+33
+00:01:23.666 --> 00:01:26.425
+The only difference is that now in my CloudFormation
+
+34
+00:01:26.425 --> 00:01:29.032
+in its block, under commands,
+
+35
+00:01:29.032 --> 00:01:32.190
+I echo boom and then I exit 1.
+
+36
+00:01:32.190 --> 00:01:36.436
+So this command is going to be generating an error
+
+37
+00:01:36.436 --> 00:01:38.670
+because we have an exit 1
+
+38
+00:01:38.670 --> 00:01:41.340
+and 1 is a non-zero status code,
+
+39
+00:01:41.340 --> 00:01:43.500
+which means that there is an error.
+
+40
+00:01:43.500 --> 00:01:46.860
+And so because this command is going to fail,
+
+41
+00:01:46.860 --> 00:01:51.272
+then my cfn in its script is going to fail,
+
+42
+00:01:51.272 --> 00:01:55.140
+and therefore my INIT STATUS will be 1
+
+43
+00:01:55.140 --> 00:01:57.944
+because the error returned was 1,
+
+44
+00:01:57.944 --> 00:02:01.161
+and therefore the CFN signal command
+
+45
+00:02:01.161 --> 00:02:06.161
+is going to pass this 1 error status to CloudFormation,
+
+46
+00:02:06.722 --> 00:02:09.930
+which should make CloudFormation fail.
+
+47
+00:02:09.930 --> 00:02:12.005
+So let's observe this behavior right now
+
+48
+00:02:12.005 --> 00:02:15.430
+by going back into CloudFormation creating a stack
+
+49
+00:02:16.560 --> 00:02:20.394
+in this I will choose 3-cfn-signal-failure.yaml,
+
+50
+00:02:20.394 --> 00:02:25.394
+and I'll call this one cfn-signal-failure-demo.
+
+51
+00:02:27.930 --> 00:02:31.983
+Next, next, and then submit.
+
+52
+00:02:33.120 --> 00:02:36.213
+And let's have a look at the process in details.
+
+53
+00:02:37.860 --> 00:02:40.920
+So as we can see now, we have an SH security group
+
+54
+00:02:40.920 --> 00:02:43.890
+that is being created, an EC2 instance being created
+
+55
+00:02:43.890 --> 00:02:46.117
+and we have a wait condition.
+
+56
+00:02:46.117 --> 00:02:49.950
+And so what needs to happen is for my EC2 instance
+
+57
+00:02:49.950 --> 00:02:52.801
+to bootstrap and so to be properly created then
+
+58
+00:02:52.801 --> 00:02:55.005
+to run the script and it should fail
+
+59
+00:02:55.005 --> 00:02:58.770
+and let our wait condition know that there was
+
+60
+00:02:58.770 --> 00:03:00.873
+an issue with CFN signal.
+
+61
+00:03:01.770 --> 00:03:04.244
+So as we can see now, my instance was in create complete
+
+62
+00:03:04.244 --> 00:03:07.248
+and then about 30 seconds later, the wait condition
+
+63
+00:03:07.248 --> 00:03:10.786
+returned a create fail because it received a failure signal
+
+64
+00:03:10.786 --> 00:03:13.080
+with this unique ID.
+
+65
+00:03:13.080 --> 00:03:17.070
+So a failure was communicated by the EC2 instance
+
+66
+00:03:17.070 --> 00:03:20.007
+and therefore now everything is being deleted,
+
+67
+00:03:20.007 --> 00:03:22.470
+the entire stack is being rolled back,
+
+68
+00:03:22.470 --> 00:03:24.569
+and then the instance is being deleted,
+
+69
+00:03:24.569 --> 00:03:26.550
+the wait condition is being deleted,
+
+70
+00:03:26.550 --> 00:03:29.117
+and then my security group will be deleted.
+
+71
+00:03:29.117 --> 00:03:30.934
+So we're very happy because, well,
+
+72
+00:03:30.934 --> 00:03:32.485
+a failure in the bootstrap
+
+73
+00:03:32.485 --> 00:03:34.733
+of my EC2 instance resulted in the failure
+
+74
+00:03:34.733 --> 00:03:38.463
+of the CloudFormation stack and for everything to roll back
+
+75
+00:03:38.463 --> 00:03:40.770
+and to be deleted.
+
+76
+00:03:40.770 --> 00:03:42.291
+But if I wanted to debug things,
+
+77
+00:03:42.291 --> 00:03:43.996
+this is not very convenient.
+
+78
+00:03:43.996 --> 00:03:46.173
+So to debug things, you need
+
+79
+00:03:46.173 --> 00:03:48.510
+to use a different rollback setting
+
+80
+00:03:48.510 --> 00:03:50.400
+that I will show you in a second.
+
+81
+00:03:50.400 --> 00:03:55.380
+So again, you upload a file, this one,
+
+82
+00:03:55.380 --> 00:03:58.053
+next, enter whatever name,
+
+83
+00:03:58.890 --> 00:04:01.371
+and then here, under stack failure options, you need
+
+84
+00:04:01.371 --> 00:04:02.966
+to make sure to, instead
+
+85
+00:04:02.966 --> 00:04:05.393
+of rolling back all stack resources, instead
+
+86
+00:04:05.393 --> 00:04:10.393
+to preserve successfully provision resources to know exactly
+
+87
+00:04:10.814 --> 00:04:12.990
+what has malfunction.
+
+88
+00:04:12.990 --> 00:04:16.080
+So you can, for example, use EC2 instance connect,
+
+89
+00:04:16.080 --> 00:04:17.609
+look at the logs and see what happens,
+
+90
+00:04:17.609 --> 00:04:20.640
+and then figure out the root cause of your problems,
+
+91
+00:04:20.640 --> 00:04:23.641
+especially helpful during your development cycles.
+
+92
+00:04:23.641 --> 00:04:25.957
+So I hope that was helpful. I hope you understand now the
+
+93
+00:04:25.957 --> 00:04:29.823
+power of CFN signal and the wait conditions.
+
+94
+00:04:29.823 --> 00:04:33.633
+I hope you liked it and I will see you in the next lecture.
+

@@ -1,0 +1,282 @@
+WEBVTT
+
+1
+00:00:00.180 --> 00:00:01.013
+<v Instructor>So now let's talk</v>
+
+2
+00:00:01.013 --> 00:00:03.630
+about CloudWatch Synthetics Canary.
+
+3
+00:00:03.630 --> 00:00:06.690
+So the idea is that you have a configurable script
+
+4
+00:00:06.690 --> 00:00:09.090
+and that script is going to be run from CloudWatch
+
+5
+00:00:09.090 --> 00:00:12.930
+and is going to be able to monitor your APIs, your URLs
+
+6
+00:00:12.930 --> 00:00:14.160
+or your websites.
+
+7
+00:00:14.160 --> 00:00:16.560
+And the idea is that you define a script,
+
+8
+00:00:16.560 --> 00:00:19.650
+and this script is going to reproduce programmatically
+
+9
+00:00:19.650 --> 00:00:21.210
+what your customers do.
+
+10
+00:00:21.210 --> 00:00:22.830
+And the idea is that, for example,
+
+11
+00:00:22.830 --> 00:00:26.070
+if your customer goes onto a product webpage
+
+12
+00:00:26.070 --> 00:00:28.170
+and then he clicks and he puts add to cart,
+
+13
+00:00:28.170 --> 00:00:30.840
+goes to the checkout, puts the credit card details
+
+14
+00:00:30.840 --> 00:00:33.750
+and make sure the checkout works, you can test all of this
+
+15
+00:00:33.750 --> 00:00:36.990
+and reproduce it with CloudWatch Synthetics Canary.
+
+16
+00:00:36.990 --> 00:00:40.560
+And the idea is that if somehow this script fails,
+
+17
+00:00:40.560 --> 00:00:42.480
+that means you found an issue and it's good
+
+18
+00:00:42.480 --> 00:00:45.120
+for you to find this issue before your customers do.
+
+19
+00:00:45.120 --> 00:00:46.440
+So the idea is that you can check
+
+20
+00:00:46.440 --> 00:00:48.240
+whether or not some flows are working.
+
+21
+00:00:48.240 --> 00:00:50.880
+We can also check the availability and latency
+
+22
+00:00:50.880 --> 00:00:54.570
+of some endpoints, and you can even store load time data
+
+23
+00:00:54.570 --> 00:00:57.300
+and even take screenshots of the UI.
+
+24
+00:00:57.300 --> 00:00:58.680
+So let's take an example.
+
+25
+00:00:58.680 --> 00:01:01.680
+We have an application deployed in us-east-1,
+
+26
+00:01:01.680 --> 00:01:04.160
+and then we're going to use CloudWatch Synthetics Canary
+
+27
+00:01:04.160 --> 00:01:06.270
+to monitor the application.
+
+28
+00:01:06.270 --> 00:01:08.070
+In case things fail,
+
+29
+00:01:08.070 --> 00:01:11.160
+then a CloudWatch alarm is going to be triggered,
+
+30
+00:01:11.160 --> 00:01:13.830
+which is then going to invoke a Lambda function.
+
+31
+00:01:13.830 --> 00:01:16.800
+And a Lambda function may want to update the DNS record
+
+32
+00:01:16.800 --> 00:01:20.670
+of Route 53 to another instance in us-west-2
+
+33
+00:01:20.670 --> 00:01:23.370
+so that we redirect to a version
+
+34
+00:01:23.370 --> 00:01:25.740
+of the application that we know is working.
+
+35
+00:01:25.740 --> 00:01:27.570
+That's just one way of doing things.
+
+36
+00:01:27.570 --> 00:01:31.260
+So this script that Synthetics Canary can run can be written
+
+37
+00:01:31.260 --> 00:01:32.940
+in Node.js or Python.
+
+38
+00:01:32.940 --> 00:01:35.760
+And on top of it from within Synthetics Canary,
+
+39
+00:01:35.760 --> 00:01:38.610
+you have access to a headless Google Chrome browser.
+
+40
+00:01:38.610 --> 00:01:41.100
+So you can do anything you would do with Google Chrome,
+
+41
+00:01:41.100 --> 00:01:44.010
+Chrome directly from within Synthetics Canary.
+
+42
+00:01:44.010 --> 00:01:46.500
+You can choose to run your script once
+
+43
+00:01:46.500 --> 00:01:47.700
+or on a regular schedule.
+
+44
+00:01:47.700 --> 00:01:50.610
+For example, if you wanted to check the availability
+
+45
+00:01:50.610 --> 00:01:52.470
+of your endpoints.
+
+46
+00:01:52.470 --> 00:01:54.570
+There's also some blueprints that you can leverage.
+
+47
+00:01:54.570 --> 00:01:57.510
+So you have the Heartbeat Monitor to load the URL,
+
+48
+00:01:57.510 --> 00:02:00.210
+store screenshots and an HTTP archive file
+
+49
+00:02:00.210 --> 00:02:02.490
+and make sure that everything is working correctly.
+
+50
+00:02:02.490 --> 00:02:05.910
+The API Canary to test basic read and write functions
+
+51
+00:02:05.910 --> 00:02:07.320
+of REST APIs.
+
+52
+00:02:07.320 --> 00:02:08.820
+You have the Broken Link Checker
+
+53
+00:02:08.820 --> 00:02:11.520
+to check all the links inside of the URL you're testing,
+
+54
+00:02:11.520 --> 00:02:13.740
+making sure none of them actually lead you
+
+55
+00:02:13.740 --> 00:02:15.150
+to a broken link.
+
+56
+00:02:15.150 --> 00:02:18.060
+Visual monitoring to compare a screenshot taken
+
+57
+00:02:18.060 --> 00:02:19.230
+during the canary run
+
+58
+00:02:19.230 --> 00:02:22.260
+with a baseline screenshot that you've taken before.
+
+59
+00:02:22.260 --> 00:02:24.270
+Canary Recorder, which is used
+
+60
+00:02:24.270 --> 00:02:26.700
+with CloudWatch Synthetics Recorder.
+
+61
+00:02:26.700 --> 00:02:29.790
+And it's a way for you to record your actions on a website
+
+62
+00:02:29.790 --> 00:02:33.390
+and then automatically out of it, a script will be generated
+
+63
+00:02:33.390 --> 00:02:36.450
+and then you can run it directly on Synthetics Canary
+
+64
+00:02:36.450 --> 00:02:39.750
+and automatically, the actions will be repeated.
+
+65
+00:02:39.750 --> 00:02:42.270
+And finally, a GUI Workflow Builder.
+
+66
+00:02:42.270 --> 00:02:43.650
+So that's, for example, you can verify
+
+67
+00:02:43.650 --> 00:02:46.410
+that the actions taken on your webpage with, for example,
+
+68
+00:02:46.410 --> 00:02:48.810
+with the login form are working correctly.
+
+69
+00:02:48.810 --> 00:02:51.210
+Okay, so that's it for CloudWatch Synthetics Canary.
+
+70
+00:02:51.210 --> 00:02:54.273
+I hope you liked it and I will see you in the next lecture.
+

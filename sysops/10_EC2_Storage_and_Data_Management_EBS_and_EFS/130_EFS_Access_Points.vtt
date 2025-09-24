@@ -1,0 +1,322 @@
+WEBVTT
+
+1
+00:00:00.320 --> 00:00:02.880
+<v ->Now let's talk about a feature called EFS Access Points,</v>
+
+2
+00:00:02.880 --> 00:00:06.030
+which is a feature to easily manage your application
+
+3
+00:00:06.030 --> 00:00:08.400
+access to your NFS environments.
+
+4
+00:00:08.400 --> 00:00:12.060
+You can enforce a POSIX user and group to use this access
+
+5
+00:00:12.060 --> 00:00:14.220
+point when accessing the file system.
+
+6
+00:00:14.220 --> 00:00:16.160
+And the idea is that using this access point,
+
+7
+00:00:16.160 --> 00:00:18.350
+you're going to be able to restrict access to a specific
+
+8
+00:00:18.350 --> 00:00:20.520
+directory within the file system
+
+9
+00:00:20.520 --> 00:00:22.020
+and also you can optionally,
+
+10
+00:00:22.020 --> 00:00:24.220
+specify a different route directory,
+
+11
+00:00:24.220 --> 00:00:25.460
+which could be quite handy.
+
+12
+00:00:25.460 --> 00:00:27.440
+And access from the NFS clients
+
+13
+00:00:27.440 --> 00:00:30.160
+to the access points can be done using IAM policies.
+
+14
+00:00:30.160 --> 00:00:31.010
+So here's an example,
+
+15
+00:00:31.010 --> 00:00:33.230
+we have an EFS file system that's going to be shared
+
+16
+00:00:33.230 --> 00:00:34.810
+across your entire company
+
+17
+00:00:34.810 --> 00:00:36.840
+but has different folders under the routes.
+
+18
+00:00:36.840 --> 00:00:37.990
+There is a data folder,
+
+19
+00:00:37.990 --> 00:00:40.640
+the secret folder and the config folder,
+
+20
+00:00:40.640 --> 00:00:42.780
+and we want different users to access different parts of
+
+21
+00:00:42.780 --> 00:00:44.150
+your EFS file system.
+
+22
+00:00:44.150 --> 00:00:46.590
+So if you create an EFS access point 1
+
+23
+00:00:46.590 --> 00:00:49.810
+with a UID of 1001 and a GID of 1001
+
+24
+00:00:49.810 --> 00:00:52.270
+and the default path to be /config,
+
+25
+00:00:52.270 --> 00:00:55.100
+then by setting up the correct permissions,
+
+26
+00:00:55.100 --> 00:00:58.280
+you can ensure that your developers, users or group
+
+27
+00:00:58.280 --> 00:01:01.750
+can only access your /config subdirectory
+
+28
+00:01:01.750 --> 00:01:04.590
+within your EFS file system and make it the root folder.
+
+29
+00:01:04.590 --> 00:01:07.160
+And so the idea is that, thanks to this access point,
+
+30
+00:01:07.160 --> 00:01:09.830
+they will be only accessing that part
+
+31
+00:01:09.830 --> 00:01:11.940
+of your EFS file system.
+
+32
+00:01:11.940 --> 00:01:14.510
+We can do it as well for a second group, for example,
+
+33
+00:01:14.510 --> 00:01:15.950
+the analytics group.
+
+34
+00:01:15.950 --> 00:01:17.930
+And again, you would set up a different UID,
+
+35
+00:01:17.930 --> 00:01:20.780
+a different GID and maybe a different path as well
+
+36
+00:01:20.780 --> 00:01:23.270
+for the routes of their access.
+
+37
+00:01:23.270 --> 00:01:25.910
+And again, this will be all regulated by IAM permissions.
+
+38
+00:01:25.910 --> 00:01:28.740
+And so the idea is that your EFS file system can be used
+
+39
+00:01:28.740 --> 00:01:30.080
+by many different groups,
+
+40
+00:01:30.080 --> 00:01:33.610
+but with their own restrictions and their own permissions.
+
+41
+00:01:33.610 --> 00:01:36.193
+So this is the whole idea behind EFS Access Points.
+
+42
+00:01:37.100 --> 00:01:39.340
+Okay, so let's see how we can create an access point.
+
+43
+00:01:39.340 --> 00:01:41.790
+So let's go into Access points on the left hand side
+
+44
+00:01:41.790 --> 00:01:43.010
+and create one.
+
+45
+00:01:43.010 --> 00:01:44.930
+So here we have to choose a file system
+
+46
+00:01:44.930 --> 00:01:46.080
+to attach to this access point
+
+47
+00:01:46.080 --> 00:01:47.750
+so I'll choose the one that I've created.
+
+48
+00:01:47.750 --> 00:01:49.510
+Then we can name this access point.
+
+49
+00:01:49.510 --> 00:01:51.626
+So DemoAccessPoints,
+
+50
+00:01:51.626 --> 00:01:52.760
+and then pretty cool,
+
+51
+00:01:52.760 --> 00:01:55.500
+we could specify a root directory path.
+
+52
+00:01:55.500 --> 00:01:57.940
+So for example, I can say /data.
+
+53
+00:01:57.940 --> 00:02:01.250
+Is the directory going to be accessed as a new route
+
+54
+00:02:01.250 --> 00:02:02.840
+for this specific access point?
+
+55
+00:02:02.840 --> 00:02:04.430
+Because I just want my users to access
+
+56
+00:02:04.430 --> 00:02:07.160
+this /data directory in my EFS.
+
+57
+00:02:07.160 --> 00:02:10.610
+We could specify, optionally, a POSIX user to be identified
+
+58
+00:02:10.610 --> 00:02:13.460
+on this access points but I will not specify it.
+
+59
+00:02:13.460 --> 00:02:16.590
+You could also have a root directory creation permission,
+
+60
+00:02:16.590 --> 00:02:18.610
+that's specified right here, but I will not do it as well.
+
+61
+00:02:18.610 --> 00:02:19.570
+This is optional.
+
+62
+00:02:19.570 --> 00:02:21.730
+And sometimes for this access point.
+
+63
+00:02:21.730 --> 00:02:24.560
+So once the access point is created, as you can see,
+
+64
+00:02:24.560 --> 00:02:26.740
+you can see it in this window.
+
+65
+00:02:26.740 --> 00:02:28.130
+Now let me click on it.
+
+66
+00:02:28.130 --> 00:02:31.093
+And so this access point has a specific access point ARN,
+
+67
+00:02:32.169 --> 00:02:33.169
+as you can see here.
+
+68
+00:02:34.070 --> 00:02:36.970
+And if I wanted to be able to melt this access point onto
+
+69
+00:02:36.970 --> 00:02:38.390
+my UC two instances,
+
+70
+00:02:38.390 --> 00:02:41.820
+then you can use this EFS Mount helper in here,
+
+71
+00:02:41.820 --> 00:02:45.300
+and you would melt this EFS access point directly onto your
+
+72
+00:02:45.300 --> 00:02:49.000
+is two instances to regulate how they are accessing it.
+
+73
+00:02:49.000 --> 00:02:51.130
+And if you wanted more information,
+
+74
+00:02:51.130 --> 00:02:51.963
+you can see the user guide.
+
+75
+00:02:51.963 --> 00:02:52.860
+This is out of scope.
+
+76
+00:02:52.860 --> 00:02:55.450
+I just wanted to show you all the steps and I'm good to go.
+
+77
+00:02:55.450 --> 00:02:57.400
+So that's it, just to finish yourself.
+
+78
+00:02:57.400 --> 00:02:59.530
+Please delete your access point and you're good to go.
+
+79
+00:02:59.530 --> 00:03:00.363
+That's it.
+
+80
+00:03:00.363 --> 00:03:01.860
+I will see you in the next lecture.
+

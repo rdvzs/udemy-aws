@@ -1,0 +1,258 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:01.680
+<v Instructor>Okay, so what are the components</v>
+
+2
+00:00:01.680 --> 00:00:03.630
+EFS CloudWatch Metrics we can have?
+
+3
+00:00:03.630 --> 00:00:06.250
+Well, the first one is PercentIOLimit,
+
+4
+00:00:06.250 --> 00:00:07.690
+which is giving you an information
+
+5
+00:00:07.690 --> 00:00:09.480
+about how close the file system is
+
+6
+00:00:09.480 --> 00:00:12.870
+to reaching its I/O limit for General Purpose.
+
+7
+00:00:12.870 --> 00:00:13.710
+And the idea is that,
+
+8
+00:00:13.710 --> 00:00:16.220
+if you are getting a very, very high percentage,
+
+9
+00:00:16.220 --> 00:00:18.230
+or if you're getting close to 100%,
+
+10
+00:00:18.230 --> 00:00:21.040
+the recommendation is to move to Max I/O
+
+11
+00:00:21.040 --> 00:00:25.070
+to increase your I/O capacity of your EFS file system.
+
+12
+00:00:25.070 --> 00:00:27.850
+So, though if you wanted to enable Max I/O,
+
+13
+00:00:27.850 --> 00:00:30.210
+if you remember, you would have to perform a migration
+
+14
+00:00:30.210 --> 00:00:32.260
+because this operation cannot be done in place.
+
+15
+00:00:32.260 --> 00:00:34.160
+So that means creating a new file system
+
+16
+00:00:34.160 --> 00:00:36.290
+with a Max I/O already enabled
+
+17
+00:00:36.290 --> 00:00:38.320
+and then migrating from the previous file system
+
+18
+00:00:38.320 --> 00:00:39.390
+to the new file system
+
+19
+00:00:39.390 --> 00:00:41.980
+using a data sync service.
+
+20
+00:00:41.980 --> 00:00:43.350
+The other one is BurstCreditBalance.
+
+21
+00:00:43.350 --> 00:00:44.620
+So the idea is that,
+
+22
+00:00:44.620 --> 00:00:47.640
+when you have a general purpose EFS file system,
+
+23
+00:00:47.640 --> 00:00:48.680
+you also have burst credits
+
+24
+00:00:48.680 --> 00:00:51.490
+that you can use to achieve a higher throughput levels.
+
+25
+00:00:51.490 --> 00:00:54.998
+But then if the throughput is going up to 100%
+
+26
+00:00:54.998 --> 00:00:57.170
+and then using all the credits,
+
+27
+00:00:57.170 --> 00:00:59.520
+then you're going to have a credit balance at zero,
+
+28
+00:00:59.520 --> 00:01:01.920
+and you need to wait a little bit for it to replenish
+
+29
+00:01:01.920 --> 00:01:04.150
+until you can use them again.
+
+30
+00:01:04.150 --> 00:01:05.450
+So this is what I'm showing you
+
+31
+00:01:05.450 --> 00:01:06.870
+in the graphs on the right-hand side.
+
+32
+00:01:06.870 --> 00:01:08.348
+On the top is the throughput.
+
+33
+00:01:08.348 --> 00:01:09.660
+So when it's at 100%,
+
+34
+00:01:09.660 --> 00:01:11.570
+then the credit balance are going to be used.
+
+35
+00:01:11.570 --> 00:01:14.090
+And on the bottom is the BurstCreditBalance itself
+
+36
+00:01:14.090 --> 00:01:18.120
+being replenished when the throughput is less than 100%.
+
+37
+00:01:18.120 --> 00:01:20.040
+Finally, StorageBytes, which is very easy,
+
+38
+00:01:20.040 --> 00:01:21.970
+which is a file system's size in bytes,
+
+39
+00:01:21.970 --> 00:01:23.540
+and which is updated every 15 minutes.
+
+40
+00:01:23.540 --> 00:01:24.810
+And you get a few dimensions,
+
+41
+00:01:24.810 --> 00:01:28.170
+which is how much is stored in the Standard class
+
+42
+00:01:28.170 --> 00:01:30.450
+versus how much is stored in the IA class
+
+43
+00:01:30.450 --> 00:01:33.383
+and Total is the sum of Standard and IA.
+
+44
+00:01:34.530 --> 00:01:37.020
+So you can access all the monitoring metrics directly
+
+45
+00:01:37.020 --> 00:01:38.810
+by clicking on your file system
+
+46
+00:01:38.810 --> 00:01:40.890
+and clicking on Monitoring.
+
+47
+00:01:40.890 --> 00:01:42.240
+And then in here you have access
+
+48
+00:01:42.240 --> 00:01:43.530
+to your throughput utilization,
+
+49
+00:01:43.530 --> 00:01:46.540
+being a warning when you're at above 75%.
+
+50
+00:01:46.540 --> 00:01:47.410
+The IOPS by type.
+
+51
+00:01:47.410 --> 00:01:48.680
+The throughput by type.
+
+52
+00:01:48.680 --> 00:01:50.640
+The percent IO limit. So this is a very important metric
+
+53
+00:01:50.640 --> 00:01:51.630
+I just told you about.
+
+54
+00:01:51.630 --> 00:01:52.463
+Client connections,
+
+55
+00:01:52.463 --> 00:01:54.630
+which is how many clients are currently connected
+
+56
+00:01:54.630 --> 00:01:56.150
+to your EFS file system.
+
+57
+00:01:56.150 --> 00:01:57.890
+And how much storage you're using
+
+58
+00:01:57.890 --> 00:02:00.330
+on your EFS file system. Okay.
+
+59
+00:02:00.330 --> 00:02:02.500
+And it could be a time series or a single value
+
+60
+00:02:02.500 --> 00:02:05.530
+if you wanted to get some real-time information in here.
+
+61
+00:02:05.530 --> 00:02:07.630
+And you could see more metrics in CloudWatch.
+
+62
+00:02:07.630 --> 00:02:08.650
+So that's it for this lecture.
+
+63
+00:02:08.650 --> 00:02:09.483
+I hope you liked it.
+
+64
+00:02:09.483 --> 00:02:11.410
+And I will see you in the next lecture.
+

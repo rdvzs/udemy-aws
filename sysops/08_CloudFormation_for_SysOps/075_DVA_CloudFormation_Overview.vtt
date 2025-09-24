@@ -1,0 +1,522 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:03.330
+<v Instructor>So now let's learn about AWS CloudFormation,</v>
+
+2
+00:00:03.330 --> 00:00:07.740
+which is one of my personal favorite services in AWS.
+
+3
+00:00:07.740 --> 00:00:11.400
+So CloudFormation is a way for you to outline
+
+4
+00:00:11.400 --> 00:00:15.960
+your AWS infrastructure for any resources for this
+
+5
+00:00:15.960 --> 00:00:17.670
+using just code.
+
+6
+00:00:17.670 --> 00:00:19.770
+For example, in a CloudFormation template,
+
+7
+00:00:19.770 --> 00:00:22.380
+you're going to say, I want a security group.
+
+8
+00:00:22.380 --> 00:00:24.120
+I want two EC2 instances
+
+9
+00:00:24.120 --> 00:00:26.610
+that are going to be using the security group.
+
+10
+00:00:26.610 --> 00:00:29.760
+I want Elastic IPs for these EC2 instances.
+
+11
+00:00:29.760 --> 00:00:31.050
+I want an S3 bucket.
+
+12
+00:00:31.050 --> 00:00:35.160
+I want a load balancer in front of these EC2 instances.
+
+13
+00:00:35.160 --> 00:00:37.830
+And then by declaring what you want by just saying,
+
+14
+00:00:37.830 --> 00:00:39.570
+hey, all these things should exist
+
+15
+00:00:39.570 --> 00:00:42.210
+and they should be linked together, automatically,
+
+16
+00:00:42.210 --> 00:00:45.810
+CloudFormation will create them for you in the right order
+
+17
+00:00:45.810 --> 00:00:48.990
+with the exact configuration that you specify.
+
+18
+00:00:48.990 --> 00:00:52.350
+So this removes any need of doing manual configuration
+
+19
+00:00:52.350 --> 00:00:55.678
+and manual work, and all the things is provisioned
+
+20
+00:00:55.678 --> 00:00:57.600
+through CloudFormation.
+
+21
+00:00:57.600 --> 00:01:01.230
+So a CloudFormation template is going to be some code,
+
+22
+00:01:01.230 --> 00:01:03.900
+and the code will involve in a declarative way
+
+23
+00:01:03.900 --> 00:01:06.780
+what you want your infrastructure to be composed of.
+
+24
+00:01:06.780 --> 00:01:10.200
+And then we'll be able to visualize this infrastructure
+
+25
+00:01:10.200 --> 00:01:12.300
+using Infrastructure Composer
+
+26
+00:01:12.300 --> 00:01:14.850
+to see how the components relate to each other
+
+27
+00:01:14.850 --> 00:01:16.517
+in CloudFormation.
+
+28
+00:01:16.517 --> 00:01:20.400
+So why should you use AWS CloudFormation?
+
+29
+00:01:20.400 --> 00:01:23.430
+Well, first, it is your infrastructure as code.
+
+30
+00:01:23.430 --> 00:01:26.520
+That means that no resources are being manually created,
+
+31
+00:01:26.520 --> 00:01:28.530
+which is going to be excellent for control.
+
+32
+00:01:28.530 --> 00:01:30.540
+And all the code that makes up
+
+33
+00:01:30.540 --> 00:01:33.180
+these CloudFormation templates can be used
+
+34
+00:01:33.180 --> 00:01:35.380
+for version control, for example, using Git.
+
+35
+00:01:36.377 --> 00:01:38.933
+Also, any changes to your infrastructure
+
+36
+00:01:38.933 --> 00:01:40.543
+is going to be reviewed through code changes.
+
+37
+00:01:40.543 --> 00:01:42.240
+In terms of cost,
+
+38
+00:01:42.240 --> 00:01:45.690
+well, all the resources within your CloudFormation stack
+
+39
+00:01:45.690 --> 00:01:48.030
+is going to be tagged with an identifier
+
+40
+00:01:48.030 --> 00:01:50.850
+so you can easily see how much a CloudFormation stack
+
+41
+00:01:50.850 --> 00:01:52.320
+is going to cost you.
+
+42
+00:01:52.320 --> 00:01:54.650
+And we can also estimate the cost of resources
+
+43
+00:01:54.650 --> 00:01:56.880
+from your CloudFormation templates.
+
+44
+00:01:56.880 --> 00:01:59.625
+And finally, you can have saving strategy.
+
+45
+00:01:59.625 --> 00:02:01.827
+For example, in your development environment,
+
+46
+00:02:01.827 --> 00:02:04.140
+you could automate the deletion of the templates at 5:00 PM
+
+47
+00:02:04.140 --> 00:02:08.280
+and recreate them automatically at 8:00 AM in a safe matter
+
+48
+00:02:08.280 --> 00:02:10.380
+because everything is automated.
+
+49
+00:02:10.380 --> 00:02:11.213
+For productivity,
+
+50
+00:02:11.213 --> 00:02:13.895
+this is amazing because you have the ability to destroy
+
+51
+00:02:13.895 --> 00:02:17.670
+and recreate an infrastructure on the cloud on the fly.
+
+52
+00:02:17.670 --> 00:02:20.820
+And this is really leveraging the whole power of the cloud,
+
+53
+00:02:20.820 --> 00:02:22.740
+which is to just create and delete things
+
+54
+00:02:22.740 --> 00:02:24.355
+and only pay as you go.
+
+55
+00:02:24.355 --> 00:02:27.540
+You also have automated generation of diagrams
+
+56
+00:02:27.540 --> 00:02:29.587
+for your template, which is very good
+
+57
+00:02:29.587 --> 00:02:30.600
+for your architecture diagrams
+
+58
+00:02:30.600 --> 00:02:32.340
+and its declarative programming.
+
+59
+00:02:32.340 --> 00:02:35.340
+So you don't need to figure out the order of the creation
+
+60
+00:02:35.340 --> 00:02:38.400
+of the resources and the orchestration of things.
+
+61
+00:02:38.400 --> 00:02:41.640
+All these things are done by CloudFormation for you.
+
+62
+00:02:41.640 --> 00:02:44.130
+There's also a separation of concern.
+
+63
+00:02:44.130 --> 00:02:46.170
+You can create many CloudFormation stacks
+
+64
+00:02:46.170 --> 00:02:48.630
+for many applications and many layers.
+
+65
+00:02:48.630 --> 00:02:50.370
+For example, you may want to have stacks
+
+66
+00:02:50.370 --> 00:02:52.500
+for your network and your VPCs.
+
+67
+00:02:52.500 --> 00:02:55.710
+You may want to have stacks for your applications and so on.
+
+68
+00:02:55.710 --> 00:02:58.020
+Finally, you don't reinvent the wheel
+
+69
+00:02:58.020 --> 00:03:01.050
+because you can leverage existing templates on the web
+
+70
+00:03:01.050 --> 00:03:02.490
+and the documentation
+
+71
+00:03:02.490 --> 00:03:05.760
+to quickly write your CloudFormation templates.
+
+72
+00:03:05.760 --> 00:03:08.070
+Now, how does CloudFormation work?
+
+73
+00:03:08.070 --> 00:03:11.730
+Well, your templates must be uploaded in Amazon S3
+
+74
+00:03:11.730 --> 00:03:13.470
+and then referenced from CloudFormation.
+
+75
+00:03:13.470 --> 00:03:16.200
+So you upload it, and then from CloudFormation
+
+76
+00:03:16.200 --> 00:03:19.170
+you reference it and a stack will be created.
+
+77
+00:03:19.170 --> 00:03:21.240
+And what is a CloudFormation stack?
+
+78
+00:03:21.240 --> 00:03:24.510
+Well, it is made of AWS resources,
+
+79
+00:03:24.510 --> 00:03:28.770
+and it could be any kind of things you can create on AWS.
+
+80
+00:03:28.770 --> 00:03:30.900
+If you wanted to update a template,
+
+81
+00:03:30.900 --> 00:03:32.460
+you cannot edit the previous one.
+
+82
+00:03:32.460 --> 00:03:34.530
+What we have to do is to re-upload
+
+83
+00:03:34.530 --> 00:03:37.260
+a new version of the template to AWS
+
+84
+00:03:37.260 --> 00:03:39.360
+and then update your stack.
+
+85
+00:03:39.360 --> 00:03:42.426
+Now, your stacks are identified by a name within the region,
+
+86
+00:03:42.426 --> 00:03:45.280
+and if you delete a CloudFormation stack,
+
+87
+00:03:45.280 --> 00:03:48.270
+every single artifact and resource
+
+88
+00:03:48.270 --> 00:03:51.599
+that was created by CloudFormation will be deleted.
+
+89
+00:03:51.599 --> 00:03:55.260
+Now, how do we deploy CloudFormation templates?
+
+90
+00:03:55.260 --> 00:03:57.120
+Well, there is the manual way
+
+91
+00:03:57.120 --> 00:03:58.860
+in which we're going to use something
+
+92
+00:03:58.860 --> 00:04:00.240
+like Infrastructure Composer
+
+93
+00:04:00.240 --> 00:04:02.610
+or a code editor to directly create
+
+94
+00:04:02.610 --> 00:04:05.310
+our CloudFormation templates, and then we use the console
+
+95
+00:04:05.310 --> 00:04:07.320
+to input the parameters and so on.
+
+96
+00:04:07.320 --> 00:04:09.780
+And we'll do this method mostly in this course
+
+97
+00:04:09.780 --> 00:04:13.493
+for learning purposes, or you can go the automated way.
+
+98
+00:04:13.493 --> 00:04:16.680
+So you're going to edit your templates in a YAML file,
+
+99
+00:04:16.680 --> 00:04:19.350
+and then you use the CLI to deploy the templates,
+
+100
+00:04:19.350 --> 00:04:21.360
+or you use a continuous delivery tool
+
+101
+00:04:21.360 --> 00:04:23.520
+to this automatically on the cloud.
+
+102
+00:04:23.520 --> 00:04:26.610
+And it's recommended if you want to fully automate your flow
+
+103
+00:04:26.610 --> 00:04:28.797
+to deploying CloudFormation templates.
+
+104
+00:04:28.797 --> 00:04:31.890
+Now, the building blocks of CloudFormation.
+
+105
+00:04:31.890 --> 00:04:34.620
+So your template is made of different components,
+
+106
+00:04:34.620 --> 00:04:36.990
+and we'll have a look at them in detail,
+
+107
+00:04:36.990 --> 00:04:38.965
+so don't be overwhelmed by this,
+
+108
+00:04:38.965 --> 00:04:41.043
+but we have the AWSTemplateFormatVersion,
+
+109
+00:04:42.450 --> 00:04:45.180
+which defines the version of how to read the templates.
+
+110
+00:04:45.180 --> 00:04:48.328
+This is for internal purposes from AWS.
+
+111
+00:04:48.328 --> 00:04:50.952
+The description, which is the comments about the templates,
+
+112
+00:04:50.952 --> 00:04:55.020
+the resources, which is the actual only mandatory section
+
+113
+00:04:55.020 --> 00:04:57.428
+in CloudFormation, which is going to define
+
+114
+00:04:57.428 --> 00:05:01.298
+all the AWS resources that are declared in the templates,
+
+115
+00:05:01.298 --> 00:05:02.580
+the parameters,
+
+116
+00:05:02.580 --> 00:05:05.490
+which are the dynamic inputs for your templates,
+
+117
+00:05:05.490 --> 00:05:07.590
+the mappings, the static variables for your templates,
+
+118
+00:05:07.590 --> 00:05:09.391
+and we'll see the differences
+
+119
+00:05:09.391 --> 00:05:11.160
+between parameters and mappings,
+
+120
+00:05:11.160 --> 00:05:14.250
+the outputs to get references to what has been created
+
+121
+00:05:14.250 --> 00:05:15.660
+in your templates,
+
+122
+00:05:15.660 --> 00:05:17.730
+conditionals, which are a list of conditions
+
+123
+00:05:17.730 --> 00:05:19.455
+to perform resource creation,
+
+124
+00:05:19.455 --> 00:05:21.432
+and we'll have a few template helpers
+
+125
+00:05:21.432 --> 00:05:23.880
+such as references and functions.
+
+126
+00:05:23.880 --> 00:05:24.840
+But don't worry.
+
+127
+00:05:24.840 --> 00:05:26.820
+We'll have a look at all of this
+
+128
+00:05:26.820 --> 00:05:31.110
+and code examples in this section, so don't worry.
+
+129
+00:05:31.110 --> 00:05:34.110
+So that's it for an introduction to CloudFormation.
+
+130
+00:05:34.110 --> 00:05:37.473
+I hope you liked it, and I will see you in the next lecture.
+

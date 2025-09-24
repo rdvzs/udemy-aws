@@ -1,0 +1,446 @@
+WEBVTT
+
+1
+00:00:00.310 --> 00:00:01.280
+<v Instructor>So now let's have a look</v>
+
+2
+00:00:01.280 --> 00:00:02.660
+at tags and resource groups.
+
+3
+00:00:02.660 --> 00:00:04.140
+So first tags, we know them.
+
+4
+00:00:04.140 --> 00:00:06.620
+They're key-value pairs that we can have
+
+5
+00:00:06.620 --> 00:00:08.810
+on many AWS resources.
+
+6
+00:00:08.810 --> 00:00:10.100
+And they're commonly used in EC2,
+
+7
+00:00:10.100 --> 00:00:12.290
+but many other sources as well.
+
+8
+00:00:12.290 --> 00:00:14.100
+And they have a free naming convention.
+
+9
+00:00:14.100 --> 00:00:15.960
+But common tags are going to be named
+
+10
+00:00:15.960 --> 00:00:17.820
+Environment, Team, and so on.
+
+11
+00:00:17.820 --> 00:00:19.990
+So we use tags for doing resource grouping,
+
+12
+00:00:19.990 --> 00:00:21.440
+as we'll see in this lecture,
+
+13
+00:00:21.440 --> 00:00:22.820
+but for automation as well,
+
+14
+00:00:22.820 --> 00:00:25.330
+for security, and cost allocation.
+
+15
+00:00:25.330 --> 00:00:27.100
+And the general rule of thumb is that it's better
+
+16
+00:00:27.100 --> 00:00:29.653
+to have too many tags then too few.
+
+17
+00:00:30.840 --> 00:00:32.440
+So with these tags now what we can do,
+
+18
+00:00:32.440 --> 00:00:35.610
+is that we can leverage them to create resource groups
+
+19
+00:00:35.610 --> 00:00:37.740
+and to do so while we make sure
+
+20
+00:00:37.740 --> 00:00:40.230
+that we can group two resources together,
+
+21
+00:00:40.230 --> 00:00:41.890
+if they share the same tags.
+
+22
+00:00:41.890 --> 00:00:43.320
+So they will allow us, for example,
+
+23
+00:00:43.320 --> 00:00:45.750
+to group applications together,
+
+24
+00:00:45.750 --> 00:00:48.680
+to group different layers of the same application stack,
+
+25
+00:00:48.680 --> 00:00:51.470
+or to differentiate between a production environment
+
+26
+00:00:51.470 --> 00:00:53.100
+versus a development environments.
+
+27
+00:00:53.100 --> 00:00:56.010
+So in this example, I have three EC2 instances.
+
+28
+00:00:56.010 --> 00:01:00.560
+Two of them have the environments dev as their tag, okay?
+
+29
+00:01:00.560 --> 00:01:04.250
+And one of them has the environment prod as their tag.
+
+30
+00:01:04.250 --> 00:01:06.341
+So what I can do is I can create a resource group
+
+31
+00:01:06.341 --> 00:01:09.050
+for the filter environment equals dev.
+
+32
+00:01:09.050 --> 00:01:10.980
+And this will create a logical group
+
+33
+00:01:10.980 --> 00:01:13.130
+of my first two instances.
+
+34
+00:01:13.130 --> 00:01:15.500
+So this is something you can do on a regional level, okay?
+
+35
+00:01:15.500 --> 00:01:16.820
+It's a regional service.
+
+36
+00:01:16.820 --> 00:01:19.290
+And it works not just with EC2 instances, of course.
+
+37
+00:01:19.290 --> 00:01:22.300
+But it works with Amazon EC2, S3,
+
+38
+00:01:22.300 --> 00:01:25.120
+DynamoDB, Lambda, and so on.
+
+39
+00:01:25.120 --> 00:01:27.690
+Okay, so let's get going with tagging our resources.
+
+40
+00:01:27.690 --> 00:01:30.287
+So the first instance, right now, I'm going to manage tags.
+
+41
+00:01:30.287 --> 00:01:31.910
+I'm going to add a tag.
+
+42
+00:01:31.910 --> 00:01:35.115
+First of all, the name is MyDevInstance.
+
+43
+00:01:35.115 --> 00:01:36.872
+And then I'm going to add a tag.
+
+44
+00:01:36.872 --> 00:01:40.072
+The environment is going to be dev,
+
+45
+00:01:40.072 --> 00:01:43.496
+and the team is going to be finance.
+
+46
+00:01:43.496 --> 00:01:45.420
+So I'm going to tag my first instance.
+
+47
+00:01:45.420 --> 00:01:47.220
+And now the name is showing here as well.
+
+48
+00:01:47.220 --> 00:01:48.610
+The second instance will also be tagged.
+
+49
+00:01:48.610 --> 00:01:50.380
+So I will manage the tags,
+
+50
+00:01:50.380 --> 00:01:53.793
+and the name is going to be MyProdInstance.
+
+51
+00:01:55.850 --> 00:01:57.502
+Now for the environment,
+
+52
+00:01:57.502 --> 00:02:00.340
+as you may have guessed is going to be prod.
+
+53
+00:02:00.340 --> 00:02:05.340
+And then for the team, it's still going to be finance.
+
+54
+00:02:05.490 --> 00:02:07.970
+And finally, I'm going for the last instance
+
+55
+00:02:07.970 --> 00:02:09.530
+to tag it as well.
+
+56
+00:02:09.530 --> 00:02:13.127
+So the name is going to be MyOtherDevInstance.
+
+57
+00:02:15.480 --> 00:02:20.100
+The tag is going to be environment dev,
+
+58
+00:02:20.100 --> 00:02:24.860
+and finally for the team, I'll use operations.
+
+59
+00:02:24.860 --> 00:02:25.890
+Okay, we're good to go.
+
+60
+00:02:25.890 --> 00:02:28.040
+So now we have our three instances and from there,
+
+61
+00:02:28.040 --> 00:02:30.260
+I'm going to be able to create resource groups.
+
+62
+00:02:30.260 --> 00:02:31.770
+So back into systems manager,
+
+63
+00:02:31.770 --> 00:02:33.310
+I'm going to go here,
+
+64
+00:02:33.310 --> 00:02:36.380
+and I'm going to find the resource groups, okay?
+
+65
+00:02:36.380 --> 00:02:40.290
+So, and then in the search bar, I'm going to go
+
+66
+00:02:40.290 --> 00:02:44.040
+to resource groups and find the window
+
+67
+00:02:44.040 --> 00:02:44.877
+for the resource groups.
+
+68
+00:02:44.877 --> 00:02:47.260
+I'm going to create a resource group,
+
+69
+00:02:47.260 --> 00:02:49.600
+and it's going to be tagged based, okay?
+
+70
+00:02:49.600 --> 00:02:51.320
+And then we need to select the resources
+
+71
+00:02:51.320 --> 00:02:52.500
+so we can use all resource types
+
+72
+00:02:52.500 --> 00:02:54.350
+to look across our accounts.
+
+73
+00:02:54.350 --> 00:02:56.543
+Or we can just look for EC2 instances.
+
+74
+00:02:57.630 --> 00:03:00.540
+And for example, we want you to have the environments.
+
+75
+00:03:00.540 --> 00:03:02.550
+Oops, environments.
+
+76
+00:03:02.550 --> 00:03:03.530
+Here we go.
+
+77
+00:03:03.530 --> 00:03:05.790
+To be equals to dev.
+
+78
+00:03:05.790 --> 00:03:06.880
+And add this.
+
+79
+00:03:06.880 --> 00:03:09.270
+If we do this, we can preview the resource group resources.
+
+80
+00:03:09.270 --> 00:03:11.790
+And we can find that two EC2 instances
+
+81
+00:03:11.790 --> 00:03:13.240
+are in my resource group.
+
+82
+00:03:13.240 --> 00:03:16.240
+We have my dev instance and my other dev instance.
+
+83
+00:03:16.240 --> 00:03:17.340
+It's just perfect.
+
+84
+00:03:17.340 --> 00:03:19.673
+So we'll call this one dev group.
+
+85
+00:03:21.150 --> 00:03:22.640
+And create this group.
+
+86
+00:03:22.640 --> 00:03:25.800
+So similarly, we can here create a new resource group.
+
+87
+00:03:25.800 --> 00:03:29.960
+And this one is going to be again for our EC2 instance,
+
+88
+00:03:29.960 --> 00:03:33.800
+and the environment is going to be of type prod.
+
+89
+00:03:33.800 --> 00:03:34.990
+We can preview the resource groups,
+
+90
+00:03:34.990 --> 00:03:37.050
+and then there's one resource within it.
+
+91
+00:03:37.050 --> 00:03:39.233
+And this one I can call ProdGroup.
+
+92
+00:03:40.440 --> 00:03:41.273
+Great.
+
+93
+00:03:43.450 --> 00:03:45.150
+And next I can create one last group.
+
+94
+00:03:45.150 --> 00:03:49.460
+So again, my EC2 instances, and for this time,
+
+95
+00:03:49.460 --> 00:03:53.080
+the team is going to be finance.
+
+96
+00:03:53.080 --> 00:03:56.860
+And here, I will call this group my finance group.
+
+97
+00:03:56.860 --> 00:03:58.850
+And again, we can look at the resources
+
+98
+00:03:58.850 --> 00:04:00.530
+and we can find two EC2 instances.
+
+99
+00:04:00.530 --> 00:04:02.460
+My prod instance and my dev instance
+
+100
+00:04:02.460 --> 00:04:04.000
+belong to this finance group.
+
+101
+00:04:04.000 --> 00:04:04.833
+So this is good.
+
+102
+00:04:04.833 --> 00:04:06.090
+We create a group.
+
+103
+00:04:06.090 --> 00:04:08.640
+And here we go, we have three resource groups.
+
+104
+00:04:08.640 --> 00:04:10.600
+Now, the reason why we do these resource groups
+
+105
+00:04:10.600 --> 00:04:13.600
+is that we wanna be able to operate SSM
+
+106
+00:04:13.600 --> 00:04:15.150
+directly at the group level.
+
+107
+00:04:15.150 --> 00:04:17.080
+So we can, for example, patch the operating system
+
+108
+00:04:17.080 --> 00:04:18.840
+and perform some actions and so on.
+
+109
+00:04:18.840 --> 00:04:20.180
+So this is why it's a prerequisite.
+
+110
+00:04:20.180 --> 00:04:22.120
+So once you have done your resource groups,
+
+111
+00:04:22.120 --> 00:04:24.070
+we're good to go for the next lectures.
+

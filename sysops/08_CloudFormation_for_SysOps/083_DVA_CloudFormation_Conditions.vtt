@@ -1,0 +1,198 @@
+WEBVTT
+
+1
+00:00:00.120 --> 00:00:02.040
+<v Instructor>So now let's talk about conditions.</v>
+
+2
+00:00:02.040 --> 00:00:04.230
+So conditions, as the name indicates,
+
+3
+00:00:04.230 --> 00:00:07.410
+allow you to control the creation of a resource or outputs
+
+4
+00:00:07.410 --> 00:00:09.780
+based on the specific condition.
+
+5
+00:00:09.780 --> 00:00:12.030
+So for example, you could have some things
+
+6
+00:00:12.030 --> 00:00:14.040
+only created in a development environment
+
+7
+00:00:14.040 --> 00:00:15.390
+such as the Dev Stack
+
+8
+00:00:15.390 --> 00:00:18.538
+and some things only created in the production environment
+
+9
+00:00:18.538 --> 00:00:19.830
+such as the Prod Stack.
+
+10
+00:00:19.830 --> 00:00:21.540
+And as you can see, the difference here
+
+11
+00:00:21.540 --> 00:00:24.150
+is that one of these things has an EBS volume
+
+12
+00:00:24.150 --> 00:00:26.160
+and the other one doesn't.
+
+13
+00:00:26.160 --> 00:00:30.300
+So you can make conditions, whatever you want them to be.
+
+14
+00:00:30.300 --> 00:00:32.400
+But the common one is to have conditions
+
+15
+00:00:32.400 --> 00:00:33.570
+based on the environment you're in,
+
+16
+00:00:33.570 --> 00:00:35.340
+such as dev, test and prod,
+
+17
+00:00:35.340 --> 00:00:38.880
+or the region you're in, or a parameter value.
+
+18
+00:00:38.880 --> 00:00:41.460
+And each condition can reference each other
+
+19
+00:00:41.460 --> 00:00:44.580
+and can reference as well parameter values or mappings.
+
+20
+00:00:44.580 --> 00:00:46.290
+So here is an example.
+
+21
+00:00:46.290 --> 00:00:48.970
+We define a condition named CreateProdResources
+
+22
+00:00:50.520 --> 00:00:53.700
+in which we have a look at Env environment type
+
+23
+00:00:53.700 --> 00:00:56.370
+we have selected is equals to prod,
+
+24
+00:00:56.370 --> 00:00:58.980
+if it is equals to prod, then you're going
+
+25
+00:00:58.980 --> 00:01:00.300
+to have this condition being true
+
+26
+00:01:00.300 --> 00:01:02.760
+and we'll see how to use it in the next slide.
+
+27
+00:01:02.760 --> 00:01:05.070
+So to create a condition,
+
+28
+00:01:05.070 --> 00:01:08.340
+you can have any function such as And, Equals,
+
+29
+00:01:08.340 --> 00:01:10.920
+If, Not, and Or.
+
+30
+00:01:10.920 --> 00:01:13.470
+And then you have your conditions being created this way.
+
+31
+00:01:13.470 --> 00:01:15.270
+Now, how to use the condition.
+
+32
+00:01:15.270 --> 00:01:16.770
+Well here, as you can see,
+
+33
+00:01:16.770 --> 00:01:19.200
+I apply my condition to a resource,
+
+34
+00:01:19.200 --> 00:01:21.660
+but it could also be an output, et cetera, et cetera.
+
+35
+00:01:21.660 --> 00:01:23.640
+And so my MountPoint here
+
+36
+00:01:23.640 --> 00:01:27.480
+of type EC2 VolumeAttachment has a condition
+
+37
+00:01:27.480 --> 00:01:29.250
+CreateProdResources.
+
+38
+00:01:29.250 --> 00:01:32.640
+And that condition is the exact one I had defined before.
+
+39
+00:01:32.640 --> 00:01:36.000
+And so therefore, if that condition was true,
+
+40
+00:01:36.000 --> 00:01:38.430
+then the MountPoint would be created.
+
+41
+00:01:38.430 --> 00:01:39.810
+And if it was false,
+
+42
+00:01:39.810 --> 00:01:42.420
+then the MountPoint would not be created.
+
+43
+00:01:42.420 --> 00:01:43.830
+So from an exam perspective,
+
+44
+00:01:43.830 --> 00:01:46.260
+you don't need to know how to write conditions,
+
+45
+00:01:46.260 --> 00:01:47.130
+this is too advanced,
+
+46
+00:01:47.130 --> 00:01:48.360
+but you need to know
+
+47
+00:01:48.360 --> 00:01:51.180
+that conditions exist if you need to.
+
+48
+00:01:51.180 --> 00:01:53.280
+Okay, that's it, I hope you liked it
+
+49
+00:01:53.280 --> 00:01:55.383
+and I will see you in the next lecture.
+

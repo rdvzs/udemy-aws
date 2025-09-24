@@ -1,0 +1,402 @@
+WEBVTT
+
+1
+00:00:00.420 --> 00:00:04.150
+<v ->Okay so let's create a new function and this function is</v>
+
+2
+00:00:04.150 --> 00:00:06.210
+going to be called Lambda S3 because it will be
+
+3
+00:00:06.210 --> 00:00:11.010
+invoked whenever an object is inserted into an S3 bucket.
+
+4
+00:00:11.010 --> 00:00:14.020
+So for this I will choose python 3.8 as my runtime.
+
+5
+00:00:14.020 --> 00:00:16.590
+And I will go ahead and create this function.
+
+6
+00:00:16.590 --> 00:00:20.430
+On the side I'm going to go into the S3 service, and I will
+
+7
+00:00:20.430 --> 00:00:23.880
+create a bucket that will invoke my Lambda function.
+
+8
+00:00:23.880 --> 00:00:26.010
+So to do so I'm gonna go into S3
+
+9
+00:00:26.010 --> 00:00:30.260
+And once you create a bucket and call it demo S3 event
+
+10
+00:00:30.260 --> 00:00:31.410
+Stephane.
+
+11
+00:00:31.410 --> 00:00:32.940
+and make sure I'm in the same region
+
+12
+00:00:32.940 --> 00:00:34.800
+of my bucket as my Lambda functions
+
+13
+00:00:34.800 --> 00:00:36.180
+So Ireland for both
+
+14
+00:00:37.040 --> 00:00:41.793
+then I will just scroll down and click on create Buckets.
+
+15
+00:00:44.960 --> 00:00:47.640
+Okay So I'm gonna go into my buckets, which has
+
+16
+00:00:47.640 --> 00:00:50.530
+been created right now and on the properties Then
+
+17
+00:00:50.530 --> 00:00:51.560
+I'm gonna go and scroll
+
+18
+00:00:51.560 --> 00:00:54.370
+down and I want to find
+
+19
+00:00:54.370 --> 00:00:56.290
+the event notification properties
+
+20
+00:00:56.290 --> 00:01:00.150
+because we want this S3 bucket to invoke my Lambda function.
+
+21
+00:01:00.150 --> 00:01:03.420
+So for this I'm going to create an event notification
+
+22
+00:01:03.420 --> 00:01:06.400
+and it's called invoke Lambda
+
+23
+00:01:07.330 --> 00:01:09.290
+And then for prefix we'll have it all
+
+24
+00:01:09.290 --> 00:01:10.750
+Suffix we'll have it all
+
+25
+00:01:10.750 --> 00:01:11.820
+And then for event types
+
+26
+00:01:11.820 --> 00:01:14.690
+we'll choose all objects create events
+
+27
+00:01:15.660 --> 00:01:17.090
+scroll down.
+
+28
+00:01:17.090 --> 00:01:18.480
+And for destination we have the choice
+
+29
+00:01:18.480 --> 00:01:22.450
+between Lambda SNS and SQS, but we'll choose Lambda
+
+30
+00:01:22.450 --> 00:01:24.990
+and we'll choose it from the Lambda functions we available
+
+31
+00:01:24.990 --> 00:01:26.700
+So Lambda S3.
+
+32
+00:01:26.700 --> 00:01:28.550
+and we'll save the changes
+
+33
+00:01:28.550 --> 00:01:30.630
+And now this is successfully completed.
+
+34
+00:01:30.630 --> 00:01:34.050
+So this event notification is enabled to send data
+
+35
+00:01:34.050 --> 00:01:35.880
+into Ireland function.
+
+36
+00:01:35.880 --> 00:01:39.460
+So for this, we can just refresh this Lambda function
+
+37
+00:01:39.460 --> 00:01:42.330
+page right here, and we can see now on the left hand side
+
+38
+00:01:42.330 --> 00:01:46.230
+that S3 is invoking our Lambda function.
+
+39
+00:01:46.230 --> 00:01:47.800
+So let's just modify our Lambda function
+
+40
+00:01:47.800 --> 00:01:50.810
+to do a little bit more So instead of this
+
+41
+00:01:50.810 --> 00:01:51.960
+I'm just going to print
+
+42
+00:01:53.070 --> 00:01:55.540
+the events to see what is being sent
+
+43
+00:01:55.540 --> 00:01:57.100
+into it on the function
+
+44
+00:01:57.100 --> 00:01:58.980
+and deploy it.
+
+45
+00:01:58.980 --> 00:02:00.140
+Okay, perfect.
+
+46
+00:02:00.140 --> 00:02:01.450
+So one last thing.
+
+47
+00:02:01.450 --> 00:02:03.990
+How does this S3 buckets Invoker on the function?
+
+48
+00:02:03.990 --> 00:02:05.440
+Well, you should know by now, but if we go
+
+49
+00:02:05.440 --> 00:02:09.820
+into configuration and then we look at the permissions
+
+50
+00:02:09.820 --> 00:02:10.820
+which are right here
+
+51
+00:02:12.060 --> 00:02:12.893
+and we scroll
+
+52
+00:02:12.893 --> 00:02:15.270
+down and look at the resource based policy where
+
+53
+00:02:15.270 --> 00:02:18.000
+we can see that there's a policy statements right here
+
+54
+00:02:18.000 --> 00:02:21.680
+which says that Lambda S3 can invoke our functions.
+
+55
+00:02:21.680 --> 00:02:23.730
+So If I click on this statement ID right here
+
+56
+00:02:23.730 --> 00:02:26.240
+we have the policy, or I can click
+
+57
+00:02:26.240 --> 00:02:28.820
+on view policy document to view the entire JSON
+
+58
+00:02:28.820 --> 00:02:31.430
+which allows our S3 buckets demo as for events
+
+59
+00:02:31.430 --> 00:02:34.843
+Stephane to invoke Ireland function, Lambda S3.
+
+60
+00:02:35.930 --> 00:02:36.763
+Okay, perfect.
+
+61
+00:02:36.763 --> 00:02:38.340
+So the last thing is
+
+62
+00:02:38.340 --> 00:02:41.310
+that we need to test that this integration is working.
+
+63
+00:02:41.310 --> 00:02:44.520
+So let's go into our S3 management console
+
+64
+00:02:44.520 --> 00:02:46.780
+and we're going to upload a file into our buckets.
+
+65
+00:02:46.780 --> 00:02:50.430
+So I'll add a file and I'll choose the coffee.jpeg file
+
+66
+00:02:50.430 --> 00:02:54.660
+that have from before from the code, from the S3 folder.
+
+67
+00:02:54.660 --> 00:02:56.510
+So I'm going to just upload this file
+
+68
+00:02:57.780 --> 00:02:59.810
+and the upload has succeeded.
+
+69
+00:02:59.810 --> 00:03:01.686
+so now what's going to happen is
+
+70
+00:03:01.686 --> 00:03:04.380
+that this should trigger an event into my Lambda function
+
+71
+00:03:04.380 --> 00:03:06.510
+and to see whether or not this has worked, then we go
+
+72
+00:03:06.510 --> 00:03:09.260
+into monitor and we're going to click on view logs
+
+73
+00:03:09.260 --> 00:03:10.600
+in CloudWatch
+
+74
+00:03:10.600 --> 00:03:13.763
+to get directed directly into CloudWatch logs.
+
+75
+00:03:15.320 --> 00:03:17.540
+And we can see one log stream right here
+
+76
+00:03:18.420 --> 00:03:19.320
+and this corresponds
+
+77
+00:03:19.320 --> 00:03:22.630
+to this invocation that was made by S3
+
+78
+00:03:22.630 --> 00:03:23.710
+And so if we have a look here
+
+79
+00:03:23.710 --> 00:03:26.650
+we can see that the event source is AWS S3.
+
+80
+00:03:26.650 --> 00:03:28.590
+We can look at the region, we can look
+
+81
+00:03:28.590 --> 00:03:32.400
+at the objects where it did put events, and who made it.
+
+82
+00:03:32.400 --> 00:03:35.400
+And also we can have information around the bucket name
+
+83
+00:03:35.400 --> 00:03:38.990
+which is demo S3 events Stephane and as well
+
+84
+00:03:38.990 --> 00:03:42.630
+as the air into the bucket and for the objects for key
+
+85
+00:03:42.630 --> 00:03:46.040
+we have coffee.jpeg we have the size and the E tag.
+
+86
+00:03:46.040 --> 00:03:48.670
+And so all this information right here is enough
+
+87
+00:03:48.670 --> 00:03:52.350
+for our Lambda function to do in the code
+
+88
+00:03:52.350 --> 00:03:55.640
+and S3 that get object API code
+
+89
+00:03:55.640 --> 00:03:56.820
+thanks to the events
+
+90
+00:03:56.820 --> 00:03:59.280
+and then get the actual object that was uploaded
+
+91
+00:03:59.280 --> 00:04:03.150
+into the S3 buckets and therefore do some processing on it.
+
+92
+00:04:03.150 --> 00:04:04.320
+Okay.
+
+93
+00:04:04.320 --> 00:04:05.640
+And that's it
+
+94
+00:04:05.640 --> 00:04:08.560
+for another type of asynchronous invocation by now
+
+95
+00:04:08.560 --> 00:04:10.870
+you've seen a lot of asynchronous notifications in Lambda
+
+96
+00:04:10.870 --> 00:04:12.380
+but hopefully these make sense now
+
+97
+00:04:12.380 --> 00:04:14.950
+and you've seen as well, how resource policy works.
+
+98
+00:04:14.950 --> 00:04:16.110
+So that's it for this section.
+
+99
+00:04:16.110 --> 00:04:16.950
+I hope you liked it.
+
+100
+00:04:16.950 --> 00:04:18.900
+And I will see you in the next lecture.
+

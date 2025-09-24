@@ -1,0 +1,698 @@
+WEBVTT
+
+1
+00:00:00.400 --> 00:00:01.540
+<v Lecturer>Okay, so let's talk about</v>
+
+2
+00:00:01.540 --> 00:00:03.090
+Access Logs for CloudFront.
+
+3
+00:00:03.090 --> 00:00:04.500
+So the idea is that when you enable it
+
+4
+00:00:04.500 --> 00:00:06.330
+the same way you would do for S3 bucket
+
+5
+00:00:06.330 --> 00:00:08.410
+or for a load balancer, for example,
+
+6
+00:00:08.410 --> 00:00:10.910
+well, CloudFront is going to log every request made
+
+7
+00:00:10.910 --> 00:00:13.420
+to your origin into a logging S3 buckets.
+
+8
+00:00:13.420 --> 00:00:14.610
+This was going to work
+
+9
+00:00:14.610 --> 00:00:17.900
+is that your users are going to access your website
+
+10
+00:00:17.900 --> 00:00:19.860
+through the CloudFront URL, okay?
+
+11
+00:00:19.860 --> 00:00:22.510
+And then each edge location around the world
+
+12
+00:00:22.510 --> 00:00:24.970
+is going to send its log file,
+
+13
+00:00:24.970 --> 00:00:27.420
+so the distribution log data
+
+14
+00:00:27.420 --> 00:00:30.630
+to a central S3 bucket that you to define.
+
+15
+00:00:30.630 --> 00:00:32.970
+Now, your S3 bucket is going to be a logging bucket,
+
+16
+00:00:32.970 --> 00:00:34.480
+but it can be different
+
+17
+00:00:34.480 --> 00:00:37.410
+and it should be different than your origin buckets,
+
+18
+00:00:37.410 --> 00:00:40.260
+which is maybe where the content is originated from, okay?
+
+19
+00:00:40.260 --> 00:00:42.240
+So there are two types of buckets in Amazon S3,
+
+20
+00:00:42.240 --> 00:00:45.020
+your Origin bucket that is linked to CloudFront distribution
+
+21
+00:00:45.020 --> 00:00:47.950
+and your Logs bucket to send you like files too.
+
+22
+00:00:47.950 --> 00:00:49.920
+And you could have a second website
+
+23
+00:00:49.920 --> 00:00:51.950
+with a second CloudFront distribution,
+
+24
+00:00:51.950 --> 00:00:53.520
+do the exact same thing, okay?
+
+25
+00:00:53.520 --> 00:00:55.170
+And send it out to your Logs buckets.
+
+26
+00:00:55.170 --> 00:00:56.830
+The idea is that you could separate your distribution
+
+27
+00:00:56.830 --> 00:01:00.280
+by adding a prefix within your Logs buckets.
+
+28
+00:01:00.280 --> 00:01:01.810
+So CloudFront has a lot of reports
+
+29
+00:01:01.810 --> 00:01:03.450
+and it's possible to generate reports
+
+30
+00:01:03.450 --> 00:01:05.350
+on Cache Statistics Reports,
+
+31
+00:01:05.350 --> 00:01:06.410
+Popular Object Reports,
+
+32
+00:01:06.410 --> 00:01:07.630
+Top Referrer Reports,
+
+33
+00:01:07.630 --> 00:01:08.463
+Usage Reports,
+
+34
+00:01:08.463 --> 00:01:09.880
+and Viewers Reports.
+
+35
+00:01:09.880 --> 00:01:11.350
+And to create these reports,
+
+36
+00:01:11.350 --> 00:01:14.600
+CloudFront is going to use the data from the Access Logs,
+
+37
+00:01:14.600 --> 00:01:16.600
+but you don't need to enable Access Logs
+
+38
+00:01:16.600 --> 00:01:19.980
+to be sent into S3 to have these reports being generated.
+
+39
+00:01:19.980 --> 00:01:20.813
+Okay?
+
+40
+00:01:20.813 --> 00:01:22.410
+So no matter what, you will find that these reports.
+
+41
+00:01:22.410 --> 00:01:24.030
+And for some troubleshooting,
+
+42
+00:01:24.030 --> 00:01:25.920
+well, CloudFront will set a world cache,
+
+43
+00:01:25.920 --> 00:01:29.300
+the HTTP 400 and 500 status codes returned by S3
+
+44
+00:01:29.300 --> 00:01:30.620
+or the origin server.
+
+45
+00:01:30.620 --> 00:01:33.950
+So that means that if there isn't an available file
+
+46
+00:01:33.950 --> 00:01:34.880
+at the origin,
+
+47
+00:01:34.880 --> 00:01:37.460
+then that response is going to be cached no matter what.
+
+48
+00:01:37.460 --> 00:01:40.130
+So 4xx will indicate that the user doesn't have access to
+
+49
+00:01:40.130 --> 00:01:42.290
+the underlying buckets, for example, 403,
+
+50
+00:01:42.290 --> 00:01:43.780
+or that the user is requesting an object
+
+51
+00:01:43.780 --> 00:01:46.567
+that is not existing, so 404, okay?
+
+52
+00:01:46.567 --> 00:01:50.010
+And 5xx will indicate Gateway issues.
+
+53
+00:01:50.010 --> 00:01:51.350
+So let's have a look in the console
+
+54
+00:01:51.350 --> 00:01:53.240
+to see where all these options are.
+
+55
+00:01:53.240 --> 00:01:55.150
+So let's have a look at the Logging setting
+
+56
+00:01:55.150 --> 00:01:56.410
+for our CloudFront distribution.
+
+57
+00:01:56.410 --> 00:01:57.710
+And for this under settings,
+
+58
+00:01:57.710 --> 00:01:59.130
+I will click on Edit
+
+59
+00:01:59.130 --> 00:02:00.150
+and then scroll down
+
+60
+00:02:00.150 --> 00:02:02.090
+and I will have the Standard logging option.
+
+61
+00:02:02.090 --> 00:02:03.380
+So we can say On,
+
+62
+00:02:03.380 --> 00:02:05.380
+and we can have a S3 buckets
+
+63
+00:02:05.380 --> 00:02:06.410
+that we'd choose, for example,
+
+64
+00:02:06.410 --> 00:02:07.680
+that you have created previously.
+
+65
+00:02:07.680 --> 00:02:09.680
+So Stephane-cloudfront-logs
+
+66
+00:02:09.680 --> 00:02:12.150
+and then you can have a log prefix if you wanted to,
+
+67
+00:02:12.150 --> 00:02:14.800
+to send the logs into the S3 buckets.
+
+68
+00:02:14.800 --> 00:02:16.350
+And what's going to happen is that if you go
+
+69
+00:02:16.350 --> 00:02:18.200
+into this S3 CloudFront log,
+
+70
+00:02:18.200 --> 00:02:20.540
+so I've already did create this before.
+
+71
+00:02:20.540 --> 00:02:21.930
+So let me just put back the settings.
+
+72
+00:02:21.930 --> 00:02:24.950
+So I will have this settings as save right now
+
+73
+00:02:24.950 --> 00:02:26.540
+and click on Save changes.
+
+74
+00:02:26.540 --> 00:02:28.040
+So when logging is enabled,
+
+75
+00:02:28.040 --> 00:02:29.770
+what's going to happen is that the objects
+
+76
+00:02:29.770 --> 00:02:32.420
+are going to be logged into your S3 buckets.
+
+77
+00:02:32.420 --> 00:02:33.720
+And then in your S3 bucket,
+
+78
+00:02:33.720 --> 00:02:35.460
+you're going to get a lot of files, okay,
+
+79
+00:02:35.460 --> 00:02:37.539
+corresponding to some important logging information
+
+80
+00:02:37.539 --> 00:02:39.190
+regarding your distribution.
+
+81
+00:02:39.190 --> 00:02:42.650
+So you can just get any of these files downloaded
+
+82
+00:02:42.650 --> 00:02:45.543
+and then you would unzip it and look at the content.
+
+83
+00:02:46.570 --> 00:02:47.930
+So if you have a look at this file,
+
+84
+00:02:47.930 --> 00:02:49.300
+so we had the Fields,
+
+85
+00:02:49.300 --> 00:02:52.410
+so each column is going to be represented here, okay?
+
+86
+00:02:52.410 --> 00:02:54.150
+So we have the date, the time,
+
+87
+00:02:54.150 --> 00:02:56.550
+we get some information around those was get requests
+
+88
+00:02:56.550 --> 00:03:00.320
+from this URL at this path right here,
+
+89
+00:03:00.320 --> 00:03:01.720
+from, it was a 403.
+
+90
+00:03:01.720 --> 00:03:04.930
+The results, it was from Mozilla and so on.
+
+91
+00:03:04.930 --> 00:03:06.160
+And so you get a lot of information
+
+92
+00:03:06.160 --> 00:03:08.320
+around your requests overall, okay?
+
+93
+00:03:08.320 --> 00:03:10.190
+So this is a classic access log,
+
+94
+00:03:10.190 --> 00:03:13.100
+and you could use a service like Athena
+
+95
+00:03:13.100 --> 00:03:15.033
+to analyze this access log.
+
+96
+00:03:15.970 --> 00:03:18.290
+Now let's have a look at the reports in analytics
+
+97
+00:03:18.290 --> 00:03:19.560
+from some real distribution.
+
+98
+00:03:19.560 --> 00:03:21.720
+So if I go to Cache Statistics
+
+99
+00:03:21.720 --> 00:03:24.000
+and I choose a distribution that I have
+
+100
+00:03:24.000 --> 00:03:26.350
+that actually is being used in a real world,
+
+101
+00:03:26.350 --> 00:03:28.700
+we can have a look at the report for example,
+
+102
+00:03:28.700 --> 00:03:30.660
+of the number of requests in the past seven days.
+
+103
+00:03:30.660 --> 00:03:31.960
+So we can have a look at, for example,
+
+104
+00:03:31.960 --> 00:03:33.610
+they had 80,000 requests
+
+105
+00:03:33.610 --> 00:03:35.590
+on this day on my distribution,
+
+106
+00:03:35.590 --> 00:03:37.470
+and we can get a daily granularity
+
+107
+00:03:37.470 --> 00:03:39.480
+or an hourly granularity to get more information
+
+108
+00:03:39.480 --> 00:03:42.360
+around the patterns of how objects are being requested.
+
+109
+00:03:42.360 --> 00:03:43.193
+Okay?
+
+110
+00:03:43.193 --> 00:03:45.950
+We can have some information around the cache hits
+
+111
+00:03:45.950 --> 00:03:47.660
+versus the cache misses and the error.
+
+112
+00:03:47.660 --> 00:03:48.590
+So the distribution says,
+
+113
+00:03:48.590 --> 00:03:53.080
+we can see average about 75, 80% of cache hits
+
+114
+00:03:53.080 --> 00:03:57.260
+and about, you know, less 20%, 15% of cache misses,
+
+115
+00:03:57.260 --> 00:03:58.093
+which is really good.
+
+116
+00:03:58.093 --> 00:04:00.680
+So that means that's my distribution is working correctly.
+
+117
+00:04:00.680 --> 00:04:02.270
+And most of the content being served
+
+118
+00:04:02.270 --> 00:04:04.020
+is coming from the cache.
+
+119
+00:04:04.020 --> 00:04:06.370
+We can have a look at the bytes transferred to the viewer.
+
+120
+00:04:06.370 --> 00:04:09.140
+So how much is transferred from the you're directly from
+
+121
+00:04:09.140 --> 00:04:11.250
+CloudFront or from the cache misses.
+
+122
+00:04:11.250 --> 00:04:12.380
+And then we can get some information
+
+123
+00:04:12.380 --> 00:04:14.190
+around the HTTP status codes we're getting.
+
+124
+00:04:14.190 --> 00:04:19.070
+So whether or not we get some 2xx, 3xx, 4xx and 5xx
+
+125
+00:04:19.070 --> 00:04:20.550
+and so on.
+
+126
+00:04:20.550 --> 00:04:21.383
+Okay.
+
+127
+00:04:21.383 --> 00:04:22.550
+Now let's look at Popular objects.
+
+128
+00:04:22.550 --> 00:04:24.720
+So this gives us some information around
+
+129
+00:04:24.720 --> 00:04:27.120
+which objects have been popular in my cache
+
+130
+00:04:27.120 --> 00:04:30.180
+and which ones have been hits or misses and so on.
+
+131
+00:04:30.180 --> 00:04:32.650
+Top referrers, which is giving me some information around
+
+132
+00:04:32.650 --> 00:04:36.850
+which websites are sending data into my cache.
+
+133
+00:04:36.850 --> 00:04:37.780
+Then we have Usage,
+
+134
+00:04:37.780 --> 00:04:39.370
+which is showing me the usage
+
+135
+00:04:39.370 --> 00:04:40.870
+in terms of data transfer by protocol.
+
+136
+00:04:40.870 --> 00:04:42.070
+So it's quite nice.
+
+137
+00:04:42.070 --> 00:04:46.020
+That means that every day I get 9 GB or 8 GB of data
+
+138
+00:04:46.020 --> 00:04:49.730
+being served over HTTPS and none of it's over HTTP.
+
+139
+00:04:49.730 --> 00:04:53.020
+So that means that my distribution is only secure,
+
+140
+00:04:53.020 --> 00:04:54.870
+and we can get some more information as well
+
+141
+00:04:54.870 --> 00:04:55.703
+from the location.
+
+142
+00:04:55.703 --> 00:04:57.480
+So where is the data flowing?
+
+143
+00:04:57.480 --> 00:04:58.670
+Is it from CloudFront to users,
+
+144
+00:04:58.670 --> 00:05:00.610
+or is it from CloudFront to your origin
+
+145
+00:05:00.610 --> 00:05:01.443
+and all the data.
+
+146
+00:05:01.443 --> 00:05:03.440
+So just some information in here.
+
+147
+00:05:03.440 --> 00:05:04.273
+And then Viewers,
+
+148
+00:05:04.273 --> 00:05:06.240
+which is giving me some information around
+
+149
+00:05:06.240 --> 00:05:07.270
+which type of user I have.
+
+150
+00:05:07.270 --> 00:05:10.170
+So Desktop, Bot, Mobile and so on.
+
+151
+00:05:10.170 --> 00:05:12.810
+And then some trends that I get for these information,
+
+152
+00:05:12.810 --> 00:05:15.260
+the web browser that are accessing my distribution,
+
+153
+00:05:15.260 --> 00:05:18.320
+the operating systems, as well as a view location.
+
+154
+00:05:18.320 --> 00:05:20.410
+So it gave me some information around which countries
+
+155
+00:05:20.410 --> 00:05:22.230
+are accessing my distribution,
+
+156
+00:05:22.230 --> 00:05:24.650
+and India, U.K. and United States
+
+157
+00:05:24.650 --> 00:05:27.750
+are the biggest locations from this distribution.
+
+158
+00:05:27.750 --> 00:05:28.583
+And then finally,
+
+159
+00:05:28.583 --> 00:05:30.010
+we can have a look at some monitoring
+
+160
+00:05:30.010 --> 00:05:31.190
+associated with that distribution.
+
+161
+00:05:31.190 --> 00:05:32.610
+So if I click on it
+
+162
+00:05:32.610 --> 00:05:35.120
+and look at the distribution metrics,
+
+163
+00:05:35.120 --> 00:05:36.410
+where we can see in here
+
+164
+00:05:36.410 --> 00:05:39.250
+are going to be the sum of requests over time,
+
+165
+00:05:39.250 --> 00:05:40.540
+the data transfers,
+
+166
+00:05:40.540 --> 00:05:41.550
+the error rates,
+
+167
+00:05:41.550 --> 00:05:42.640
+the 4xx error rates,
+
+168
+00:05:42.640 --> 00:05:44.150
+and the 5xx error rates,
+
+169
+00:05:44.150 --> 00:05:46.120
+the latency to the origin
+
+170
+00:05:46.120 --> 00:05:48.140
+and the cache error rate, okay?
+
+171
+00:05:48.140 --> 00:05:50.080
+So that's all you need to know for CloudFront Reports,
+
+172
+00:05:50.080 --> 00:05:51.450
+Logging and Monitoring.
+
+173
+00:05:51.450 --> 00:05:52.283
+I hope you liked it.
+
+174
+00:05:52.283 --> 00:05:54.060
+And I will see you in the next lecture.
+

@@ -1,0 +1,1154 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:02.700
+<v Stephane>So here is a deep dive lecture</v>
+
+2
+00:00:02.700 --> 00:00:04.390
+on CloudFront Caching.
+
+3
+00:00:04.390 --> 00:00:06.340
+And on CloudFront you can cache on,
+
+4
+00:00:06.340 --> 00:00:07.280
+based on multiple things.
+
+5
+00:00:07.280 --> 00:00:08.380
+And we'll do a deep dive on all those.
+
+6
+00:00:08.380 --> 00:00:12.660
+So headers, session cookies, query string parameters.
+
+7
+00:00:12.660 --> 00:00:14.620
+And based on the combinations
+
+8
+00:00:14.620 --> 00:00:15.827
+of what you set for these parameters,
+
+9
+00:00:15.827 --> 00:00:19.170
+the cache is going to be less or more efficient.
+
+10
+00:00:19.170 --> 00:00:20.840
+Now the cache will live on
+
+11
+00:00:20.840 --> 00:00:23.580
+each CloudFront edge locations around the world.
+
+12
+00:00:23.580 --> 00:00:25.480
+So the idea is that the client will make a request
+
+13
+00:00:25.480 --> 00:00:27.000
+into an edge location
+
+14
+00:00:27.000 --> 00:00:29.410
+and if the Edge location has the data in the cache,
+
+15
+00:00:29.410 --> 00:00:32.090
+it will serve the data from the cache, okay,
+
+16
+00:00:32.090 --> 00:00:34.480
+based on the headers and the cookies
+
+17
+00:00:34.480 --> 00:00:38.140
+and it receives based on the TTL of what's in the cache.
+
+18
+00:00:38.140 --> 00:00:39.850
+And then if it's not from the cache
+
+19
+00:00:39.850 --> 00:00:43.330
+then it will forward the request to the origin, okay,
+
+20
+00:00:43.330 --> 00:00:45.080
+and reaches the data sent into the client's
+
+21
+00:00:45.080 --> 00:00:46.570
+and cache the results.
+
+22
+00:00:46.570 --> 00:00:48.450
+So you want to maximize the cache hit
+
+23
+00:00:48.450 --> 00:00:50.020
+to minimize requests on the origin.
+
+24
+00:00:50.020 --> 00:00:52.240
+This is the whole idea behind using
+
+25
+00:00:52.240 --> 00:00:54.630
+a CloudFront distribution.
+
+26
+00:00:54.630 --> 00:00:56.940
+And you can control the time to live, we'll see how,
+
+27
+00:00:56.940 --> 00:00:58.530
+using a header.
+
+28
+00:00:58.530 --> 00:01:00.683
+And there are two headers you can control,
+
+29
+00:01:01.530 --> 00:01:03.000
+there's the cache control header
+
+30
+00:01:03.000 --> 00:01:05.150
+and there is the expires header.
+
+31
+00:01:05.150 --> 00:01:07.610
+And you can invalidate parts of the cache
+
+32
+00:01:07.610 --> 00:01:09.973
+using the create invalidation API.
+
+33
+00:01:12.530 --> 00:01:14.950
+So now let's do a deep dive into the caching behavior
+
+34
+00:01:14.950 --> 00:01:16.670
+for each of the following.
+
+35
+00:01:16.670 --> 00:01:18.250
+So the first is headers.
+
+36
+00:01:18.250 --> 00:01:21.120
+And so when the client passes an HTTP request
+
+37
+00:01:21.120 --> 00:01:23.300
+to your CloudFront distribution,
+
+38
+00:01:23.300 --> 00:01:24.450
+it passes headers with it.
+
+39
+00:01:24.450 --> 00:01:27.780
+And headers is what you see in this diagram.
+
+40
+00:01:27.780 --> 00:01:30.740
+So it's the combination of host and then a value,
+
+41
+00:01:30.740 --> 00:01:32.680
+user agent and a value, date and a value,
+
+42
+00:01:32.680 --> 00:01:34.870
+authorization and a value, keep alive and a value,
+
+43
+00:01:34.870 --> 00:01:35.837
+accept range and a value.
+
+44
+00:01:35.837 --> 00:01:38.020
+And the headers could be really whatever you want.
+
+45
+00:01:38.020 --> 00:01:41.010
+So saying get this image, cat.jpg,
+
+46
+00:01:41.010 --> 00:01:42.870
+using the protocol HTTP 1.1,
+
+47
+00:01:42.870 --> 00:01:45.470
+and here are the headers that I want to pass to.
+
+48
+00:01:45.470 --> 00:01:48.360
+So you can configure CloudFront in three ways,
+
+49
+00:01:48.360 --> 00:01:51.190
+you can afford all the headers to your origin.
+
+50
+00:01:51.190 --> 00:01:52.760
+That means there's going to be no caching,
+
+51
+00:01:52.760 --> 00:01:54.930
+every request will go to the origin.
+
+52
+00:01:54.930 --> 00:01:57.760
+And so effectively you're not using CloudFront for caching
+
+53
+00:01:57.760 --> 00:01:59.550
+if you forward all headers.
+
+54
+00:01:59.550 --> 00:02:00.383
+And in this case,
+
+55
+00:02:00.383 --> 00:02:01.670
+this TTL must be set to zero
+
+56
+00:02:01.670 --> 00:02:04.740
+because you're not doing any caching in CloudFront.
+
+57
+00:02:04.740 --> 00:02:06.330
+If you forward a whitelist of headers,
+
+58
+00:02:06.330 --> 00:02:08.410
+that means you only forward some headers
+
+59
+00:02:08.410 --> 00:02:10.260
+as part of this request,
+
+60
+00:02:10.260 --> 00:02:12.150
+then the caching is going to be based
+
+61
+00:02:12.150 --> 00:02:16.010
+on all the values in the specified headers.
+
+62
+00:02:16.010 --> 00:02:16.843
+And if you do none,
+
+63
+00:02:16.843 --> 00:02:18.990
+suppose you forward zero headers,
+
+64
+00:02:18.990 --> 00:02:21.490
+then the forward is going to be
+
+65
+00:02:21.490 --> 00:02:23.650
+only done for the default headers, okay,
+
+66
+00:02:23.650 --> 00:02:27.190
+and is going to be no caching based on the request headers.
+
+67
+00:02:27.190 --> 00:02:28.340
+And is going to give you obviously
+
+68
+00:02:28.340 --> 00:02:29.500
+the best caching performance
+
+69
+00:02:29.500 --> 00:02:32.800
+because the headers are just removed from the request.
+
+70
+00:02:32.800 --> 00:02:34.700
+So whether or not you want to forward
+
+71
+00:02:34.700 --> 00:02:37.060
+all headers, whitelist header,
+
+72
+00:02:37.060 --> 00:02:39.960
+or if you want to forward zero headers, okay,
+
+73
+00:02:39.960 --> 00:02:42.830
+it's up to you and to what your application does.
+
+74
+00:02:42.830 --> 00:02:45.050
+Maybe your application needs some headers
+
+75
+00:02:45.050 --> 00:02:46.660
+or maybe it doesn't need some headers.
+
+76
+00:02:46.660 --> 00:02:48.470
+And it's very important for you to understand that
+
+77
+00:02:48.470 --> 00:02:50.680
+it's a more of an application specific behavior,
+
+78
+00:02:50.680 --> 00:02:54.100
+but here I'm explaining how CloudFront cache works.
+
+79
+00:02:54.100 --> 00:02:55.730
+Okay, so if you have a look,
+
+80
+00:02:55.730 --> 00:02:58.350
+then we have a request that's being made
+
+81
+00:02:58.350 --> 00:03:00.230
+with a lot of headers, okay?
+
+82
+00:03:00.230 --> 00:03:02.020
+And then this is going to have
+
+83
+00:03:02.020 --> 00:03:04.180
+a whitelisting in this example, okay?
+
+84
+00:03:04.180 --> 00:03:06.780
+So we're going to a whitelist a few headers,
+
+85
+00:03:06.780 --> 00:03:08.080
+we're going to whitelist the host
+
+86
+00:03:08.080 --> 00:03:09.950
+and the authorization header.
+
+87
+00:03:09.950 --> 00:03:10.863
+And so these are the headers
+
+88
+00:03:10.863 --> 00:03:13.770
+that are going to be passed on to your origin
+
+89
+00:03:13.770 --> 00:03:16.810
+and then the cache will happen, okay, at this stage.
+
+90
+00:03:16.810 --> 00:03:18.380
+And so what will happen is that,
+
+91
+00:03:18.380 --> 00:03:21.890
+because you are passing less values from your clients
+
+92
+00:03:21.890 --> 00:03:24.130
+all the way to your origin, less values of the headers,
+
+93
+00:03:24.130 --> 00:03:25.150
+you're going have better caching
+
+94
+00:03:25.150 --> 00:03:28.110
+because you have less values to cache, okay?
+
+95
+00:03:28.110 --> 00:03:29.090
+And the idea is that
+
+96
+00:03:29.090 --> 00:03:31.380
+if the same request comes with the same headers
+
+97
+00:03:31.380 --> 00:03:34.020
+then CloudFront will know how to respond
+
+98
+00:03:34.020 --> 00:03:35.770
+to that request directly.
+
+99
+00:03:35.770 --> 00:03:38.100
+So it's up to you again to see how you want
+
+100
+00:03:38.100 --> 00:03:39.600
+the behavior to be done.
+
+101
+00:03:39.600 --> 00:03:42.290
+So there is a big question that can come up with the exam
+
+102
+00:03:42.290 --> 00:03:44.890
+which is talking about CloudFront's origin headers
+
+103
+00:03:44.890 --> 00:03:47.690
+and CloudFront cache behavior.
+
+104
+00:03:47.690 --> 00:03:51.010
+So there is origin custom headers,
+
+105
+00:03:51.010 --> 00:03:54.770
+and this is a setting you can set on your origin itself.
+
+106
+00:03:54.770 --> 00:03:58.694
+So that means that's for every single request,
+
+107
+00:03:58.694 --> 00:03:59.670
+this is an origin-level setting,
+
+108
+00:03:59.670 --> 00:04:03.330
+and it will set a constant header, name and header value
+
+109
+00:04:03.330 --> 00:04:06.110
+for all requests made to your origin.
+
+110
+00:04:06.110 --> 00:04:08.130
+That means that every single request no matter what
+
+111
+00:04:08.130 --> 00:04:09.267
+comes with some headers
+
+112
+00:04:09.267 --> 00:04:12.660
+and CloudFront will add on some headers of its own
+
+113
+00:04:12.660 --> 00:04:13.780
+that you specify right here.
+
+114
+00:04:13.780 --> 00:04:16.090
+They're called origin custom headers.
+
+115
+00:04:16.090 --> 00:04:17.860
+A use case for that would be, for example,
+
+116
+00:04:17.860 --> 00:04:20.180
+if you wanted to tell your origin
+
+117
+00:04:20.180 --> 00:04:22.720
+that a request was coming from CloudFront
+
+118
+00:04:22.720 --> 00:04:24.840
+then you could define a custom header
+
+119
+00:04:24.840 --> 00:04:26.640
+for this if you want it to.
+
+120
+00:04:26.640 --> 00:04:29.690
+So this is going to be custom
+
+121
+00:04:29.690 --> 00:04:31.970
+and constant no matter what, okay?
+
+122
+00:04:31.970 --> 00:04:34.100
+But you have behavior settings.
+
+123
+00:04:34.100 --> 00:04:35.310
+And behavior settings
+
+124
+00:04:35.310 --> 00:04:38.130
+allow you to set your whitelist of headers.
+
+125
+00:04:38.130 --> 00:04:41.600
+And this is something you set at the behavior level, okay?
+
+126
+00:04:41.600 --> 00:04:43.410
+And this one is called the cache behavior
+
+127
+00:04:43.410 --> 00:04:45.660
+because this is going to be used for caching.
+
+128
+00:04:45.660 --> 00:04:48.310
+The first origin custom headers are not used for caching,
+
+129
+00:04:48.310 --> 00:04:50.820
+okay, they're used to just pass on headers to the origin,
+
+130
+00:04:50.820 --> 00:04:53.310
+but the second one is a cache behavior.
+
+131
+00:04:53.310 --> 00:04:54.610
+So this is cache-related settings
+
+132
+00:04:54.610 --> 00:04:58.040
+and it will contain a list of all the headers
+
+133
+00:04:58.040 --> 00:05:01.510
+to forward to your origin and to cache onto.
+
+134
+00:05:01.510 --> 00:05:03.830
+Cause you can see in my example I'm passing on
+
+135
+00:05:03.830 --> 00:05:05.590
+the CloudFront is desktop viewer
+
+136
+00:05:05.590 --> 00:05:07.410
+or CloudFront is mobile viewer
+
+137
+00:05:07.410 --> 00:05:09.070
+as headers that are going to be whitelisted
+
+138
+00:05:09.070 --> 00:05:11.230
+and passed on to origin.
+
+139
+00:05:11.230 --> 00:05:13.290
+So next we have the caching TTL.
+
+140
+00:05:13.290 --> 00:05:14.123
+So as I said,
+
+141
+00:05:14.123 --> 00:05:16.880
+the origin has to respond with a header if you want to.
+
+142
+00:05:16.880 --> 00:05:20.040
+So the header can be cache control max-age,
+
+143
+00:05:20.040 --> 00:05:21.870
+or there is an expires header as well
+
+144
+00:05:21.870 --> 00:05:24.630
+but the newest standard and the best way to do things
+
+145
+00:05:24.630 --> 00:05:28.000
+in CloudFront is to use the cache control max-age header
+
+146
+00:05:29.120 --> 00:05:31.340
+when replying from the origin to CloudFront.
+
+147
+00:05:31.340 --> 00:05:33.720
+And if the origin always sends back
+
+148
+00:05:33.720 --> 00:05:35.380
+to the cache control header
+
+149
+00:05:35.380 --> 00:05:37.980
+then you can set the TTL to be directly controlled
+
+150
+00:05:37.980 --> 00:05:40.850
+by the header and therefore by your application.
+
+151
+00:05:40.850 --> 00:05:42.570
+But in case you wanted to
+
+152
+00:05:42.570 --> 00:05:45.230
+set min and max boundaries for the TTL,
+
+153
+00:05:45.230 --> 00:05:47.660
+you can choose customize in the object caching settings.
+
+154
+00:05:47.660 --> 00:05:51.090
+So at the again, behavior level setting, okay,
+
+155
+00:05:51.090 --> 00:05:52.670
+because this is a caching behavior,
+
+156
+00:05:52.670 --> 00:05:55.543
+you can say for object caching, use origin cache headers.
+
+157
+00:05:55.543 --> 00:05:56.930
+In this case your application
+
+158
+00:05:56.930 --> 00:05:58.460
+will set the cache no matter what.
+
+159
+00:05:58.460 --> 00:06:02.640
+Or you can customize it to have a minimum TTL, a maximum TTL
+
+160
+00:06:02.640 --> 00:06:03.713
+and a default TTL.
+
+161
+00:06:04.820 --> 00:06:07.660
+And the idea is that if the cache control header is missing
+
+162
+00:06:07.660 --> 00:06:09.520
+from a reply, from your origin,
+
+163
+00:06:09.520 --> 00:06:11.840
+then it will default to default value.
+
+164
+00:06:11.840 --> 00:06:13.870
+So if you have a look, this is the TTL, okay,
+
+165
+00:06:13.870 --> 00:06:15.850
+there's going to be a min TTL no matter what,
+
+166
+00:06:15.850 --> 00:06:17.500
+a max TTL no matter what,
+
+167
+00:06:17.500 --> 00:06:18.800
+then your application will turn
+
+168
+00:06:18.800 --> 00:06:20.710
+a cache control header, okay?
+
+169
+00:06:20.710 --> 00:06:23.640
+And this is optional but recommended,
+
+170
+00:06:23.640 --> 00:06:25.400
+if the cache control is less than the min,
+
+171
+00:06:25.400 --> 00:06:26.930
+obviously the min is going to be used.
+
+172
+00:06:26.930 --> 00:06:28.760
+If the cache control is more than the max
+
+173
+00:06:28.760 --> 00:06:30.620
+then the max is going to be used, okay?
+
+174
+00:06:30.620 --> 00:06:32.790
+And if the cache control is missing
+
+175
+00:06:32.790 --> 00:06:34.440
+then the TTL that will be applied
+
+176
+00:06:34.440 --> 00:06:37.950
+is the default TTL that you set up in these settings.
+
+177
+00:06:37.950 --> 00:06:39.440
+So hopefully that helps you understand
+
+178
+00:06:39.440 --> 00:06:41.650
+how caching works and how the TTL works.
+
+179
+00:06:41.650 --> 00:06:43.760
+So now we're going to have a look at cookies
+
+180
+00:06:43.760 --> 00:06:45.330
+and query string parameters,
+
+181
+00:06:45.330 --> 00:06:48.330
+but the idea behind it is quite similar.
+
+182
+00:06:48.330 --> 00:06:49.710
+So cookies are what?
+
+183
+00:06:49.710 --> 00:06:52.220
+Well, cookies are a specific header,
+
+184
+00:06:52.220 --> 00:06:54.390
+but in the header named cookie
+
+185
+00:06:54.390 --> 00:06:56.540
+you're going to have a lot of key value pairs.
+
+186
+00:06:56.540 --> 00:06:57.890
+So in this example we'll have
+
+187
+00:06:57.890 --> 00:07:00.550
+username equals John Doe, location equals UK,
+
+188
+00:07:00.550 --> 00:07:04.220
+lang equals eng, and user ID equals 12342.
+
+189
+00:07:04.220 --> 00:07:06.270
+So the idea with this is that you're pricing
+
+190
+00:07:06.270 --> 00:07:08.840
+four cookies as part of this request.
+
+191
+00:07:08.840 --> 00:07:11.060
+And cookies can be again,
+
+192
+00:07:11.060 --> 00:07:12.190
+have three different settings.
+
+193
+00:07:12.190 --> 00:07:14.830
+So the default is to not process the cookies.
+
+194
+00:07:14.830 --> 00:07:16.727
+That mean that the caching will not be based on cookies
+
+195
+00:07:16.727 --> 00:07:18.910
+and the cookies are not going to be forwarded
+
+196
+00:07:18.910 --> 00:07:21.260
+from CloudFront to your origin.
+
+197
+00:07:21.260 --> 00:07:22.950
+Or you can forward a whitelist of cookies
+
+198
+00:07:22.950 --> 00:07:24.760
+in which case the caching will be based
+
+199
+00:07:24.760 --> 00:07:27.240
+on the values in all the specified cookies.
+
+200
+00:07:27.240 --> 00:07:28.980
+Or you can forward all cookies,
+
+201
+00:07:28.980 --> 00:07:31.170
+which gives you obviously the worst caching performance,
+
+202
+00:07:31.170 --> 00:07:34.120
+but allows your application to use all of them.
+
+203
+00:07:34.120 --> 00:07:37.100
+So, again, what you set depends on your application.
+
+204
+00:07:37.100 --> 00:07:39.040
+How are cookies used within your application
+
+205
+00:07:39.040 --> 00:07:40.180
+is very important.
+
+206
+00:07:40.180 --> 00:07:43.120
+And then you would set up CloudFront accordingly
+
+207
+00:07:43.120 --> 00:07:45.030
+to have the best caching performance.
+
+208
+00:07:45.030 --> 00:07:46.950
+So it's going to be the same idea here.
+
+209
+00:07:46.950 --> 00:07:48.860
+So here I have a request
+
+210
+00:07:48.860 --> 00:07:50.420
+and we're going to whitelist user ID.
+
+211
+00:07:50.420 --> 00:07:53.060
+So my origin is only going to receive this request
+
+212
+00:07:53.060 --> 00:07:55.860
+with a cookie, user ID equals 12342.
+
+213
+00:07:55.860 --> 00:07:57.700
+And then the,
+
+214
+00:07:57.700 --> 00:07:59.450
+this request going to be forwarded
+
+215
+00:07:59.450 --> 00:08:00.990
+and is going to be better caching
+
+216
+00:08:00.990 --> 00:08:02.610
+because you have less cookies values
+
+217
+00:08:02.610 --> 00:08:05.000
+from what is being sent from the client to CloudFront
+
+218
+00:08:05.000 --> 00:08:08.143
+and what is passed on from CloudFront to your origin.
+
+219
+00:08:09.150 --> 00:08:11.210
+Similar behavior for query string parameters.
+
+220
+00:08:11.210 --> 00:08:12.970
+So if we have a look at this,
+
+221
+00:08:12.970 --> 00:08:14.170
+this is a GET.
+
+222
+00:08:14.170 --> 00:08:15.790
+And this time there is a question mark
+
+223
+00:08:15.790 --> 00:08:19.430
+and there's border equals red and size equals large, okay?
+
+224
+00:08:19.430 --> 00:08:21.610
+And this is going to be always in the URL.
+
+225
+00:08:21.610 --> 00:08:23.040
+So you have three options,
+
+226
+00:08:23.040 --> 00:08:24.480
+default, it should not processed them.
+
+227
+00:08:24.480 --> 00:08:26.770
+That means they are not passed to your origin
+
+228
+00:08:26.770 --> 00:08:30.410
+and caching is not going to be based on this query strings.
+
+229
+00:08:30.410 --> 00:08:32.740
+Or you can forward a whitelist of query strings
+
+230
+00:08:32.740 --> 00:08:35.756
+and then the caching is going to be based on this whitelist.
+
+231
+00:08:35.756 --> 00:08:37.260
+Or you can forward all query strings
+
+232
+00:08:37.260 --> 00:08:38.320
+and then you're going to have caching
+
+233
+00:08:38.320 --> 00:08:39.250
+based on all parameters.
+
+234
+00:08:39.250 --> 00:08:40.670
+But again this is going to view
+
+235
+00:08:40.670 --> 00:08:42.130
+the worst caching performance
+
+236
+00:08:42.130 --> 00:08:44.400
+because you have many, many more values.
+
+237
+00:08:44.400 --> 00:08:46.560
+So as you can see, three different concepts,
+
+238
+00:08:46.560 --> 00:08:49.280
+we have headers, we have cookies
+
+239
+00:08:49.280 --> 00:08:52.300
+and we have query string parameters, okay?
+
+240
+00:08:52.300 --> 00:08:56.000
+But the idea is that the settings are very, very similar
+
+241
+00:08:56.000 --> 00:08:57.950
+and the behavior is very, very similar.
+
+242
+00:08:57.950 --> 00:08:59.040
+So in this example,
+
+243
+00:08:59.040 --> 00:09:02.630
+well I just whitelist the size query string parameter.
+
+244
+00:09:02.630 --> 00:09:05.250
+So the size only is passed to my origin
+
+245
+00:09:05.250 --> 00:09:08.350
+and then my origin can make a decision based on that.
+
+246
+00:09:08.350 --> 00:09:09.450
+And you get better caching
+
+247
+00:09:09.450 --> 00:09:12.283
+because you have less query string parameters values.
+
+248
+00:09:13.120 --> 00:09:14.260
+And I made a small typo,
+
+249
+00:09:14.260 --> 00:09:16.090
+but I will correct that in the PowerPoints.
+
+250
+00:09:16.090 --> 00:09:18.220
+Okay, so finally,
+
+251
+00:09:18.220 --> 00:09:20.060
+how do you maximize cache hits?
+
+252
+00:09:20.060 --> 00:09:22.760
+Well, you can separate static and dynamic distributions.
+
+253
+00:09:22.760 --> 00:09:25.400
+So, say you have a CloudFront layer,
+
+254
+00:09:25.400 --> 00:09:27.620
+all the static requests should go to CloudFront
+
+255
+00:09:27.620 --> 00:09:30.450
+into a static contents S3 bucket.
+
+256
+00:09:30.450 --> 00:09:32.593
+And here you don't use headers,
+
+257
+00:09:32.593 --> 00:09:33.616
+you don't use cookies,
+
+258
+00:09:33.616 --> 00:09:35.230
+you don't have your session caching rules, okay?
+
+259
+00:09:35.230 --> 00:09:37.740
+And you're going to have maximize cache hits
+
+260
+00:09:37.740 --> 00:09:41.360
+because while the content is coming back from S3 as static.
+
+261
+00:09:41.360 --> 00:09:42.710
+But then all the dynamic content,
+
+262
+00:09:42.710 --> 00:09:44.600
+all the stuff that can be dynamized
+
+263
+00:09:44.600 --> 00:09:46.990
+and then you pass onto your application running maybe
+
+264
+00:09:46.990 --> 00:09:51.140
+on your ALB plus EC2 instances or API gateway and lambda,
+
+265
+00:09:51.140 --> 00:09:55.030
+maybe they will be using some headers and some cookies.
+
+266
+00:09:55.030 --> 00:09:57.340
+Then you configure your CloudFront distribution
+
+267
+00:09:57.340 --> 00:10:00.560
+just like I just told you from the previous settings, okay,
+
+268
+00:10:00.560 --> 00:10:03.000
+and you best on exactly what's similar to your application.
+
+269
+00:10:03.000 --> 00:10:04.760
+And again, you would maximize cache there.
+
+270
+00:10:04.760 --> 00:10:09.550
+So it's quite recommended to split these two together.
+
+271
+00:10:09.550 --> 00:10:12.110
+So to summarize, to increase the cache hit ratio,
+
+272
+00:10:12.110 --> 00:10:14.580
+well, just have a look at the CloudWatch metric,
+
+273
+00:10:14.580 --> 00:10:17.150
+specify how long the objects should be in your cache.
+
+274
+00:10:17.150 --> 00:10:19.720
+So use the cache control max-age header.
+
+275
+00:10:19.720 --> 00:10:21.410
+Specify none of them,
+
+276
+00:10:21.410 --> 00:10:23.120
+or the minimally required headers.
+
+277
+00:10:23.120 --> 00:10:25.310
+Specify none or the minimally required cookies
+
+278
+00:10:25.310 --> 00:10:28.290
+and same for the query string parameters.
+
+279
+00:10:28.290 --> 00:10:32.620
+And finally separate the static and dynamic distribution.
+
+280
+00:10:32.620 --> 00:10:34.460
+So that means you can have two origins
+
+281
+00:10:34.460 --> 00:10:36.840
+for your CloudFront distribution, okay?
+
+282
+00:10:36.840 --> 00:10:38.530
+So I hope that helps.
+
+283
+00:10:38.530 --> 00:10:39.530
+I hope that's helpful to you.
+
+284
+00:10:39.530 --> 00:10:41.760
+I hope you understand what I mean behind caching.
+
+285
+00:10:41.760 --> 00:10:42.593
+This will help you
+
+286
+00:10:42.593 --> 00:10:44.500
+answer one or two questions at the exam.
+
+287
+00:10:44.500 --> 00:10:45.390
+I hope you like this lecture,
+
+288
+00:10:45.390 --> 00:10:47.340
+and I will see you in the next lecture.
+

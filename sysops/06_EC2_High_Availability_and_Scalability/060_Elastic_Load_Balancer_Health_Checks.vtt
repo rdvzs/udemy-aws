@@ -1,0 +1,418 @@
+WEBVTT
+
+1
+00:00:00.220 --> 00:00:01.320
+<v Instructor>So we know about health checks,</v>
+
+2
+00:00:01.320 --> 00:00:02.280
+but let's do a deeper dive.
+
+3
+00:00:02.280 --> 00:00:04.640
+So the ALB is connected to a target group
+
+4
+00:00:04.640 --> 00:00:06.110
+with three instances,
+
+5
+00:00:06.110 --> 00:00:08.410
+and then we can set up health checks from the ALB
+
+6
+00:00:08.410 --> 00:00:09.770
+or the target group itself.
+
+7
+00:00:09.770 --> 00:00:10.980
+So in terms of settings,
+
+8
+00:00:10.980 --> 00:00:12.130
+we have seen there are multiple settings.
+
+9
+00:00:12.130 --> 00:00:14.440
+So at first, the protocol, HTTP, for example,
+
+10
+00:00:14.440 --> 00:00:16.300
+which is going to use HTTP protocol
+
+11
+00:00:16.300 --> 00:00:17.640
+to talk to your backend instances
+
+12
+00:00:17.640 --> 00:00:18.900
+to do the health check.
+
+13
+00:00:18.900 --> 00:00:21.210
+The port is where to talk to your instances.
+
+14
+00:00:21.210 --> 00:00:23.070
+So 80 is by default, which is the HTTP port,
+
+15
+00:00:23.070 --> 00:00:24.540
+but you can customize that.
+
+16
+00:00:24.540 --> 00:00:26.270
+The check path, okay, the health check path,
+
+17
+00:00:26.270 --> 00:00:28.530
+is where you want that there send the request to.
+
+18
+00:00:28.530 --> 00:00:30.520
+So slash means that there is to, send it to
+
+19
+00:00:30.520 --> 00:00:31.790
+the root of the websites,
+
+20
+00:00:31.790 --> 00:00:35.150
+but many websites or applications have a slash health route,
+
+21
+00:00:35.150 --> 00:00:37.480
+and this really helps to just have
+
+22
+00:00:37.480 --> 00:00:38.920
+a specific health check route
+
+23
+00:00:38.920 --> 00:00:41.610
+to test something specific on the EC2 instance.
+
+24
+00:00:41.610 --> 00:00:43.050
+The check timeout, which is how long
+
+25
+00:00:43.050 --> 00:00:45.101
+to consider the health check failed,
+
+26
+00:00:45.101 --> 00:00:46.800
+which is five seconds by default.
+
+27
+00:00:46.800 --> 00:00:48.600
+So after five seconds, then the health check
+
+28
+00:00:48.600 --> 00:00:49.760
+will be considered failed.
+
+29
+00:00:49.760 --> 00:00:52.270
+The interval, which is how often the target group
+
+30
+00:00:52.270 --> 00:00:54.110
+or the ALB will perform
+
+31
+00:00:54.110 --> 00:00:56.620
+the health check, and so if you set it to something very,
+
+32
+00:00:56.620 --> 00:00:59.490
+very low, maybe your application will be overwhelmed.
+
+33
+00:00:59.490 --> 00:01:02.640
+So 30 seconds is a good timeout, is a good interval for
+
+34
+00:01:02.640 --> 00:01:05.060
+health checks, but you can decrease this, of course,
+
+35
+00:01:05.060 --> 00:01:06.840
+the healthy threshold counts, which is
+
+36
+00:01:06.840 --> 00:01:09.340
+how many times the health check must be successful
+
+37
+00:01:09.340 --> 00:01:11.660
+before considering a target is healthy,
+
+38
+00:01:11.660 --> 00:01:13.370
+and the unhealthy threshold counts,
+
+39
+00:01:13.370 --> 00:01:15.660
+which is how many times the health checks should be
+
+40
+00:01:15.660 --> 00:01:17.790
+unhealthy in a row, before considering
+
+41
+00:01:17.790 --> 00:01:20.460
+that the instance is unhealthy, okay.
+
+42
+00:01:20.460 --> 00:01:21.930
+So in terms of status for the health,
+
+43
+00:01:21.930 --> 00:01:24.930
+we have initial when the target is being registered
+
+44
+00:01:24.930 --> 00:01:26.970
+healthy, unhealthy, unused,
+
+45
+00:01:26.970 --> 00:01:29.010
+which is when the target is not registered,
+
+46
+00:01:29.010 --> 00:01:31.860
+draining, when you are de-registering the targets,
+
+47
+00:01:31.860 --> 00:01:34.510
+unavailable when the health checks have been disabled
+
+48
+00:01:34.510 --> 00:01:36.800
+and then something that's good to know from
+
+49
+00:01:36.800 --> 00:01:39.680
+an exam perspective is that if a target group contains
+
+50
+00:01:39.680 --> 00:01:41.770
+only unhealthy targets, okay,
+
+51
+00:01:41.770 --> 00:01:43.600
+then the ELB will route request
+
+52
+00:01:43.600 --> 00:01:45.580
+across all the unhealthy targets,
+
+53
+00:01:45.580 --> 00:01:47.610
+just because maybe it assumes that the health check is
+
+54
+00:01:47.610 --> 00:01:48.930
+wrong, but maybe the health,
+
+55
+00:01:48.930 --> 00:01:51.090
+the instance can still work for some cases, okay.
+
+56
+00:01:51.090 --> 00:01:53.390
+This is a best effort scenario.
+
+57
+00:01:53.390 --> 00:01:56.583
+So that's it, now let me show you this in the UI.
+
+58
+00:01:57.880 --> 00:01:59.240
+So here I am in my target group
+
+59
+00:01:59.240 --> 00:02:01.280
+and I can edit the health check settings
+
+60
+00:02:01.280 --> 00:02:02.750
+that are clear from my target group.
+
+61
+00:02:02.750 --> 00:02:03.960
+And as we can see, we can
+
+62
+00:02:03.960 --> 00:02:06.970
+have the health check protocol to be HTTP or HTTPS
+
+63
+00:02:06.970 --> 00:02:09.220
+for this load balancer.
+
+64
+00:02:09.220 --> 00:02:10.053
+We have check path.
+
+65
+00:02:10.053 --> 00:02:11.420
+This is where to send the request to.
+
+66
+00:02:11.420 --> 00:02:13.210
+So it could be slash health, for example,
+
+67
+00:02:13.210 --> 00:02:15.470
+if it is programmed by your application,
+
+68
+00:02:15.470 --> 00:02:16.840
+and then the Advanced Health Setting.
+
+69
+00:02:16.840 --> 00:02:19.130
+So we can do a traffic port override
+
+70
+00:02:19.130 --> 00:02:20.070
+in case the health check is
+
+71
+00:02:20.070 --> 00:02:22.130
+on a different port on your institute instance,
+
+72
+00:02:22.130 --> 00:02:23.270
+if you want it to.
+
+73
+00:02:23.270 --> 00:02:25.470
+The Healthy threshold counts, okay.
+
+74
+00:02:25.470 --> 00:02:29.253
+So a lower, healthy threshold will make the instance go in,
+
+75
+00:02:31.698 --> 00:02:33.810
+in activation faster.
+
+76
+00:02:33.810 --> 00:02:35.260
+An unhealthy threshold, again,
+
+77
+00:02:35.260 --> 00:02:37.050
+the lower number, the faster an instance
+
+78
+00:02:37.050 --> 00:02:38.540
+will be considered unhealthy.
+
+79
+00:02:38.540 --> 00:02:41.370
+The timeout is really depending on how often you,
+
+80
+00:02:41.370 --> 00:02:43.350
+how fast you expect your health check to happen.
+
+81
+00:02:43.350 --> 00:02:44.800
+Some health checks can be very, very long.
+
+82
+00:02:44.800 --> 00:02:46.600
+So this is why you can have a large timeout,
+
+83
+00:02:46.600 --> 00:02:48.120
+but some health check can be very, very quick.
+
+84
+00:02:48.120 --> 00:02:49.840
+And so setting something like two seconds
+
+85
+00:02:49.840 --> 00:02:50.960
+could be good as well.
+
+86
+00:02:50.960 --> 00:02:53.610
+If it's a simple HTTP request,
+
+87
+00:02:53.610 --> 00:02:56.330
+the interval is how fast to send the objects.
+
+88
+00:02:56.330 --> 00:02:58.380
+So again, a faster interval means
+
+89
+00:02:58.380 --> 00:02:59.730
+that the instance will be put
+
+90
+00:02:59.730 --> 00:03:02.190
+in healthy state or unhealthy state faster
+
+91
+00:03:02.190 --> 00:03:03.360
+as well as the code.
+
+92
+00:03:03.360 --> 00:03:06.030
+So it could be any HTTP code you want.
+
+93
+00:03:06.030 --> 00:03:07.960
+Okay, sometimes you just don't send back 200,
+
+94
+00:03:07.960 --> 00:03:09.880
+you send back a specific code for your health checks.
+
+95
+00:03:09.880 --> 00:03:11.520
+So you can specify this as well.
+
+96
+00:03:11.520 --> 00:03:14.300
+So fairly simple, and in this example, when my target group,
+
+97
+00:03:14.300 --> 00:03:16.130
+if you look at the targets,
+
+98
+00:03:16.130 --> 00:03:18.650
+there has three of them to be unhealthy and healthy.
+
+99
+00:03:18.650 --> 00:03:22.700
+And this refresh that's sort of, three of them are healthy.
+
+100
+00:03:22.700 --> 00:03:24.097
+And for health checks,
+
+101
+00:03:24.097 --> 00:03:26.750
+you can see the health check settings right here, okay.
+
+102
+00:03:26.750 --> 00:03:27.630
+So that's it for this lecture.
+
+103
+00:03:27.630 --> 00:03:28.463
+I hope you liked it.
+
+104
+00:03:28.463 --> 00:03:30.240
+And I will see you in the next lecture.
+

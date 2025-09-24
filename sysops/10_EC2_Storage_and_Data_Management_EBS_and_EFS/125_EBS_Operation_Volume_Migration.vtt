@@ -1,0 +1,158 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.800
+<v ->So something SysOps need to know how to do</v>
+
+2
+00:00:01.800 --> 00:00:03.600
+is to do EBS migration.
+
+3
+00:00:03.600 --> 00:00:05.010
+So as I said, EBS volumes,
+
+4
+00:00:05.010 --> 00:00:07.230
+they're only locked to do a specific AZ.
+
+5
+00:00:07.230 --> 00:00:08.550
+And so if you wanted to migrate it
+
+6
+00:00:08.550 --> 00:00:10.920
+to a different AZ or a different region,
+
+7
+00:00:10.920 --> 00:00:13.500
+you would need to snapshot the volume, which you just did.
+
+8
+00:00:13.500 --> 00:00:15.630
+Then we need to optionally copy the volume
+
+9
+00:00:15.630 --> 00:00:18.150
+to different a region, and then we could create a volume
+
+10
+00:00:18.150 --> 00:00:20.550
+from the snapshot in the AZ of our choice.
+
+11
+00:00:20.550 --> 00:00:22.290
+Very simple, but it's good to see it once.
+
+12
+00:00:22.290 --> 00:00:23.430
+So let's practice.
+
+13
+00:00:23.430 --> 00:00:25.650
+We have a volume to migrate right here,
+
+14
+00:00:25.650 --> 00:00:27.570
+and we want to make a change,
+
+15
+00:00:27.570 --> 00:00:28.890
+its availability zone.
+
+16
+00:00:28.890 --> 00:00:32.460
+So right now it is in the eu-west-1a AZ,
+
+17
+00:00:32.460 --> 00:00:35.430
+but we want to move it maybe to eu-west-1b.
+
+18
+00:00:35.430 --> 00:00:38.250
+So the way to do it, first of all, is to take a snapshot.
+
+19
+00:00:38.250 --> 00:00:40.590
+So we create a snapshot from it,
+
+20
+00:00:40.590 --> 00:00:43.680
+and I will just go ahead and create the snapshots.
+
+21
+00:00:43.680 --> 00:00:47.310
+And if I go to the left hand side now to snapshots,
+
+22
+00:00:47.310 --> 00:00:50.310
+I can see my snapshot is available and completed.
+
+23
+00:00:50.310 --> 00:00:54.150
+And that snapshot is just belonging to a specific region.
+
+24
+00:00:54.150 --> 00:00:55.080
+So from this snapshot,
+
+25
+00:00:55.080 --> 00:00:59.010
+we can do action and then create volume from snapshots.
+
+26
+00:00:59.010 --> 00:01:00.570
+And here, I have the opportunity
+
+27
+00:01:00.570 --> 00:01:03.120
+to choose the target availability zone.
+
+28
+00:01:03.120 --> 00:01:06.300
+So I can choose, for example, eu-west-1b.
+
+29
+00:01:06.300 --> 00:01:07.133
+So we're good.
+
+30
+00:01:07.133 --> 00:01:08.700
+We create the volume.
+
+31
+00:01:08.700 --> 00:01:12.630
+And if I go now into my volumes page right here,
+
+32
+00:01:12.630 --> 00:01:14.790
+as you can see, this was the volume to migrate,
+
+33
+00:01:14.790 --> 00:01:17.520
+and this is the new volume from my snapshots.
+
+34
+00:01:17.520 --> 00:01:19.230
+And if we have a look at it,
+
+35
+00:01:19.230 --> 00:01:22.290
+the availability zone now is eu-west-1b.
+
+36
+00:01:22.290 --> 00:01:23.580
+So very simple operation.
+
+37
+00:01:23.580 --> 00:01:26.280
+Just need to see it once, but now you know how to do it.
+
+38
+00:01:26.280 --> 00:01:27.113
+Okay, that's it.
+
+39
+00:01:27.113 --> 00:01:30.000
+I hope you liked it, and I will see you in the next lecture.
+

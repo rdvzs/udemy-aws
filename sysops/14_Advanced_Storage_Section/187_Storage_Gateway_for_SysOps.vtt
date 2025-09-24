@@ -1,0 +1,378 @@
+WEBVTT
+
+1
+00:00:00.320 --> 00:00:03.330
+<v ->So here are some additional bits and pieces of information</v>
+
+2
+00:00:03.330 --> 00:00:05.010
+that could be helpful for the SysOps exam
+
+3
+00:00:05.010 --> 00:00:06.640
+regarding the Storage Gateway.
+
+4
+00:00:06.640 --> 00:00:09.890
+So the File Gateway is what is POSIX compliant,
+
+5
+00:00:09.890 --> 00:00:12.010
+because it is a Linux file system.
+
+6
+00:00:12.010 --> 00:00:13.410
+That means you get information around the
+
+7
+00:00:13.410 --> 00:00:15.570
+metadata ownership, permissions,
+
+8
+00:00:15.570 --> 00:00:18.860
+and timestamps stored in the object's metadata in S3.
+
+9
+00:00:18.860 --> 00:00:21.110
+If you wanted to reboot your Storage Gateway VM
+
+10
+00:00:21.110 --> 00:00:23.290
+for maintenance, you have two ways of doing it.
+
+11
+00:00:23.290 --> 00:00:24.560
+If it's a File Gateway,
+
+12
+00:00:24.560 --> 00:00:27.210
+you simply restart the Storage Gateway VM,
+
+13
+00:00:27.210 --> 00:00:29.700
+but if it's a Volume or a Tape Gateway,
+
+14
+00:00:29.700 --> 00:00:31.820
+you need to stop the Storage Gateway Service
+
+15
+00:00:31.820 --> 00:00:34.520
+from the Console or from the VM local console
+
+16
+00:00:34.520 --> 00:00:36.440
+or using the Storage Gateway API.
+
+17
+00:00:36.440 --> 00:00:39.010
+Then you reboot the Storage Gateway VM,
+
+18
+00:00:39.010 --> 00:00:41.980
+and then you start again the Storage Gateway Service,
+
+19
+00:00:41.980 --> 00:00:44.200
+okay, using the API's or the Console.
+
+20
+00:00:44.200 --> 00:00:45.640
+So this is something to know.
+
+21
+00:00:45.640 --> 00:00:48.350
+Then around how to activate your Storage Gateway.
+
+22
+00:00:48.350 --> 00:00:50.220
+So there are two ways to get an Activation Key
+
+23
+00:00:50.220 --> 00:00:51.330
+for your Storage Gateway.
+
+24
+00:00:51.330 --> 00:00:55.810
+The first way is to get you, it's using the Gateway VM CLI.
+
+25
+00:00:55.810 --> 00:00:57.050
+And so when you start it,
+
+26
+00:00:57.050 --> 00:01:00.430
+there is an option to just do 0: Get Activation Key,
+
+27
+00:01:00.430 --> 00:01:01.970
+and you pass this Activation Key
+
+28
+00:01:01.970 --> 00:01:04.500
+directly into the sort of Gateway Console.
+
+29
+00:01:04.500 --> 00:01:07.600
+Or the older way of doing it is to make a web request
+
+30
+00:01:07.600 --> 00:01:10.340
+directly into the Gateway VM on Port 80.
+
+31
+00:01:10.340 --> 00:01:12.270 line:15% 
+And for this, you need to open the Port 80.
+
+32
+00:01:12.270 --> 00:01:14.040 line:15% 
+So this is a diagram of how it looks like.
+
+33
+00:01:14.040 --> 00:01:16.890 line:15% 
+So once the File Gateway has Port 80 open
+
+34
+00:01:16.890 --> 00:01:18.190 line:15% 
+and you can access it from the Console,
+
+35
+00:01:18.190 --> 00:01:19.940 line:15% 
+then you can activate it.
+
+36
+00:01:19.940 --> 00:01:21.180 line:15% 
+Okay, two ways of doing it.
+
+37
+00:01:21.180 --> 00:01:24.150 line:15% 
+And so Activation Failure is going to come up in the exam.
+
+38
+00:01:24.150 --> 00:01:26.260 line:15% 
+So when would an Activation Failure happen?
+
+39
+00:01:26.260 --> 00:01:28.190 line:15% 
+Well, for example, if using the second method,
+
+40
+00:01:28.190 --> 00:01:30.210 line:15% 
+you need to make sure that the Gateway VM
+
+41
+00:01:30.210 --> 00:01:32.110 line:15% 
+has the Port 80 opened,
+
+42
+00:01:32.110 --> 00:01:34.840 line:15% 
+and then in case, and it's a very edge case,
+
+43
+00:01:34.840 --> 00:01:36.970 line:15% 
+but you need to make sure that the Gateway VM
+
+44
+00:01:36.970 --> 00:01:38.490 line:15% 
+also has the correct time
+
+45
+00:01:38.490 --> 00:01:40.270 line:15% 
+and it's synchronizing its time automatically
+
+46
+00:01:40.270 --> 00:01:43.470 line:15% 
+using a Network Time Protocol server.
+
+47
+00:01:43.470 --> 00:01:45.930 line:15% 
+And this is to ensure that the File Gateway time
+
+48
+00:01:45.930 --> 00:01:49.690 line:15% 
+is not too far off from the actual NTP server.
+
+49
+00:01:49.690 --> 00:01:52.790
+So let's talk about the Volume Gateway Cache Mode.
+
+50
+00:01:52.790 --> 00:01:54.100
+So in Cached mode,
+
+51
+00:01:54.100 --> 00:01:56.960
+only the most recent data is stored on your
+
+52
+00:01:56.960 --> 00:01:58.400
+Volume Gateway, Storage Gateway.
+
+53
+00:01:58.400 --> 00:02:00.940
+And so you need to look at your cache efficiency.
+
+54
+00:02:00.940 --> 00:02:03.750
+So the idea is that there is a metric in CloudWatch called
+
+55
+00:02:03.750 --> 00:02:05.920
+the CacheHitPercent metric,
+
+56
+00:02:05.920 --> 00:02:07.020
+and you want it to be super high
+
+57
+00:02:07.020 --> 00:02:09.230
+because if you have a very high metric,
+
+58
+00:02:09.230 --> 00:02:10.470
+for example 80%,
+
+59
+00:02:10.470 --> 00:02:12.140
+that means your cache is efficient
+
+60
+00:02:12.140 --> 00:02:14.850
+and that you're using it a lot and you get lower latency.
+
+61
+00:02:14.850 --> 00:02:17.140
+If it's very low, then it could be a problem.
+
+62
+00:02:17.140 --> 00:02:20.360
+And you also need to look at the CachePercentUsed okay,
+
+63
+00:02:20.360 --> 00:02:21.193
+you don't want it to be too high.
+
+64
+00:02:21.193 --> 00:02:23.460
+So you want your cache to be filled accordingly,
+
+65
+00:02:23.460 --> 00:02:24.570
+but if it's too high,
+
+66
+00:02:24.570 --> 00:02:26.590
+then you need to do something about it.
+
+67
+00:02:26.590 --> 00:02:27.510
+So the second example,
+
+68
+00:02:27.510 --> 00:02:30.370
+so there is a Cache Volume Gateway in your servers.
+
+69
+00:02:30.370 --> 00:02:31.820
+And so when you have a Cache Hit,
+
+70
+00:02:31.820 --> 00:02:34.500
+then your traffic stays within your Corporate Data Center.
+
+71
+00:02:34.500 --> 00:02:37.144
+But if, it's a Cache Miss, sorry,
+
+72
+00:02:37.144 --> 00:02:40.220
+then you need to get the data back from the S3 buckets,
+
+73
+00:02:40.220 --> 00:02:41.640
+and that could be a bit longer.
+
+74
+00:02:41.640 --> 00:02:43.280
+So obviously when cache,
+
+75
+00:02:43.280 --> 00:02:45.190
+when the Volume Gateway is in cached mode,
+
+76
+00:02:45.190 --> 00:02:47.470
+you need to make sure that you are efficient
+
+77
+00:02:47.470 --> 00:02:48.950
+at using the cache.
+
+78
+00:02:48.950 --> 00:02:50.980
+So in this example, in my diagram,
+
+79
+00:02:50.980 --> 00:02:53.930
+the CacheHitPercent is going to be 30%.
+
+80
+00:02:53.930 --> 00:02:54.763
+Okay?
+
+81
+00:02:54.763 --> 00:02:57.880
+And so an option to increase the cache is going to be,
+
+82
+00:02:57.880 --> 00:03:00.880
+the cache efficiency, is to create a larger cache disk.
+
+83
+00:03:00.880 --> 00:03:04.750
+In this case, you need to clone the volume of,
+
+84
+00:03:04.750 --> 00:03:06.090
+to a volume of larger size.
+
+85
+00:03:06.090 --> 00:03:08.810
+So first take the cached volume and you clone it.
+
+86
+00:03:08.810 --> 00:03:11.690
+And then you select the new disk as the cached volume
+
+87
+00:03:11.690 --> 00:03:12.830
+on to the Volume Gateway.
+
+88
+00:03:12.830 --> 00:03:13.980
+So it's a small operation,
+
+89
+00:03:13.980 --> 00:03:16.450
+you need to clone the volume and then take the new volume
+
+90
+00:03:16.450 --> 00:03:19.320
+and assign it as the cached volume for your Gateway.
+
+91
+00:03:19.320 --> 00:03:20.153
+So that's it.
+
+92
+00:03:20.153 --> 00:03:22.080
+A lot of details you need to know for this such exam
+
+93
+00:03:22.080 --> 00:03:23.850
+but you have no choice around it.
+
+94
+00:03:23.850 --> 00:03:26.700
+So remember those and I will see you in the next lecture.
+

@@ -1,0 +1,342 @@
+WEBVTT
+
+1
+00:00:00.340 --> 00:00:01.990
+<v Instructor>Okay. So here are a few things</v>
+
+2
+00:00:01.990 --> 00:00:03.390
+you need to know for CloudTrail
+
+3
+00:00:03.390 --> 00:00:05.260
+going into the exam.
+
+4
+00:00:05.260 --> 00:00:06.610
+The first one is that you can have
+
+5
+00:00:06.610 --> 00:00:08.470
+a log file integrity validation.
+
+6
+00:00:08.470 --> 00:00:10.710
+So when you do API calls within AWS,
+
+7
+00:00:10.710 --> 00:00:12.550
+they're going to be logged by CloudTrail
+
+8
+00:00:12.550 --> 00:00:14.160
+and you can have these logs
+
+9
+00:00:14.160 --> 00:00:17.390
+being sent into Amazon S3, okay, every one hour.
+
+10
+00:00:17.390 --> 00:00:20.080
+But, you can also create what's called a digest file.
+
+11
+00:00:20.080 --> 00:00:21.770
+And this is a file that will reference
+
+12
+00:00:21.770 --> 00:00:23.540
+all the log files from the last hour
+
+13
+00:00:23.540 --> 00:00:25.460
+and will contain a hash of each.
+
+14
+00:00:25.460 --> 00:00:27.910
+And this is going to be stored in the same S3 buckets
+
+15
+00:00:27.910 --> 00:00:30.370
+as your log files, but within a different folder.
+
+16
+00:00:30.370 --> 00:00:31.480
+And the idea is that,
+
+17
+00:00:31.480 --> 00:00:33.309
+this is going to reference all of them, okay.
+
+18
+00:00:33.309 --> 00:00:35.290
+And this will help you determine
+
+19
+00:00:35.290 --> 00:00:37.830
+whether or not a log file was been tampered with.
+
+20
+00:00:37.830 --> 00:00:40.150
+So either modified or deleted
+
+21
+00:00:40.150 --> 00:00:42.200
+after CloudTrail delivered it.
+
+22
+00:00:42.200 --> 00:00:44.250
+So if the log file hash
+
+23
+00:00:44.250 --> 00:00:45.690
+corresponds to the digest file hash,
+
+24
+00:00:45.690 --> 00:00:47.270
+then you know for sure that the log file
+
+25
+00:00:47.270 --> 00:00:49.740
+has not been modified and you're good to go.
+
+26
+00:00:49.740 --> 00:00:52.090
+So this is very helpful for compliance purposes.
+
+27
+00:00:52.090 --> 00:00:55.740
+The hash is using the SHA-256 algorithm, okay.
+
+28
+00:00:55.740 --> 00:00:57.520
+And then the idea is that
+
+29
+00:00:57.520 --> 00:01:00.220
+you still want to protect your S3 buckets
+
+30
+00:01:00.220 --> 00:01:02.310
+using a bucket policy, using versioning,
+
+31
+00:01:02.310 --> 00:01:04.728
+using MFA Delete protection, encryption,
+
+32
+00:01:04.728 --> 00:01:06.870
+and object lock if you wanted to make sure
+
+33
+00:01:06.870 --> 00:01:09.190
+that all these files within your S3 buckets
+
+34
+00:01:09.190 --> 00:01:14.190
+from CloudTrail are kept all along this time. Okay?
+
+35
+00:01:15.280 --> 00:01:17.870
+But if you want to show from a compliance perspective
+
+36
+00:01:17.870 --> 00:01:19.940
+that these files are not modified with,
+
+37
+00:01:19.940 --> 00:01:22.380
+you would use a digest file from CloudTrail.
+
+38
+00:01:22.380 --> 00:01:24.420
+Finally, you should protect CloudTrail using IAM
+
+39
+00:01:24.420 --> 00:01:25.610
+if you want to make sure
+
+40
+00:01:25.610 --> 00:01:27.200
+that CloudTrail keeps on delivering
+
+41
+00:01:27.200 --> 00:01:28.750
+these log files into Amazon S3.
+
+42
+00:01:29.700 --> 00:01:32.150
+You can also integrate CloudTrail with EventBridge.
+
+43
+00:01:32.150 --> 00:01:34.510
+So CloudTrail can trigger EventBridge
+
+44
+00:01:34.510 --> 00:01:39.510
+for any kind of API calls made within your AWS accounts.
+
+45
+00:01:39.700 --> 00:01:40.533
+And then from EventBridge,
+
+46
+00:01:40.533 --> 00:01:42.640
+you can do any kind of integration you want
+
+47
+00:01:42.640 --> 00:01:44.970
+using Lambda, SNS, SQS, and so on.
+
+48
+00:01:44.970 --> 00:01:47.150
+So if you want it to react to any API call, you know,
+
+49
+00:01:47.150 --> 00:01:49.350
+not even something that's covered by EventBridge,
+
+50
+00:01:49.350 --> 00:01:51.890
+but you know that will appear in CloudTrail,
+
+51
+00:01:51.890 --> 00:01:53.940
+then you would define an EventBridge integration
+
+52
+00:01:53.940 --> 00:01:55.060
+with CloudTrail.
+
+53
+00:01:55.060 --> 00:01:56.940
+But CloudTrail is not real-time, okay?
+
+54
+00:01:56.940 --> 00:01:59.550
+The events may be delivered within 15 minutes
+
+55
+00:01:59.550 --> 00:02:00.870
+of an API call
+
+56
+00:02:00.870 --> 00:02:03.640
+and then the events in log files
+
+57
+00:02:03.640 --> 00:02:06.560
+will also be delivered within S3 within 5 minutes. Okay?
+
+58
+00:02:06.560 --> 00:02:09.880
+So this is not a real-time automation
+
+59
+00:02:09.880 --> 00:02:11.160
+on top of API calls,
+
+60
+00:02:11.160 --> 00:02:12.010
+but this is for you
+
+61
+00:02:12.010 --> 00:02:13.870
+a way to get some kind of integration
+
+62
+00:02:13.870 --> 00:02:16.430
+on top of any API calls made within CloudTrail
+
+63
+00:02:16.430 --> 00:02:19.060
+when it is delivered into EventBridge.
+
+64
+00:02:19.060 --> 00:02:20.820
+Finally, you can have organization trails,
+
+65
+00:02:20.820 --> 00:02:24.400
+so, you can setup CloudTrail at the organization level.
+
+66
+00:02:24.400 --> 00:02:25.750
+So you have a management accounts
+
+67
+00:02:25.750 --> 00:02:28.510
+and many different member accounts.
+
+68
+00:02:28.510 --> 00:02:30.960
+And so your CloudTrail at your org level
+
+69
+00:02:30.960 --> 00:02:34.670
+is going to log events for all of API calls
+
+70
+00:02:34.670 --> 00:02:36.010
+for all your member accounts
+
+71
+00:02:36.010 --> 00:02:39.620
+into a target S3 buckets that is organization wide. Okay?
+
+72
+00:02:39.620 --> 00:02:42.160
+And this is very handy for account managements.
+
+73
+00:02:42.160 --> 00:02:44.450
+So all the events will be logged
+
+74
+00:02:44.450 --> 00:02:45.730
+and this is going to give you
+
+75
+00:02:45.730 --> 00:02:48.570
+for both the management and the member accounts,
+
+76
+00:02:48.570 --> 00:02:50.200
+and the trail name will be the same
+
+77
+00:02:50.200 --> 00:02:52.810
+for every accounts in AWS.
+
+78
+00:02:52.810 --> 00:02:54.550
+And the member accounts cannot remove
+
+79
+00:02:54.550 --> 00:02:56.680
+or modify the organization trail
+
+80
+00:02:56.680 --> 00:02:57.780
+which is good for compliance.
+
+81
+00:02:57.780 --> 00:03:00.150
+They can only view that it exists.
+
+82
+00:03:00.150 --> 00:03:02.320
+So that's it for all the additional stuff
+
+83
+00:03:02.320 --> 00:03:03.260
+you need to know on CloudTrail.
+
+84
+00:03:03.260 --> 00:03:04.300
+I hope you liked it.
+
+85
+00:03:04.300 --> 00:03:06.250
+And I will see you in the next lecture.
+

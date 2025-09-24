@@ -1,0 +1,554 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:01.283
+<v Instructor>Okay, so now let's talk</v>
+
+2
+00:00:01.283 --> 00:00:02.760
+about EBS volume resizing.
+
+3
+00:00:02.760 --> 00:00:05.370
+So you can increase the size of your EBS volumes.
+
+4
+00:00:05.370 --> 00:00:08.220
+So you can increase the size or the IOPS if it's relevant.
+
+5
+00:00:08.220 --> 00:00:09.720
+And after resizing an EBS volume,
+
+6
+00:00:09.720 --> 00:00:11.550
+what you need to do is to repartition your drive.
+
+7
+00:00:11.550 --> 00:00:14.190
+That means that after you increase the size of your volume,
+
+8
+00:00:14.190 --> 00:00:15.840
+there's gonna be more size available,
+
+9
+00:00:15.840 --> 00:00:18.210
+but you're EC2 instance will not know about it
+
+10
+00:00:18.210 --> 00:00:20.460
+until you repartition your drive to tell your instance
+
+11
+00:00:20.460 --> 00:00:22.260
+to use that new space.
+
+12
+00:00:22.260 --> 00:00:24.840
+So when you increase the size, it's possible for the volume
+
+13
+00:00:24.840 --> 00:00:27.120
+to go into a long optimization phase.
+
+14
+00:00:27.120 --> 00:00:29.430
+This is to reorder the blocks, but during that time,
+
+15
+00:00:29.430 --> 00:00:32.430
+the volume is still usable and working as expected.
+
+16
+00:00:32.430 --> 00:00:34.740
+You cannot decrease the size of your EBS volume.
+
+17
+00:00:34.740 --> 00:00:37.014
+If you wanted to do so, you need to create a smaller volume,
+
+18
+00:00:37.014 --> 00:00:39.240
+then copy the data from one volume to another,
+
+19
+00:00:39.240 --> 00:00:40.980
+and then attach it properly.
+
+20
+00:00:40.980 --> 00:00:42.330
+So if we have a look at what happens,
+
+21
+00:00:42.330 --> 00:00:45.270
+so let's say we have a 250 gigabyte volume,
+
+22
+00:00:45.270 --> 00:00:47.430
+and then we are modifying it to make it one terabyte.
+
+23
+00:00:47.430 --> 00:00:49.367
+So it goes into the modifying space phase,
+
+24
+00:00:49.367 --> 00:00:51.660
+then it goes into the optimizing phase,
+
+25
+00:00:51.660 --> 00:00:53.580
+and then you'll be into the completed phase
+
+26
+00:00:53.580 --> 00:00:56.160
+with a one terabyte EBS volume.
+
+27
+00:00:56.160 --> 00:00:59.301
+But as I said, if from the perspective of your EC2 instance
+
+28
+00:00:59.301 --> 00:01:02.310
+there will be 250 gigabytes of partition already
+
+29
+00:01:02.310 --> 00:01:04.980
+being used and being mounted properly,
+
+30
+00:01:04.980 --> 00:01:07.822
+but you need to repartition your EBS volume
+
+31
+00:01:07.822 --> 00:01:11.760
+to add on that extra missing 750 gigabytes for that,
+
+32
+00:01:11.760 --> 00:01:13.650
+so that you're EC2 instance will be able
+
+33
+00:01:13.650 --> 00:01:15.450
+to use that exercise.
+
+34
+00:01:15.450 --> 00:01:18.180
+So let's have a look in the hands-on to how we can do it.
+
+35
+00:01:18.180 --> 00:01:20.700
+Let's practice resizing an EBS volume.
+
+36
+00:01:20.700 --> 00:01:23.760
+First, I need to launch an instance, an EC2 instance.
+
+37
+00:01:23.760 --> 00:01:25.440
+So I will scroll down.
+
+38
+00:01:25.440 --> 00:01:26.880
+Amazon Linux 2 is perfect.
+
+39
+00:01:26.880 --> 00:01:28.833
+I will choose a t2 micro.
+
+40
+00:01:29.730 --> 00:01:33.480
+I will go without a key pair, and then I will make sure
+
+41
+00:01:33.480 --> 00:01:35.130
+that I have a security group
+
+42
+00:01:35.130 --> 00:01:37.650
+that allows SSH traffic in from anywhere.
+
+43
+00:01:37.650 --> 00:01:38.613
+So this is perfect.
+
+44
+00:01:39.480 --> 00:01:40.650
+The storage looks good.
+
+45
+00:01:40.650 --> 00:01:42.586
+We'll be extending that storage later on.
+
+46
+00:01:42.586 --> 00:01:44.040
+So everything looks perfect.
+
+47
+00:01:44.040 --> 00:01:45.513
+Let's launch our instance.
+
+48
+00:01:46.740 --> 00:01:48.663
+Okay, so our instance is now created,
+
+49
+00:01:50.100 --> 00:01:52.020
+and we are now in the running state.
+
+50
+00:01:52.020 --> 00:01:54.630
+So using the EC2 instance connect feature,
+
+51
+00:01:54.630 --> 00:01:56.010
+I'm going to connect to my instance.
+
+52
+00:01:56.010 --> 00:02:00.240
+So I click on connect, EC2 instance connect, let's go.
+
+53
+00:02:00.240 --> 00:02:02.280
+And now I am on my instance.
+
+54
+00:02:02.280 --> 00:02:03.540
+So first, let's verify
+
+55
+00:02:03.540 --> 00:02:04.890
+that we have an eight gigabyte volume.
+
+56
+00:02:04.890 --> 00:02:08.130
+So I can do LSBLK, and as you can see,
+
+57
+00:02:08.130 --> 00:02:10.335
+we have an eight gigabyte volume
+
+58
+00:02:10.335 --> 00:02:13.350
+and partition on my volume.
+
+59
+00:02:13.350 --> 00:02:15.930
+If I do DF minus H as well,
+
+60
+00:02:15.930 --> 00:02:18.240
+we see right here that there's eight gigabytes
+
+61
+00:02:18.240 --> 00:02:19.473
+for XDV1, X V D 1.
+
+62
+00:02:20.885 --> 00:02:23.520
+Okay, so what I need to do now is to go
+
+63
+00:02:23.520 --> 00:02:26.160
+and extend my volume 'cause we want a bigger volume.
+
+64
+00:02:26.160 --> 00:02:29.970
+So back in here, I can go into my EC2 console,
+
+65
+00:02:29.970 --> 00:02:33.600
+under volumes, and find this volume right here.
+
+66
+00:02:33.600 --> 00:02:36.019
+It's an eight gigabyte root volume.
+
+67
+00:02:36.019 --> 00:02:39.150
+Then I will do action and then modify volume.
+
+68
+00:02:39.150 --> 00:02:41.790
+So here I have the option to change the volume type
+
+69
+00:02:41.790 --> 00:02:45.060
+to upgrade to GPG three, io1, io2, and so on,
+
+70
+00:02:45.060 --> 00:02:46.200
+but also to change the size.
+
+71
+00:02:46.200 --> 00:02:49.920
+So let's say we go from 8 to 10 gigabytes.
+
+72
+00:02:49.920 --> 00:02:51.450
+So let's modify this.
+
+73
+00:02:51.450 --> 00:02:52.350
+And as we can see,
+
+74
+00:02:52.350 --> 00:02:56.640
+increasing the file system size must imply
+
+75
+00:02:56.640 --> 00:02:58.500
+that you extend the file system
+
+76
+00:02:58.500 --> 00:03:01.410
+on your Linux instance and your Windows instance.
+
+77
+00:03:01.410 --> 00:03:04.013
+So I'm going to click on this link right here in a new tab
+
+78
+00:03:04.013 --> 00:03:07.740
+to do it on Linux and to have the instructions.
+
+79
+00:03:07.740 --> 00:03:09.300
+So let's modify this.
+
+80
+00:03:09.300 --> 00:03:11.430
+And now the request is being sent,
+
+81
+00:03:11.430 --> 00:03:13.350
+and the volume is being modified.
+
+82
+00:03:13.350 --> 00:03:16.230
+So this volume will go a few stages.
+
+83
+00:03:16.230 --> 00:03:18.750
+So now it's 10 gigabytes, as you can see.
+
+84
+00:03:18.750 --> 00:03:22.170
+And if you look at the status state, it is first resizing,
+
+85
+00:03:22.170 --> 00:03:24.480
+and then it will go into the optimizing phase.
+
+86
+00:03:24.480 --> 00:03:26.640
+So this is just a phase that happens
+
+87
+00:03:26.640 --> 00:03:28.500
+after the resize operation,
+
+88
+00:03:28.500 --> 00:03:30.510
+but we can still use the volume right now.
+
+89
+00:03:30.510 --> 00:03:33.420
+And if I refresh, I'm pretty sure the optimization
+
+90
+00:03:33.420 --> 00:03:35.250
+of the volume will be quite fast.
+
+91
+00:03:35.250 --> 00:03:38.070
+Okay, so how do we make sure it's 10 gigabytes?
+
+92
+00:03:38.070 --> 00:03:39.573
+Well, if I go back here now,
+
+93
+00:03:41.670 --> 00:03:44.610
+and type LSBLK, well this time,
+
+94
+00:03:44.610 --> 00:03:49.260
+as you see, there is a 10 gigabytes root volume,
+
+95
+00:03:49.260 --> 00:03:51.963
+and only eight gigabytes is partitioned.
+
+96
+00:03:54.570 --> 00:03:57.840
+And if I do DF minus H, as you can see again,
+
+97
+00:03:57.840 --> 00:04:01.650
+it's eight gigabytes for X V D A 1.
+
+98
+00:04:01.650 --> 00:04:03.300
+So we need to perform some operations
+
+99
+00:04:03.300 --> 00:04:06.510
+to use the full 10 gigabytes on my instance.
+
+100
+00:04:06.510 --> 00:04:07.860
+And to do so, very simple,
+
+101
+00:04:07.860 --> 00:04:09.600
+we'll just scroll down,
+
+102
+00:04:09.600 --> 00:04:12.090
+and we'll click on extend a Linux file system
+
+103
+00:04:12.090 --> 00:04:13.533
+after resizing a volume.
+
+104
+00:04:14.430 --> 00:04:16.890
+And we are going to place some commits.
+
+105
+00:04:16.890 --> 00:04:18.630
+So let's scroll down.
+
+106
+00:04:18.630 --> 00:04:20.400
+We've done LSBLK.
+
+107
+00:04:20.400 --> 00:04:23.130
+And what we have to do is to extend the partition.
+
+108
+00:04:23.130 --> 00:04:24.150
+So to extend the partition,
+
+109
+00:04:24.150 --> 00:04:26.520
+we need to use a growpart command
+
+110
+00:04:26.520 --> 00:04:29.100
+and specify the partition to extend.
+
+111
+00:04:29.100 --> 00:04:31.560
+So it's sudo growpart,
+
+112
+00:04:31.560 --> 00:04:35.580
+then the place, and then the partition number.
+
+113
+00:04:35.580 --> 00:04:38.040
+So let's have a look at it.
+
+114
+00:04:38.040 --> 00:04:41.400
+If we clear the screen and do an LSBLK again,
+
+115
+00:04:41.400 --> 00:04:45.633
+the device name is X V D A, and if I do a DF minus H,
+
+116
+00:04:47.490 --> 00:04:52.140
+then with the place it's at, slash dev slash XVDA 1.
+
+117
+00:04:52.140 --> 00:04:57.140
+So let's do sudo growpart slash dev slash XVDA space one.
+
+118
+00:05:00.990 --> 00:05:04.200
+And this command makes sure that we've grown our disc.
+
+119
+00:05:04.200 --> 00:05:08.220
+So if I do LSBLK, as you can see now, we have 10 gigabytes
+
+120
+00:05:08.220 --> 00:05:12.750
+for the main partition, which is the same size as the disc.
+
+121
+00:05:12.750 --> 00:05:17.400
+And if I do DF minus H though, we only see eight gigabytes.
+
+122
+00:05:17.400 --> 00:05:19.350
+So to fix this, we can run some more commands,
+
+123
+00:05:19.350 --> 00:05:23.340
+or simply, we can take our instance right here,
+
+124
+00:05:23.340 --> 00:05:26.010
+and we just reboot it from the console.
+
+125
+00:05:26.010 --> 00:05:29.193
+So let's do action and then reboot our instance.
+
+126
+00:05:30.120 --> 00:05:32.880
+So now if I try to connect again to my instance
+
+127
+00:05:32.880 --> 00:05:35.673
+using the EC2 instance connect utility,
+
+128
+00:05:37.050 --> 00:05:39.990
+if I do LSBLK, as you can see,
+
+129
+00:05:39.990 --> 00:05:41.400
+we have 10 gigabytes available
+
+130
+00:05:41.400 --> 00:05:44.550
+on both the partition and my disc.
+
+131
+00:05:44.550 --> 00:05:48.600
+But if I do DF minus H, now 10 gigabytes is also available
+
+132
+00:05:48.600 --> 00:05:50.700
+for use on my EC2 instance.
+
+133
+00:05:50.700 --> 00:05:51.533
+And that's it.
+
+134
+00:05:51.533 --> 00:05:54.300
+That's how you resize an EBS volume.
+
+135
+00:05:54.300 --> 00:05:55.140
+So I hope you liked it,
+
+136
+00:05:55.140 --> 00:05:58.230
+and don't forget to terminate that instance
+
+137
+00:05:58.230 --> 00:05:59.190
+when you're done.
+
+138
+00:05:59.190 --> 00:06:01.443
+Okay, I will see you in the next lecture.
+

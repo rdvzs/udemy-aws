@@ -1,0 +1,342 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:02.190
+<v Instructor>So here are a few additional things</v>
+
+2
+00:00:02.190 --> 00:00:03.023
+you need to know
+
+3
+00:00:03.023 --> 00:00:04.780
+about KMS regarding the CISSP exam.
+
+4
+00:00:04.780 --> 00:00:05.680
+So, first of all,
+
+5
+00:00:05.680 --> 00:00:08.010
+you can not change your encryption key used by an EBS
+
+6
+00:00:08.010 --> 00:00:09.690
+volume, if you wanted to do so,
+
+7
+00:00:09.690 --> 00:00:11.780
+you will need to create an EBS snapshot,
+
+8
+00:00:11.780 --> 00:00:13.421
+and then you create a new EBS volume.
+
+9
+00:00:13.421 --> 00:00:15.820
+And from it, you specify a new KMS key.
+
+10
+00:00:15.820 --> 00:00:17.310
+So this is very similar to what we've seen.
+
+11
+00:00:17.310 --> 00:00:18.810
+We would create a snapshot
+
+12
+00:00:18.810 --> 00:00:20.700
+from an already encrypted EBS volume,
+
+13
+00:00:20.700 --> 00:00:22.605
+which would have the same CMK being used.
+
+14
+00:00:22.605 --> 00:00:24.395
+But then when we create a new volume,
+
+15
+00:00:24.395 --> 00:00:27.660
+we can decrypt and reencrypt it with a new CMK.
+
+16
+00:00:27.660 --> 00:00:30.380
+And this is how we will do to switch the KMS key
+
+17
+00:00:30.380 --> 00:00:32.800
+from one volume, from one volume to another.
+
+18
+00:00:32.800 --> 00:00:36.640
+The second thing that we've seen is around sharing KMS
+
+19
+00:00:36.640 --> 00:00:39.095
+snapshots that are encrypted across accounts.
+
+20
+00:00:39.095 --> 00:00:39.928
+So to do so,
+
+21
+00:00:39.928 --> 00:00:42.210
+we need to share it with your target accounts,
+
+22
+00:00:42.210 --> 00:00:45.390
+but also create a key policy to allow the target accounts,
+
+23
+00:00:45.390 --> 00:00:46.830
+to access our snapshot.
+
+24
+00:00:46.830 --> 00:00:48.476
+So here is what's happening.
+
+25
+00:00:48.476 --> 00:00:51.811
+We're going to create a key policy on our CMK to allow
+
+26
+00:00:51.811 --> 00:00:54.377
+another accounts so specified in it,
+
+27
+00:00:54.377 --> 00:00:57.312
+to do the encrypt decrypt operations and so on.
+
+28
+00:00:57.312 --> 00:01:00.170
+And therefore, when we share our, for example,
+
+29
+00:01:00.170 --> 00:01:01.532
+RDS DB snapshot, that's encrypted,
+
+30
+00:01:01.532 --> 00:01:05.794
+the other accounts can access it because the CMK accessible.
+
+31
+00:01:05.794 --> 00:01:08.907
+And therefore we can create a DB instance from that
+
+32
+00:01:08.907 --> 00:01:12.980
+encrypted snapshot into our other accounts.
+
+33
+00:01:12.980 --> 00:01:16.400
+Something we haven't seen yet is around KMS key deletions.
+
+34
+00:01:16.400 --> 00:01:18.716
+So you can schedule a CMK for deletion,
+
+35
+00:01:18.716 --> 00:01:20.400
+and then you have a waiting period
+
+36
+00:01:20.400 --> 00:01:21.640
+between seven and 30 days.
+
+37
+00:01:21.640 --> 00:01:24.470
+This is in case you want to cancel the deletion because you
+
+38
+00:01:24.470 --> 00:01:26.600
+realize that you still need the CMK.
+
+39
+00:01:26.600 --> 00:01:28.679
+So when you go into a deletion,
+
+40
+00:01:28.679 --> 00:01:31.648
+the first state is going to be pending deletion
+
+41
+00:01:31.648 --> 00:01:33.240
+during the waiting period
+
+42
+00:01:33.240 --> 00:01:34.327
+and during that waiting period,
+
+43
+00:01:34.327 --> 00:01:37.930
+this CMK can not be used for any cryptographic operations.
+
+44
+00:01:37.930 --> 00:01:40.360
+That means that if you have an objective, Amazon is free.
+
+45
+00:01:40.360 --> 00:01:44.710
+That's a KMS encrypted with that CMK then this is going to
+
+46
+00:01:44.710 --> 00:01:48.030
+fail, and this is something the exam will test you on.
+
+47
+00:01:48.030 --> 00:01:50.470
+And if the key is planned for rotation,
+
+48
+00:01:50.470 --> 00:01:51.816
+then it will not happen.
+
+49
+00:01:51.816 --> 00:01:53.504
+Now, if you realize that somehow
+
+50
+00:01:53.504 --> 00:01:55.350
+you are indeed using that same carrier
+
+51
+00:01:55.350 --> 00:01:56.530
+you want to use it,
+
+52
+00:01:56.530 --> 00:01:58.580
+then you can console the key deletion.
+
+53
+00:01:58.580 --> 00:02:01.840
+And so this is why it's always very important to maybe
+
+54
+00:02:01.840 --> 00:02:04.070
+disable your key first, instead of deleting it,
+
+55
+00:02:04.070 --> 00:02:05.300
+if you're not sure.
+
+56
+00:02:05.300 --> 00:02:07.928
+And so cool automation you can build is around figuring out
+
+57
+00:02:07.928 --> 00:02:09.870
+whether or not after being deleted.
+
+58
+00:02:09.870 --> 00:02:12.490
+The key is still being used.
+
+59
+00:02:12.490 --> 00:02:13.778
+So for this, when we do,
+
+60
+00:02:13.778 --> 00:02:15.520
+and we delete the key
+
+61
+00:02:15.520 --> 00:02:17.600
+and it goes into the pending deletion state,
+
+62
+00:02:17.600 --> 00:02:20.980
+we're going to set up a CloudTrail on top of it.
+
+63
+00:02:20.980 --> 00:02:22.270
+So that's for example,
+
+64
+00:02:22.270 --> 00:02:24.980
+if a user wants to use a cryptographic operation for our
+
+65
+00:02:24.980 --> 00:02:28.020
+key, for example, a decrypt or an encrypt operation,
+
+66
+00:02:28.020 --> 00:02:30.500
+then the API goal is going to be denied.
+
+67
+00:02:30.500 --> 00:02:34.440
+And we are going to log that API call into CloudTrail.
+
+68
+00:02:34.440 --> 00:02:37.250
+Now CloudTrail will send its logs into CloudWatch logs,
+
+69
+00:02:37.250 --> 00:02:40.950
+and we can set up a metric filter to look for the keywords.
+
+70
+00:02:40.950 --> 00:02:43.690
+The key is pending deletion.
+
+71
+00:02:43.690 --> 00:02:45.320
+Now, if this metric filter
+
+72
+00:02:45.320 --> 00:02:48.040
+has any occurrences other than one,
+
+73
+00:02:48.040 --> 00:02:51.200
+then set up a CloudWatch alarm and trigger it
+
+74
+00:02:51.200 --> 00:02:52.140
+to for example,
+
+75
+00:02:52.140 --> 00:02:57.140
+send us an SMS alert into a email notification.
+
+76
+00:02:57.160 --> 00:02:59.470
+And with this whole schedule what's going to happen is that
+
+77
+00:02:59.470 --> 00:03:02.870
+every time you delete a CMK and you implement this solution,
+
+78
+00:03:02.870 --> 00:03:04.690
+in case someone tries to use a CMK,
+
+79
+00:03:04.690 --> 00:03:07.630
+you're going to receive an alert and then you can drill down
+
+80
+00:03:07.630 --> 00:03:10.160
+and maybe understand that this CMK can not be deleted
+
+81
+00:03:10.160 --> 00:03:12.600
+because it is still being used by someone else,
+
+82
+00:03:12.600 --> 00:03:14.350
+which is a cool type of automation.
+
+83
+00:03:14.350 --> 00:03:15.183
+So that's it,
+
+84
+00:03:15.183 --> 00:03:16.016
+I hope you liked it.
+
+85
+00:03:16.016 --> 00:03:17.683
+And I will see you in the next lecture.
+

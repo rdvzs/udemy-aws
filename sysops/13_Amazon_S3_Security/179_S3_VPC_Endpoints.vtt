@@ -1,0 +1,162 @@
+WEBVTT
+
+1
+00:00:00.140 --> 00:00:02.610
+<v Instructor>So here is a short theory lecture.</v>
+
+2
+00:00:02.610 --> 00:00:03.930
+But it is important for you to understand
+
+3
+00:00:03.930 --> 00:00:07.000
+how the VPC Endpoint Gateways work for Amazon S3.
+
+4
+00:00:07.000 --> 00:00:10.960
+So by default, an S3 Bucket lives on the
+
+5
+00:00:10.960 --> 00:00:11.930
+AWS cloud, okay?
+
+6
+00:00:11.930 --> 00:00:13.210
+But to access it,
+
+7
+00:00:13.210 --> 00:00:15.870
+you need to go through the public internet.
+
+8
+00:00:15.870 --> 00:00:17.820
+So that means that's your instance launch
+
+9
+00:00:17.820 --> 00:00:20.020
+in a public sublet, for example,
+
+10
+00:00:20.020 --> 00:00:22.520
+will access through the internet gateway
+
+11
+00:00:22.520 --> 00:00:24.640
+the public endpoints of your S3 Bucket
+
+12
+00:00:24.640 --> 00:00:26.650
+and the files go that way.
+
+13
+00:00:26.650 --> 00:00:29.150
+That means that your S3 Bucket can have a Bucket policy
+
+14
+00:00:29.150 --> 00:00:32.590
+and you can filter by either AWS-SourceIP
+
+15
+00:00:32.590 --> 00:00:36.490
+to be a public IP of your institute instance, okay?
+
+16
+00:00:36.490 --> 00:00:38.800
+Now, if you wanted to have a private access
+
+17
+00:00:38.800 --> 00:00:39.633
+to you S3 Bucket,
+
+18
+00:00:39.633 --> 00:00:41.580
+so you don't want the traffic to go through
+
+19
+00:00:41.580 --> 00:00:42.760
+the public internet,
+
+20
+00:00:42.760 --> 00:00:44.530
+then you deploy your instances reasonable
+
+21
+00:00:44.530 --> 00:00:47.110
+in a private subnets, and you would create a
+
+22
+00:00:47.110 --> 00:00:49.290
+VPC Endpoint Gateway.
+
+23
+00:00:49.290 --> 00:00:51.730
+So this VPC Endpoint Gateway allows you to establish
+
+24
+00:00:51.730 --> 00:00:54.080
+a private connection from your instance directly
+
+25
+00:00:54.080 --> 00:00:55.270
+into the S3 Bucket.
+
+26
+00:00:55.270 --> 00:00:58.280
+And this allows you to create different bucket policies.
+
+27
+00:00:58.280 --> 00:01:00.370
+So this one, the bucket policy you can apply,
+
+28
+00:01:00.370 --> 00:01:03.530
+to force access only through a VPC Endpoint Gateway
+
+29
+00:01:03.530 --> 00:01:07.480
+is to use a Bucket policy by AWS-SourceVpce.
+
+30
+00:01:07.480 --> 00:01:09.740
+And you can specify one or a few end points,
+
+31
+00:01:09.740 --> 00:01:12.897
+or you can specify a bucket policy and specify
+
+32
+00:01:12.897 --> 00:01:15.430
+AWS-SourceVPC condition to encompass
+
+33
+00:01:15.430 --> 00:01:19.430
+all possible VPC endpoints within a predefined VPC.
+
+34
+00:01:19.430 --> 00:01:20.850
+So that's it, just for it to show you
+
+35
+00:01:20.850 --> 00:01:21.730
+the two different ways.
+
+36
+00:01:21.730 --> 00:01:23.570
+And obviously the VPC Endpoint Gateway
+
+37
+00:01:23.570 --> 00:01:25.930
+is going to be preferred for security
+
+38
+00:01:25.930 --> 00:01:27.830
+and also I think for cost reasons.
+
+39
+00:01:27.830 --> 00:01:29.510
+So that's it for this lecture, I hope you liked it.
+
+40
+00:01:29.510 --> 00:01:31.460
+And I will see you in the next lecture.
+

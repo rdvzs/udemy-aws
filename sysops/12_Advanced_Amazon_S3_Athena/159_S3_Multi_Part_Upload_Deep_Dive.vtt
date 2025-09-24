@@ -1,0 +1,222 @@
+WEBVTT
+
+1
+00:00:00.380 --> 00:00:02.750
+<v ->Okay, so now let's do a little bit of a deeper dive</v>
+
+2
+00:00:02.750 --> 00:00:05.150
+into how the multi part upload works.
+
+3
+00:00:05.150 --> 00:00:07.760
+So this is allowing you to update a large objects
+
+4
+00:00:07.760 --> 00:00:10.193
+in parts in any order and it's recommended when you have
+
+5
+00:00:10.193 --> 00:00:12.380
+a file that is over 100 megabytes
+
+6
+00:00:12.380 --> 00:00:14.270
+and it must be used for the files
+
+7
+00:00:14.270 --> 00:00:15.850
+that are over five gigabytes.
+
+8
+00:00:15.850 --> 00:00:17.440
+This helps you paralyze the uploads.
+
+9
+00:00:17.440 --> 00:00:19.890
+So this helps you speed up the transfers
+
+10
+00:00:19.890 --> 00:00:22.830
+and also be safer because in case of a failure of one part,
+
+11
+00:00:22.830 --> 00:00:24.000
+you can retry it.
+
+12
+00:00:24.000 --> 00:00:26.090
+So the maximum amount of parts you can have
+
+13
+00:00:26.090 --> 00:00:28.840
+in your upload is 10,000 and the idea is that you
+
+14
+00:00:28.840 --> 00:00:30.720
+have your Amazon S3 bucket
+
+15
+00:00:30.720 --> 00:00:33.630
+and your big file you split it into parts
+
+16
+00:00:33.630 --> 00:00:35.510
+and it could be up to 10,000 parts.
+
+17
+00:00:35.510 --> 00:00:37.830
+Then you upload all these parts in parallel.
+
+18
+00:00:37.830 --> 00:00:40.880
+So you can speed up by maximizing your network bandwidth,
+
+19
+00:00:40.880 --> 00:00:43.660
+but you can also retry a specific part upload
+
+20
+00:00:43.660 --> 00:00:45.440
+in case it has failed.
+
+21
+00:00:45.440 --> 00:00:48.210
+Then your files are uploaded into Amazon S3.
+
+22
+00:00:48.210 --> 00:00:49.970
+And then once they're all there,
+
+23
+00:00:49.970 --> 00:00:54.290
+you can finish the upload by doing a complete request.
+
+24
+00:00:54.290 --> 00:00:56.950
+And this complete request is going to concatenate
+
+25
+00:00:56.950 --> 00:01:00.320
+all the parts and all the files into your bigger file
+
+26
+00:01:00.320 --> 00:01:02.220
+back into Amazon S3.
+
+27
+00:01:02.220 --> 00:01:03.420
+So with the failures, again,
+
+28
+00:01:03.420 --> 00:01:04.970
+restart putting only the failed parts,
+
+29
+00:01:04.970 --> 00:01:07.930
+which will improve performance and improve the amount
+
+30
+00:01:07.930 --> 00:01:09.510
+of time you have to do retries.
+
+31
+00:01:09.510 --> 00:01:12.880
+And then if you want to automate delete the old parts,
+
+32
+00:01:12.880 --> 00:01:15.510
+you can use a life cycle policy to delete
+
+33
+00:01:15.510 --> 00:01:18.210
+the unfinished uploads after X number of days.
+
+34
+00:01:18.210 --> 00:01:20.390
+For example, in case you had a network outage
+
+35
+00:01:20.390 --> 00:01:23.070
+or an application shut down, all that kind of stuff,
+
+36
+00:01:23.070 --> 00:01:26.320
+you can upload it using the CLI or the SDK to take advantage
+
+37
+00:01:26.320 --> 00:01:27.570
+of the multi-part upload.
+
+38
+00:01:28.830 --> 00:01:30.110
+So if you go into management,
+
+39
+00:01:30.110 --> 00:01:31.370
+I just wanna show you the life cycle rule
+
+40
+00:01:31.370 --> 00:01:32.203
+that is applicable.
+
+41
+00:01:32.203 --> 00:01:34.150
+So you can create a lifecycle rule,
+
+42
+00:01:34.150 --> 00:01:37.410
+and I'll call it demo multi-part,
+
+43
+00:01:37.410 --> 00:01:39.940
+and you can apply it to all objects in the bucket,
+
+44
+00:01:39.940 --> 00:01:43.080
+that's fine, and then the life cycle rule action would be
+
+45
+00:01:43.080 --> 00:01:45.590
+to delete expired delete markers
+
+46
+00:01:45.590 --> 00:01:47.317
+or incomplete multi part upload,
+
+47
+00:01:47.317 --> 00:01:49.670
+and as going to see, you can have a life cycle rule
+
+48
+00:01:49.670 --> 00:01:52.390
+to deal with incomplete multi part uploads.
+
+49
+00:01:52.390 --> 00:01:54.020
+And now you just need to say, hey,
+
+50
+00:01:54.020 --> 00:01:56.290
+I want you to delete incomplete multi part uploads
+
+51
+00:01:56.290 --> 00:01:59.650
+after three days to clean up anything you want,
+
+52
+00:01:59.650 --> 00:02:01.290
+and this can come up in the exempt.
+
+53
+00:02:01.290 --> 00:02:03.930
+Then you create this rule and you're good to go.
+
+54
+00:02:03.930 --> 00:02:05.640
+So that's it, I hope you like this lecture
+
+55
+00:02:05.640 --> 00:02:07.590
+and I will see you in the next lecture.
+

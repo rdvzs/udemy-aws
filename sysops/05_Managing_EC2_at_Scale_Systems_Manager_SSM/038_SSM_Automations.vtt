@@ -1,0 +1,750 @@
+WEBVTT
+
+1
+00:00:00.320 --> 00:00:03.421
+<v Instructor>Now let's talk about SSM Automations.</v>
+
+2
+00:00:03.421 --> 00:00:06.060
+So, automations are going to help you simplify
+
+3
+00:00:06.060 --> 00:00:07.840
+common maintenance and deployment tasks
+
+4
+00:00:07.840 --> 00:00:11.210
+for your EC2 Instances or other AWS resources.
+
+5
+00:00:11.210 --> 00:00:13.440
+For example, using an automation, you can do some things
+
+6
+00:00:13.440 --> 00:00:14.950
+such as restarting an Instance,
+
+7
+00:00:14.950 --> 00:00:18.770
+creating an AMI or doing an EBS snapshot.
+
+8
+00:00:18.770 --> 00:00:20.120
+The idea is that automations are going
+
+9
+00:00:20.120 --> 00:00:21.350
+to be higher level, okay.
+
+10
+00:00:21.350 --> 00:00:23.710
+They're from outside your EC2 Instances,
+
+11
+00:00:23.710 --> 00:00:25.430
+whereas the Run command from before,
+
+12
+00:00:25.430 --> 00:00:28.010
+were from inside your EC2 Instances.
+
+13
+00:00:28.010 --> 00:00:29.970
+So the automation Runbook is the name
+
+14
+00:00:29.970 --> 00:00:32.470
+of the document for SSM that are going
+
+15
+00:00:32.470 --> 00:00:34.070
+to be of type Automation, okay.
+
+16
+00:00:34.070 --> 00:00:36.300
+So we commonly refer them as Runbook now.
+
+17
+00:00:36.300 --> 00:00:39.230
+And the Runbooks will do actions preformed
+
+18
+00:00:39.230 --> 00:00:43.260
+on your EC2 Instances or resources and AWS resources.
+
+19
+00:00:43.260 --> 00:00:45.210
+And you can create your own Runbook obviously,
+
+20
+00:00:45.210 --> 00:00:48.080
+or use the predefined Runbooks done by AWS.
+
+21
+00:00:48.080 --> 00:00:49.460
+So here's an example.
+
+22
+00:00:49.460 --> 00:00:52.040
+The SSM Automation is using the Runbooks.
+
+23
+00:00:52.040 --> 00:00:53.550
+They'll show automation documents.
+
+24
+00:00:53.550 --> 00:00:55.660
+And we can execute them on EC2 Instances.
+
+25
+00:00:55.660 --> 00:00:58.330
+Or specific resources, such as EBS volumes, for example,
+
+26
+00:00:58.330 --> 00:01:01.350
+to pro-creating snapshots, AMI to create AMIs,
+
+27
+00:01:01.350 --> 00:01:04.340
+or RDS for creating snapshots and so on.
+
+28
+00:01:04.340 --> 00:01:06.640
+Now, how do you trigger an SSM Automation?
+
+29
+00:01:06.640 --> 00:01:08.920
+Well, you can do it manually using the console
+
+30
+00:01:08.920 --> 00:01:11.220
+or using the CLI or using the SDK.
+
+31
+00:01:11.220 --> 00:01:14.770
+But you can also automate it by using EventBridge as a rule.
+
+32
+00:01:14.770 --> 00:01:17.730
+And the target of the rule will be the SSM Automation.
+
+33
+00:01:17.730 --> 00:01:21.170
+On a schedule, so very often using a Maintenance Window
+
+34
+00:01:21.170 --> 00:01:23.980
+or as a rule remediation directly,
+
+35
+00:01:23.980 --> 00:01:26.600
+whenever AWS Config Remi, finds out
+
+36
+00:01:26.600 --> 00:01:28.870
+that a resource is not compliant with the rule.
+
+37
+00:01:28.870 --> 00:01:30.830
+So all these options are defined right here.
+
+38
+00:01:30.830 --> 00:01:33.080
+So the Console, the SDK, Maintenance Windows,
+
+39
+00:01:33.080 --> 00:01:35.290
+EventBridge, and the Config Remediation,
+
+40
+00:01:35.290 --> 00:01:39.640
+can all execute the automation called AWS-RestartEC2Instance
+
+41
+00:01:39.640 --> 00:01:42.270
+from within the SSM automation service, okay.
+
+42
+00:01:42.270 --> 00:01:43.103
+So let's have a look
+
+43
+00:01:43.103 --> 00:01:45.053
+at how Automations work in this lecture.
+
+44
+00:01:46.020 --> 00:01:49.050
+So I'm gonna go on the left hand side into Automation.
+
+45
+00:01:49.050 --> 00:01:51.470
+So Change Management, Automation.
+
+46
+00:01:51.470 --> 00:01:54.400
+And I'm going to execute an Automation.
+
+47
+00:01:54.400 --> 00:01:55.590
+So I need to choose the document.
+
+48
+00:01:55.590 --> 00:01:57.290
+Again, we can write our own document
+
+49
+00:01:57.290 --> 00:02:00.000
+or choose the one owned by Amazon, okay.
+
+50
+00:02:00.000 --> 00:02:02.170
+And there are document categories, for example,
+
+51
+00:02:02.170 --> 00:02:04.170
+user guide tutorials, Remediation,
+
+52
+00:02:04.170 --> 00:02:07.170
+Patching, Security, Instance Management.
+
+53
+00:02:07.170 --> 00:02:09.360
+For example, common tasks for EC2
+
+54
+00:02:09.360 --> 00:02:12.670
+and EBS, Data Backups, AMI Management,
+
+55
+00:02:12.670 --> 00:02:13.670
+Self-service support workflows.
+
+56
+00:02:13.670 --> 00:02:15.400
+So as you can see, a lot of them
+
+57
+00:02:16.490 --> 00:02:18.420
+including for example, Cost Managements.
+
+58
+00:02:18.420 --> 00:02:19.860
+So in this example,
+
+59
+00:02:19.860 --> 00:02:22.430
+we can look at Instance Managements and what can happen.
+
+60
+00:02:22.430 --> 00:02:25.670
+So we can attach an EBS volume directly from an Automation.
+
+61
+00:02:25.670 --> 00:02:27.840
+We can attach an IAM role to an Instance.
+
+62
+00:02:27.840 --> 00:02:30.030
+We can, for example, enter an ASG
+
+63
+00:02:30.030 --> 00:02:31.560
+into standby or exit stand by.
+
+64
+00:02:31.560 --> 00:02:33.450
+So you can do a lot of different things, okay.
+
+65
+00:02:33.450 --> 00:02:35.200
+Detach your volume and so on.
+
+66
+00:02:35.200 --> 00:02:36.140
+So what I'm going to do,
+
+67
+00:02:36.140 --> 00:02:38.190
+is I'm going to look for Automations.
+
+68
+00:02:38.190 --> 00:02:39.940
+And I'm going to look for the Automation
+
+69
+00:02:39.940 --> 00:02:44.223
+named AWS- Restart, and that should do it.
+
+70
+00:02:45.290 --> 00:02:47.940
+So, AWS-RestartEC2Instance.
+
+71
+00:02:47.940 --> 00:02:50.930
+And so in this one, we have the RestartEC2Instance.
+
+72
+00:02:50.930 --> 00:02:51.883
+And what it's going to do, is that is going
+
+73
+00:02:51.883 --> 00:02:54.140
+to just restart our EC2 Instances.
+
+74
+00:02:54.140 --> 00:02:55.380
+And as you can see, we have different one.
+
+75
+00:02:55.380 --> 00:02:57.300
+If we wanted to have an Approval step
+
+76
+00:02:57.300 --> 00:02:58.133
+as part of our Automation.
+
+77
+00:02:58.133 --> 00:02:59.810
+So let's use this one actually.
+
+78
+00:02:59.810 --> 00:03:01.420
+So we're going to choose the document.
+
+79
+00:03:01.420 --> 00:03:02.500
+I will scroll down.
+
+80
+00:03:02.500 --> 00:03:04.830
+Here's the document detail. Which version do we want?
+
+81
+00:03:04.830 --> 00:03:07.310
+So we want the latest version. This is great.
+
+82
+00:03:07.310 --> 00:03:09.120
+And the Description. Click on next.
+
+83
+00:03:09.120 --> 00:03:09.970
+Now we need to choose
+
+84
+00:03:09.970 --> 00:03:13.100
+where we want this document to be executed.
+
+85
+00:03:13.100 --> 00:03:16.460
+So we can do a Simple Execution to execute on all targets
+
+86
+00:03:16.460 --> 00:03:18.800
+or a Rate Control to do it one at a time.
+
+87
+00:03:18.800 --> 00:03:20.960
+Or we can do Multi-account and Multi-region
+
+88
+00:03:20.960 --> 00:03:24.550
+or a Manual execution to do step by step Runbook mode.
+
+89
+00:03:24.550 --> 00:03:26.560
+So I will choose Rates Control, okay,
+
+90
+00:03:26.560 --> 00:03:30.240
+to restart my EC2 Instances with approval.
+
+91
+00:03:30.240 --> 00:03:33.510
+And the target is going to be for example, Instance IDs.
+
+92
+00:03:33.510 --> 00:03:35.230
+And then we can choose based
+
+93
+00:03:35.230 --> 00:03:37.060
+on a resource group just like before.
+
+94
+00:03:37.060 --> 00:03:39.020
+Or we can, for example, say on Tags
+
+95
+00:03:39.020 --> 00:03:41.950
+or Parameter values, or just All Instances.
+
+96
+00:03:41.950 --> 00:03:43.620
+So in this example, let's choose a resource group
+
+97
+00:03:43.620 --> 00:03:44.850
+to change things up.
+
+98
+00:03:44.850 --> 00:03:46.990
+And I want to operate it on the Dev.
+
+99
+00:03:46.990 --> 00:03:49.890
+So it means I want to restart all my Dev Instances.
+
+100
+00:03:49.890 --> 00:03:53.600
+So we need to provide Instance IDs, but as you can see,
+
+101
+00:03:53.600 --> 00:03:55.900
+because we've specified our Resource Group,
+
+102
+00:03:55.900 --> 00:03:58.240
+then the Instance ID is going to be filled.
+
+103
+00:03:58.240 --> 00:03:59.190
+And then Approvers.
+
+104
+00:03:59.190 --> 00:04:02.040
+So, IAM user or user arn to approve
+
+105
+00:04:02.040 --> 00:04:03.680
+for the automation action.
+
+106
+00:04:03.680 --> 00:04:06.170
+And so I think that it's not going to be easy to do so.
+
+107
+00:04:06.170 --> 00:04:08.100
+So I'm just going to roll this back
+
+108
+00:04:08.100 --> 00:04:09.460
+because I'm not using an IAM user
+
+109
+00:04:09.460 --> 00:04:11.640
+and I want to make it as simple as possible.
+
+110
+00:04:11.640 --> 00:04:15.953
+But if we look again at this address, Restart Commands.
+
+111
+00:04:19.900 --> 00:04:22.760
+And use this one. We're good to go.
+
+112
+00:04:22.760 --> 00:04:23.593
+Next.
+
+113
+00:04:23.593 --> 00:04:26.900
+So again, the Rate Control is going
+
+114
+00:04:26.900 --> 00:04:29.173
+to be done on Instance ID for the DevGroup.
+
+115
+00:04:30.180 --> 00:04:33.270
+We're going to need to have an ARN for the role.
+
+116
+00:04:33.270 --> 00:04:34.360
+That's the Automation Assume
+
+117
+00:04:34.360 --> 00:04:35.870
+to perform the automation on your behalf.
+
+118
+00:04:35.870 --> 00:04:38.270
+And this is if you want to have the automation user role
+
+119
+00:04:38.270 --> 00:04:39.840
+that is different than the one
+
+120
+00:04:39.840 --> 00:04:41.810
+that you're currently using right now
+
+121
+00:04:41.810 --> 00:04:43.090
+to launch this automation.
+
+122
+00:04:43.090 --> 00:04:44.790
+So, I will not specify an IAM role,
+
+123
+00:04:44.790 --> 00:04:47.160
+but you could specify one if you wanted to.
+
+124
+00:04:47.160 --> 00:04:48.280
+Now for the Rate Control is going
+
+125
+00:04:48.280 --> 00:04:50.020
+to be one target at a time.
+
+126
+00:04:50.020 --> 00:04:54.130
+And if there's one error, then please stop this automation.
+
+127
+00:04:54.130 --> 00:04:55.563
+Okay, let's execute it.
+
+128
+00:04:56.910 --> 00:04:59.160
+And now the execution has been initiated
+
+129
+00:04:59.160 --> 00:05:01.100
+for my RestartECInstance.
+
+130
+00:05:01.100 --> 00:05:03.340
+So, we can have a look at the steps.
+
+131
+00:05:03.340 --> 00:05:07.140
+So let's refresh this page in here.
+
+132
+00:05:07.140 --> 00:05:10.090
+So currently one step is being executed, okay.
+
+133
+00:05:10.090 --> 00:05:12.730
+Which is to execute this automation.
+
+134
+00:05:12.730 --> 00:05:15.410
+And so I can click on the step itself
+
+135
+00:05:15.410 --> 00:05:16.520
+to have a look at what is done.
+
+136
+00:05:16.520 --> 00:05:19.423
+So, the Execution ID is right here.
+
+137
+00:05:20.410 --> 00:05:22.400
+And two steps were executed.
+
+138
+00:05:22.400 --> 00:05:24.450
+So number one is stop Instances.
+
+139
+00:05:24.450 --> 00:05:26.990
+So we'll change the Instance state and this is in progress.
+
+140
+00:05:26.990 --> 00:05:30.580
+So if I go into my EC2 Management Console and have a look,
+
+141
+00:05:30.580 --> 00:05:33.520
+as you can see, this one is being stopped, okay.
+
+142
+00:05:33.520 --> 00:05:35.910
+Which was the first step of my automation.
+
+143
+00:05:35.910 --> 00:05:38.360
+And then there's a second step that is going to happen,
+
+144
+00:05:38.360 --> 00:05:39.700
+which is to start my Instance.
+
+145
+00:05:39.700 --> 00:05:41.330
+So this one was a success.
+
+146
+00:05:41.330 --> 00:05:43.670
+And now the Instance that was stopped is now being started.
+
+147
+00:05:43.670 --> 00:05:46.610
+So if I go back into my Management Console and refresh this,
+
+148
+00:05:46.610 --> 00:05:47.800
+We're in pending state.
+
+149
+00:05:47.800 --> 00:05:50.020
+That means that my Instance is being started.
+
+150
+00:05:50.020 --> 00:05:52.000
+So effectively, what we can do, for example,
+
+151
+00:05:52.000 --> 00:05:54.390
+using this automation is just restart
+
+152
+00:05:54.390 --> 00:05:57.030
+a full fleet of EC2 Instances,
+
+153
+00:05:57.030 --> 00:05:59.630
+without number one enabling SSH access.
+
+154
+00:05:59.630 --> 00:06:01.840
+And number two, we don't have to code a script for it
+
+155
+00:06:01.840 --> 00:06:04.720
+because, well, there is an automation available to us.
+
+156
+00:06:04.720 --> 00:06:06.400
+And if we had a script then,
+
+157
+00:06:06.400 --> 00:06:08.680
+embedding for example, different steps
+
+158
+00:06:08.680 --> 00:06:10.110
+and making during Rate Control
+
+159
+00:06:10.110 --> 00:06:12.500
+and looking at errors and looking at lugs
+
+160
+00:06:12.500 --> 00:06:13.900
+would be extremely complicated.
+
+161
+00:06:13.900 --> 00:06:17.887
+So this really shows the power of Automations within a SSM.
+
+162
+00:06:17.887 --> 00:06:21.010
+And as we can see, two executions are being done.
+
+163
+00:06:21.010 --> 00:06:22.840
+So one of them on one Instance,
+
+164
+00:06:22.840 --> 00:06:26.270
+and then on the other Instance at this Rate Control.
+
+165
+00:06:26.270 --> 00:06:27.640
+And so what we will do is that,
+
+166
+00:06:27.640 --> 00:06:29.370
+while now the three of them are running
+
+167
+00:06:29.370 --> 00:06:30.640
+and one of them soon we'll go down
+
+168
+00:06:30.640 --> 00:06:31.900
+and we'll be stopped and so on.
+
+169
+00:06:31.900 --> 00:06:33.000
+So you get the idea?
+
+170
+00:06:33.000 --> 00:06:34.410
+But this is the whole part of automations.
+
+171
+00:06:34.410 --> 00:06:36.420
+And hopefully they open up your mind
+
+172
+00:06:36.420 --> 00:06:37.620
+around how you use AWS.
+
+173
+00:06:37.620 --> 00:06:40.360
+So I would strongly suggest if you have some time
+
+174
+00:06:40.360 --> 00:06:42.410
+to go into your documents, okay.
+
+175
+00:06:42.410 --> 00:06:45.180
+And you need to just look at documents
+
+176
+00:06:45.180 --> 00:06:48.470
+that are going to be of type, Automation
+
+177
+00:06:48.470 --> 00:06:51.360
+and have a look at what is offered by AWS
+
+178
+00:06:51.360 --> 00:06:52.193
+in terms of documents.
+
+179
+00:06:52.193 --> 00:06:54.930
+There's a lot of them, but they can help you imagine
+
+180
+00:06:54.930 --> 00:06:57.260
+and understand how you can leverage automations better
+
+181
+00:06:57.260 --> 00:06:58.830
+within your infrastructure.
+
+182
+00:06:58.830 --> 00:07:00.000
+So that's it for this lecture.
+
+183
+00:07:00.000 --> 00:07:00.833
+I hope you liked it.
+
+184
+00:07:00.833 --> 00:07:04.020
+And make sure that the automation was successful at the end.
+
+185
+00:07:04.020 --> 00:07:06.400
+So go back in here and make sure it was good.
+
+186
+00:07:06.400 --> 00:07:07.470
+But I hope you liked it.
+
+187
+00:07:07.470 --> 00:07:09.420
+And I will see you in the next lecture.
+

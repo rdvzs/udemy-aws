@@ -1,0 +1,630 @@
+WEBVTT
+
+1
+00:00:00.280 --> 00:00:02.210
+<v Instructor>So now let's talk about Elastic IP.</v>
+
+2
+00:00:02.210 --> 00:00:04.250
+So when you stop and start an EC2 instance,
+
+3
+00:00:04.250 --> 00:00:06.480
+it will change its public IP.
+
+4
+00:00:06.480 --> 00:00:08.750
+And if you need to have a fixed public IP
+
+5
+00:00:08.750 --> 00:00:09.880
+then you need Elastic IP.
+
+6
+00:00:09.880 --> 00:00:11.867
+So this is for the use cases where you need to have an IP
+
+7
+00:00:11.867 --> 00:00:13.410
+that's going to be constant
+
+8
+00:00:13.410 --> 00:00:15.920
+across your usage, obviously, to instances.
+
+9
+00:00:15.920 --> 00:00:18.120
+So it's an IPv4 Elastic IP that you own
+
+10
+00:00:18.120 --> 00:00:19.360
+as long as you don't delete it.
+
+11
+00:00:19.360 --> 00:00:20.550
+So it's a reservation.
+
+12
+00:00:20.550 --> 00:00:23.150
+And so the idea is that you attach this Elastic IP
+
+13
+00:00:23.150 --> 00:00:25.310
+to one EC2 instance at a time
+
+14
+00:00:25.310 --> 00:00:29.230
+and that EC2 instance will inherit the IPv4 from it, okay?
+
+15
+00:00:29.230 --> 00:00:31.330
+You can remap this IP across instances
+
+16
+00:00:31.330 --> 00:00:33.060
+and we'll see this in the hands-on,
+
+17
+00:00:33.060 --> 00:00:35.030
+and you don't pay for the Elastic IP
+
+18
+00:00:35.030 --> 00:00:36.050
+if it's attached to a server,
+
+19
+00:00:36.050 --> 00:00:37.010
+which is a good thing,
+
+20
+00:00:37.010 --> 00:00:39.880
+but if you just reserve the Elastic IP
+
+21
+00:00:39.880 --> 00:00:41.890
+without attaching it to a server,
+
+22
+00:00:41.890 --> 00:00:44.340
+then you're going to be billed for it.
+
+23
+00:00:44.340 --> 00:00:46.410
+So Elastic IP, why do we use them?
+
+24
+00:00:46.410 --> 00:00:49.150
+Well, the use case is that you can mask the failure
+
+25
+00:00:49.150 --> 00:00:52.500
+of an instance or software by rapidly remapping the address
+
+26
+00:00:52.500 --> 00:00:54.200
+that your instance is accessible at
+
+27
+00:00:54.200 --> 00:00:55.630
+to another instance in your account
+
+28
+00:00:55.630 --> 00:00:58.200
+that is also running the software.
+
+29
+00:00:58.200 --> 00:00:59.520
+And by default, you can have
+
+30
+00:00:59.520 --> 00:01:01.470
+up to five Elastic IPs in your account.
+
+31
+00:01:01.470 --> 00:01:03.430
+You can ask AWS to increase that,
+
+32
+00:01:03.430 --> 00:01:06.810
+but the idea is that you should avoid using Elastic IPs,
+
+33
+00:01:06.810 --> 00:01:08.210
+at least that's my personal opinion,
+
+34
+00:01:08.210 --> 00:01:09.700
+unless you really, really, really have to,
+
+35
+00:01:09.700 --> 00:01:11.910
+this is why you can only have five Elastic IPs
+
+36
+00:01:11.910 --> 00:01:12.885
+in your accounts.
+
+37
+00:01:12.885 --> 00:01:16.830
+So other ways, an alternative for you to pass that is
+
+38
+00:01:16.830 --> 00:01:18.760
+that you can use a random public IP
+
+39
+00:01:18.760 --> 00:01:20.830
+and instead register a DNS name to it,
+
+40
+00:01:20.830 --> 00:01:22.730
+maybe using Route 53,
+
+41
+00:01:22.730 --> 00:01:23.770
+or use a load balancer,
+
+42
+00:01:23.770 --> 00:01:25.090
+which will have a static host name
+
+43
+00:01:25.090 --> 00:01:28.000
+and the load balancer is smart enough to redirect
+
+44
+00:01:28.000 --> 00:01:29.733
+to your correct EC2 instance.
+
+45
+00:01:31.440 --> 00:01:33.150
+Now let's see Elastic IPs in action.
+
+46
+00:01:33.150 --> 00:01:35.380
+So I have my first instance here
+
+47
+00:01:35.380 --> 00:01:36.380
+and I need to make sure
+
+48
+00:01:36.380 --> 00:01:38.430
+that I'm going to have a security group
+
+49
+00:01:38.430 --> 00:01:39.263
+that's going to be open.
+
+50
+00:01:39.263 --> 00:01:41.840
+So I'm going to find a security group
+
+51
+00:01:41.840 --> 00:01:43.100
+and make sure from the rules
+
+52
+00:01:43.100 --> 00:01:45.700
+that SSH such is going to be open
+
+53
+00:01:45.700 --> 00:01:48.890
+to all, to Anywhere and click on save Rule.
+
+54
+00:01:48.890 --> 00:01:50.290
+Here we go, we're go to go.
+
+55
+00:01:50.290 --> 00:01:51.650
+So I have my first instance
+
+56
+00:01:51.650 --> 00:01:54.490
+but I'm going to create a second instance.
+
+57
+00:01:54.490 --> 00:01:55.930
+I will create my second instance.
+
+58
+00:01:55.930 --> 00:01:58.210
+So the name is MySecondInstance.
+
+59
+00:01:59.130 --> 00:02:02.075
+I will choose Amazon Linux 2 on t2.micro.
+
+60
+00:02:02.075 --> 00:02:05.000
+For the key pair I will choose a demo key pair.
+
+61
+00:02:05.000 --> 00:02:05.960
+For the network settings,
+
+62
+00:02:05.960 --> 00:02:10.650
+I will select the existing AWS SSH security group.
+
+63
+00:02:10.650 --> 00:02:11.483
+And then I'm good to go.
+
+64
+00:02:11.483 --> 00:02:14.643
+I'm going to launch my instance and open it.
+
+65
+00:02:16.190 --> 00:02:20.170
+So now we have two EC2 instances being run.
+
+66
+00:02:20.170 --> 00:02:23.240
+And what I'm going to do is I'm going to first set them up.
+
+67
+00:02:23.240 --> 00:02:24.260
+So I'm gonna go
+
+68
+00:02:24.260 --> 00:02:26.910
+into EC2 Instance Connect, connect to my instance.
+
+69
+00:02:26.910 --> 00:02:29.640
+This is EC2 instance number one.
+
+70
+00:02:29.640 --> 00:02:32.800
+I'm going to make sure that I remove my hello.txt,
+
+71
+00:02:32.800 --> 00:02:33.960
+and so I'm going to,
+
+72
+00:02:33.960 --> 00:02:35.420
+so there's no files in here,
+
+73
+00:02:35.420 --> 00:02:37.100
+now I'm going to just create a new file.
+
+74
+00:02:37.100 --> 00:02:41.870
+I'll do it touch hello-instance-1.txt.
+
+75
+00:02:41.870 --> 00:02:42.703
+So we can see
+
+76
+00:02:42.703 --> 00:02:45.620
+now we have a file named hello-instance-1.txt available
+
+77
+00:02:45.620 --> 00:02:46.680
+to us, which is enough.
+
+78
+00:02:46.680 --> 00:02:48.950
+So I've set up my first instance.
+
+79
+00:02:48.950 --> 00:02:50.160
+And then for my second instance,
+
+80
+00:02:50.160 --> 00:02:52.040
+I'm going to do the exact same thing.
+
+81
+00:02:52.040 --> 00:02:56.340
+I'm going to connect to it using EC2 Instance Connect
+
+82
+00:02:56.340 --> 00:02:57.173
+and I'm going
+
+83
+00:02:57.173 --> 00:03:01.643
+to touch a new file named hello-instance-2.txt,
+
+84
+00:03:06.480 --> 00:03:08.510
+excuse me, which shows that yes,
+
+85
+00:03:08.510 --> 00:03:10.770
+we are on instance number two, okay?
+
+86
+00:03:10.770 --> 00:03:13.860
+So now that my two instances are available
+
+87
+00:03:13.860 --> 00:03:17.130
+as we can see, they have different IPv4 addresses.
+
+88
+00:03:17.130 --> 00:03:19.810
+And so what I'm going to do is first attach an Elastic IP
+
+89
+00:03:19.810 --> 00:03:21.700
+to my first instance.
+
+90
+00:03:21.700 --> 00:03:23.550
+So to do so on the left hand side,
+
+91
+00:03:23.550 --> 00:03:25.310
+I'm gonna go into Elastic IPs
+
+92
+00:03:25.310 --> 00:03:28.120
+and allocate a new Elastic IP address
+
+93
+00:03:28.120 --> 00:03:30.500
+from Amazon's pool of IPv4 address
+
+94
+00:03:30.500 --> 00:03:31.390
+but you could bring your own
+
+95
+00:03:31.390 --> 00:03:32.240
+if you wanted to.
+
+96
+00:03:33.150 --> 00:03:34.633
+Let's allocate this IP.
+
+97
+00:03:39.210 --> 00:03:40.390
+And as we can see now,
+
+98
+00:03:40.390 --> 00:03:43.770
+this IPv4 right here is accessible to me.
+
+99
+00:03:43.770 --> 00:03:44.780
+And so what I can do is
+
+100
+00:03:44.780 --> 00:03:47.850
+that I can attach it to my EC2 instance, so Action.
+
+101
+00:03:47.850 --> 00:03:50.920
+And then I can associate this Elastic IP address
+
+102
+00:03:50.920 --> 00:03:52.180
+with an instance
+
+103
+00:03:52.180 --> 00:03:55.490
+and I'm going to attach it with my first instance.
+
+104
+00:03:55.490 --> 00:03:59.870
+So, good, now it is associated with my first instance.
+
+105
+00:03:59.870 --> 00:04:04.870
+So if we go into my instances and look at my first instance,
+
+106
+00:04:05.140 --> 00:04:10.140
+we can see that the public IPv4 right here is 18.198,
+
+107
+00:04:10.570 --> 00:04:13.410
+which is the same as my IPv4 address
+
+108
+00:04:13.410 --> 00:04:15.000
+that is Elastic IP.
+
+109
+00:04:15.000 --> 00:04:17.800
+So what I mean is that if I do an SSH command now
+
+110
+00:04:19.040 --> 00:04:21.320
+and then I replaced the public IP
+
+111
+00:04:21.320 --> 00:04:25.120
+by the one I have from the Elastic IP and connect to it
+
+112
+00:04:25.120 --> 00:04:26.420
+and we do ls,
+
+113
+00:04:26.420 --> 00:04:28.270
+as we can see, I am on my instance one
+
+114
+00:04:28.270 --> 00:04:30.787
+because it says hello-instance-1.txt.
+
+115
+00:04:31.731 --> 00:04:33.780
+So, okay, I can disconnect.
+
+116
+00:04:33.780 --> 00:04:36.770
+And what I will do is I will launch the exact same command
+
+117
+00:04:36.770 --> 00:04:39.540
+but after remapping my Elastic IPv4,
+
+118
+00:04:39.540 --> 00:04:43.940
+so what I can do is go back to my Elastic IP, Action.
+
+119
+00:04:43.940 --> 00:04:46.610
+I will disassociate this Elastic IP.
+
+120
+00:04:46.610 --> 00:04:48.220
+So this is going to remove it
+
+121
+00:04:48.220 --> 00:04:50.010
+from my current EC2 instance.
+
+122
+00:04:50.010 --> 00:04:53.020
+And then I will associate this Elastic IP
+
+123
+00:04:53.020 --> 00:04:55.780
+but this time with my second instance,
+
+124
+00:04:55.780 --> 00:04:56.813
+and then Associate.
+
+125
+00:04:57.700 --> 00:04:58.920
+So now it has been associated
+
+126
+00:04:58.920 --> 00:05:00.690
+with the second EC2 instance.
+
+127
+00:05:00.690 --> 00:05:03.180
+And so if I rerun this command right here
+
+128
+00:05:04.700 --> 00:05:07.710
+so we are in, okay, and we get us some warning
+
+129
+00:05:07.710 --> 00:05:10.110
+because the remote host identification has changed.
+
+130
+00:05:10.110 --> 00:05:12.102
+So I'm on the different EC2 instance.
+
+131
+00:05:12.102 --> 00:05:15.020
+And this is the security that my SSH command has,
+
+132
+00:05:15.020 --> 00:05:15.980
+which is saying that,
+
+133
+00:05:15.980 --> 00:05:18.470
+hey, it looks like you're connected to a different host
+
+134
+00:05:18.470 --> 00:05:20.290
+even though you're using the same command.
+
+135
+00:05:20.290 --> 00:05:21.520
+So this is expected for us,
+
+136
+00:05:21.520 --> 00:05:22.810
+but this is a nice warning
+
+137
+00:05:22.810 --> 00:05:24.450
+to know in case you're being attacked.
+
+138
+00:05:24.450 --> 00:05:28.100
+And so if I do clear my screen and do ls,
+
+139
+00:05:28.100 --> 00:05:30.690
+this time I see hello-instance-2.txt,
+
+140
+00:05:30.690 --> 00:05:33.500
+which shows that I am connected to my second instance.
+
+141
+00:05:33.500 --> 00:05:36.440
+So this is really the power of Elastic IP here.
+
+142
+00:05:36.440 --> 00:05:38.970
+You can use the same command and be redirected
+
+143
+00:05:38.970 --> 00:05:40.600
+to two different instances.
+
+144
+00:05:40.600 --> 00:05:43.480
+And so this is how we can mask the failure of instance one,
+
+145
+00:05:43.480 --> 00:05:46.150
+for example, by remaking the Elastic IP
+
+146
+00:05:46.150 --> 00:05:47.870
+to the second instance.
+
+147
+00:05:47.870 --> 00:05:50.790
+So to finish this, please make sure
+
+148
+00:05:50.790 --> 00:05:53.330
+to terminate your second instance
+
+149
+00:05:53.330 --> 00:05:56.080
+and go to your Elastic IPs.
+
+150
+00:05:56.080 --> 00:06:00.490
+And what you can do is just disassociate this Elastic IP.
+
+151
+00:06:00.490 --> 00:06:01.490
+And then when this is done
+
+152
+00:06:01.490 --> 00:06:03.180
+you can release the Elastic IP address
+
+153
+00:06:03.180 --> 00:06:05.090
+in order not to be billed for it,
+
+154
+00:06:05.090 --> 00:06:07.470
+because it will be unused.
+
+155
+00:06:07.470 --> 00:06:09.050
+Okay, so that's it for this lecture.
+
+156
+00:06:09.050 --> 00:06:09.883
+I hope you liked it.
+
+157
+00:06:09.883 --> 00:06:11.720
+And I will see you in the next lecture.
+

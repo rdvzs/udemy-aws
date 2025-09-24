@@ -1,0 +1,102 @@
+WEBVTT
+
+1
+00:00:00.400 --> 00:00:02.550
+<v Narrator>So welcome to the second part of Stack Set.</v>
+
+2
+00:00:02.550 --> 00:00:05.770
+So now we're going to add stacks into our stack set.
+
+3
+00:00:05.770 --> 00:00:07.672
+So for this, we're just going to do action
+
+4
+00:00:07.672 --> 00:00:10.019
+and then add stacks to stack sets
+
+5
+00:00:10.019 --> 00:00:13.740
+and we are able to specify more regions and more accounts.
+
+6
+00:00:13.740 --> 00:00:17.033
+So lets you specify the same account number again,
+
+7
+00:00:19.760 --> 00:00:21.350
+And we're good to go
+
+8
+00:00:21.350 --> 00:00:23.367
+As well as specifying more regions so we can have
+
+9
+00:00:23.367 --> 00:00:27.780
+for example, one more region, the London region and so on.
+
+10
+00:00:27.780 --> 00:00:29.223
+Again, same deployment options.
+
+11
+00:00:29.223 --> 00:00:30.554
+I'll click on next.
+
+12
+00:00:30.554 --> 00:00:33.370
+If you want to override some values parameters
+
+13
+00:00:33.370 --> 00:00:34.600
+you could right here.
+
+14
+00:00:34.600 --> 00:00:38.750
+Click on next and then this looks good and submit.
+
+15
+00:00:38.750 --> 00:00:40.180
+So what this is going to do is
+
+16
+00:00:40.180 --> 00:00:43.090
+that this is going to do another operation
+
+17
+00:00:43.090 --> 00:00:46.090
+to create some more stack instances within our stack set.
+
+18
+00:00:46.090 --> 00:00:48.114
+So if I go to stack instances, we can see right here
+
+19
+00:00:48.114 --> 00:00:49.552
+we have some information
+
+20
+00:00:49.552 --> 00:00:52.290
+around that where the stacks have been deployed so far.
+
+21
+00:00:52.290 --> 00:00:56.363
+And so we were able to add a stacks in the stack sets.
+
+22
+00:00:58.070 --> 00:01:00.250
+So that it, my deployment is now current
+
+23
+00:01:00.250 --> 00:01:02.194
+and we've seen how to add stack sets,
+
+24
+00:01:02.194 --> 00:01:03.710
+stacks within our stack sets.
+
+25
+00:01:03.710 --> 00:01:06.133
+I will see you in the next lecture for some drifts.
+

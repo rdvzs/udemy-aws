@@ -1,0 +1,662 @@
+WEBVTT
+
+1
+00:00:00.330 --> 00:00:02.970
+<v Instructor>So now that we've looked at user data,</v>
+
+2
+00:00:02.970 --> 00:00:04.410
+we have a few problems with it.
+
+3
+00:00:04.410 --> 00:00:05.850
+It turns out that it's a batch script,
+
+4
+00:00:05.850 --> 00:00:07.560
+but what if you want to have a very
+
+5
+00:00:07.560 --> 00:00:09.780
+large instance configuration?
+
+6
+00:00:09.780 --> 00:00:12.030
+And what if you want to evolve the state
+
+7
+00:00:12.030 --> 00:00:14.670
+of our EC2 instance without terminating it
+
+8
+00:00:14.670 --> 00:00:16.020
+and creating a new one?
+
+9
+00:00:16.020 --> 00:00:19.110
+How do we make EC2 user data more readable?
+
+10
+00:00:19.110 --> 00:00:21.468
+And how do we know if user data scripts
+
+11
+00:00:21.468 --> 00:00:23.550
+were successful or not?
+
+12
+00:00:23.550 --> 00:00:26.730
+So enter the CloudFormation helper scripts.
+
+13
+00:00:26.730 --> 00:00:29.100
+So these are Python scripts,
+
+14
+00:00:29.100 --> 00:00:32.220
+and they come directly with the Amazon Linux AMIs
+
+15
+00:00:32.220 --> 00:00:33.510
+or you can install them
+
+16
+00:00:33.510 --> 00:00:37.650
+if you don't have Amazon Linux using yum or dnf.
+
+17
+00:00:37.650 --> 00:00:40.380
+And four of these very important scripts are
+
+18
+00:00:40.380 --> 00:00:45.380
+cfn-init, cfn-signal, cfn-get-metadata, and cfn-hup
+
+19
+00:00:46.950 --> 00:00:50.130
+And in this lecture we're going to discuss cfn-init.
+
+20
+00:00:50.130 --> 00:00:52.170
+So first, before we discuss cfn-init,
+
+21
+00:00:52.170 --> 00:00:55.530
+let's discuss the CloudFormation init block.
+
+22
+00:00:55.530 --> 00:00:58.260
+So this is a block of configuration
+
+23
+00:00:58.260 --> 00:01:01.860
+that belongs to a metadata block within the resource
+
+24
+00:01:01.860 --> 00:01:05.070
+and it's comprised of multiple components.
+
+25
+00:01:05.070 --> 00:01:07.260
+We have packages on the right hand side,
+
+26
+00:01:07.260 --> 00:01:10.050
+you can see packages and it's used to download
+
+27
+00:01:10.050 --> 00:01:12.900
+and install prepackaged apps and components,
+
+28
+00:01:12.900 --> 00:01:15.870
+such as MySQL, PHP, et cetera, et cetera.
+
+29
+00:01:15.870 --> 00:01:17.880
+Then groups to define user groups,
+
+30
+00:01:17.880 --> 00:01:19.560
+users to define users,
+
+31
+00:01:19.560 --> 00:01:21.240
+sources to download files
+
+32
+00:01:21.240 --> 00:01:23.970
+and place them on your EC2 instance,
+
+33
+00:01:23.970 --> 00:01:26.850
+files to create files on an EC2 instance,
+
+34
+00:01:26.850 --> 00:01:28.620
+commands to run a series of commands,
+
+35
+00:01:28.620 --> 00:01:31.710
+and services to launch services.
+
+36
+00:01:31.710 --> 00:01:34.020
+And we'll see one of these examples,
+
+37
+00:01:34.020 --> 00:01:37.740
+so we'll make this very concrete in a few seconds.
+
+38
+00:01:37.740 --> 00:01:41.940
+So cfn-init is a Python script and it's used to retrieve
+
+39
+00:01:41.940 --> 00:01:44.580
+and interpret the resource metadata,
+
+40
+00:01:44.580 --> 00:01:46.890
+how to install packages, creating files,
+
+41
+00:01:46.890 --> 00:01:50.040
+and starting services on your EC2 instances.
+
+42
+00:01:50.040 --> 00:01:52.830
+So with this cfn-init script,
+
+43
+00:01:52.830 --> 00:01:56.430
+you can make complex EC2 configurations readable.
+
+44
+00:01:56.430 --> 00:01:57.263
+How does it work?
+
+45
+00:01:57.263 --> 00:01:59.460
+Well, the EC2 instance is going to query
+
+46
+00:01:59.460 --> 00:02:03.270
+the CloudFormation service to get the init data.
+
+47
+00:02:03.270 --> 00:02:06.690
+So CloudFormation is going to launch an EC2 instance.
+
+48
+00:02:06.690 --> 00:02:10.380
+The EC2 instance is going to run the cfn-init script
+
+49
+00:02:10.380 --> 00:02:12.450
+and it will retrieve the init data
+
+50
+00:02:12.450 --> 00:02:15.360
+directly from CloudFormation.
+
+51
+00:02:15.360 --> 00:02:18.840
+So of course we must define this CloudFormation in its block
+
+52
+00:02:18.840 --> 00:02:20.250
+in the metadata of a resource.
+
+53
+00:02:20.250 --> 00:02:22.020
+I will show you how in a second.
+
+54
+00:02:22.020 --> 00:02:24.030
+And all the logs for this is going to go
+
+55
+00:02:24.030 --> 00:02:27.993
+into the file named var/log/cfn-init.log.
+
+56
+00:02:28.920 --> 00:02:32.910
+So here we have cfn-init.yaml as a file
+
+57
+00:02:32.910 --> 00:02:36.300
+in which we create an EC2 instance, just like before,
+
+58
+00:02:36.300 --> 00:02:38.610
+and we have a user data script.
+
+59
+00:02:38.610 --> 00:02:40.170
+And as you can see, this user data script
+
+60
+00:02:40.170 --> 00:02:41.910
+is a little bit different.
+
+61
+00:02:41.910 --> 00:02:45.720
+This is a function in which we first update
+
+62
+00:02:45.720 --> 00:02:48.840
+and get the latest cfn-bootstrap script,
+
+63
+00:02:48.840 --> 00:02:51.060
+so this is the command right here.
+
+64
+00:02:51.060 --> 00:02:54.660
+And then we start the cfn-init script.
+
+65
+00:02:54.660 --> 00:02:59.070
+So we start cfn-init, we pass in a StackId
+
+66
+00:02:59.070 --> 00:03:01.020
+with a minus S argument,
+
+67
+00:03:01.020 --> 00:03:04.920
+and for this we resolve this StackId pseudo parameter.
+
+68
+00:03:04.920 --> 00:03:07.050
+Okay, so this is something that is provided
+
+69
+00:03:07.050 --> 00:03:09.690
+as part of your CloudFormation template already
+
+70
+00:03:09.690 --> 00:03:14.130
+and we just resolve it and pass it to the cfn-init script.
+
+71
+00:03:14.130 --> 00:03:18.600
+Then -r is to which resource we will find the metadata
+
+72
+00:03:18.600 --> 00:03:19.433
+attached to it.
+
+73
+00:03:19.433 --> 00:03:20.400
+So it's my instance.
+
+74
+00:03:20.400 --> 00:03:23.430
+My instance right here is the same name as here,
+
+75
+00:03:23.430 --> 00:03:27.180
+and so that means that here underneath my instance,
+
+76
+00:03:27.180 --> 00:03:29.250
+as you can see, underneath, underneath
+
+77
+00:03:29.250 --> 00:03:31.170
+there is a metadata block.
+
+78
+00:03:31.170 --> 00:03:34.200
+And this metadata block contains the CloudFormation
+
+79
+00:03:34.200 --> 00:03:36.240
+in its block we're looking for.
+
+80
+00:03:36.240 --> 00:03:40.140
+So this is why we indicate to the script cfn-init
+
+81
+00:03:40.140 --> 00:03:42.900
+to look into this StackId
+
+82
+00:03:42.900 --> 00:03:45.420
+and the resource being my instance.
+
+83
+00:03:45.420 --> 00:03:47.250
+Finally, we have the region again
+
+84
+00:03:47.250 --> 00:03:50.280
+with the pseudo parameter AWS::Region.
+
+85
+00:03:50.280 --> 00:03:51.420
+And then in case of errors,
+
+86
+00:03:51.420 --> 00:03:54.930
+we'll return a failed to run cfn-init.
+
+87
+00:03:54.930 --> 00:03:58.050
+Okay, so once we have that,
+
+88
+00:03:58.050 --> 00:04:00.270
+then we need to look deeper
+
+89
+00:04:00.270 --> 00:04:03.300
+at what this CloudFormation init block does.
+
+90
+00:04:03.300 --> 00:04:05.820
+So it does one configuration
+
+91
+00:04:05.820 --> 00:04:09.990
+and will install packages of type yum and httpd.
+
+92
+00:04:09.990 --> 00:04:12.240
+So it will install Apache.
+
+93
+00:04:12.240 --> 00:04:16.050
+Then it will define a file name index.html,
+
+94
+00:04:16.050 --> 00:04:17.670
+and here is the content of that file.
+
+95
+00:04:17.670 --> 00:04:19.530
+It's a multi-line string,
+
+96
+00:04:19.530 --> 00:04:22.770
+and here is the mode to read that file.
+
+97
+00:04:22.770 --> 00:04:24.990
+And then commands that we're going to run
+
+98
+00:04:24.990 --> 00:04:28.410
+such as echo 'hello world' just as an example,
+
+99
+00:04:28.410 --> 00:04:31.950
+and services that we initialize such as httpd,
+
+100
+00:04:31.950 --> 00:04:33.510
+which is going to be enabled yes
+
+101
+00:04:33.510 --> 00:04:35.250
+and ensureRunning: 'true'.
+
+102
+00:04:35.250 --> 00:04:37.470
+So this is way more readable,
+
+103
+00:04:37.470 --> 00:04:39.240
+way, way, way more readable
+
+104
+00:04:39.240 --> 00:04:41.820
+than the script we had from before.
+
+105
+00:04:41.820 --> 00:04:44.940
+Because this was convoluted, this was doing a lot of things,
+
+106
+00:04:44.940 --> 00:04:46.530
+but we didn't know exactly what.
+
+107
+00:04:46.530 --> 00:04:49.410
+But with this block right here, cfn-init,
+
+108
+00:04:49.410 --> 00:04:51.540
+we know which packages we install,
+
+109
+00:04:51.540 --> 00:04:52.860
+we know which files we create
+
+110
+00:04:52.860 --> 00:04:55.080
+and they can have very complex content.
+
+111
+00:04:55.080 --> 00:04:58.800
+We know the commands to run and the services to run.
+
+112
+00:04:58.800 --> 00:05:01.230
+So this is improving the way
+
+113
+00:05:01.230 --> 00:05:03.603
+we are defining user data in CloudFormation.
+
+114
+00:05:04.470 --> 00:05:06.030
+So let's run this.
+
+115
+00:05:06.030 --> 00:05:08.490
+So let's go back into our stacks
+
+116
+00:05:08.490 --> 00:05:11.590
+and then create a stack from a template
+
+117
+00:05:13.620 --> 00:05:15.600
+being cfn-init.
+
+118
+00:05:16.470 --> 00:05:19.443
+And I'll call this one DemoCfninit.
+
+119
+00:05:21.120 --> 00:05:25.110
+Next, and then we submit.
+
+120
+00:05:25.110 --> 00:05:27.450
+And so this is going to create an EC2 instance.
+
+121
+00:05:27.450 --> 00:05:29.550
+Again, just to describe the process.
+
+122
+00:05:29.550 --> 00:05:32.370
+This EC2 instance is going to bootstrap,
+
+123
+00:05:32.370 --> 00:05:36.240
+is going to run the user data and the script,
+
+124
+00:05:36.240 --> 00:05:39.270
+which is going to run the cfn-init command
+
+125
+00:05:39.270 --> 00:05:44.270
+to actually get data of the AWS CloudFormation init block
+
+126
+00:05:44.400 --> 00:05:49.400
+from our StackId and our instance and this region.
+
+127
+00:05:49.860 --> 00:05:52.380
+So let's have a look right here.
+
+128
+00:05:52.380 --> 00:05:56.310
+As you can see, yes, the instance is CREATE_IN_PROGRESS.
+
+129
+00:05:56.310 --> 00:05:59.670
+So my instance is now successfully created.
+
+130
+00:05:59.670 --> 00:06:01.983
+Let's go in here, refresh this.
+
+131
+00:06:03.150 --> 00:06:06.480
+We have a running instance with a public IPv4.
+
+132
+00:06:06.480 --> 00:06:08.160
+I'm going to copy this
+
+133
+00:06:08.160 --> 00:06:11.400
+and get a hello world back from our EC2 instance.
+
+134
+00:06:11.400 --> 00:06:13.370
+And this was created using cfn-init.
+
+135
+00:06:13.370 --> 00:06:15.780
+So this is all very positive.
+
+136
+00:06:15.780 --> 00:06:17.710
+Let's connect to our instance
+
+137
+00:06:18.720 --> 00:06:22.353
+and have a look at how we can debug things if need be.
+
+138
+00:06:24.210 --> 00:06:27.943
+So if I do cat /var/log/cloud-init log
+
+139
+00:06:30.240 --> 00:06:31.770
+we get some information that,
+
+140
+00:06:31.770 --> 00:06:34.590
+yes, this cfn-init command was being run,
+
+141
+00:06:34.590 --> 00:06:36.870
+but we don't get any output from it.
+
+142
+00:06:36.870 --> 00:06:40.800
+So instead, what I need to do is to kept the log,
+
+143
+00:06:40.800 --> 00:06:45.800
+so /var/log and then cfn-init.log.
+
+144
+00:06:45.930 --> 00:06:49.050
+And this is going to show me all the log
+
+145
+00:06:49.050 --> 00:06:50.760
+of what has been running such as,
+
+146
+00:06:50.760 --> 00:06:54.540
+hey, we've installed httpd, we ran the command hello,
+
+147
+00:06:54.540 --> 00:06:56.160
+we enabled the service,
+
+148
+00:06:56.160 --> 00:06:58.710
+we started the service as well, and so on.
+
+149
+00:06:58.710 --> 00:07:01.590
+But if you want to get more output from this command,
+
+150
+00:07:01.590 --> 00:07:03.810
+you would get some information
+
+151
+00:07:03.810 --> 00:07:08.430
+out of the cfn-init-cmd.log file.
+
+152
+00:07:08.430 --> 00:07:11.820
+And this is going to give you the output of all the commands
+
+153
+00:07:11.820 --> 00:07:14.340
+that were run by cfn-init.
+
+154
+00:07:14.340 --> 00:07:16.050
+And so in case there are any errors,
+
+155
+00:07:16.050 --> 00:07:19.170
+this is where you would look at to debug.
+
+156
+00:07:19.170 --> 00:07:20.730
+And so thanks to this,
+
+157
+00:07:20.730 --> 00:07:23.940
+we saw how to properly configure an EC2 instance
+
+158
+00:07:23.940 --> 00:07:26.520
+in a easier way, thanks to CloudFormation.
+
+159
+00:07:26.520 --> 00:07:29.610
+But still, we don't know if this was successful or not,
+
+160
+00:07:29.610 --> 00:07:32.190
+and we don't report this back to CloudFormation,
+
+161
+00:07:32.190 --> 00:07:34.170
+and that's something we'll learn about in the next lecture.
+
+162
+00:07:34.170 --> 00:07:35.550
+But first, don't forget
+
+163
+00:07:35.550 --> 00:07:38.340
+to delete your stack and you're done.
+
+164
+00:07:38.340 --> 00:07:39.173
+All right, that's it.
+
+165
+00:07:39.173 --> 00:07:40.953
+I will see you in the next lecture.
+

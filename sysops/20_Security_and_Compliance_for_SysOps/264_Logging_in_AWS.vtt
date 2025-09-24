@@ -1,0 +1,298 @@
+﻿WEBVTT
+
+1
+00:00:00.100 --> 00:00:01.410
+<v Instructor>So just to help you for the exam</v>
+
+2
+00:00:01.410 --> 00:00:02.410
+and to make you understand
+
+3
+00:00:02.410 --> 00:00:05.540
+what kind of logging is available in AWS.
+
+4
+00:00:05.540 --> 00:00:07.090
+Here's a short lecture.
+
+5
+00:00:07.090 --> 00:00:09.760
+So basically, if you want to have compliance requirements,
+
+6
+00:00:09.760 --> 00:00:12.570
+there's many services that AWS provides logs for.
+
+7
+00:00:12.570 --> 00:00:14.890
+It could be security logs or audit logs.
+
+8
+00:00:14.890 --> 00:00:17.080
+So service logs will include CloudTrial
+
+9
+00:00:17.080 --> 00:00:19.330
+and here we can trace all the API calls
+
+10
+00:00:19.330 --> 00:00:22.220
+and we've done this as a hands on so we know how that works.
+
+11
+00:00:22.220 --> 00:00:24.580
+Config rules, where we can track the config
+
+12
+00:00:24.580 --> 00:00:25.670
+and the compliance over time
+
+13
+00:00:25.670 --> 00:00:28.030
+and we've seen this as well in the past section.
+
+14
+00:00:28.030 --> 00:00:30.320
+CloudWatch logs if you want to have full data retention,
+
+15
+00:00:30.320 --> 00:00:32.950
+so for example, want to log application logs or whatever,
+
+16
+00:00:32.950 --> 00:00:34.400
+we can do it there.
+
+17
+00:00:34.400 --> 00:00:36.470
+VPC Flow logs which is to
+
+18
+00:00:36.470 --> 00:00:38.680
+review the IP traffic within your VPC.
+
+19
+00:00:38.680 --> 00:00:41.030
+Now we haven't seen VPC for logs in detail just yet
+
+20
+00:00:41.030 --> 00:00:42.970
+but we'll do it a future section
+
+21
+00:00:42.970 --> 00:00:44.620
+and we'll see how they work.
+
+22
+00:00:44.620 --> 00:00:47.530
+There will be ELB Access logs for your load balancers
+
+23
+00:00:47.530 --> 00:00:48.740
+and they will give you the metadata
+
+24
+00:00:48.740 --> 00:00:50.640
+of request made to your load balancer
+
+25
+00:00:50.640 --> 00:00:52.680
+and we've had the chance to look at it.
+
+26
+00:00:52.680 --> 00:00:55.610
+CloudFront Logs which is to look at the logs
+
+27
+00:00:55.610 --> 00:00:57.730
+coming straight from CloudFront your web distribution
+
+28
+00:00:57.730 --> 00:00:59.400
+against some metadata of access
+
+29
+00:00:59.400 --> 00:01:01.550
+and it's going to give you the access logs.
+
+30
+00:01:01.550 --> 00:01:04.220
+Web Application Firewall Logs, so if you enable WAF,
+
+31
+00:01:04.220 --> 00:01:06.420
+then you get full logging of all the request analyzed
+
+32
+00:01:06.420 --> 00:01:08.470
+by the service, which is really really nice.
+
+33
+00:01:08.470 --> 00:01:10.530
+And the cool things is that all these logs,
+
+34
+00:01:10.530 --> 00:01:12.860
+you can put them in S3 and then
+
+35
+00:01:12.860 --> 00:01:15.640
+you can analyze them using AWS Athena.
+
+36
+00:01:15.640 --> 00:01:18.540
+And so that is a very common exam question.
+
+37
+00:01:18.540 --> 00:01:20.030
+They will say we have this log,
+
+38
+00:01:20.030 --> 00:01:21.050
+how can we analyze it?
+
+39
+00:01:21.050 --> 00:01:23.130
+How can we quickly know or explore what happen
+
+40
+00:01:23.130 --> 00:01:25.850
+to our ELB even though maybe your EC2 instance
+
+41
+00:01:25.850 --> 00:01:28.800
+were terminated and we lost logs on their machines.
+
+42
+00:01:28.800 --> 00:01:32.390
+Where we can use Athena plus ELB Access Logs plus S3,
+
+43
+00:01:32.390 --> 00:01:33.960
+and that's the combination.
+
+44
+00:01:33.960 --> 00:01:36.410
+So just remember that a lot of services,
+
+45
+00:01:36.410 --> 00:01:38.000
+and we've seen them in this course,
+
+46
+00:01:38.000 --> 00:01:41.810
+do provide logs, they are able to put these logs into S3,
+
+47
+00:01:41.810 --> 00:01:44.010
+and then we've seen how to analyze these log into S3
+
+48
+00:01:44.010 --> 00:01:45.990
+using Athena, so this is the idea.
+
+49
+00:01:45.990 --> 00:01:48.450
+If you google Athena analyze CloudFront Logs,
+
+50
+00:01:48.450 --> 00:01:49.670
+you'll get the query right away.
+
+51
+00:01:49.670 --> 00:01:52.003
+Same for ELB, same for CloudTrail, etc.
+
+52
+00:01:52.900 --> 00:01:55.430
+Now also, you should know that if you do put all these
+
+53
+00:01:55.430 --> 00:01:57.520
+audit and security logs and compliance logs
+
+54
+00:01:57.520 --> 00:02:00.010
+and you put them in S3, it is great to
+
+55
+00:02:00.010 --> 00:02:02.830
+encrypt these logs and then for the bucket
+
+56
+00:02:02.830 --> 00:02:04.120
+where you put all these logs,
+
+57
+00:02:04.120 --> 00:02:07.200
+you can control the access using IAM and bucket policies,
+
+58
+00:02:07.200 --> 00:02:09.680
+and even multi-factor authentication.
+
+59
+00:02:09.680 --> 00:02:11.690
+Finally, if you need to retain these logs
+
+60
+00:02:11.690 --> 00:02:13.430
+for a very long time, remember
+
+61
+00:02:13.430 --> 00:02:16.470
+you need to move these logs to Glacier for cost saving,
+
+62
+00:02:16.470 --> 00:02:20.130
+or if you need all Glacier vault log then as we've seen,
+
+63
+00:02:20.130 --> 00:02:22.410
+then we get compliance and saying no one can touch these
+
+64
+00:02:22.410 --> 00:02:24.810
+logs for maybe seven years, or whatever.
+
+65
+00:02:24.810 --> 00:02:26.910
+If you're more interested into, basically,
+
+66
+00:02:26.910 --> 00:02:29.960
+logging and security in AWS, there's a whitepaper
+
+67
+00:02:29.960 --> 00:02:31.860
+you can read, which is quite interesting.
+
+68
+00:02:31.860 --> 00:02:32.693
+But this is enough for you to understand
+
+69
+00:02:32.693 --> 00:02:35.930
+basically the scope of all this logging that exists
+
+70
+00:02:35.930 --> 00:02:38.790
+in AWS, how we can analyze it, how we should store it,
+
+71
+00:02:38.790 --> 00:02:40.250
+and how we should have cost saying
+
+72
+00:02:40.250 --> 00:02:41.870
+and compliance on top of it.
+
+73
+00:02:41.870 --> 00:02:43.620
+Okay, that's it for this theory lecture,
+
+74
+00:02:43.620 --> 00:02:45.170
+I will see you in the next one.
+

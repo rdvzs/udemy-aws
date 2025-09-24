@@ -1,0 +1,906 @@
+﻿WEBVTT
+
+1
+00:00:00.300 --> 00:00:02.890
+<v Instructor>Okay so let's talk about identity federation.</v>
+
+2
+00:00:02.890 --> 00:00:05.440
+You may have heard identity federation many, many times
+
+3
+00:00:05.440 --> 00:00:08.170
+in AWS and to be honest for me, it was quite
+
+4
+00:00:08.170 --> 00:00:11.270
+a cryptic topic, it's really hard to understand.
+
+5
+00:00:11.270 --> 00:00:13.020
+So I'm doing my best here to explain to you
+
+6
+00:00:13.020 --> 00:00:15.377
+how identity federation works, with the SAML
+
+7
+00:00:15.377 --> 00:00:18.070
+and Cognito, how it is integrated with all these things.
+
+8
+00:00:18.070 --> 00:00:19.810
+So let's take it step by step and hopefully
+
+9
+00:00:19.810 --> 00:00:22.350
+you'll have a clearer view of it after this lecture.
+
+10
+00:00:22.350 --> 00:00:24.960
+So federation means that will let users that
+
+11
+00:00:24.960 --> 00:00:28.770
+are outside of AWS to assume temporary roles
+
+12
+00:00:28.770 --> 00:00:31.310
+to access our AWS resources.
+
+13
+00:00:31.310 --> 00:00:32.200
+What does that mean?
+
+14
+00:00:32.200 --> 00:00:34.544
+That means that our users don't need to have a user
+
+15
+00:00:34.544 --> 00:00:37.200
+in AWS to access AWS.
+
+16
+00:00:37.200 --> 00:00:38.870
+How does this dark magic works?
+
+17
+00:00:38.870 --> 00:00:41.530
+Well basically the users will assume an identity
+
+18
+00:00:41.530 --> 00:00:43.410
+provided access role.
+
+19
+00:00:43.410 --> 00:00:45.680
+So that's a lot of information already.
+
+20
+00:00:45.680 --> 00:00:47.550
+Let's go through a diagram to understand better
+
+21
+00:00:47.550 --> 00:00:48.410
+how this works.
+
+22
+00:00:48.410 --> 00:00:51.140
+So we are a user and we're in our company
+
+23
+00:00:51.140 --> 00:00:53.270
+or we are a mobile app user, whatever it is,
+
+24
+00:00:53.270 --> 00:00:56.770
+we are a user and we don't have an account in AWS
+
+25
+00:00:56.770 --> 00:00:59.310
+but what we do have is access to a third
+
+26
+00:00:59.310 --> 00:01:01.610
+party servers for login.
+
+27
+00:01:01.610 --> 00:01:03.560
+It could be our company's, it could be whatever
+
+28
+00:01:03.560 --> 00:01:07.130
+and this third party is trusted by AWS so we have
+
+29
+00:01:07.130 --> 00:01:09.950
+define preempt beforehand, a trust between
+
+30
+00:01:09.950 --> 00:01:12.330
+the third party and AWS.
+
+31
+00:01:12.330 --> 00:01:15.795
+What happens that our users will connect to this third party
+
+32
+00:01:15.795 --> 00:01:17.960
+and through some complicated process
+
+33
+00:01:17.960 --> 00:01:20.530
+that we'll see in a second, the third party will
+
+34
+00:01:20.530 --> 00:01:23.530
+give back credentials, they will be temporary
+
+35
+00:01:23.530 --> 00:01:27.490
+to our AWS, to our, sorry, to our user, to us.
+
+36
+00:01:27.490 --> 00:01:30.040
+Then as a user what can we do with these credentials,
+
+37
+00:01:30.040 --> 00:01:32.930
+well we can directly access AWS through
+
+38
+00:01:32.930 --> 00:01:34.950
+the console or the API.
+
+39
+00:01:34.950 --> 00:01:37.550
+So this is how federation works, identity federation.
+
+40
+00:01:37.550 --> 00:01:40.580
+That's because the identity is stored somewhere else
+
+41
+00:01:40.580 --> 00:01:42.070
+or stored on a third party.
+
+42
+00:01:42.070 --> 00:01:44.480
+If you understand this, you very clear understood
+
+43
+00:01:44.480 --> 00:01:46.170
+identity federation.
+
+44
+00:01:46.170 --> 00:01:48.750
+Now identity federation, what is this third party
+
+45
+00:01:48.750 --> 00:01:50.340
+authentication that we're talking about?
+
+46
+00:01:50.340 --> 00:01:53.740
+It could be LDAP, it could be Microsoft Active Directory,
+
+47
+00:01:53.740 --> 00:01:56.170
+which is also a similarity to being SAML,
+
+48
+00:01:56.170 --> 00:01:57.580
+SAML's the standard but Active Directory
+
+49
+00:01:57.580 --> 00:02:00.130
+is an implementation of it, could be single sign on,
+
+50
+00:02:00.130 --> 00:02:02.400
+it could be open ID, it could be Cognito.
+
+51
+00:02:02.400 --> 00:02:05.690
+So all these things can be third party authentication.
+
+52
+00:02:05.690 --> 00:02:08.340
+And so using federation, the thing you have to remember
+
+53
+00:02:08.340 --> 00:02:11.400
+is that we don't need to create individual IAM users,
+
+54
+00:02:11.400 --> 00:02:15.030
+the user management is done outside of AWS.
+
+55
+00:02:15.030 --> 00:02:18.030
+So for the exam, they may ask you about some very specific
+
+56
+00:02:18.030 --> 00:02:21.510
+form of identity federation, namely SAML,
+
+57
+00:02:21.510 --> 00:02:24.810
+custom broker and Cognito so we're going to see
+
+58
+00:02:24.810 --> 00:02:26.950
+these three in details right now.
+
+59
+00:02:26.950 --> 00:02:30.290
+The first one is SAML federation and that's for enterprises,
+
+60
+00:02:30.290 --> 00:02:32.470
+basically if you're a large enterprise,
+
+61
+00:02:32.470 --> 00:02:35.460
+you most likely have a Microsoft Active Directory
+
+62
+00:02:35.460 --> 00:02:38.250
+or you have something SAML 2.0 compliance,
+
+63
+00:02:38.250 --> 00:02:40.410
+where you already manage your users through this
+
+64
+00:02:40.410 --> 00:02:43.930
+and you basically want to integrate this with AWS.
+
+65
+00:02:43.930 --> 00:02:46.341
+What this gives you is that now all your users
+
+66
+00:02:46.341 --> 00:02:49.410
+automatically have access to the AWS Console or the CLI
+
+67
+00:02:49.410 --> 00:02:51.630
+through the temporary credentials so you don't
+
+68
+00:02:51.630 --> 00:02:54.840
+need to create a new IAM users for each of your employees,
+
+69
+00:02:54.840 --> 00:02:56.260
+which is quite nice.
+
+70
+00:02:56.260 --> 00:02:57.600
+So how does it look like?
+
+71
+00:02:57.600 --> 00:02:58.990
+This is a diagram.
+
+72
+00:02:58.990 --> 00:03:00.970
+Now, this may be a very complicated diagram,
+
+73
+00:03:00.970 --> 00:03:02.660
+it comes straight from the AWS documentation
+
+74
+00:03:02.660 --> 00:03:05.280
+but it is very clear so let's walk through it
+
+75
+00:03:05.280 --> 00:03:08.070
+one step at a time to understand what happens.
+
+76
+00:03:08.070 --> 00:03:11.650
+We are the client app and we are within our organization
+
+77
+00:03:11.650 --> 00:03:13.620
+so a large organization.
+
+78
+00:03:13.620 --> 00:03:16.940
+What we'll do is that we'll go to the identity provider
+
+79
+00:03:16.940 --> 00:03:19.560
+or IDP, which is SAML compliance so it could be
+
+80
+00:03:19.560 --> 00:03:22.580
+Microsoft Active Directory and it will authenticate
+
+81
+00:03:22.580 --> 00:03:25.120
+the user based on the user database.
+
+82
+00:03:25.120 --> 00:03:27.457
+Then when we are authenticated to this IDP,
+
+83
+00:03:27.457 --> 00:03:30.150
+the IDP will send back a SAML assertion,
+
+84
+00:03:30.150 --> 00:03:31.860
+it's basically a token, a SAML assertion
+
+85
+00:03:31.860 --> 00:03:33.200
+is basically a token.
+
+86
+00:03:33.200 --> 00:03:35.150
+Now we get some SAML assertion and what we'll
+
+87
+00:03:35.150 --> 00:03:38.170
+do is that automatically, we'll call assume
+
+88
+00:03:38.170 --> 00:03:41.120
+a role with SAML to SDS, which is a special API
+
+89
+00:03:41.120 --> 00:03:45.280
+on SDS and SDS recognizes this SAML assertion
+
+90
+00:03:45.280 --> 00:03:47.940
+and we'll give this back, we'll trade this SAML
+
+91
+00:03:47.940 --> 00:03:50.755
+assertion for temporary security credentials
+
+92
+00:03:50.755 --> 00:03:53.030
+so now we've basically logged in,
+
+93
+00:03:53.030 --> 00:03:56.010
+got a SAML assertion, traded that SAML assertion
+
+94
+00:03:56.010 --> 00:03:59.030
+from SDS to security credentials and now with
+
+95
+00:03:59.030 --> 00:04:01.130
+the security credentials, we can for example,
+
+96
+00:04:01.130 --> 00:04:04.730
+access AWS just normally, for example on this S3 bucket.
+
+97
+00:04:04.730 --> 00:04:07.680
+That's if you want to have CLI based access.
+
+98
+00:04:07.680 --> 00:04:09.300
+If you want to have a console based access,
+
+99
+00:04:09.300 --> 00:04:11.388
+there is also a nice diagram by AWS,
+
+100
+00:04:11.388 --> 00:04:13.500
+the idea is the exact same.
+
+101
+00:04:13.500 --> 00:04:16.600
+From our browser, we'll access the portal
+
+102
+00:04:16.600 --> 00:04:19.740
+of our identity provider so it's like a web based thing,
+
+103
+00:04:19.740 --> 00:04:21.790
+we'll get it authenticated, same thing
+
+104
+00:04:21.790 --> 00:04:24.820
+then the IDP will return a SAML assertion and now
+
+105
+00:04:24.820 --> 00:04:27.890
+we can use that SAML assertion very quick to sign in
+
+106
+00:04:27.890 --> 00:04:31.890
+into the AWS SSO endpoints, which behind the scenes
+
+107
+00:04:31.890 --> 00:04:34.670
+talks to SDS and then once it's all validated,
+
+108
+00:04:34.670 --> 00:04:37.810
+once your SAML is traded for SDS then we'll
+
+109
+00:04:37.810 --> 00:04:41.080
+validate the whole thing and you get redirected
+
+110
+00:04:41.080 --> 00:04:43.800
+to the AWS management console right here.
+
+111
+00:04:43.800 --> 00:04:45.200
+So the idea is the same, right?
+
+112
+00:04:45.200 --> 00:04:48.830
+If you look again, we trade our identity internally
+
+113
+00:04:48.830 --> 00:04:52.120
+for some AWS credentials and basically there
+
+114
+00:04:52.120 --> 00:04:54.460
+is just a bunch of back and forth that happens.
+
+115
+00:04:54.460 --> 00:04:56.300
+So if you understood this, then you understood
+
+116
+00:04:56.300 --> 00:04:59.210
+SAML federations, it's actually not that complicated.
+
+117
+00:04:59.210 --> 00:05:03.860
+Now if you don't have a SAML 2.0 way of identifying
+
+118
+00:05:03.860 --> 00:05:07.650
+your users then you need to use custom identity broker.
+
+119
+00:05:07.650 --> 00:05:10.180
+So that's only if you don't have a SAML 2.0
+
+120
+00:05:10.180 --> 00:05:11.820
+and that's a bit more complicated.
+
+121
+00:05:11.820 --> 00:05:14.020
+Basically you have to program what's called
+
+122
+00:05:14.020 --> 00:05:16.330
+an identity broker application and you have to
+
+123
+00:05:16.330 --> 00:05:19.880
+program it and this identity broker must be used
+
+124
+00:05:19.880 --> 00:05:22.721
+to determine the appropriate IAM policy you apply.
+
+125
+00:05:22.721 --> 00:05:24.380
+So what's the change?
+
+126
+00:05:24.380 --> 00:05:27.380
+Well here it is, again, we have our users, browser,
+
+127
+00:05:27.380 --> 00:05:30.560
+application, we'll access our identity broker
+
+128
+00:05:30.560 --> 00:05:32.810
+and the identity broker is something that we have
+
+129
+00:05:32.810 --> 00:05:35.148
+to program, okay, this whole thing in the green dot
+
+130
+00:05:35.148 --> 00:05:38.020
+circle is something that we have to program
+
+131
+00:05:38.020 --> 00:05:41.620
+and the identity broker will validate our identity
+
+132
+00:05:41.620 --> 00:05:44.400
+with maybe a corporate identity store, authenticated
+
+133
+00:05:44.400 --> 00:05:47.480
+and then if it's happy, it has super powers,
+
+134
+00:05:47.480 --> 00:05:50.000
+it has super user superpowers and it can ask
+
+135
+00:05:50.000 --> 00:05:53.140
+from SDS any security credentials for any policy.
+
+136
+00:05:53.140 --> 00:05:56.410
+So it's up to the identity broker to really tailor
+
+137
+00:05:56.410 --> 00:05:59.390
+a policy just for the user that was connected
+
+138
+00:05:59.390 --> 00:06:01.730
+so it's a bit more work to do and that's why
+
+139
+00:06:01.730 --> 00:06:04.530
+it's called custom identity broker application.
+
+140
+00:06:04.530 --> 00:06:07.700
+So we have to create this, it goes to SDS,
+
+141
+00:06:07.700 --> 00:06:11.250
+makes a request for a security credentials,
+
+142
+00:06:11.250 --> 00:06:12.890
+the security credentials come back,
+
+143
+00:06:12.890 --> 00:06:15.750
+they're given to our users and then they can
+
+144
+00:06:15.750 --> 00:06:18.890
+either access AWS with the API's or get redirected
+
+145
+00:06:18.890 --> 00:06:22.130
+to the AWS management console and we can access AWS.
+
+146
+00:06:22.130 --> 00:06:25.870
+So it is the exact same principles as SAML
+
+147
+00:06:25.870 --> 00:06:28.020
+but it's not SAML and therefore we have to do
+
+148
+00:06:28.020 --> 00:06:30.340
+a lot more manual work, we have to do a lot more work
+
+149
+00:06:30.340 --> 00:06:33.810
+to implement that identity broker so if you see
+
+150
+00:06:33.810 --> 00:06:37.310
+custom identity broker, that means enterprises
+
+151
+00:06:37.310 --> 00:06:40.520
+but not SAML 2.0, whereas before,
+
+152
+00:06:40.520 --> 00:06:43.770
+if you see SAML 2.0, that means identity federation
+
+153
+00:06:43.770 --> 00:06:45.780
+directly integrated with AWS.
+
+154
+00:06:45.780 --> 00:06:49.580
+And finally this is, this was for our corporate users
+
+155
+00:06:49.580 --> 00:06:51.500
+so anytime you are basically sitting at a desk
+
+156
+00:06:51.500 --> 00:06:54.180
+at your corporation, but what if you have an app
+
+157
+00:06:54.180 --> 00:06:56.730
+and an app, your users need to basically
+
+158
+00:06:56.730 --> 00:06:58.310
+put files into an S3 bucket.
+
+159
+00:06:58.310 --> 00:06:59.300
+How do we do this?
+
+160
+00:06:59.300 --> 00:07:02.210
+Do we create a user per app?
+
+161
+00:07:02.210 --> 00:07:04.290
+No, that doesn't sound scalable, right?
+
+162
+00:07:04.290 --> 00:07:07.050
+So the goal is to provide AWS resources access
+
+163
+00:07:07.050 --> 00:07:09.720
+directly to our users of our app.
+
+164
+00:07:09.720 --> 00:07:10.810
+How do we do this?
+
+165
+00:07:10.810 --> 00:07:14.450
+Well, we login through a federated identity provider
+
+166
+00:07:14.450 --> 00:07:17.700
+or we can remain anonymous then we get AWS credentials
+
+167
+00:07:17.700 --> 00:07:20.630
+back from what's called a federated identity pool
+
+168
+00:07:20.630 --> 00:07:22.510
+and that comes straight from Cognito
+
+169
+00:07:22.510 --> 00:07:25.060
+and then these credentials will come with pre-defined
+
+170
+00:07:25.060 --> 00:07:27.980
+IAM policy that basically allow users to do what
+
+171
+00:07:27.980 --> 00:07:29.010
+they need to do.
+
+172
+00:07:29.010 --> 00:07:30.710
+Don't worry, there's a graph.
+
+173
+00:07:30.710 --> 00:07:33.361
+So an example is anytime you want to provide
+
+174
+00:07:33.361 --> 00:07:36.200
+temporary access to write S3 bucket,
+
+175
+00:07:36.200 --> 00:07:39.397
+maybe using a Facebook login, you should use
+
+176
+00:07:39.397 --> 00:07:42.960
+AWS Cognito and federated identity pools.
+
+177
+00:07:42.960 --> 00:07:45.330
+Note there is something in the documentation
+
+178
+00:07:45.330 --> 00:07:47.340
+called Web Identity Federation, you may have
+
+179
+00:07:47.340 --> 00:07:49.600
+heard of it before and it is an alternative
+
+180
+00:07:49.600 --> 00:07:52.132
+to Cognito but now in the documentation
+
+181
+00:07:52.132 --> 00:07:55.690
+AWS recommends against it and it says
+
+182
+00:07:55.690 --> 00:07:57.520
+you should just use Cognito because it does
+
+183
+00:07:57.520 --> 00:07:58.760
+the exact same thing.
+
+184
+00:07:58.760 --> 00:08:01.330
+So for this reason I'm not teaching Web Identity Federation
+
+185
+00:08:01.330 --> 00:08:03.000
+because it's not on the exam anymore.
+
+186
+00:08:03.000 --> 00:08:05.310
+Cognito is going to be the way to have public
+
+187
+00:08:05.310 --> 00:08:08.140
+applications access AWS resources.
+
+188
+00:08:08.140 --> 00:08:09.910
+Now quickly, how does that work?
+
+189
+00:08:09.910 --> 00:08:13.550
+We have our app and our app is directly connected
+
+190
+00:08:13.550 --> 00:08:15.320
+to our identity provider.
+
+191
+00:08:15.320 --> 00:08:18.030
+It could be commuter user pool, Google, Facebook, Twitter,
+
+192
+00:08:18.030 --> 00:08:19.550
+SAML, open ID, whatever you want, right,
+
+193
+00:08:19.550 --> 00:08:22.220
+but it's an app, it's at on the web, it's public
+
+194
+00:08:22.220 --> 00:08:25.400
+so our app logs in to our identity provider
+
+195
+00:08:25.400 --> 00:08:27.270
+and gets a token back from it.
+
+196
+00:08:27.270 --> 00:08:31.410
+Then the app will talk to the federated identity provider,
+
+197
+00:08:31.410 --> 00:08:35.530
+in Cognito, and we'll basically trading that token
+
+198
+00:08:35.530 --> 00:08:38.030
+that will be verified by the identity provider
+
+199
+00:08:38.030 --> 00:08:40.650
+and then the identity provider will get credentials
+
+200
+00:08:40.650 --> 00:08:43.630
+from SDS and then same pattern as before,
+
+201
+00:08:43.630 --> 00:08:46.400
+the identity, the federated identity on Cognito
+
+202
+00:08:46.400 --> 00:08:48.920
+will send us back temporary credentials
+
+203
+00:08:48.920 --> 00:08:51.121
+and now using these credentials, we can directly
+
+204
+00:08:51.121 --> 00:08:54.160
+talk to our S3 bucket and make some calls
+
+205
+00:08:54.160 --> 00:08:56.650
+and see if we're authorized to do what we need to do.
+
+206
+00:08:56.650 --> 00:08:57.950
+So that's the idea.
+
+207
+00:08:57.950 --> 00:09:00.640
+Here the difference is that now we connect
+
+208
+00:09:00.640 --> 00:09:04.070
+to public identity providers, such as Cognito User Pool,
+
+209
+00:09:04.070 --> 00:09:06.670
+Google and Facebook but the idea is exactly the same.
+
+210
+00:09:06.670 --> 00:09:10.620
+We're trading a token, we retrieve from a third party
+
+211
+00:09:10.620 --> 00:09:13.780
+to a service on AWS to get back some temporary
+
+212
+00:09:13.780 --> 00:09:15.260
+AWS credentials.
+
+213
+00:09:15.260 --> 00:09:18.470
+So if you understood this, you understood federation,
+
+214
+00:09:18.470 --> 00:09:20.510
+take your time, review the graphs,
+
+215
+00:09:20.510 --> 00:09:23.050
+look at the documentation, review this lecture,
+
+216
+00:09:23.050 --> 00:09:25.080
+I promise it will make sense after a little bit,
+
+217
+00:09:25.080 --> 00:09:26.800
+just write it down on a piece of paper.
+
+218
+00:09:26.800 --> 00:09:28.620
+It's quite hard sometimes to understand how these
+
+219
+00:09:28.620 --> 00:09:30.785
+things are orchestrated, it takes a lot of time for me
+
+220
+00:09:30.785 --> 00:09:34.390
+to get to understand this but once you understand it,
+
+221
+00:09:34.390 --> 00:09:36.620
+it makes total sense and any question at the exam
+
+222
+00:09:36.620 --> 00:09:39.470
+that talks about federation, you will not be afraid of it,
+
+223
+00:09:39.470 --> 00:09:41.260
+you will be embracing it and happy that you know
+
+224
+00:09:41.260 --> 00:09:42.590
+the answer right away.
+
+225
+00:09:42.590 --> 00:09:43.710
+So hope you enjoyed this lecture,
+
+226
+00:09:43.710 --> 00:09:45.363
+I will see you in the next one.
+

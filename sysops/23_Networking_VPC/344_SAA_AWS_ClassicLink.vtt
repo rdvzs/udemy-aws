@@ -1,0 +1,174 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.430
+<v Instructor>So this is just a lecture</v>
+
+2
+00:00:01.430 --> 00:00:04.440
+about something called EC2-Classic and ClassicLink.
+
+3
+00:00:04.440 --> 00:00:06.720
+Both these things are deprecated by AWS
+
+4
+00:00:06.720 --> 00:00:08.430
+and if you see them in your exam,
+
+5
+00:00:08.430 --> 00:00:10.100
+it's most likely going to be a distractor,
+
+6
+00:00:10.100 --> 00:00:11.600
+but I just want to give you some background
+
+7
+00:00:11.600 --> 00:00:12.780
+so you understand what it is
+
+8
+00:00:12.780 --> 00:00:14.840
+and you don't think that course is incomplete.
+
+9
+00:00:14.840 --> 00:00:17.730
+So EC2-Classic is when you run your instances
+
+10
+00:00:17.730 --> 00:00:20.700
+in a single network shared with other customers,
+
+11
+00:00:20.700 --> 00:00:22.650
+and this is how AWS started.
+
+12
+00:00:22.650 --> 00:00:24.080
+So you could run (slurring words) instances
+
+13
+00:00:24.080 --> 00:00:25.920
+and they would be shared with your other customers
+
+14
+00:00:25.920 --> 00:00:27.160
+in terms of networking.
+
+15
+00:00:27.160 --> 00:00:29.620
+And then AWS came up with Amazon VPC,
+
+16
+00:00:29.620 --> 00:00:33.000
+where your instances now run logically isolated
+
+17
+00:00:33.000 --> 00:00:34.440
+in your AWS account.
+
+18
+00:00:34.440 --> 00:00:35.290
+So that makes a lot of sense,
+
+19
+00:00:35.290 --> 00:00:36.350
+we know about VPC,
+
+20
+00:00:36.350 --> 00:00:38.030
+and EC2-Classic is not even something
+
+21
+00:00:38.030 --> 00:00:39.700
+we can launch instances in right now
+
+22
+00:00:39.700 --> 00:00:41.100
+because it's jut not available.
+
+23
+00:00:41.100 --> 00:00:43.250
+And so when we wanted to have a link
+
+24
+00:00:43.250 --> 00:00:46.550
+between your VPC and your EC2-Classic instances,
+
+25
+00:00:46.550 --> 00:00:49.030
+you would need to create a Classic link.
+
+26
+00:00:49.030 --> 00:00:51.390
+So for this you must associate a security group,
+
+27
+00:00:51.390 --> 00:00:53.080
+and then that enables your instances
+
+28
+00:00:53.080 --> 00:00:54.440
+to communicate privately
+
+29
+00:00:54.440 --> 00:00:57.120
+from EC2-Classic to your VPC instances
+
+30
+00:00:57.120 --> 00:00:59.900
+using IPv4 private addresses.
+
+31
+00:00:59.900 --> 00:01:01.810
+And so before you had to use public IPv4,
+
+32
+00:01:01.810 --> 00:01:03.060
+but thanks to ClassicLink,
+
+33
+00:01:03.060 --> 00:01:04.670
+you can use the private network.
+
+34
+00:01:04.670 --> 00:01:07.430
+So don't try to go too deep into this.
+
+35
+00:01:07.430 --> 00:01:09.840
+These questions are likely to be distractors
+
+36
+00:01:09.840 --> 00:01:10.673
+at the exam.
+
+37
+00:01:10.673 --> 00:01:13.020
+Please tell me if you don't think that's the case.
+
+38
+00:01:13.020 --> 00:01:14.060
+But just what wanted to tell you
+
+39
+00:01:14.060 --> 00:01:16.410
+what was EC2-Classic and ClassicLink.
+
+40
+00:01:16.410 --> 00:01:17.370
+There will be no hands-on,
+
+41
+00:01:17.370 --> 00:01:19.430
+just a very short, informative lecture.
+
+42
+00:01:19.430 --> 00:01:20.263
+All right, that's it.
+
+43
+00:01:20.263 --> 00:01:21.840
+I will see you in the next lecture.
+

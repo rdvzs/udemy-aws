@@ -1,0 +1,438 @@
+WEBVTT
+
+1
+00:00:00.180 --> 00:00:01.730
+<v ->So now let's discuss a service</v>
+
+2
+00:00:01.730 --> 00:00:03.130
+that will come up with the exam,
+
+3
+00:00:03.130 --> 00:00:05.630
+which is the systems manager service.
+
+4
+00:00:05.630 --> 00:00:09.110
+So this helps you manage a fleet of EC2 instances
+
+5
+00:00:09.110 --> 00:00:12.280
+and On-Premises servers at scale.
+
+6
+00:00:12.280 --> 00:00:14.560
+And this is going to be a suite of tool.
+
+7
+00:00:14.560 --> 00:00:16.850
+They'll see, there's so many tools on systems manager
+
+8
+00:00:16.850 --> 00:00:18.250
+that will give you insights about
+
+9
+00:00:18.250 --> 00:00:19.970
+the state of your infrastructure.
+
+10
+00:00:19.970 --> 00:00:22.280
+It'll allow you to easily detect problem
+
+11
+00:00:22.280 --> 00:00:24.750
+and also gives you some patching automation
+
+12
+00:00:24.750 --> 00:00:25.860
+and enhanced compliance.
+
+13
+00:00:25.860 --> 00:00:27.600
+This is something that comes up in the exam a lot.
+
+14
+00:00:27.600 --> 00:00:29.360
+Whenever you need to patch your instances,
+
+15
+00:00:29.360 --> 00:00:32.136
+usually is going to be done with systems manager,
+
+16
+00:00:32.136 --> 00:00:34.350
+or any kind of automation you'll be running
+
+17
+00:00:34.350 --> 00:00:36.720
+also will be using systems manager.
+
+18
+00:00:36.720 --> 00:00:39.990
+So it both it works for both Lou windows and Linux OS,
+
+19
+00:00:39.990 --> 00:00:41.390
+and it's going to be fully integrated
+
+20
+00:00:41.390 --> 00:00:43.360
+with CloudWatch metrics and dashboards.
+
+21
+00:00:43.360 --> 00:00:46.440
+Also integrated with config and it's a free service.
+
+22
+00:00:46.440 --> 00:00:48.310
+You're only going to pay for the resources that you use
+
+23
+00:00:48.310 --> 00:00:50.620
+or creates if it does anything like that.
+
+24
+00:00:50.620 --> 00:00:52.530
+So there's so many features in system manager
+
+25
+00:00:52.530 --> 00:00:55.010
+and do not be afraid by what I'm going to say,
+
+26
+00:00:55.010 --> 00:00:57.310
+but there are resource groups, operations managements,
+
+27
+00:00:57.310 --> 00:00:58.780
+Explorer, OpsCenter,
+
+28
+00:00:58.780 --> 00:01:00.100
+CloudWatch Dashboard, PHD,
+
+29
+00:01:00.100 --> 00:01:01.550
+and incident manager.
+
+30
+00:01:01.550 --> 00:01:05.340
+You have the shared resources menu with documents in it,
+
+31
+00:01:05.340 --> 00:01:07.260
+then Change Management for Change Manager,
+
+32
+00:01:07.260 --> 00:01:08.530
+Automation, Change Calendar,
+
+33
+00:01:08.530 --> 00:01:09.870
+Maintenance Windows.
+
+34
+00:01:09.870 --> 00:01:12.250
+There's the application management for application manager,
+
+35
+00:01:12.250 --> 00:01:14.560
+AppConfig and the Parameter Store.
+
+36
+00:01:14.560 --> 00:01:16.760
+And finally, Node Management for Fleet Manager,
+
+37
+00:01:16.760 --> 00:01:18.290
+Compliance, Inventory,
+
+38
+00:01:18.290 --> 00:01:20.170
+Hybrid Activation, Session Manager,
+
+39
+00:01:20.170 --> 00:01:21.750
+Run Command, State Manager,
+
+40
+00:01:21.750 --> 00:01:23.460
+Patch Manager, Distributor.
+
+41
+00:01:23.460 --> 00:01:25.857
+So you may be super afraid right now and you're saying,
+
+42
+00:01:25.857 --> 00:01:28.640
+"How the hell will I know all these thing?".
+
+43
+00:01:28.640 --> 00:01:32.030
+The good news is you don't need to know all these things.
+
+44
+00:01:32.030 --> 00:01:34.690
+In blue is what I will highlight in this course,
+
+45
+00:01:34.690 --> 00:01:36.760
+which I think are important features
+
+46
+00:01:36.760 --> 00:01:37.660
+of systems manager you need
+
+47
+00:01:37.660 --> 00:01:38.830
+to know going into the exam.
+
+48
+00:01:38.830 --> 00:01:40.297
+So we'll know them at a high level, okay.
+
+49
+00:01:40.297 --> 00:01:42.300
+Now to be an expert in all of them.
+
+50
+00:01:42.300 --> 00:01:43.930
+But systems manager is something
+
+51
+00:01:43.930 --> 00:01:45.670
+that changes a lot over time.
+
+52
+00:01:45.670 --> 00:01:46.940
+A lot of features have been added
+
+53
+00:01:46.940 --> 00:01:49.500
+and are being added to this service over time.
+
+54
+00:01:49.500 --> 00:01:52.310
+So if this list is not up to date, do not worry.
+
+55
+00:01:52.310 --> 00:01:53.910
+And also if, for example,
+
+56
+00:01:53.910 --> 00:01:56.360
+tomorrow fleet manager becomes a service
+
+57
+00:01:56.360 --> 00:01:57.820
+that you need to know going into the exam.
+
+58
+00:01:57.820 --> 00:01:59.420
+I'm not going to change that lecture, okay?
+
+59
+00:01:59.420 --> 00:02:01.600
+But I'm going to add the fleet managers to the section
+
+60
+00:02:01.600 --> 00:02:04.210
+and you will learn about it as well.
+
+61
+00:02:04.210 --> 00:02:07.440
+So now if I go into the SSM service, just secured the menu.
+
+62
+00:02:07.440 --> 00:02:08.490
+So we are in it and,
+
+63
+00:02:08.490 --> 00:02:09.960
+as you can see on the left-hand side,
+
+64
+00:02:09.960 --> 00:02:11.310
+we have all these options.
+
+65
+00:02:11.310 --> 00:02:12.500
+As you can see right here.
+
+66
+00:02:12.500 --> 00:02:15.520
+AWS knows how to change the structure of them,
+
+67
+00:02:15.520 --> 00:02:16.353
+as well over time,
+
+68
+00:02:16.353 --> 00:02:18.530
+so it's not a given that one will be here
+
+69
+00:02:18.530 --> 00:02:20.210
+and not move here at some points, okay.
+
+70
+00:02:20.210 --> 00:02:21.150
+But, do not worry,
+
+71
+00:02:21.150 --> 00:02:23.690
+I will spend some time going over the most important ones,
+
+72
+00:02:23.690 --> 00:02:26.010
+and they should make sense to you.
+
+73
+00:02:26.010 --> 00:02:28.100
+Now, how does SSM work?
+
+74
+00:02:28.100 --> 00:02:30.470
+So we need to install the SSM agent onto
+
+75
+00:02:30.470 --> 00:02:31.730
+the systems we want to control
+
+76
+00:02:31.730 --> 00:02:32.990
+at a high level, okay.
+
+77
+00:02:32.990 --> 00:02:35.440
+And this is an agent that comes bundled
+
+78
+00:02:35.440 --> 00:02:36.404
+with Amazon Linux 2 AMI.
+
+79
+00:02:36.404 --> 00:02:38.576
+This is why we love using the Amazon Linux 2 AMI,
+
+80
+00:02:38.576 --> 00:02:41.040
+and also some Ubuntu AMI.
+
+81
+00:02:41.040 --> 00:02:43.990
+If your instance cannot be controlled with SSM,
+
+82
+00:02:43.990 --> 00:02:45.960
+it's probably an issue with the agents
+
+83
+00:02:45.960 --> 00:02:47.680
+or the IAM permissions, okay.
+
+84
+00:02:47.680 --> 00:02:51.670
+And if your AMI does not have the assistant agent on it,
+
+85
+00:02:51.670 --> 00:02:54.010
+it's as simple as running a few commands
+
+86
+00:02:54.010 --> 00:02:55.420
+to install that agents.
+
+87
+00:02:55.420 --> 00:02:57.520
+So we are going to have EC2 instances
+
+88
+00:02:57.520 --> 00:03:01.150
+with the SSM Agent running or an On-premise's Server
+
+89
+00:03:01.150 --> 00:03:03.470
+or VM with a SSM Agent running.
+
+90
+00:03:03.470 --> 00:03:06.120
+And then automatically after the correct configuration
+
+91
+00:03:06.120 --> 00:03:08.910
+and making sure that these have enough IAM Permissions
+
+92
+00:03:08.910 --> 00:03:11.180
+to talk to the systems manager service,
+
+93
+00:03:11.180 --> 00:03:13.040
+then the instance will be connected,
+
+94
+00:03:13.040 --> 00:03:15.700
+and then systems manager can operate all these kinds
+
+95
+00:03:15.700 --> 00:03:17.640
+of features out that I just told you about
+
+96
+00:03:17.640 --> 00:03:19.520
+on the instances to perform,
+
+97
+00:03:19.520 --> 00:03:21.190
+for example, some compliance or patching
+
+98
+00:03:21.190 --> 00:03:22.680
+or some automation, okay.
+
+99
+00:03:22.680 --> 00:03:24.270
+So, if there's an issue with
+
+100
+00:03:24.270 --> 00:03:26.370
+an instance not being registered into SSM,
+
+101
+00:03:26.370 --> 00:03:27.840
+you either like to have to look with
+
+102
+00:03:27.840 --> 00:03:31.520
+the SSM agents not running or not working correctly,
+
+103
+00:03:31.520 --> 00:03:34.190
+or making sure that's these two instances have
+
+104
+00:03:34.190 --> 00:03:37.200
+the right IAM role to perform actions on SSN.
+
+105
+00:03:37.200 --> 00:03:38.033
+So in the next lecture,
+
+106
+00:03:38.033 --> 00:03:40.000
+what I'm going to do is that I'm going to go ahead
+
+107
+00:03:40.000 --> 00:03:43.640
+and set up three easy two instances with the SSM agents
+
+108
+00:03:43.640 --> 00:03:45.500
+and register them into systems manager.
+
+109
+00:03:45.500 --> 00:03:47.400
+So I will see you in the next lecture.
+

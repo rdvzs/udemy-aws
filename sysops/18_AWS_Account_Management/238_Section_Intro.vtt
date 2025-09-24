@@ -1,0 +1,54 @@
+﻿WEBVTT
+
+1
+00:00:00.200 --> 00:00:01.260
+<v Instructor>Now we are getting into</v>
+
+2
+00:00:01.260 --> 00:00:03.210
+the AWS Account Management section
+
+3
+00:00:03.210 --> 00:00:04.770
+and in this section we'll see
+
+4
+00:00:04.770 --> 00:00:06.803
+all there is to know about Health Dashboards,
+
+5
+00:00:06.803 --> 00:00:09.230
+AWS Organizations and the Billing Console.
+
+6
+00:00:09.230 --> 00:00:11.600
+There is no fancy diagram for these services
+
+7
+00:00:11.600 --> 00:00:15.140
+but they are asked on the exam from the SysOp perspective
+
+8
+00:00:15.140 --> 00:00:17.900
+and also whether it's SysOps in the real life,
+
+9
+00:00:17.900 --> 00:00:19.960
+you will need to know in and out these skills
+
+10
+00:00:19.960 --> 00:00:21.910
+to be able to be a great SysOps.
+
+11
+00:00:21.910 --> 00:00:23.800
+I'm really excited, this will be a short section
+
+12
+00:00:23.800 --> 00:00:25.660
+but I'm sure it will be full of learning.
+
+13
+00:00:25.660 --> 00:00:26.613
+Let's get started.
+

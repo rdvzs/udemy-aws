@@ -1,0 +1,1230 @@
+WEBVTT
+
+1
+00:00:00.690 --> 00:00:03.270
+<v Stephane>Now let's talk about the center of SSM,</v>
+
+2
+00:00:03.270 --> 00:00:04.670
+which are documents.
+
+3
+00:00:04.670 --> 00:00:07.430
+And documents can be written either in JSON or YAML,
+
+4
+00:00:07.430 --> 00:00:09.100
+in which you define parameters,
+
+5
+00:00:09.100 --> 00:00:11.350
+to define what the document does, so actions,
+
+6
+00:00:11.350 --> 00:00:14.020
+and then you will have the document being executed
+
+7
+00:00:14.020 --> 00:00:15.620
+by a specific service.
+
+8
+00:00:15.620 --> 00:00:17.370
+So many documents already exist in AWS
+
+9
+00:00:17.370 --> 00:00:19.148
+and we can leverage them obviously
+
+10
+00:00:19.148 --> 00:00:21.140
+to go faster in what we do.
+
+11
+00:00:21.140 --> 00:00:23.190
+So this is what a documents may look like.
+
+12
+00:00:23.190 --> 00:00:25.150
+So as you can see, there's a description,
+
+13
+00:00:25.150 --> 00:00:26.470
+there's a bunch of parameters,
+
+14
+00:00:26.470 --> 00:00:29.060
+and then there's some steps and each step has an action
+
+15
+00:00:29.060 --> 00:00:30.970
+in which maybe you can run a command.
+
+16
+00:00:30.970 --> 00:00:33.270
+So this is just a simple example.
+
+17
+00:00:33.270 --> 00:00:35.360
+And if you start using SSM a lot
+
+18
+00:00:35.360 --> 00:00:38.220
+you will write your own SSM documents, okay?
+
+19
+00:00:38.220 --> 00:00:40.130
+But what we get out of this
+
+20
+00:00:40.130 --> 00:00:42.890
+is that they sort of look like
+
+21
+00:00:42.890 --> 00:00:44.130
+the idea behind CloudFormation,
+
+22
+00:00:44.130 --> 00:00:47.730
+but this is at the center of SSM now we have documents
+
+23
+00:00:47.730 --> 00:00:51.270
+and they're gonna be how we can describe what SSM does.
+
+24
+00:00:51.270 --> 00:00:54.040
+So these documents can be simply used to run commands,
+
+25
+00:00:54.040 --> 00:00:55.540
+and we'll see this in this lecture,
+
+26
+00:00:55.540 --> 00:00:57.400
+but also these documents can be applied
+
+27
+00:00:57.400 --> 00:01:01.290
+to other SSM features such as state manager, patch manager,
+
+28
+00:01:01.290 --> 00:01:05.100
+automation, and documents can even retrieve some data
+
+29
+00:01:05.100 --> 00:01:07.440
+from the SSM parameter store
+
+30
+00:01:07.440 --> 00:01:09.930
+to be able to give you some kind of modularity
+
+31
+00:01:09.930 --> 00:01:11.090
+and dynamicity
+
+32
+00:01:11.090 --> 00:01:14.480
+in the way you want to have the documents behave, okay?
+
+33
+00:01:14.480 --> 00:01:15.313
+So let's have a look
+
+34
+00:01:15.313 --> 00:01:17.320
+at how we can create documents right now.
+
+35
+00:01:17.320 --> 00:01:20.490
+So if I scroll down on a systems manager at the very bottom
+
+36
+00:01:20.490 --> 00:01:21.910
+under shared resources,
+
+37
+00:01:21.910 --> 00:01:23.110
+we have documents,
+
+38
+00:01:23.110 --> 00:01:24.540
+and documents are in this page.
+
+39
+00:01:24.540 --> 00:01:26.650
+So we have documents owned by Amazon,
+
+40
+00:01:26.650 --> 00:01:27.483
+some owned by me,
+
+41
+00:01:27.483 --> 00:01:28.316
+but of course,
+
+42
+00:01:28.316 --> 00:01:30.100
+none has been owned me because I haven't created one.
+
+43
+00:01:30.100 --> 00:01:30.933
+Shared with me.
+
+44
+00:01:30.933 --> 00:01:32.530
+If you can share documents with other people,
+
+45
+00:01:32.530 --> 00:01:34.840
+or all documents, if you have to have the three of them.
+
+46
+00:01:34.840 --> 00:01:35.730
+So in this example,
+
+47
+00:01:35.730 --> 00:01:38.370
+I'm going to show you the documents owned by Amazon,
+
+48
+00:01:38.370 --> 00:01:40.640
+and one of them for example, is called
+
+49
+00:01:40.640 --> 00:01:41.790
+AWS-ApplyPatchBaseline.
+
+50
+00:01:43.510 --> 00:01:44.580
+So I click on it
+
+51
+00:01:44.580 --> 00:01:48.040
+and I can see that this is useful for scanning
+
+52
+00:01:48.040 --> 00:01:49.610
+or installing patches from a patch baseline,
+
+53
+00:01:49.610 --> 00:01:52.010
+as we'll see what that means in a few lecturers.
+
+54
+00:01:52.010 --> 00:01:53.540
+The platform is Windows.
+
+55
+00:01:53.540 --> 00:01:55.870
+We can see when it was created, okay?
+
+56
+00:01:55.870 --> 00:01:56.910
+And who is the owner,
+
+57
+00:01:56.910 --> 00:01:58.470
+and what is the latest version.
+
+58
+00:01:58.470 --> 00:02:01.300
+So this document looks good.
+
+59
+00:02:01.300 --> 00:02:03.130
+We can look at the contents of the patch baseline.
+
+60
+00:02:03.130 --> 00:02:06.760
+So this is written for this one in JSON,
+
+61
+00:02:06.760 --> 00:02:09.140
+and as we can see, there is a parameter,
+
+62
+00:02:09.140 --> 00:02:09.990
+one or two parameters.
+
+63
+00:02:09.990 --> 00:02:12.460
+So operation and snapshot ID,
+
+64
+00:02:12.460 --> 00:02:14.900
+and then there is a bunch of runtime config
+
+65
+00:02:14.900 --> 00:02:16.970
+as well as lot of commands that is going to happen.
+
+66
+00:02:16.970 --> 00:02:18.990
+So complicated, but not for us to maintain
+
+67
+00:02:18.990 --> 00:02:20.940
+because this is maintained by AWS.
+
+68
+00:02:20.940 --> 00:02:22.160
+We can look at the version.
+
+69
+00:02:22.160 --> 00:02:24.580
+So currently we cannot view the document versions
+
+70
+00:02:24.580 --> 00:02:25.413
+because we don't own it.
+
+71
+00:02:25.413 --> 00:02:26.690
+So it will always be version one,
+
+72
+00:02:26.690 --> 00:02:28.850
+but your own documents could be versioned.
+
+73
+00:02:28.850 --> 00:02:29.683
+And in details,
+
+74
+00:02:29.683 --> 00:02:31.500
+we can have a look at the different parameters.
+
+75
+00:02:31.500 --> 00:02:34.240
+For example, this one is on document version one,
+
+76
+00:02:34.240 --> 00:02:37.800
+and it has two parameters, operation and snapshot ID,
+
+77
+00:02:37.800 --> 00:02:40.820
+which are relevant to this document.
+
+78
+00:02:40.820 --> 00:02:42.370
+Okay, so if I look at the document itself,
+
+79
+00:02:42.370 --> 00:02:43.710
+we could create our own documents.
+
+80
+00:02:43.710 --> 00:02:45.870
+So it could be a command or session document,
+
+81
+00:02:45.870 --> 00:02:47.430
+or an automation document,
+
+82
+00:02:47.430 --> 00:02:49.010
+and we'll see commands in this one,
+
+83
+00:02:49.010 --> 00:02:51.410
+but I want you to show you this at a high level.
+
+84
+00:02:52.360 --> 00:02:54.860
+So the first way we're going to apply our documents
+
+85
+00:02:54.860 --> 00:02:57.520
+is using the run command SSM feature.
+
+86
+00:02:57.520 --> 00:02:59.030
+So the idea is that with run command
+
+87
+00:02:59.030 --> 00:03:00.750
+we're going to execute an entire document,
+
+88
+00:03:00.750 --> 00:03:02.690
+which is indeed a script,
+
+89
+00:03:02.690 --> 00:03:04.020
+or just run a single command
+
+90
+00:03:04.020 --> 00:03:06.700
+across a fleet of EC2 Instances.
+
+91
+00:03:06.700 --> 00:03:07.533
+And for this,
+
+92
+00:03:07.533 --> 00:03:09.770
+we can use resource groups that we have created from before.
+
+93
+00:03:09.770 --> 00:03:12.520
+So the run command has a feature of rate control
+
+94
+00:03:12.520 --> 00:03:13.353
+and error control.
+
+95
+00:03:13.353 --> 00:03:17.080
+So imagine you're playing a command to 1,000 instances
+
+96
+00:03:17.080 --> 00:03:19.200
+and it will take them down for a minute or two.
+
+97
+00:03:19.200 --> 00:03:21.930
+Then you want to make sure you do this progressively,
+
+98
+00:03:21.930 --> 00:03:23.420
+and that in case you have any errors,
+
+99
+00:03:23.420 --> 00:03:26.720
+you are able to stop running the command in your fleets.
+
+100
+00:03:26.720 --> 00:03:28.127
+It is fully integrated with IAM and CloudTrail.
+
+101
+00:03:28.127 --> 00:03:30.520
+So you can see who runs commands.
+
+102
+00:03:30.520 --> 00:03:31.590
+There is no need for SSH,
+
+103
+00:03:31.590 --> 00:03:34.500
+so the agent itself will be running the commands,
+
+104
+00:03:34.500 --> 00:03:37.530
+but systems manager does not need SSH access
+
+105
+00:03:37.530 --> 00:03:38.990
+to your instances to run the command,
+
+106
+00:03:38.990 --> 00:03:40.700
+which is quite magical and cool.
+
+107
+00:03:40.700 --> 00:03:43.350
+The command outputs can be shown in the console,
+
+108
+00:03:43.350 --> 00:03:45.840
+but it can also be sent to your S3 buckets
+
+109
+00:03:45.840 --> 00:03:47.470
+or to CloudWatch Logs.
+
+110
+00:03:47.470 --> 00:03:50.050
+And finally, to know the status of your run command,
+
+111
+00:03:50.050 --> 00:03:51.640
+you can look in the console obviously,
+
+112
+00:03:51.640 --> 00:03:55.570
+but you can also send them to SNS to get information around
+
+113
+00:03:55.570 --> 00:03:58.890
+in progress, success, failed and so on.
+
+114
+00:03:58.890 --> 00:04:01.400
+And finally, for automations and EventBridge
+
+115
+00:04:01.400 --> 00:04:02.850
+for CloudWatch Events,
+
+116
+00:04:02.850 --> 00:04:05.630
+can be used to invoke run commands.
+
+117
+00:04:05.630 --> 00:04:06.490
+So let's take an example.
+
+118
+00:04:06.490 --> 00:04:09.970
+Run command can be run across a fleet of EC2 Instances.
+
+119
+00:04:09.970 --> 00:04:13.230
+The outputs of the command itself can be sensed for analysis
+
+120
+00:04:13.230 --> 00:04:15.070
+in CloudWatch Logs or Amazon history,
+
+121
+00:04:15.070 --> 00:04:16.700
+notifications is through SNS,
+
+122
+00:04:16.700 --> 00:04:19.060
+and events triggered in EventBridge
+
+123
+00:04:19.060 --> 00:04:22.363
+could have a rule to trigger a run command itself.
+
+124
+00:04:23.920 --> 00:04:26.730
+So what we want to do is to install an HTTP server
+
+125
+00:04:26.730 --> 00:04:29.100
+onto my three instances, okay?
+
+126
+00:04:29.100 --> 00:04:30.860
+But first, to verify that it will work,
+
+127
+00:04:30.860 --> 00:04:32.870
+we need to open up the security group.
+
+128
+00:04:32.870 --> 00:04:35.080
+So let's go into the security group rules.
+
+129
+00:04:35.080 --> 00:04:36.320
+And under the inbound rule,
+
+130
+00:04:36.320 --> 00:04:40.500
+I'm going to add a rule for HTTP on port 80
+
+131
+00:04:40.500 --> 00:04:42.130
+coming from anywhere.
+
+132
+00:04:42.130 --> 00:04:47.130
+So this is allowing us to access our instances of HTTP,
+
+133
+00:04:47.210 --> 00:04:49.060
+and we can make sure that our instances
+
+134
+00:04:49.060 --> 00:04:51.020
+currently do not run a web server
+
+135
+00:04:51.020 --> 00:04:52.730
+by taking, for example, one of these IPs.
+
+136
+00:04:52.730 --> 00:04:56.690
+So we'll copy this IP and then paste it here.
+
+137
+00:04:56.690 --> 00:04:58.470
+And as we can see,
+
+138
+00:04:58.470 --> 00:05:00.380
+we are not getting anything.
+
+139
+00:05:00.380 --> 00:05:04.883
+So let's go back into my security group.
+
+140
+00:05:05.760 --> 00:05:07.350
+HTTP port 80,
+
+141
+00:05:07.350 --> 00:05:08.350
+and it should not time out,
+
+142
+00:05:08.350 --> 00:05:10.160
+it should just give me an error.
+
+143
+00:05:10.160 --> 00:05:11.363
+So let's try again.
+
+144
+00:05:13.750 --> 00:05:16.010
+Which is just a weird behavior of Firefox.
+
+145
+00:05:16.010 --> 00:05:19.070
+So I'm going to copy this and I'm gonna go into Chrome.
+
+146
+00:05:19.070 --> 00:05:21.300
+And as you can see, if I go into my IP,
+
+147
+00:05:21.300 --> 00:05:22.510
+I get a site can't be reached.
+
+148
+00:05:22.510 --> 00:05:24.040
+That means that the port 80 is open,
+
+149
+00:05:24.040 --> 00:05:28.410
+but no HTTP server is currently running on my EC2 Instance.
+
+150
+00:05:28.410 --> 00:05:29.410
+So, okay, so that's cool.
+
+151
+00:05:29.410 --> 00:05:32.960
+We want to now install our web server onto these instances.
+
+152
+00:05:32.960 --> 00:05:35.520
+So let's go into systems manager
+
+153
+00:05:35.520 --> 00:05:36.700
+and we're going to run a command,
+
+154
+00:05:36.700 --> 00:05:38.970
+but first we're gonna need to create our own documents.
+
+155
+00:05:38.970 --> 00:05:41.840
+So this document is going to be for a command or session.
+
+156
+00:05:41.840 --> 00:05:45.270
+And then we'll call this one, InstallApache.
+
+157
+00:05:45.270 --> 00:05:49.770
+And the target type is going to be for an EC2 Instance.
+
+158
+00:05:49.770 --> 00:05:53.470
+Now, the document type is going to be a command document
+
+159
+00:05:53.470 --> 00:05:56.150
+and we can specify it either in JSON or YAML.
+
+160
+00:05:56.150 --> 00:05:57.320
+So we'll specify in YAML form
+
+161
+00:05:57.320 --> 00:05:59.530
+because I think this is a bit easier to read.
+
+162
+00:05:59.530 --> 00:06:00.730
+And to make it easy,
+
+163
+00:06:00.730 --> 00:06:04.120
+you can just get the code directly from the SSM directory
+
+164
+00:06:04.120 --> 00:06:08.850
+and copy this entire file document-install-apache, okay?
+
+165
+00:06:08.850 --> 00:06:12.500
+And going back here, paste it and we're good to go.
+
+166
+00:06:12.500 --> 00:06:15.680
+So in this YAML document, we can easily read it.
+
+167
+00:06:15.680 --> 00:06:17.820
+We have one parameter, which is a message,
+
+168
+00:06:17.820 --> 00:06:19.860
+which by default is Hello World,
+
+169
+00:06:19.860 --> 00:06:21.570
+and this is the welcome message we want you to have
+
+170
+00:06:21.570 --> 00:06:24.290
+as part of our EC2 Instances, their web server.
+
+171
+00:06:24.290 --> 00:06:27.010
+And then the main step is to run a ShellScript
+
+172
+00:06:27.010 --> 00:06:29.330
+and it has several run commands in it, okay?
+
+173
+00:06:29.330 --> 00:06:30.870
+So we update the instance,
+
+174
+00:06:30.870 --> 00:06:32.260
+we install HTTPD,
+
+175
+00:06:32.260 --> 00:06:33.940
+we start HTTPD, we enable it.
+
+176
+00:06:33.940 --> 00:06:35.260
+So this is in case of restarts.
+
+177
+00:06:35.260 --> 00:06:38.350
+And then we echo message from host name
+
+178
+00:06:38.350 --> 00:06:41.520
+into this file right here, in this HTML.
+
+179
+00:06:41.520 --> 00:06:45.330
+And so this message under this double brackets
+
+180
+00:06:45.330 --> 00:06:49.870
+is coming from the parameter message above, okay?
+
+181
+00:06:49.870 --> 00:06:51.480
+So I will go and create the document.
+
+182
+00:06:51.480 --> 00:06:53.700
+So this document is now owned by me
+
+183
+00:06:53.700 --> 00:06:55.650
+and it's called Intel HTTP.
+
+184
+00:06:55.650 --> 00:06:58.370
+And so now we need to go into the run command and run it.
+
+185
+00:06:58.370 --> 00:07:01.690
+So lets go into the run command direct here.
+
+186
+00:07:01.690 --> 00:07:03.850
+We're going to run a command,
+
+187
+00:07:03.850 --> 00:07:08.850
+and we need to find the document itself.
+
+188
+00:07:09.090 --> 00:07:11.050
+So we're going to go on owned by me.
+
+189
+00:07:11.050 --> 00:07:13.210
+Find Apache.
+
+190
+00:07:13.210 --> 00:07:16.020
+I will select this one, version one.
+
+191
+00:07:16.020 --> 00:07:17.530
+And then we can customize the message.
+
+192
+00:07:17.530 --> 00:07:21.023
+So for example, we can say, Custom Hello World.
+
+193
+00:07:22.280 --> 00:07:23.490
+And for the targets,
+
+194
+00:07:23.490 --> 00:07:25.990
+we can either specify instance tags
+
+195
+00:07:25.990 --> 00:07:28.330
+or we can choose instances manually,
+
+196
+00:07:28.330 --> 00:07:29.780
+or we can choose a resource group,
+
+197
+00:07:29.780 --> 00:07:30.613
+and as you can see,
+
+198
+00:07:30.613 --> 00:07:32.510
+the resources we've created from before
+
+199
+00:07:32.510 --> 00:07:34.830
+are available in this console.
+
+200
+00:07:34.830 --> 00:07:37.460
+So I will choose my instances manually,
+
+201
+00:07:37.460 --> 00:07:39.810
+and I will actually choose my three instances right here,
+
+202
+00:07:39.810 --> 00:07:42.170
+because I want to be able to install HTTP
+
+203
+00:07:42.170 --> 00:07:44.740
+to all them three, okay?
+
+204
+00:07:44.740 --> 00:07:45.840
+Next, for other parameters.
+
+205
+00:07:45.840 --> 00:07:49.420
+So we can have a timeout in terms of the commands.
+
+206
+00:07:49.420 --> 00:07:52.780
+So if the commands don't finish within 600 seconds,
+
+207
+00:07:52.780 --> 00:07:53.830
+so 10 minutes,
+
+208
+00:07:53.830 --> 00:07:55.600
+then you should fail the command.
+
+209
+00:07:55.600 --> 00:07:57.250
+So this is a much larger timeout
+
+210
+00:07:57.250 --> 00:07:59.520
+than what we need for this command, this is fine.
+
+211
+00:07:59.520 --> 00:08:00.410
+And then rate control.
+
+212
+00:08:00.410 --> 00:08:01.540
+So this is pretty cool.
+
+213
+00:08:01.540 --> 00:08:02.373
+The concurrency.
+
+214
+00:08:02.373 --> 00:08:05.630
+So do we want to run the commands on 50 targets at a time
+
+215
+00:08:05.630 --> 00:08:08.440
+or maybe one target at a time, so one by one?
+
+216
+00:08:08.440 --> 00:08:11.110
+Or maybe percentage, so 33% at a time?
+
+217
+00:08:11.110 --> 00:08:12.430
+It's up to you.
+
+218
+00:08:12.430 --> 00:08:16.090
+But I will choose for this example, one target at a time.
+
+219
+00:08:16.090 --> 00:08:17.150
+And then the error threshold.
+
+220
+00:08:17.150 --> 00:08:19.023
+So that means just after one error,
+
+221
+00:08:19.950 --> 00:08:20.920
+you know, on the first error,
+
+222
+00:08:20.920 --> 00:08:23.900
+then this will stop the entire task, okay?
+
+223
+00:08:23.900 --> 00:08:25.940
+But maybe you know that some of these commands
+
+224
+00:08:25.940 --> 00:08:27.640
+will have errors and so maybe you're saying that
+
+225
+00:08:27.640 --> 00:08:32.430
+as long as 5% of my instances don't error out,
+
+226
+00:08:32.430 --> 00:08:34.170
+this is fine, please keep on going,
+
+227
+00:08:34.170 --> 00:08:37.310
+but if you go above this 5% of error threshold,
+
+228
+00:08:37.310 --> 00:08:38.820
+then stop running the command.
+
+229
+00:08:38.820 --> 00:08:40.630
+So right now we'll keep the error at zero
+
+230
+00:08:40.630 --> 00:08:42.460
+because we don't want any errors.
+
+231
+00:08:42.460 --> 00:08:43.560
+Now, for the output options,
+
+232
+00:08:43.560 --> 00:08:46.277
+we can create an S3 buckets to send the output to,
+
+233
+00:08:46.277 --> 00:08:47.620
+but I will disable it,
+
+234
+00:08:47.620 --> 00:08:49.910
+or we can send logs to CloudWatch Logs,
+
+235
+00:08:49.910 --> 00:08:53.320
+and for example, I will call it runCommandOutput
+
+236
+00:08:53.320 --> 00:08:55.023
+as my log group name.
+
+237
+00:08:55.950 --> 00:08:56.870
+SNS notifications.
+
+238
+00:08:56.870 --> 00:08:57.990
+If you wanted to get notifications
+
+239
+00:08:57.990 --> 00:08:59.880
+about the status of this run command.
+
+240
+00:08:59.880 --> 00:09:02.740
+And this is nice, we can get the equivalent
+
+241
+00:09:02.740 --> 00:09:04.400
+AWS CLI interface command
+
+242
+00:09:04.400 --> 00:09:07.832
+if we wanted to run this directly from within the CLI.
+
+243
+00:09:07.832 --> 00:09:09.290
+So I'll click on run.
+
+244
+00:09:09.290 --> 00:09:10.123
+And as we can see,
+
+245
+00:09:10.123 --> 00:09:13.510
+we have three targets and one of them is in progress
+
+246
+00:09:13.510 --> 00:09:15.090
+while the other two are pending.
+
+247
+00:09:15.090 --> 00:09:17.400
+So let me refresh this.
+
+248
+00:09:17.400 --> 00:09:19.010
+And as we can see now,
+
+249
+00:09:19.010 --> 00:09:20.420
+because we did one at a time,
+
+250
+00:09:20.420 --> 00:09:22.650
+it will go this one in progress and it will be successful,
+
+251
+00:09:22.650 --> 00:09:24.620
+then this one, and then that one.
+
+252
+00:09:24.620 --> 00:09:27.470
+So in here, I'm able to refresh and here we go.
+
+253
+00:09:27.470 --> 00:09:30.330
+The first one in the first two actually were a success.
+
+254
+00:09:30.330 --> 00:09:33.700
+So we can see the start time and the end time.
+
+255
+00:09:33.700 --> 00:09:36.930
+And for each of the targets, we can click on view outputs.
+
+256
+00:09:36.930 --> 00:09:40.090
+So the output is literally the output of the command itself.
+
+257
+00:09:40.090 --> 00:09:42.960
+So it shows you a maximum of 48,000 characters.
+
+258
+00:09:42.960 --> 00:09:45.527
+So here is all the outputs that is available from it,
+
+259
+00:09:45.527 --> 00:09:49.563
+and as we can see at the very end is going to say that,
+
+260
+00:09:50.490 --> 00:09:53.840
+if we're very lucky, HTTPD was installed.
+
+261
+00:09:53.840 --> 00:09:55.100
+Very nice. Okay?
+
+262
+00:09:55.100 --> 00:09:57.570
+And then complete, so the command is complete,
+
+263
+00:09:57.570 --> 00:09:59.510
+and this is complete from the YAML install.
+
+264
+00:09:59.510 --> 00:10:01.460
+And you can click on the CloudWatch Logs
+
+265
+00:10:01.460 --> 00:10:04.280
+to view the logs directly of your commands
+
+266
+00:10:04.280 --> 00:10:05.290
+into the CloudWatch Log groups.
+
+267
+00:10:05.290 --> 00:10:08.630
+So this is my run command output log group,
+
+268
+00:10:08.630 --> 00:10:09.463
+and we can see that
+
+269
+00:10:09.463 --> 00:10:11.670
+we have many different streams available here
+
+270
+00:10:11.670 --> 00:10:14.160
+for the standard out and standard error
+
+271
+00:10:14.160 --> 00:10:17.500
+in case some errors were happening onto our instances,
+
+272
+00:10:17.500 --> 00:10:18.920
+but if you go to standard outs,
+
+273
+00:10:18.920 --> 00:10:21.660
+as we can see, we have the five commands,
+
+274
+00:10:21.660 --> 00:10:22.520
+and what happened
+
+275
+00:10:22.520 --> 00:10:25.940
+and the fact that they did install and enable HTTPD.
+
+276
+00:10:25.940 --> 00:10:27.070
+So this is great.
+
+277
+00:10:27.070 --> 00:10:28.450
+We're good to go.
+
+278
+00:10:28.450 --> 00:10:30.980
+So back into our run command,
+
+279
+00:10:30.980 --> 00:10:32.190
+we can look at the command history.
+
+280
+00:10:32.190 --> 00:10:33.870
+This one was a success,
+
+281
+00:10:33.870 --> 00:10:35.460
+and yes, three instances
+
+282
+00:10:35.460 --> 00:10:38.480
+were having their command run on it.
+
+283
+00:10:38.480 --> 00:10:39.490
+And if I go back now
+
+284
+00:10:39.490 --> 00:10:41.650
+to my EC2 management console and refresh.
+
+285
+00:10:41.650 --> 00:10:43.200
+So they're still here obviously,
+
+286
+00:10:43.200 --> 00:10:47.150
+but now if I click on this IPv4 and paste it,
+
+287
+00:10:47.150 --> 00:10:49.270
+then we're going to get a Custom Hello World
+
+288
+00:10:49.270 --> 00:10:51.610
+from this IP right here.
+
+289
+00:10:51.610 --> 00:10:55.150
+And if I go to another EC2 Instance,
+
+290
+00:10:55.150 --> 00:10:55.983
+this one,
+
+291
+00:10:57.600 --> 00:10:59.170
+we're gonna get again, a Custom Hello World.
+
+292
+00:10:59.170 --> 00:11:03.290
+So this is a custom message that I did pass to my documents
+
+293
+00:11:03.290 --> 00:11:04.950
+and the IP is going to be different on this one.
+
+294
+00:11:04.950 --> 00:11:07.060
+That means that the command was run differently
+
+295
+00:11:07.060 --> 00:11:10.800
+on two different EC2 Instances.
+
+296
+00:11:10.800 --> 00:11:11.633
+So this is pretty cool
+
+297
+00:11:11.633 --> 00:11:13.480
+because here we are able to run a command
+
+298
+00:11:13.480 --> 00:11:15.830
+across three EC2 Instances,
+
+299
+00:11:15.830 --> 00:11:18.310
+but remember, these EC2 Instances
+
+300
+00:11:18.310 --> 00:11:21.800
+do not have the SSH port open, okay?
+
+301
+00:11:21.800 --> 00:11:23.780
+So what happens is that the SSM agent
+
+302
+00:11:23.780 --> 00:11:25.420
+did run the commands for us,
+
+303
+00:11:25.420 --> 00:11:26.280
+which is super helpful
+
+304
+00:11:26.280 --> 00:11:28.680
+because we don't compromise on security.
+
+305
+00:11:28.680 --> 00:11:29.640
+So this is it for this lecture.
+
+306
+00:11:29.640 --> 00:11:30.480
+I hope you liked it,
+
+307
+00:11:30.480 --> 00:11:32.430
+and I will see you in the next lecture.
+

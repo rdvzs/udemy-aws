@@ -1,0 +1,698 @@
+WEBVTT
+
+1
+00:00:00.330 --> 00:00:02.350
+<v Instructor>So let's talk about RDS proxy,</v>
+
+2
+00:00:02.350 --> 00:00:04.960
+but first we need to understand why we need RDS proxy.
+
+3
+00:00:04.960 --> 00:00:08.480
+So if we have a Lambda function and we wants to access our
+
+4
+00:00:08.480 --> 00:00:10.300
+RDS database, by default,
+
+5
+00:00:10.300 --> 00:00:12.330
+when you're launching and the function is going to be
+
+6
+00:00:12.330 --> 00:00:15.120
+launched outside of your VPC, okay.
+
+7
+00:00:15.120 --> 00:00:17.290
+In a VPC, that's owned by AWS.
+
+8
+00:00:17.290 --> 00:00:20.700
+Therefore it cannot access resources that are not in your
+
+9
+00:00:20.700 --> 00:00:21.533
+public subnet.
+
+10
+00:00:21.533 --> 00:00:24.010
+So if you have a private RDS database or private
+
+11
+00:00:24.010 --> 00:00:27.170
+ElastiCache or private internal ELB,
+
+12
+00:00:27.170 --> 00:00:29.060
+then it will not be accessible.
+
+13
+00:00:29.060 --> 00:00:31.510
+So the idea is that with a default Lambda deployment,
+
+14
+00:00:31.510 --> 00:00:35.060
+Lambda can talk to your public end points or to dynamoDB.
+
+15
+00:00:35.060 --> 00:00:37.900
+But if you had a private subnet with a private RDS,
+
+16
+00:00:37.900 --> 00:00:39.600
+Lambda could not connect to it.
+
+17
+00:00:39.600 --> 00:00:42.300
+Please note that if you make your RDS database public,
+
+18
+00:00:42.300 --> 00:00:44.580
+then obviously Lambda functions can connect with,
+
+19
+00:00:44.580 --> 00:00:47.580
+but this is not as secure as obviously making your RDS
+
+20
+00:00:47.580 --> 00:00:49.960
+database private in the private subnets.
+
+21
+00:00:49.960 --> 00:00:53.780
+So, now you can launch your Lambda in a VPC, for this,
+
+22
+00:00:53.780 --> 00:00:56.830
+you defined the VPC ID, the subnets and the security groups,
+
+23
+00:00:56.830 --> 00:00:59.573
+and then Lambda will create an elastic network interface in
+
+24
+00:00:59.573 --> 00:01:03.460
+your subnets to connect directly into your RDS database.
+
+25
+00:01:03.460 --> 00:01:07.100
+For this, you specify a IN role to create these ENIs.
+
+26
+00:01:07.100 --> 00:01:10.100
+And so the idea now is that within a private subnet,
+
+27
+00:01:10.100 --> 00:01:12.950
+Lambda is going to have an ENI to connect to with its own
+
+28
+00:01:12.950 --> 00:01:14.070
+security group.
+
+29
+00:01:14.070 --> 00:01:17.800
+Lambda will establish the connectivity directly to this ENI.
+
+30
+00:01:17.800 --> 00:01:21.610
+And then this ENI will access very clear the RDS database.
+
+31
+00:01:21.610 --> 00:01:24.320
+You need to set up a few security groups for it to work.
+
+32
+00:01:24.320 --> 00:01:26.230
+Okay? So we have the connectivity,
+
+33
+00:01:26.230 --> 00:01:28.910
+but this allows you to deploy a Lambda function in your VPC
+
+34
+00:01:28.910 --> 00:01:31.913
+and access private resources on RDS databases.
+
+35
+00:01:32.890 --> 00:01:35.710
+And this will work for a while, but then when you learn
+
+36
+00:01:35.710 --> 00:01:37.147
+the function will connect to RDS.
+
+37
+00:01:37.147 --> 00:01:40.140
+You will open and maintain a database connection.
+
+38
+00:01:40.140 --> 00:01:42.270
+And if you have many instances of your Lambda functions
+
+39
+00:01:42.270 --> 00:01:43.520
+during this at the same time,
+
+40
+00:01:43.520 --> 00:01:45.960
+then you can have many connections open to your RDS
+
+41
+00:01:45.960 --> 00:01:48.720
+database. And this can result in the too many connections
+
+42
+00:01:48.720 --> 00:01:51.380
+exception coming from your RDS database because too many
+
+43
+00:01:51.380 --> 00:01:52.540
+connections are open.
+
+44
+00:01:52.540 --> 00:01:54.950
+Especially if your Lambda functions are not good at cleaning
+
+45
+00:01:54.950 --> 00:01:56.710
+up their connection.
+
+46
+00:01:56.710 --> 00:02:00.200
+Therefore you can deploy what's called an RDS proxy.
+
+47
+00:02:00.200 --> 00:02:04.000
+And with RDS proxy, you no longer need to code what's,
+
+48
+00:02:04.000 --> 00:02:08.390
+and, and to do the cleaning of your idle connections and RDS
+
+49
+00:02:08.390 --> 00:02:11.000
+proxy will be managing a connection pool to your RDS
+
+50
+00:02:11.000 --> 00:02:12.780
+database. So let's take an example.
+
+51
+00:02:12.780 --> 00:02:16.740
+We have an RDS database, in RVPC, in a private subnet.
+
+52
+00:02:16.740 --> 00:02:19.940
+You can deploy an RDS proxy within the same private subnet
+
+53
+00:02:19.940 --> 00:02:21.700
+or in a different sub-net if you wanted to.
+
+54
+00:02:21.700 --> 00:02:23.400
+So it could be a public subnet as well,
+
+55
+00:02:23.400 --> 00:02:25.360
+as long as there's connectivity between your subnets,
+
+56
+00:02:25.360 --> 00:02:26.650
+you're good to go. Okay.
+
+57
+00:02:26.650 --> 00:02:27.483
+So this example,
+
+58
+00:02:27.483 --> 00:02:32.483
+I've displayed the RDS proxy in my public subnet. Okay.
+
+59
+00:02:32.810 --> 00:02:35.720
+And then what's going to happen is that if you have Lambda
+
+60
+00:02:35.720 --> 00:02:37.670
+functions being set up,
+
+61
+00:02:37.670 --> 00:02:40.870
+then they can connect directly to the RDS proxy.
+
+62
+00:02:40.870 --> 00:02:41.810
+So in this example, well,
+
+63
+00:02:41.810 --> 00:02:45.170
+my Lambda functions are connecting to a RDS proxy in the
+
+64
+00:02:45.170 --> 00:02:49.050
+public subnets. So they don't need VPC connectivity.
+
+65
+00:02:49.050 --> 00:02:54.050
+But if you had the RDS proxy to be in a private subnet,
+
+66
+00:02:54.070 --> 00:02:55.080
+you would need to deploy your
+
+67
+00:02:55.080 --> 00:02:57.830
+Lambda functions as well in the private subnets.
+
+68
+00:02:57.830 --> 00:03:00.070
+But the idea is that, as you can see in this diagram,
+
+69
+00:03:00.070 --> 00:03:02.750
+Lambda functions are establishing five connections to the
+
+70
+00:03:02.750 --> 00:03:03.900
+RDS proxy,
+
+71
+00:03:03.900 --> 00:03:06.240
+but the RDS proxy is doing what's called the connection
+
+72
+00:03:06.240 --> 00:03:07.073
+pooling,
+
+73
+00:03:07.073 --> 00:03:10.480
+and will maybe only establish one connection to your RDS
+
+74
+00:03:10.480 --> 00:03:11.720
+instance and therefore you will
+
+75
+00:03:11.720 --> 00:03:14.240
+allow you to avoid this too many
+
+76
+00:03:14.240 --> 00:03:15.940
+connections exception.
+
+77
+00:03:15.940 --> 00:03:17.350
+And in case the Lambda functions
+
+78
+00:03:17.350 --> 00:03:19.660
+don't clean up their connection to the proxy, that is fine.
+
+79
+00:03:19.660 --> 00:03:21.510
+The proxy knows how to handle this,
+
+80
+00:03:21.510 --> 00:03:24.350
+and will close the idle connections after a while.
+
+81
+00:03:24.350 --> 00:03:26.130
+So during this methodology,
+
+82
+00:03:26.130 --> 00:03:27.860
+you have support for the IAM authentication.
+
+83
+00:03:27.860 --> 00:03:30.730
+So you can pass on the IAM details from the proxy to your
+
+84
+00:03:30.730 --> 00:03:33.270
+RDS database instance. So this is supported,
+
+85
+00:03:33.270 --> 00:03:35.230
+but also it supports database authentication with
+
+86
+00:03:35.230 --> 00:03:37.010
+username and password,
+
+87
+00:03:37.010 --> 00:03:40.660
+and the more connections are made to your RDS proxy,
+
+88
+00:03:40.660 --> 00:03:41.493
+the more it will scale,
+
+89
+00:03:41.493 --> 00:03:44.910
+so there's auto scaling of the RDS proxy layer.
+
+90
+00:03:44.910 --> 00:03:47.770
+And as I said, the Lambda functions must have connectivity
+
+91
+00:03:47.770 --> 00:03:48.810
+to the proxy.
+
+92
+00:03:48.810 --> 00:03:52.060
+So if you have a public subnets and a public proxy,
+
+93
+00:03:52.060 --> 00:03:53.920
+then you can have a public Lambda function,
+
+94
+00:03:53.920 --> 00:03:56.430
+or at least a Lambda function deployed normally.
+
+95
+00:03:56.430 --> 00:03:59.750
+And then if you have a private RDS proxy deployed in a
+
+96
+00:03:59.750 --> 00:04:00.870
+private subnets,
+
+97
+00:04:00.870 --> 00:04:02.833
+then you need to obviously deploy your Lambda function in
+
+98
+00:04:02.833 --> 00:04:05.120
+a VPC. But thanks to the RDS proxy,
+
+99
+00:04:05.120 --> 00:04:08.150
+you are going to avoid that too many connections error.
+
+100
+00:04:08.150 --> 00:04:11.020
+So let's have a look at how we can create a proxy.
+
+101
+00:04:11.020 --> 00:04:13.950
+So I'm going to show you the options to create a proxy.
+
+102
+00:04:13.950 --> 00:04:15.750
+So here are the options.
+
+103
+00:04:15.750 --> 00:04:16.583
+And I will go and create the proxy itself,
+
+104
+00:04:16.583 --> 00:04:17.960
+because it will cost you money,
+
+105
+00:04:17.960 --> 00:04:19.960
+but at least I can share the production, the options.
+
+106
+00:04:19.960 --> 00:04:21.870
+So you name it, DemoProxy.
+
+107
+00:04:21.870 --> 00:04:23.220
+You have an engine compatibility.
+
+108
+00:04:23.220 --> 00:04:25.090
+So is it MySQL or Postgres?
+
+109
+00:04:25.090 --> 00:04:29.230
+And you require TLS to be enabled for encryption in flights.
+
+110
+00:04:29.230 --> 00:04:31.570
+Then there is the idle client connection timeouts.
+
+111
+00:04:31.570 --> 00:04:34.200
+So this shows you how the proxy itself will handle the
+
+112
+00:04:34.200 --> 00:04:35.520
+cleanup of connections.
+
+113
+00:04:35.520 --> 00:04:39.430
+And so you can set it anywhere between a few minutes to
+
+114
+00:04:39.430 --> 00:04:40.720
+eight hours. Okay?
+
+115
+00:04:40.720 --> 00:04:42.240
+And this one is set up to 30 minutes.
+
+116
+00:04:42.240 --> 00:04:44.650
+That means that if your application has not been using a
+
+117
+00:04:44.650 --> 00:04:47.110
+connection for more than 30 minutes,
+
+118
+00:04:47.110 --> 00:04:48.530
+then clean up the connection.
+
+119
+00:04:48.530 --> 00:04:52.730
+So the proxy is smart enough to do the cleanup itself and
+
+120
+00:04:52.730 --> 00:04:55.540
+not overload, obviously, the end database.
+
+121
+00:04:55.540 --> 00:04:58.410
+Then you could choose your database and you specify a
+
+122
+00:04:58.410 --> 00:04:59.790
+connection pool, maximum connection.
+
+123
+00:04:59.790 --> 00:05:02.700
+So what's the percentage of maximum connections are allowed
+
+124
+00:05:02.700 --> 00:05:04.730
+from the proxy to your main database.
+
+125
+00:05:04.730 --> 00:05:07.560
+So if your database also has some direct connections than
+
+126
+00:05:07.560 --> 00:05:08.990
+80% would be a good number,
+
+127
+00:05:08.990 --> 00:05:11.860
+but if you only connect to your database for your proxy,
+
+128
+00:05:11.860 --> 00:05:14.503
+then you should be able to enable 100%. Okay?
+
+129
+00:05:15.700 --> 00:05:16.610
+Next, connectivity.
+
+130
+00:05:16.610 --> 00:05:19.590
+So your RDS proxy needs to be able to connect to your
+
+131
+00:05:19.590 --> 00:05:20.423
+database. And for this,
+
+132
+00:05:20.423 --> 00:05:22.230
+you need to create a secret in
+
+133
+00:05:22.230 --> 00:05:24.670
+secrets manager for the database.
+
+134
+00:05:24.670 --> 00:05:28.700
+So you need to go ahead and create a new secret and that
+
+135
+00:05:28.700 --> 00:05:31.160
+does it expensive. So the cost to about 40 cents per secret,
+
+136
+00:05:31.160 --> 00:05:33.210
+per month, there's a 30 day trial available,
+
+137
+00:05:33.210 --> 00:05:35.890
+but this will cost you some money if you do it.
+
+138
+00:05:35.890 --> 00:05:39.510
+And the secrets would be a credentials for an RDS database
+
+139
+00:05:39.510 --> 00:05:43.840
+in which you specify the username as well as the password,
+
+140
+00:05:43.840 --> 00:05:45.530
+which is right here.
+
+141
+00:05:45.530 --> 00:05:46.657
+Okay? Just to show you,
+
+142
+00:05:46.657 --> 00:05:48.900
+you have the password and then you would say,
+
+143
+00:05:48.900 --> 00:05:51.390
+this is relevant for this database.
+
+144
+00:05:51.390 --> 00:05:52.540
+So it's not something that I'm going to do,
+
+145
+00:05:52.540 --> 00:05:54.300
+but at least it would show you how you will create the
+
+146
+00:05:54.300 --> 00:05:55.210
+secret.
+
+147
+00:05:55.210 --> 00:05:58.430
+And then that secret could be used right here by your RDS
+
+148
+00:05:58.430 --> 00:05:59.470
+proxy.
+
+149
+00:05:59.470 --> 00:06:01.020
+Then you need an IAM role, okay?
+
+150
+00:06:01.020 --> 00:06:02.090
+To allow the proxy
+
+151
+00:06:02.090 --> 00:06:04.660
+to access the secret from secrets managers,
+
+152
+00:06:04.660 --> 00:06:06.410
+so you need to create the IAM role.
+
+153
+00:06:06.410 --> 00:06:10.010
+And then how do you want your users to connect to the proxy?
+
+154
+00:06:10.010 --> 00:06:12.730
+So they can use IAM authentication or they can use
+
+155
+00:06:12.730 --> 00:06:15.650
+database username and password, just like
+
+156
+00:06:15.650 --> 00:06:17.010
+what comes with MySQL and RDS.
+
+157
+00:06:17.010 --> 00:06:20.950
+So you can enable IAM authentication or disable it.
+
+158
+00:06:20.950 --> 00:06:22.250
+Then the subnet, so where do you want
+
+159
+00:06:22.250 --> 00:06:24.120
+to deploy your database proxy?
+
+160
+00:06:24.120 --> 00:06:26.900
+So this is where you can make it indifference privates or
+
+161
+00:06:26.900 --> 00:06:29.490
+public subnets than your original database.
+
+162
+00:06:29.490 --> 00:06:32.410
+And you can set up a security group that allows your proxy
+
+163
+00:06:32.410 --> 00:06:34.740
+to connect to your RDS database.
+
+164
+00:06:34.740 --> 00:06:36.250
+And finally, you can enable logging
+
+165
+00:06:36.250 --> 00:06:38.240
+of all the queries passed into your database,
+
+166
+00:06:38.240 --> 00:06:40.400
+but this is disabled after 24 hours
+
+167
+00:06:40.400 --> 00:06:43.290
+because it will slow down your proxy. Okay?
+
+168
+00:06:43.290 --> 00:06:45.450
+So this is it. You have all the options right here.
+
+169
+00:06:45.450 --> 00:06:46.820
+And then when the proxy is created,
+
+170
+00:06:46.820 --> 00:06:49.850
+it gives you a connection URL that you can leverage within
+
+171
+00:06:49.850 --> 00:06:51.920
+your applications or your Lambda functions
+
+172
+00:06:51.920 --> 00:06:54.210
+to leverage a proxy right away.
+
+173
+00:06:54.210 --> 00:06:56.380
+So that's it for this lecture. I hope you liked it.
+
+174
+00:06:56.380 --> 00:06:58.330
+And I will see you in the next lecture.
+

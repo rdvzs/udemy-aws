@@ -1,0 +1,682 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:03.660
+<v Educator>So let's start using the AWS Service Catalog.</v>
+
+2
+00:00:03.660 --> 00:00:05.729
+For this, first of all, I wanna show you something.
+
+3
+00:00:05.729 --> 00:00:07.470
+It's on the Preferences.
+
+4
+00:00:07.470 --> 00:00:09.300
+You can actually update the branding
+
+5
+00:00:09.300 --> 00:00:12.480
+to customize the appearance of the console for the users.
+
+6
+00:00:12.480 --> 00:00:13.530
+So, as we can see right now,
+
+7
+00:00:13.530 --> 00:00:14.940
+we have the Service Catalog logo,
+
+8
+00:00:14.940 --> 00:00:17.310
+but you can actually put your own logo
+
+9
+00:00:17.310 --> 00:00:19.005
+and choose your own primary accent color
+
+10
+00:00:19.005 --> 00:00:21.000
+as well as brand name.
+
+11
+00:00:21.000 --> 00:00:23.220
+To do so, it's supported only in some regions.
+
+12
+00:00:23.220 --> 00:00:24.602
+So, click on this if you don't have this.
+
+13
+00:00:24.602 --> 00:00:26.886
+And then you need to submit a request right now.
+
+14
+00:00:26.886 --> 00:00:30.540
+Enter all this information to AWS and click Submit,
+
+15
+00:00:30.540 --> 00:00:32.478
+and this is going to create a support ticket,
+
+16
+00:00:32.478 --> 00:00:34.590
+then it's going to update your branding.
+
+17
+00:00:34.590 --> 00:00:36.764
+So we won't do it right now, but you get the idea,
+
+18
+00:00:36.764 --> 00:00:37.841
+because the Service Catalog
+
+19
+00:00:37.841 --> 00:00:40.950
+is a portal for your own company.
+
+20
+00:00:40.950 --> 00:00:43.980
+So now, let's go and create products for Service Catalog
+
+21
+00:00:43.980 --> 00:00:45.750
+before we deploy these products.
+
+22
+00:00:45.750 --> 00:00:47.400
+So on the left-hand side, we click on Product List,
+
+23
+00:00:47.400 --> 00:00:49.980
+and then let's Create a Product.
+
+24
+00:00:49.980 --> 00:00:52.320
+And we have multiple options. We can use CloudFormation.
+
+25
+00:00:52.320 --> 00:00:53.520
+That's the one we will use
+
+26
+00:00:53.520 --> 00:00:56.220
+to use native AWS CloudFormation templates,
+
+27
+00:00:56.220 --> 00:00:57.780
+but you can also use Terraform
+
+28
+00:00:57.780 --> 00:00:59.970
+with this option or that option.
+
+29
+00:00:59.970 --> 00:01:01.200
+But right now, it's out of the scope,
+
+30
+00:01:01.200 --> 00:01:03.480
+so let's just use CloudFormation.
+
+31
+00:01:03.480 --> 00:01:07.075
+So this one is going to be called LAMP Stack,
+
+32
+00:01:07.075 --> 00:01:08.580
+and it's going to deploy.
+
+33
+00:01:08.580 --> 00:01:11.580
+The LAMP Stack, it's just a name for a specific stack.
+
+34
+00:01:11.580 --> 00:01:13.252
+And we're going to use CloudFormation,
+
+35
+00:01:13.252 --> 00:01:15.630
+so this is my product name
+
+36
+00:01:15.630 --> 00:01:18.690
+and the owner is whoever is publishing this product,
+
+37
+00:01:18.690 --> 00:01:20.820
+so I'm going to use Stephane.
+
+38
+00:01:20.820 --> 00:01:22.934
+Now for version details, I have several options.
+
+39
+00:01:22.934 --> 00:01:25.590
+I can specify a CloudFormation file,
+
+40
+00:01:25.590 --> 00:01:27.270
+and I will use a template file
+
+41
+00:01:27.270 --> 00:01:31.380
+that I will upload right now from my lamp-stack.json file,
+
+42
+00:01:31.380 --> 00:01:34.680
+which is in my code under Service Catalog.
+
+43
+00:01:34.680 --> 00:01:36.775
+So this is just a normal CloudFormation file,
+
+44
+00:01:36.775 --> 00:01:41.340
+and I will call this version First Version.
+
+45
+00:01:41.340 --> 00:01:42.562
+Okay, great.
+
+46
+00:01:42.562 --> 00:01:45.420
+So, next you can enter some support details.
+
+47
+00:01:45.420 --> 00:01:47.981
+So who within your company can be a point of contact
+
+48
+00:01:47.981 --> 00:01:50.580
+for support in case the tech is not working?
+
+49
+00:01:50.580 --> 00:01:51.480
+So this is very helpful,
+
+50
+00:01:51.480 --> 00:01:54.270
+again, from a self-service perspective.
+
+51
+00:01:54.270 --> 00:01:55.953
+So, let's create this product.
+
+52
+00:01:57.533 --> 00:01:58.740
+And it has been created.
+
+53
+00:01:58.740 --> 00:02:01.966
+Now, you need to add this product into a portfolio.
+
+54
+00:02:01.966 --> 00:02:04.680
+So, we have local and imported portfolios.
+
+55
+00:02:04.680 --> 00:02:06.840
+Imported is when you want to import from other accounts,
+
+56
+00:02:06.840 --> 00:02:09.360
+and local is to create it for your own accounts.
+
+57
+00:02:09.360 --> 00:02:11.190
+So let's create a portfolio,
+
+58
+00:02:11.190 --> 00:02:14.123
+and I'll call this one WebDevPortfolio
+
+59
+00:02:15.630 --> 00:02:18.660
+because this is just for web developers.
+
+60
+00:02:18.660 --> 00:02:19.620
+Who is the creator name?
+
+61
+00:02:19.620 --> 00:02:21.870
+So, again, it's going to be Stephane,
+
+62
+00:02:21.870 --> 00:02:24.630
+and let's create this portfolio.
+
+63
+00:02:24.630 --> 00:02:25.800
+Now, within the portfolio,
+
+64
+00:02:25.800 --> 00:02:28.140
+as you can see, I can add products.
+
+65
+00:02:28.140 --> 00:02:29.490
+So, we can create product from here
+
+66
+00:02:29.490 --> 00:02:31.830
+or add a product to a portfolio.
+
+67
+00:02:31.830 --> 00:02:34.140
+And I will use my LAMP Stack product
+
+68
+00:02:34.140 --> 00:02:35.740
+that I have created from before.
+
+69
+00:02:37.830 --> 00:02:40.953
+Okay, so now my product has been assigned to my portfolio.
+
+70
+00:02:42.180 --> 00:02:46.200
+And so now we want to provide access to this portfolio.
+
+71
+00:02:46.200 --> 00:02:48.390
+So for this, let's have a look at the different options.
+
+72
+00:02:48.390 --> 00:02:51.420
+So, Constraints tells how you can add constraints
+
+73
+00:02:51.420 --> 00:02:52.500
+to how products are launched.
+
+74
+00:02:52.500 --> 00:02:54.990
+It's a bit advanced, but you can explore on your own.
+
+75
+00:02:54.990 --> 00:02:55.964
+The idea is that you can restrict
+
+76
+00:02:55.964 --> 00:02:58.590
+the type of the options the users have
+
+77
+00:02:58.590 --> 00:03:02.160
+to make it even more simple for them or for extra safety.
+
+78
+00:03:02.160 --> 00:03:03.328
+Access is to give access
+
+79
+00:03:03.328 --> 00:03:06.990
+to specific IAM Principles and Principle Names.
+
+80
+00:03:06.990 --> 00:03:08.665
+Sharing is to share with other accounts.
+
+81
+00:03:08.665 --> 00:03:10.110
+And tags are for tagging.
+
+82
+00:03:10.110 --> 00:03:13.530
+So, let's go into Access and grant access.
+
+83
+00:03:13.530 --> 00:03:14.580
+So you have two options.
+
+84
+00:03:14.580 --> 00:03:15.990
+Either you choose IAM Principal,
+
+85
+00:03:15.990 --> 00:03:17.760
+this is for your own accounts,
+
+86
+00:03:17.760 --> 00:03:19.675
+or if you intend on sharing this with another account,
+
+87
+00:03:19.675 --> 00:03:22.350
+you would use Principal Name.
+
+88
+00:03:22.350 --> 00:03:23.729
+So let's use IAM principle,
+
+89
+00:03:23.729 --> 00:03:25.884
+and you have to choose which groups
+
+90
+00:03:25.884 --> 00:03:30.270
+or which users should have access to our portfolio.
+
+91
+00:03:30.270 --> 00:03:31.710
+So, for example, here I have Stephane,
+
+92
+00:03:31.710 --> 00:03:34.590
+I have test, and I have admin.
+
+93
+00:03:34.590 --> 00:03:36.030
+So you have to add them one by one,
+
+94
+00:03:36.030 --> 00:03:38.884
+so let's just add users and grant access.
+
+95
+00:03:38.884 --> 00:03:40.290
+In here, let's refresh.
+
+96
+00:03:40.290 --> 00:03:42.315
+You see you have two types of users that have access,
+
+97
+00:03:42.315 --> 00:03:45.022
+but also I could just add admins if I wanted to
+
+98
+00:03:45.022 --> 00:03:47.553
+and have also a group in there.
+
+99
+00:03:48.450 --> 00:03:49.590
+So now I have to log in
+
+100
+00:03:49.590 --> 00:03:51.570
+as my user Stephane for this account.
+
+101
+00:03:51.570 --> 00:03:54.540
+For this, I'm going to log out of this account.
+
+102
+00:03:54.540 --> 00:03:56.155
+So, I'm entering my account ID,
+
+103
+00:03:56.155 --> 00:03:58.740
+my IAM username, and my password,
+
+104
+00:03:58.740 --> 00:04:01.320
+and then I click on Sign In.
+
+105
+00:04:01.320 --> 00:04:03.930
+So now, I'm signed in AWS.
+
+106
+00:04:03.930 --> 00:04:06.873
+And so, I'm going to go into Service Catalog.
+
+107
+00:04:09.450 --> 00:04:12.210
+And in there on the left-hand side, under Products,
+
+108
+00:04:12.210 --> 00:04:15.030
+as you can see, now I have access to my LAMP Stack
+
+109
+00:04:15.030 --> 00:04:17.130
+because I was authorized before.
+
+110
+00:04:17.130 --> 00:04:19.560
+So let's launch this product
+
+111
+00:04:19.560 --> 00:04:20.720
+and we're going to enter product name,
+
+112
+00:04:20.720 --> 00:04:21.933
+so DemoLaunchProduct.
+
+113
+00:04:23.466 --> 00:04:24.870
+Product version is this one.
+
+114
+00:04:24.870 --> 00:04:26.190
+Database name is this.
+
+115
+00:04:26.190 --> 00:04:29.640
+Database password is going to be password123.
+
+116
+00:04:29.640 --> 00:04:32.190
+Again, password123.
+
+117
+00:04:32.190 --> 00:04:35.040
+DBUser is going to be Stephane.
+
+118
+00:04:35.040 --> 00:04:38.160
+The instance type is going to be t2.micro,
+
+119
+00:04:38.160 --> 00:04:39.420
+and SSHLocation is fine.
+
+120
+00:04:39.420 --> 00:04:41.520
+So, let's launch this product.
+
+121
+00:04:41.520 --> 00:04:42.720
+And behind the scene,
+
+122
+00:04:42.720 --> 00:04:45.210
+these were all CloudFormation parameters
+
+123
+00:04:45.210 --> 00:04:46.830
+that I've just entered.
+
+124
+00:04:46.830 --> 00:04:47.663
+And so, therefore,
+
+125
+00:04:47.663 --> 00:04:50.310
+this is going to provision a CloudFormation stack.
+
+126
+00:04:50.310 --> 00:04:53.370
+So, if I go into the CloudFormation service now
+
+127
+00:04:53.370 --> 00:04:55.740
+and have a look at it, as you can see,
+
+128
+00:04:55.740 --> 00:04:58.500
+this stack is in Create in Progress,
+
+129
+00:04:58.500 --> 00:05:02.490
+and this is SC for Service Catalog.
+
+130
+00:05:02.490 --> 00:05:05.790
+So let's just wait until this is fully created.
+
+131
+00:05:05.790 --> 00:05:07.110
+So my stack is not created,
+
+132
+00:05:07.110 --> 00:05:08.540
+but I'm going to close CloudFormation
+
+133
+00:05:08.540 --> 00:05:11.550
+so to show you what was happening behind the scenes,
+
+134
+00:05:11.550 --> 00:05:14.610
+and, actually, let's refresh this page in here.
+
+135
+00:05:14.610 --> 00:05:16.230
+And so, for my Provision product,
+
+136
+00:05:16.230 --> 00:05:17.520
+this is the one we have launched.
+
+137
+00:05:17.520 --> 00:05:18.570
+As you can see,
+
+138
+00:05:18.570 --> 00:05:21.870
+we have a look at the resources that were created,
+
+139
+00:05:21.870 --> 00:05:24.270
+and we have a look at the events,
+
+140
+00:05:24.270 --> 00:05:26.880
+and we have a link to the CloudFormation stack,
+
+141
+00:05:26.880 --> 00:05:29.520
+and we also have a link to the outputs of it.
+
+142
+00:05:29.520 --> 00:05:32.610
+So, the website URL is right here,
+
+143
+00:05:32.610 --> 00:05:35.073
+and if I click on it right here.
+
+144
+00:05:36.390 --> 00:05:37.353
+Let's proceed.
+
+145
+00:05:40.500 --> 00:05:42.450
+As you can see, this is the welcome page
+
+146
+00:05:42.450 --> 00:05:46.096
+for my CloudFormation sample page for LAMP Stack,
+
+147
+00:05:46.096 --> 00:05:49.080
+and this is just an example that shows that it works.
+
+148
+00:05:49.080 --> 00:05:50.910
+You don't need to do anything with it.
+
+149
+00:05:50.910 --> 00:05:53.991
+But we were able to successfully provision this product
+
+150
+00:05:53.991 --> 00:05:57.502
+using Service Catalog, which is awesome.
+
+151
+00:05:57.502 --> 00:06:00.270
+The outputs can also be found in this output tab.
+
+152
+00:06:00.270 --> 00:06:01.103
+And that's it.
+
+153
+00:06:01.103 --> 00:06:03.570
+So you've seen how to have products,
+
+154
+00:06:03.570 --> 00:06:04.590
+how to launch this product.
+
+155
+00:06:04.590 --> 00:06:06.540
+Now, of course, to have no cost,
+
+156
+00:06:06.540 --> 00:06:10.255
+please delete and terminate this product,
+
+157
+00:06:10.255 --> 00:06:14.670
+which is going to, in fact, delete the CloudFormation stack.
+
+158
+00:06:14.670 --> 00:06:16.350
+And you're going to be good to go.
+
+159
+00:06:16.350 --> 00:06:18.658
+So, just to summarize,
+
+160
+00:06:18.658 --> 00:06:20.880
+we have in the administration side,
+
+161
+00:06:20.880 --> 00:06:22.320
+the product list that we create,
+
+162
+00:06:22.320 --> 00:06:24.180
+and we group them into portfolios
+
+163
+00:06:24.180 --> 00:06:25.590
+where we manage permissions,
+
+164
+00:06:25.590 --> 00:06:27.600
+and then from the user side,
+
+165
+00:06:27.600 --> 00:06:29.984
+we can see the products that have been assigned to us
+
+166
+00:06:29.984 --> 00:06:31.584
+from a permissions perspective,
+
+167
+00:06:31.584 --> 00:06:34.830
+and then we can provision them as we wish.
+
+168
+00:06:34.830 --> 00:06:35.760
+And that's it.
+
+169
+00:06:35.760 --> 00:06:37.080
+So I hope you liked it,
+
+170
+00:06:37.080 --> 00:06:39.243
+and I will see you in the next lecture.
+

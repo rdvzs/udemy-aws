@@ -1,0 +1,254 @@
+WEBVTT
+
+1
+00:00:00.936 --> 00:00:03.030
+<v Stephane>Hello and welcome to the AWS Certified SyOps</v>
+
+2
+00:00:03.030 --> 00:00:07.020
+Administrator Associate Course of version SOA-C02.
+
+3
+00:00:07.020 --> 00:00:08.040
+My name is Stephane Maarek
+
+4
+00:00:08.040 --> 00:00:10.856
+and I will be your instructor for this course.
+
+5
+00:00:10.856 --> 00:00:12.750
+So we're going to prepare for the SOA-C02 exam,
+
+6
+00:00:12.750 --> 00:00:14.430
+which is a very challenging certification,
+
+7
+00:00:14.430 --> 00:00:17.760
+I think is the most difficult of all associate exam.
+
+8
+00:00:17.760 --> 00:00:20.790
+But this course will be long and hopefully very interesting.
+
+9
+00:00:20.790 --> 00:00:24.480
+And so I definitely recommend that you do this certification
+
+10
+00:00:24.480 --> 00:00:26.070
+after having done at least
+
+11
+00:00:26.070 --> 00:00:28.620
+the Solutions Architect Associate Certification
+
+12
+00:00:28.620 --> 00:00:31.710
+or the Certified Developer Associate Certification.
+
+13
+00:00:31.710 --> 00:00:33.870
+Now this course is structured as an advanced course,
+
+14
+00:00:33.870 --> 00:00:35.550
+and so some base knowledge is going to be needed
+
+15
+00:00:35.550 --> 00:00:37.860
+for all videos and so for all sections.
+
+16
+00:00:37.860 --> 00:00:39.600
+And so videos are going to be imported
+
+17
+00:00:39.600 --> 00:00:41.430
+from different courses of mine.
+
+18
+00:00:41.430 --> 00:00:42.810
+So there will be some videos from my
+
+19
+00:00:42.810 --> 00:00:44.760
+Certified Cloud Practitioner course,
+
+20
+00:00:44.760 --> 00:00:47.730
+which will be marked with the CCP tag.
+
+21
+00:00:47.730 --> 00:00:50.340
+There will be some with, they are coming
+
+22
+00:00:50.340 --> 00:00:52.230
+from the Solutions Architect Associate course
+
+23
+00:00:52.230 --> 00:00:54.543
+and it will be marked with the SAA tag,
+
+24
+00:00:55.560 --> 00:00:57.810
+and then some from the Certified Developer Associate course
+
+25
+00:00:57.810 --> 00:00:59.700
+marked with a DVA tag.
+
+26
+00:00:59.700 --> 00:01:01.620
+So the idea is that if you've done some
+
+27
+00:01:01.620 --> 00:01:02.453
+of my previous courses,
+
+28
+00:01:02.453 --> 00:01:04.470
+you know which lectures to skip,
+
+29
+00:01:04.470 --> 00:01:06.000
+and I've included this base knowledge
+
+30
+00:01:06.000 --> 00:01:08.310
+because not everyone comes with the same path.
+
+31
+00:01:08.310 --> 00:01:11.732
+Some people will have done some courses and others not.
+
+32
+00:01:11.732 --> 00:01:12.600
+So I've preferred to include
+
+33
+00:01:12.600 --> 00:01:14.280
+as much information as possible.
+
+34
+00:01:14.280 --> 00:01:16.710
+But if this is a video that you've already seen,
+
+35
+00:01:16.710 --> 00:01:18.030
+please feel free to skip it
+
+36
+00:01:18.030 --> 00:01:20.700
+or just re-watch it again to get a little refresher.
+
+37
+00:01:20.700 --> 00:01:22.053
+It never helps.
+
+38
+00:01:22.968 --> 00:01:26.407
+And so for the videos are specific to this course, well,
+
+39
+00:01:26.407 --> 00:01:27.240
+they will not be tagged at all.
+
+40
+00:01:27.240 --> 00:01:29.576
+They will not be marked with brackets.
+
+41
+00:01:29.576 --> 00:01:33.172
+So this will be all the CSAP specific videos in this course.
+
+42
+00:01:33.172 --> 00:01:34.968
+So now a little bit about me.
+
+43
+00:01:34.968 --> 00:01:35.801
+So my name is Stephane Maarek
+
+44
+00:01:35.801 --> 00:01:38.392
+and I will be your instructor for this course.
+
+45
+00:01:38.392 --> 00:01:41.250
+I have 11 AWS certifications, so all of them,
+
+46
+00:01:41.250 --> 00:01:42.900
+and I've worked with AWS for many years.
+
+47
+00:01:42.900 --> 00:01:44.460
+I've built websites, applications,
+
+48
+00:01:44.460 --> 00:01:46.837
+streaming platforms, and so on.
+
+49
+00:01:46.837 --> 00:01:49.814
+I've been teaching for almost seven years on Udemy
+
+50
+00:01:49.814 --> 00:01:51.270
+about certifications or services such as
+
+51
+00:01:51.270 --> 00:01:53.790
+CloudFormation, Lambda, and EC2.
+
+52
+00:01:53.790 --> 00:01:54.870
+As you can see,
+
+53
+00:01:54.870 --> 00:01:56.580
+I have over 2 million students that went
+
+54
+00:01:56.580 --> 00:01:57.603
+through my courses,
+
+55
+00:01:58.494 --> 00:02:00.090
+and everyone has been very successful with this course.
+
+56
+00:02:00.090 --> 00:02:03.123
+So I'm very happy that you're here following along with me.
+
+57
+00:02:04.264 --> 00:02:05.190
+So you can connect with me on social media.
+
+58
+00:02:05.190 --> 00:02:08.880
+You can follow me on LinkedIn, on Instagram, on Medium,
+
+59
+00:02:08.880 --> 00:02:11.943
+Twitter, and GitHub, and the links are here.
+
+60
+00:02:13.000 --> 00:02:14.010
+I thank you very much for choosing this course
+
+61
+00:02:14.010 --> 00:02:15.240
+and choosing to learn with me.
+
+62
+00:02:15.240 --> 00:02:17.190
+I hope you're as excited as I am
+
+63
+00:02:17.190 --> 00:02:19.383
+and I wish you a very happy learning.
+

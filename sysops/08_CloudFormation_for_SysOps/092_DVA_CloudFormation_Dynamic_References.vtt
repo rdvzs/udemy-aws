@@ -1,0 +1,378 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.730
+<v Instructor>So now let's talk about dynamic references</v>
+
+2
+00:00:02.730 --> 00:00:04.530
+in CloudFormation.
+
+3
+00:00:04.530 --> 00:00:08.820
+So we can store values in Systems Manager Parameter Store
+
+4
+00:00:08.820 --> 00:00:12.000
+or we can store secrets in Secrets Manager.
+
+5
+00:00:12.000 --> 00:00:14.730
+And we can actually reference these values
+
+6
+00:00:14.730 --> 00:00:17.370
+into your CloudFormation templates.
+
+7
+00:00:17.370 --> 00:00:18.810
+The idea is that CloudFormation
+
+8
+00:00:18.810 --> 00:00:22.890
+is going to retrieve the value of the specified references
+
+9
+00:00:22.890 --> 00:00:26.400
+during any create, update or delete operations.
+
+10
+00:00:26.400 --> 00:00:29.820
+For example, you may want to retrieve the master password
+
+11
+00:00:29.820 --> 00:00:33.690
+of a RDS Database Instance from Secrets Manager.
+
+12
+00:00:33.690 --> 00:00:36.090
+So here's an example. We have CloudFormation.
+
+13
+00:00:36.090 --> 00:00:39.960
+We're going to get either a value from the Parameter Store
+
+14
+00:00:39.960 --> 00:00:43.230
+or Secrets Manager by using the key.
+
+15
+00:00:43.230 --> 00:00:45.090
+So this supports three kinds.
+
+16
+00:00:45.090 --> 00:00:48.720
+It supports ssm for plaintext values stored
+
+17
+00:00:48.720 --> 00:00:52.170
+into the Systems Manager Parameter Store,
+
+18
+00:00:52.170 --> 00:00:56.010
+it supports ssm-secure for secure strings stored
+
+19
+00:00:56.010 --> 00:00:58.500
+in the Systems Manager Parameter Store,
+
+20
+00:00:58.500 --> 00:01:01.714
+and finally, it supports secretsmanager
+
+21
+00:01:01.714 --> 00:01:05.820
+for the secret value stored in the Secrets Manager service.
+
+22
+00:01:05.820 --> 00:01:08.580
+The syntax to resolve one of these values
+
+23
+00:01:08.580 --> 00:01:13.230
+is to use {{resolve:service-name:reference-key}}
+
+24
+00:01:13.230 --> 00:01:18.230
+So for SSM, we have {{resolve:ssm:parameter-name:version}}.
+
+25
+00:01:19.470 --> 00:01:20.400
+And here's the example.
+
+26
+00:01:20.400 --> 00:01:23.010
+So we have an Amazon S3 bucket
+
+27
+00:01:23.010 --> 00:01:25.320
+and for the access control settings,
+
+28
+00:01:25.320 --> 00:01:27.120
+we want to resolve it directly
+
+29
+00:01:27.120 --> 00:01:30.390
+from the SSM Parameter Store.
+
+30
+00:01:30.390 --> 00:01:31.980
+We have SSM Secure, so this time,
+
+31
+00:01:31.980 --> 00:01:34.080
+it's to store actual secrets value,
+
+32
+00:01:34.080 --> 00:01:36.690
+but from within the Parameter Store.
+
+33
+00:01:36.690 --> 00:01:37.920
+And so it's the same syntax.
+
+34
+00:01:37.920 --> 00:01:40.230
+But instead of ssm, you have ssm-secure
+
+35
+00:01:40.230 --> 00:01:43.200
+because we know that the value is encrypted.
+
+36
+00:01:43.200 --> 00:01:44.880
+And here is IAM user
+
+37
+00:01:44.880 --> 00:01:48.480
+and it turns out the password of this IAM user
+
+38
+00:01:48.480 --> 00:01:51.240
+is resolved from within the Parameter Store
+
+39
+00:01:51.240 --> 00:01:53.490
+as a secure parameter.
+
+40
+00:01:53.490 --> 00:01:55.710
+And finally, for Secrets Manager,
+
+41
+00:01:55.710 --> 00:01:58.620
+here we have an RDS Database Instance,
+
+42
+00:01:58.620 --> 00:02:02.850
+and we resolve the master username and the master password
+
+43
+00:02:02.850 --> 00:02:05.430
+directly from the Secrets Manager service
+
+44
+00:02:05.430 --> 00:02:09.420
+by using, again, the dynamic references in the syntax
+
+45
+00:02:09.420 --> 00:02:11.070
+that I just wrote above,
+
+46
+00:02:11.070 --> 00:02:13.173
+which is pretty long but very explicit.
+
+47
+00:02:14.010 --> 00:02:16.440
+So dynamic references are super important.
+
+48
+00:02:16.440 --> 00:02:18.690
+Now there is two other things you need to know
+
+49
+00:02:18.690 --> 00:02:21.390
+for the integration of CloudFormation
+
+50
+00:02:21.390 --> 00:02:24.810
+and Secrets Manager and RDS.
+
+51
+00:02:24.810 --> 00:02:28.410
+So it turns out that if you create a stack like this
+
+52
+00:02:28.410 --> 00:02:30.900
+which has a RDS Database cluster,
+
+53
+00:02:30.900 --> 00:02:33.030
+which is, for example, aurora,
+
+54
+00:02:33.030 --> 00:02:35.180
+and we have ManageMasterUserPassword: true,
+
+55
+00:02:37.940 --> 00:02:42.940
+that means that the secrets behind that aurora database
+
+56
+00:02:42.961 --> 00:02:45.392
+is going to be created implicitly.
+
+57
+00:02:45.392 --> 00:02:48.369
+That means that the RDS service itself
+
+58
+00:02:48.369 --> 00:02:51.590
+is going to create a secret in Secrets Manager
+
+59
+00:02:51.590 --> 00:02:56.490
+to manage the Master User Password and its rotation.
+
+60
+00:02:56.490 --> 00:03:00.630
+And so, to get the value of the secret ARN,
+
+61
+00:03:00.630 --> 00:03:02.910
+what you need to do is, in the output,
+
+62
+00:03:02.910 --> 00:03:06.210
+you use the GetAtt intrinsic function
+
+63
+00:03:06.210 --> 00:03:10.200
+to get the secret ARN from the Master User secret.
+
+64
+00:03:10.200 --> 00:03:11.820
+So here in this example,
+
+65
+00:03:11.820 --> 00:03:14.790
+CloudFormation only manages an RDS Database
+
+66
+00:03:14.790 --> 00:03:19.710
+and the RDS Database manages the secret in Secrets Manager.
+
+67
+00:03:19.710 --> 00:03:22.080
+The other way is to use a dynamic reference,
+
+68
+00:03:22.080 --> 00:03:23.280
+just like we saw.
+
+69
+00:03:23.280 --> 00:03:26.310
+So this time, we actually create a secret
+
+70
+00:03:26.310 --> 00:03:29.310
+from within our CloudFormation template.
+
+71
+00:03:29.310 --> 00:03:30.690
+And as you can see,
+
+72
+00:03:30.690 --> 00:03:34.830
+there is the GenerateStringKey for password,
+
+73
+00:03:34.830 --> 00:03:38.370
+which means that it's going to automatically generate
+
+74
+00:03:38.370 --> 00:03:42.360
+a secret password for us from within CloudFormation.
+
+75
+00:03:42.360 --> 00:03:44.640
+Next, we have our database instance,
+
+76
+00:03:44.640 --> 00:03:47.040
+which is going to reference the secret
+
+77
+00:03:47.040 --> 00:03:48.990
+in the RDS Database Instance
+
+78
+00:03:48.990 --> 00:03:51.000
+using the resolve function
+
+79
+00:03:51.000 --> 00:03:53.340
+we just saw through dynamic reference.
+
+80
+00:03:53.340 --> 00:03:55.320
+And so that means that the database instance
+
+81
+00:03:55.320 --> 00:03:59.040
+is going to leverage the secret out of Secrets Manager.
+
+82
+00:03:59.040 --> 00:04:01.950
+And finally, to link these two things together
+
+83
+00:04:01.950 --> 00:04:04.680
+and make sure there is a password rotation,
+
+84
+00:04:04.680 --> 00:04:07.470
+you create a secret RDS attachment
+
+85
+00:04:07.470 --> 00:04:10.620
+to let the database know that it should be linked
+
+86
+00:04:10.620 --> 00:04:12.810
+to this secret in Secrets Manager
+
+87
+00:04:12.810 --> 00:04:15.750
+so that the secret can rotate over time
+
+88
+00:04:15.750 --> 00:04:19.290
+and the RDS Database automatically updated.
+
+89
+00:04:19.290 --> 00:04:20.130
+And that's it!
+
+90
+00:04:20.130 --> 00:04:22.620
+You know everything about dynamic references
+
+91
+00:04:22.620 --> 00:04:25.380
+and CloudFormation with Parameter Store
+
+92
+00:04:25.380 --> 00:04:27.120
+and Secrets Manager.
+
+93
+00:04:27.120 --> 00:04:28.470
+So I hope you liked it,
+
+94
+00:04:28.470 --> 00:04:30.423
+and I will see you next lecture.
+

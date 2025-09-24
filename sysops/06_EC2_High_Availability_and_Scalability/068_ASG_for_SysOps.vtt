@@ -1,0 +1,666 @@
+WEBVTT
+
+1
+00:00:00.130 --> 00:00:01.080
+<v Instructor>Okay, so let's have a look</v>
+
+2
+00:00:01.080 --> 00:00:02.490
+at a few features you need to know,
+
+3
+00:00:02.490 --> 00:00:04.890
+going into the SysOps exam.
+
+4
+00:00:04.890 --> 00:00:07.640
+So, the lifecycle hooks is a way for you
+
+5
+00:00:07.640 --> 00:00:11.210
+to hook into the lifecycle of an ASG instances.
+
+6
+00:00:11.210 --> 00:00:14.700
+So that means, whenever it's being initiated and terminated.
+
+7
+00:00:14.700 --> 00:00:16.880
+So by default, as soon as you create an instance,
+
+8
+00:00:16.880 --> 00:00:19.010
+it goes into service right away.
+
+9
+00:00:19.010 --> 00:00:22.140
+So it goes from pending to in service.
+
+10
+00:00:22.140 --> 00:00:26.110
+But you can set up an lifecycle hook for that effect.
+
+11
+00:00:26.110 --> 00:00:28.570
+And so it can go into some extra steps.
+
+12
+00:00:28.570 --> 00:00:32.630
+So after pending, it can go into a pending wait state
+
+13
+00:00:32.630 --> 00:00:34.760
+as part of your lifecycle hook, okay?
+
+14
+00:00:34.760 --> 00:00:37.200
+And in that state, you can define a script
+
+15
+00:00:37.200 --> 00:00:39.200
+to run on the instance as they start.
+
+16
+00:00:39.200 --> 00:00:41.220
+For example, for some initial setup.
+
+17
+00:00:41.220 --> 00:00:43.220
+So when you're done with the initial setup
+
+18
+00:00:43.220 --> 00:00:44.610
+of your EC2 instances,
+
+19
+00:00:44.610 --> 00:00:47.570
+you make them go into a pending proceed state.
+
+20
+00:00:47.570 --> 00:00:49.360
+And then after that, they will be moved
+
+21
+00:00:49.360 --> 00:00:51.290
+into the in service states.
+
+22
+00:00:51.290 --> 00:00:53.060
+So this lifecycle hook really allows you
+
+23
+00:00:53.060 --> 00:00:55.250
+to perform some kind of custom logic
+
+24
+00:00:55.250 --> 00:00:58.800
+between the pending and the in service states.
+
+25
+00:00:58.800 --> 00:01:00.640
+Then, you can also perform some action
+
+26
+00:01:00.640 --> 00:01:02.890
+before the instance is terminated.
+
+27
+00:01:02.890 --> 00:01:03.800
+So for example,
+
+28
+00:01:03.800 --> 00:01:05.710
+you want to pause the instance
+
+29
+00:01:05.710 --> 00:01:08.410
+before they're terminated for troubleshooting,
+
+30
+00:01:08.410 --> 00:01:11.620
+and what this will give you is the opportunity,
+
+31
+00:01:11.620 --> 00:01:14.490
+for example, to take the logs out of your instances.
+
+32
+00:01:14.490 --> 00:01:16.660
+So let's say that instance goes from in service
+
+33
+00:01:16.660 --> 00:01:20.780
+to terminating, then in part of your lifecycle hook, okay,
+
+34
+00:01:20.780 --> 00:01:24.570
+you can go into the terminating wait state, okay.
+
+35
+00:01:24.570 --> 00:01:25.670
+And then when you're there,
+
+36
+00:01:25.670 --> 00:01:27.500
+you can execute again, some scripts,
+
+37
+00:01:27.500 --> 00:01:29.570
+or get some logs out, or do whatever you want,
+
+38
+00:01:29.570 --> 00:01:32.700
+or even get some information out, take an AMI,
+
+39
+00:01:32.700 --> 00:01:33.960
+whatever you want, really.
+
+40
+00:01:33.960 --> 00:01:35.490
+Or take an EBS snapshot,
+
+41
+00:01:35.490 --> 00:01:37.750
+and then go into terminating proceed.
+
+42
+00:01:37.750 --> 00:01:41.390
+And then after this, it will go into the terminated states.
+
+43
+00:01:41.390 --> 00:01:44.180
+And then, the use-cases for all these lifecycle hooks
+
+44
+00:01:44.180 --> 00:01:47.000
+is really to do cleanup, log extraction,
+
+45
+00:01:47.000 --> 00:01:50.120
+or special health checks, before your instance is started
+
+46
+00:01:50.120 --> 00:01:51.550
+and goes in service.
+
+47
+00:01:51.550 --> 00:01:55.030
+And to integrate the scripts into these lifecycle hooks,
+
+48
+00:01:55.030 --> 00:01:57.710
+there's EventBridge, SNS, and SQS.
+
+49
+00:01:57.710 --> 00:01:59.960
+So whenever there's a lifecycle event trigger,
+
+50
+00:01:59.960 --> 00:02:02.780
+one, a message can be sent to these three destinations.
+
+51
+00:02:02.780 --> 00:02:04.640
+And if it goes into even EventBridge, for example,
+
+52
+00:02:04.640 --> 00:02:06.180
+it can invoke the Lambda function
+
+53
+00:02:06.180 --> 00:02:08.700
+for you to perform any kind of scripting you want,
+
+54
+00:02:08.700 --> 00:02:10.130
+on top of things.
+
+55
+00:02:10.130 --> 00:02:13.270
+Okay, so very quickly, there's launch configuration,
+
+56
+00:02:13.270 --> 00:02:14.320
+and launch templates.
+
+57
+00:02:14.320 --> 00:02:17.080
+So, both allow you to specify the AMI,
+
+58
+00:02:17.080 --> 00:02:19.610
+the instance type, a key pair, security groups,
+
+59
+00:02:19.610 --> 00:02:21.760
+and any other parameters to launch your EC2 instance,
+
+60
+00:02:21.760 --> 00:02:23.440
+which has tags and user-data, okay.
+
+61
+00:02:23.440 --> 00:02:27.920
+And they're both used by your ASG to launch instances.
+
+62
+00:02:27.920 --> 00:02:29.240
+But you cannot edit them.
+
+63
+00:02:29.240 --> 00:02:31.910
+So whenever you wanted to create a new launch configuration,
+
+64
+00:02:31.910 --> 00:02:33.490
+you actually create a new one, and launch template,
+
+65
+00:02:33.490 --> 00:02:35.030
+you have to create a new version.
+
+66
+00:02:35.030 --> 00:02:38.070
+So launch configuration must be recreated every single time.
+
+67
+00:02:38.070 --> 00:02:40.100
+They're part of their legacy of AWS,
+
+68
+00:02:40.100 --> 00:02:41.890
+so they are not used anymore, really.
+
+69
+00:02:41.890 --> 00:02:43.630
+And launch templates are newer,
+
+70
+00:02:43.630 --> 00:02:44.980
+so they can have multiple versions,
+
+71
+00:02:44.980 --> 00:02:46.620
+which is a much cleaner way
+
+72
+00:02:46.620 --> 00:02:48.960
+of evolving your launch templates.
+
+73
+00:02:48.960 --> 00:02:50.600
+They can create parameter subsets,
+
+74
+00:02:50.600 --> 00:02:53.510
+so you can have launch templates
+
+75
+00:02:53.510 --> 00:02:55.480
+based on other launch templates
+
+76
+00:02:55.480 --> 00:02:57.790
+for configuration reuse and inheritance.
+
+77
+00:02:57.790 --> 00:03:01.140
+You can provision both on-demand and spot instances
+
+78
+00:03:01.140 --> 00:03:02.690
+as part of your launch templates,
+
+79
+00:03:02.690 --> 00:03:06.420
+or a mix, to have a fleet that's going to be optimized.
+
+80
+00:03:06.420 --> 00:03:08.370
+You cannot do this with launch configuration.
+
+81
+00:03:08.370 --> 00:03:10.620
+It supports placement groups, capacity reservation,
+
+82
+00:03:10.620 --> 00:03:13.350
+dedicated hosts, and multiple instance types.
+
+83
+00:03:13.350 --> 00:03:16.100
+And you can use the T2 unlimited burst feature.
+
+84
+00:03:16.100 --> 00:03:18.680
+So this is the recommended thing to use,
+
+85
+00:03:18.680 --> 00:03:21.040
+going forward by AWS.
+
+86
+00:03:21.040 --> 00:03:24.500
+Next, you can look at your SQS with auto-scaling.
+
+87
+00:03:24.500 --> 00:03:26.410
+So how to scale, and it's gonna group,
+
+88
+00:03:26.410 --> 00:03:28.570
+based on an SQS queue status.
+
+89
+00:03:28.570 --> 00:03:31.460
+So, in this example we have an SQS queue,
+
+90
+00:03:31.460 --> 00:03:35.020
+and a bunch of EC2 instances processing messages from it.
+
+91
+00:03:35.020 --> 00:03:37.740
+And what you want to do, is to scale your ASG
+
+92
+00:03:37.740 --> 00:03:40.620
+based on whether or not you have more messages
+
+93
+00:03:40.620 --> 00:03:41.820
+in your SQS queue.
+
+94
+00:03:41.820 --> 00:03:43.710
+So for this, you can create a CloudWatch metric.
+
+95
+00:03:43.710 --> 00:03:45.620
+For example, on the queue length.
+
+96
+00:03:45.620 --> 00:03:48.840
+So the metric name is approximate number of messages.
+
+97
+00:03:48.840 --> 00:03:51.310
+And whenever that queue length is too big,
+
+98
+00:03:51.310 --> 00:03:53.210
+that means you have too many messages to process.
+
+99
+00:03:53.210 --> 00:03:54.700
+Then you can create an alarm,
+
+100
+00:03:54.700 --> 00:03:56.760
+and that alarm will go into CloudWatch alarm,
+
+101
+00:03:56.760 --> 00:03:59.590
+and would be triggering a scaling policy
+
+102
+00:03:59.590 --> 00:04:00.883
+on your ASG.
+
+103
+00:04:02.540 --> 00:04:05.030
+Now for your ASG, your multiple health checks.
+
+104
+00:04:05.030 --> 00:04:07.180
+So, to make sure you have the high availability,
+
+105
+00:04:07.180 --> 00:04:09.540
+and you need to have at least two instances
+
+106
+00:04:09.540 --> 00:04:11.990
+in your ASG, okay, in multi-AZ ASG.
+
+107
+00:04:11.990 --> 00:04:13.130
+And then you can do some health checks,
+
+108
+00:04:13.130 --> 00:04:15.090
+such as the EC2 status checks.
+
+109
+00:04:15.090 --> 00:04:17.170
+So, to make sure that the underlying software
+
+110
+00:04:17.170 --> 00:04:19.450
+and hardware of your EC2 instances are still functioning,
+
+111
+00:04:19.450 --> 00:04:21.400
+which is enabled by default.
+
+112
+00:04:21.400 --> 00:04:23.230
+But also the ELB health check.
+
+113
+00:04:23.230 --> 00:04:25.420
+So this is to make sure that your application,
+
+114
+00:04:25.420 --> 00:04:30.400
+if linked to a target group and an ALB will be checked,
+
+115
+00:04:30.400 --> 00:04:33.150
+will be having its health checked by the ELB as well.
+
+116
+00:04:33.150 --> 00:04:35.030
+And in case, while the ELB figures out
+
+117
+00:04:35.030 --> 00:04:37.080
+that your instance is unhealthy,
+
+118
+00:04:37.080 --> 00:04:39.040
+then your ASG will terminate it.
+
+119
+00:04:39.040 --> 00:04:41.150
+And there's one last type of health check,
+
+120
+00:04:41.150 --> 00:04:42.700
+which is called the custom health check,
+
+121
+00:04:42.700 --> 00:04:44.450
+which is to send the instance health
+
+122
+00:04:44.450 --> 00:04:47.060
+to the ESG manually, or automatically,
+
+123
+00:04:47.060 --> 00:04:49.440
+using the CLI or the SDK.
+
+124
+00:04:49.440 --> 00:04:50.780
+So there is an API call for you
+
+125
+00:04:50.780 --> 00:04:53.340
+to set the instance health directly on your ASG.
+
+126
+00:04:53.340 --> 00:04:55.000
+That's why it's called the custom health check.
+
+127
+00:04:55.000 --> 00:04:59.110
+So, whenever a health check is not passing,
+
+128
+00:04:59.110 --> 00:05:01.320
+then the instance will be deemed unhealthy.
+
+129
+00:05:01.320 --> 00:05:02.700
+And a new instance will be launched
+
+130
+00:05:02.700 --> 00:05:05.157
+after terminating an unhealthy one.
+
+131
+00:05:05.157 --> 00:05:07.480
+There will not be a reboot of unhealthy hosts for you.
+
+132
+00:05:07.480 --> 00:05:11.020
+So, if the instance is failing its EC2 status check,
+
+133
+00:05:11.020 --> 00:05:12.740
+then it will not reboot the instance.
+
+134
+00:05:12.740 --> 00:05:15.160
+It will just terminate it and launch a new one.
+
+135
+00:05:15.160 --> 00:05:18.010
+So, good to know CLI is set instance health.
+
+136
+00:05:18.010 --> 00:05:20.030
+So this is the API call that's being used
+
+137
+00:05:20.030 --> 00:05:21.580
+for the custom health checks.
+
+138
+00:05:21.580 --> 00:05:24.180
+And terminate-instance-in-auto-scaling-group,
+
+139
+00:05:24.180 --> 00:05:26.450
+as well as another one that you should be using.
+
+140
+00:05:26.450 --> 00:05:29.150
+Finally, some common troubleshooting around your ASG.
+
+141
+00:05:29.150 --> 00:05:31.810
+So if you have already, some instances running in your ASG,
+
+142
+00:05:31.810 --> 00:05:34.530
+but you cannot launch any new EC2 instances,
+
+143
+00:05:34.530 --> 00:05:35.520
+it could be for example,
+
+144
+00:05:35.520 --> 00:05:37.690
+that while your auto-scaling group has reached a limit
+
+145
+00:05:37.690 --> 00:05:40.370
+that you set by your maximum capacity parameter,
+
+146
+00:05:40.370 --> 00:05:42.160
+in which case you have more instances,
+
+147
+00:05:42.160 --> 00:05:44.680
+you need to increase the maximum capacity
+
+148
+00:05:44.680 --> 00:05:46.930
+for you as you to scale out more.
+
+149
+00:05:46.930 --> 00:05:49.040
+Another also common problem
+
+150
+00:05:49.040 --> 00:05:50.960
+for new instances not being launched,
+
+151
+00:05:50.960 --> 00:05:53.580
+is that you have a capacity issue in the AZ.
+
+152
+00:05:53.580 --> 00:05:56.200
+And so therefore, because the ASG cannot find capacity,
+
+153
+00:05:56.200 --> 00:05:57.900
+then the instance cannot be launched.
+
+154
+00:05:57.900 --> 00:06:01.130
+Then, if launching a specific EC2 instance is failing,
+
+155
+00:06:01.130 --> 00:06:02.740
+maybe the security group does not exist.
+
+156
+00:06:02.740 --> 00:06:04.610
+So it might've been deleted in the backend.
+
+157
+00:06:04.610 --> 00:06:05.980
+So, have a look for this.
+
+158
+00:06:05.980 --> 00:06:07.230
+Or the key pair does not exist.
+
+159
+00:06:07.230 --> 00:06:09.000
+It might've been deleted as well.
+
+160
+00:06:09.000 --> 00:06:13.260
+And if there is issues for your ASG to launch instances
+
+161
+00:06:13.260 --> 00:06:16.420
+over 24 hours, then it will suspend the processes
+
+162
+00:06:16.420 --> 00:06:19.010
+of auto-scaling, which is a suspension that's automatic
+
+163
+00:06:19.010 --> 00:06:20.600
+for you to debug, okay?
+
+164
+00:06:20.600 --> 00:06:22.960
+So that's it for an overview of the things you need to know,
+
+165
+00:06:22.960 --> 00:06:24.560
+going into the exam as a SysOps.
+
+166
+00:06:24.560 --> 00:06:27.463
+I hope you liked it, and I will see you in the next lecture.
+

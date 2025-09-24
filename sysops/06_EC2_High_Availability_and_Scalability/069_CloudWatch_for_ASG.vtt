@@ -1,0 +1,150 @@
+WEBVTT
+
+1
+00:00:00.360 --> 00:00:02.330
+<v Tutor>So here are some important CloudWatch metrics</v>
+
+2
+00:00:02.330 --> 00:00:03.163
+for your ASG.
+
+3
+00:00:03.163 --> 00:00:05.820
+So, you have metrics that are collected every one minute
+
+4
+00:00:05.820 --> 00:00:08.030
+okay, and there are ASG-level metrics
+
+5
+00:00:08.030 --> 00:00:10.760
+so it's opt-in, and you have GroupMinisize,
+
+6
+00:00:10.760 --> 00:00:12.490
+GroupMaxsize, GroupDesiredCapacity,
+
+7
+00:00:12.490 --> 00:00:15.580
+which represents the value of these parameters over time.
+
+8
+00:00:15.580 --> 00:00:18.570
+Then you have GroupInServiceInstances, PendingInstances,
+
+9
+00:00:18.570 --> 00:00:22.120
+StandbyInstances, TerminatingInstances, and TotalInstances
+
+10
+00:00:22.120 --> 00:00:25.080
+and they represent the number of instances based
+
+11
+00:00:25.080 --> 00:00:27.370
+on the state of them in your ASG,
+
+12
+00:00:27.370 --> 00:00:29.260
+and to see these metrics as an opt-in
+
+13
+00:00:29.260 --> 00:00:31.840
+so you should enable metric collection at the ASG level
+
+14
+00:00:31.840 --> 00:00:32.830
+to do so.
+
+15
+00:00:32.830 --> 00:00:35.160
+And then you have EC2-level metrics okay.
+
+16
+00:00:35.160 --> 00:00:36.220
+And by default it's enabled
+
+17
+00:00:36.220 --> 00:00:38.870
+so you can start seeing the CPU Utilization,
+
+18
+00:00:38.870 --> 00:00:40.950
+the network in and out and so on.
+
+19
+00:00:40.950 --> 00:00:44.880
+You get basic monitoring at five minutes level granularity
+
+20
+00:00:44.880 --> 00:00:47.693
+or detailed monitoring at one minute granularity.
+
+21
+00:00:49.090 --> 00:00:50.810
+And so in your ASG,
+
+22
+00:00:50.810 --> 00:00:53.140
+you can enable group metrics collection
+
+23
+00:00:53.140 --> 00:00:54.980
+by clicking on this enable button
+
+24
+00:00:54.980 --> 00:00:57.270
+and they will start populating here so you can see,
+
+25
+00:00:57.270 --> 00:00:58.750
+no data is available right now
+
+26
+00:00:58.750 --> 00:01:00.440
+because I haven't done it yet,
+
+27
+00:01:00.440 --> 00:01:03.130
+but these could be very interesting to look at.
+
+28
+00:01:03.130 --> 00:01:05.650
+And then for the EC2 side, as we can see,
+
+29
+00:01:05.650 --> 00:01:08.270
+we get some metrics around the CPU utilization,
+
+30
+00:01:08.270 --> 00:01:10.750
+the disk read, disk writes if this was an instance store,
+
+31
+00:01:10.750 --> 00:01:12.550
+which it isn't so this is where they're
+
+32
+00:01:12.550 --> 00:01:13.650
+not sharing anything,
+
+33
+00:01:13.650 --> 00:01:16.230
+but network in and out is very interesting,
+
+34
+00:01:16.230 --> 00:01:19.270
+as well as the status check and so on okay.
+
+35
+00:01:19.270 --> 00:01:21.330
+So hopefully that's very helpful to you.
+
+36
+00:01:21.330 --> 00:01:23.250
+I hope you liked this lecture and I will see you
+
+37
+00:01:23.250 --> 00:01:24.250
+in the next lecture.
+

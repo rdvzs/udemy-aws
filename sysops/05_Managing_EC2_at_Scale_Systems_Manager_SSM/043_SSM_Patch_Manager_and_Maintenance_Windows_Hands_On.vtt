@@ -1,0 +1,534 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:02.280
+<v Instructor>So let's practice using patch manager.</v>
+
+2
+00:00:02.280 --> 00:00:04.740
+So on the left-hand side, you have patch manager
+
+3
+00:00:04.740 --> 00:00:06.660
+and then you are in this UI
+
+4
+00:00:06.660 --> 00:00:09.870
+and you have a button here to create a patch policy.
+
+5
+00:00:09.870 --> 00:00:11.850
+So here we are able to set up a policy
+
+6
+00:00:11.850 --> 00:00:15.270
+that will patch our EC2 instances and on-premises instances.
+
+7
+00:00:15.270 --> 00:00:18.273
+So we have a patch policy name, this is DemoPolicy.
+
+8
+00:00:20.430 --> 00:00:23.220
+And then we have the option to either do a scan
+
+9
+00:00:23.220 --> 00:00:25.050
+to have a look at all my instances
+
+10
+00:00:25.050 --> 00:00:27.540
+and see if some patches are missing,
+
+11
+00:00:27.540 --> 00:00:30.180
+or we can do a scan and install.
+
+12
+00:00:30.180 --> 00:00:32.070
+In which case, we have a scanning schedule.
+
+13
+00:00:32.070 --> 00:00:34.470
+For example, here, this is daily at 1:00 AM,
+
+14
+00:00:34.470 --> 00:00:37.170
+but you can customize it if you wanted to,
+
+15
+00:00:37.170 --> 00:00:39.420
+or, and then you have the installation schedule,
+
+16
+00:00:39.420 --> 00:00:41.130
+which is, for example, that once a week,
+
+17
+00:00:41.130 --> 00:00:43.380
+the patches will be installed on the Sunday.
+
+18
+00:00:43.380 --> 00:00:45.810
+And again, you can set up your own frequency
+
+19
+00:00:45.810 --> 00:00:47.310
+if you wanted to.
+
+20
+00:00:47.310 --> 00:00:48.360
+Also, you can set up
+
+21
+00:00:48.360 --> 00:00:51.390
+that the instances can be rebooted if need be.
+
+22
+00:00:51.390 --> 00:00:54.390
+And then you say, okay, what is the patch baseline
+
+23
+00:00:54.390 --> 00:00:57.270
+to have the patches released to my instances?
+
+24
+00:00:57.270 --> 00:00:58.920
+So we can use the recommended default,
+
+25
+00:00:58.920 --> 00:01:00.840
+which is the patch baseline defined
+
+26
+00:01:00.840 --> 00:01:04.140
+for all the operating systems supported by AWS.
+
+27
+00:01:04.140 --> 00:01:07.050
+Or you can create your own custom patch baseline.
+
+28
+00:01:07.050 --> 00:01:09.780
+So you would select an operating system,
+
+29
+00:01:09.780 --> 00:01:12.090
+and then for each OS, you would select a patch baseline.
+
+30
+00:01:12.090 --> 00:01:13.500
+Now, of course, you only have
+
+31
+00:01:13.500 --> 00:01:15.210
+one patch baseline right now per OS,
+
+32
+00:01:15.210 --> 00:01:19.410
+but you can create your custom baselines if you wanted to.
+
+33
+00:01:19.410 --> 00:01:21.750
+Then do you want to write the output
+
+34
+00:01:21.750 --> 00:01:25.980
+of the patches log to S3 and then the targets,
+
+35
+00:01:25.980 --> 00:01:27.090
+where do you want them?
+
+36
+00:01:27.090 --> 00:01:28.830
+So this could be in the current region,
+
+37
+00:01:28.830 --> 00:01:31.500
+or you can set up now so they can have all the regions
+
+38
+00:01:31.500 --> 00:01:32.760
+if you wanted to as targets
+
+39
+00:01:32.760 --> 00:01:36.360
+to have the patch policy in one place only.
+
+40
+00:01:36.360 --> 00:01:38.700
+And then where do you want to deploy the patches?
+
+41
+00:01:38.700 --> 00:01:42.420
+So is it under all managed nodes by systems manager,
+
+42
+00:01:42.420 --> 00:01:45.660
+or do you have specific instances you want
+
+43
+00:01:45.660 --> 00:01:48.150
+to manually deploy to, for example?
+
+44
+00:01:48.150 --> 00:01:49.110
+Then the rate control.
+
+45
+00:01:49.110 --> 00:01:52.170
+So how fast do you want to deploy the patch?
+
+46
+00:01:52.170 --> 00:01:56.820
+For example, on 10% of all the nodes at a time
+
+47
+00:01:56.820 --> 00:01:58.650
+to make sure it's a gradual release.
+
+48
+00:01:58.650 --> 00:02:00.480
+And also, what is the error threshold?
+
+49
+00:02:00.480 --> 00:02:02.370
+For example, if you have too many errors,
+
+50
+00:02:02.370 --> 00:02:04.260
+then you're going to stop the patches
+
+51
+00:02:04.260 --> 00:02:06.660
+to make sure that you don't get, for example,
+
+52
+00:02:06.660 --> 00:02:09.330
+your entire fleet of instance down.
+
+53
+00:02:09.330 --> 00:02:11.340
+Then do you want to have instance profile
+
+54
+00:02:11.340 --> 00:02:14.100
+to be able to apply these patches?
+
+55
+00:02:14.100 --> 00:02:16.740
+So IAM roles right here, security.
+
+56
+00:02:16.740 --> 00:02:20.340
+And finally, create, and you'll be good to go.
+
+57
+00:02:20.340 --> 00:02:21.210
+So I won't create it,
+
+58
+00:02:21.210 --> 00:02:24.810
+but this is how you would create a full patch policy.
+
+59
+00:02:24.810 --> 00:02:26.520
+Next, if you go back to patch manager
+
+60
+00:02:26.520 --> 00:02:28.350
+and click on start with an overview,
+
+61
+00:02:28.350 --> 00:02:30.840
+you're going to get into the UI of patch manager.
+
+62
+00:02:30.840 --> 00:02:32.010
+So here you have dashboards
+
+63
+00:02:32.010 --> 00:02:34.140
+where you can see all the information
+
+64
+00:02:34.140 --> 00:02:35.670
+around your instance management,
+
+65
+00:02:35.670 --> 00:02:38.880
+your compliance and so on, with some reports.
+
+66
+00:02:38.880 --> 00:02:41.850
+So here you get node patching details.
+
+67
+00:02:41.850 --> 00:02:43.170
+Here you have your patch baseline.
+
+68
+00:02:43.170 --> 00:02:46.680
+So for each operating system, what is the patch baseline?
+
+69
+00:02:46.680 --> 00:02:47.910
+So you can click on it
+
+70
+00:02:47.910 --> 00:02:50.580
+nd have a look at it in greater details.
+
+71
+00:02:50.580 --> 00:02:51.510
+Or if you wanted to,
+
+72
+00:02:51.510 --> 00:02:53.580
+you can create your own patch baseline.
+
+73
+00:02:53.580 --> 00:02:55.710
+And this is where you would define your specific rules
+
+74
+00:02:55.710 --> 00:02:58.500
+for that OS, the approval rules and the exception.
+
+75
+00:02:58.500 --> 00:03:00.090
+So this is where you really customize things,
+
+76
+00:03:00.090 --> 00:03:03.270
+and then you can apply it to the patch policy we saw before.
+
+77
+00:03:03.270 --> 00:03:04.260
+We have the patches,
+
+78
+00:03:04.260 --> 00:03:06.420
+so let's have a look at all the patches, for example,
+
+79
+00:03:06.420 --> 00:03:08.760
+by operating system, when they're released,
+
+80
+00:03:08.760 --> 00:03:10.980
+if they're important, and so on.
+
+81
+00:03:10.980 --> 00:03:13.890
+And then settings to have a look at the integration
+
+82
+00:03:13.890 --> 00:03:17.400
+between security hub and patch manager.
+
+83
+00:03:17.400 --> 00:03:19.110
+And finally, if you want
+
+84
+00:03:19.110 --> 00:03:20.730
+to have a look at maintenance windows,
+
+85
+00:03:20.730 --> 00:03:22.380
+they're right here on the left-hand side.
+
+86
+00:03:22.380 --> 00:03:23.280
+So under maintenance windows,
+
+87
+00:03:23.280 --> 00:03:26.100
+we can create a maintenance window to run our patches.
+
+88
+00:03:26.100 --> 00:03:28.807
+So I call it one DemoMaintenanceWindow.
+
+89
+00:03:32.010 --> 00:03:33.960
+And then we allow unregistered targets
+
+90
+00:03:33.960 --> 00:03:36.330
+to be under this window.
+
+91
+00:03:36.330 --> 00:03:38.640
+Where do we want, how far, how often do we want
+
+92
+00:03:38.640 --> 00:03:39.870
+to run this window?
+
+93
+00:03:39.870 --> 00:03:41.820
+So it could be a cron schedule, a rate,
+
+94
+00:03:41.820 --> 00:03:42.780
+or a cron/rate expression.
+
+95
+00:03:42.780 --> 00:03:47.610
+So we can say, daily, you start every day at zero, three,
+
+96
+00:03:47.610 --> 00:03:49.320
+so 3:00 AM, and it's going
+
+97
+00:03:49.320 --> 00:03:53.100
+to be a two-hour maintenance window, okay?
+
+98
+00:03:53.100 --> 00:03:55.590
+And stop initiating task while zero hour
+
+99
+00:03:55.590 --> 00:03:56.490
+before the window closed.
+
+100
+00:03:56.490 --> 00:03:59.190
+But you can say one hour if you wanted to.
+
+101
+00:03:59.190 --> 00:04:00.390
+You can say start time
+
+102
+00:04:00.390 --> 00:04:03.300
+and end time if you wanted to schedule.
+
+103
+00:04:03.300 --> 00:04:06.180
+And then we can create this maintenance window, okay?
+
+104
+00:04:06.180 --> 00:04:07.830
+And within this window, what we can do
+
+105
+00:04:07.830 --> 00:04:11.340
+is that we can register specific tasks that will be run.
+
+106
+00:04:11.340 --> 00:04:12.990
+And one of these tasks, for example,
+
+107
+00:04:12.990 --> 00:04:15.300
+is could be a run command.
+
+108
+00:04:15.300 --> 00:04:17.460
+So I'll call it patch.
+
+109
+00:04:17.460 --> 00:04:20.670
+And the document to apply itself
+
+110
+00:04:20.670 --> 00:04:23.583
+is going to be AWS run patch.
+
+111
+00:04:26.100 --> 00:04:28.260
+And we have the run patch baseline right here,
+
+112
+00:04:28.260 --> 00:04:32.070
+documents that we can register within our targets,
+
+113
+00:04:32.070 --> 00:04:35.400
+and we can select unregistered
+
+114
+00:04:35.400 --> 00:04:37.920
+or unregistered targets, for example, these three,
+
+115
+00:04:37.920 --> 00:04:40.020
+to apply this.
+
+116
+00:04:40.020 --> 00:04:42.750
+And obviously, thanks to the maintenance windows,
+
+117
+00:04:42.750 --> 00:04:46.290
+we can specify concurrency and the error threshold.
+
+118
+00:04:46.290 --> 00:04:47.123
+Hopefully this works.
+
+119
+00:04:47.123 --> 00:04:50.490
+Obviously, one target at a time and zero for errors,
+
+120
+00:04:50.490 --> 00:04:51.540
+and that should do the tricks.
+
+121
+00:04:51.540 --> 00:04:52.860
+So let's see if I can just go ahead
+
+122
+00:04:52.860 --> 00:04:54.750
+and click on register run command, here we go.
+
+123
+00:04:54.750 --> 00:04:57.000
+So now, that means that within my maintenance window,
+
+124
+00:04:57.000 --> 00:04:59.760
+this run patch baseline will be run,
+
+125
+00:04:59.760 --> 00:05:02.040
+and it will happen only during this window.
+
+126
+00:05:02.040 --> 00:05:03.510
+So this is just a way to do things.
+
+127
+00:05:03.510 --> 00:05:05.490
+I'm not going to go ahead with this maintenance window,
+
+128
+00:05:05.490 --> 00:05:08.910
+but I want to show you a high level of how patch manager
+
+129
+00:05:08.910 --> 00:05:10.560
+and the maintenance window we're working.
+
+130
+00:05:10.560 --> 00:05:13.500
+And to clean that up, you can delete this maintenance window
+
+131
+00:05:13.500 --> 00:05:14.640
+and you'll be good to go.
+
+132
+00:05:14.640 --> 00:05:16.080
+So that's it. I hope you liked it,
+
+133
+00:05:16.080 --> 00:05:18.030
+and I will see you in the next lecture.
+

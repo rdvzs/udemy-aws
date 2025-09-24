@@ -1,0 +1,122 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:02.040
+<v Instructor>So let's go on the left hand side</v>
+
+2
+00:00:02.040 --> 00:00:05.340
+under endpoint services to create a private link
+
+3
+00:00:05.340 --> 00:00:06.210
+for one of our services.
+
+4
+00:00:06.210 --> 00:00:07.980
+So if we do so, we have to name it
+
+5
+00:00:07.980 --> 00:00:09.350
+which was a log-end user type.
+
+6
+00:00:09.350 --> 00:00:10.960
+So, you will choose network
+
+7
+00:00:10.960 --> 00:00:13.660
+and then you will need to specify a network load balancer
+
+8
+00:00:13.660 --> 00:00:16.470
+in here that you have created from before.
+
+9
+00:00:16.470 --> 00:00:18.890
+So once the NLB is created,
+
+10
+00:00:18.890 --> 00:00:21.310
+then you can specify additional settings for your endpoint
+
+11
+00:00:21.310 --> 00:00:22.870
+whether or not you want acceptance.
+
+12
+00:00:22.870 --> 00:00:26.160
+And then the supported IP you want for that private link.
+
+13
+00:00:26.160 --> 00:00:27.950
+IPv4 or IPv6.
+
+14
+00:00:27.950 --> 00:00:28.920
+So we can't do this right now
+
+15
+00:00:28.920 --> 00:00:31.840
+but we would have here an endpoint service connected
+
+16
+00:00:31.840 --> 00:00:34.120
+to our network balancer.
+
+17
+00:00:34.120 --> 00:00:38.731
+And then to link it to your VPC, you would go on Endpoint.
+
+18
+00:00:38.731 --> 00:00:41.040
+You would create an endpoint.
+
+19
+00:00:41.040 --> 00:00:44.710
+And this time, instead of choosing AWS services as the type
+
+20
+00:00:44.710 --> 00:00:48.800
+of the endpoint, you would use a other endpoint services
+
+21
+00:00:48.800 --> 00:00:50.330
+and you would type the service name
+
+22
+00:00:50.330 --> 00:00:53.800
+you would've obtained from the previous step.
+
+23
+00:00:53.800 --> 00:00:56.360
+Then you would deploy this in the VPC.
+
+24
+00:00:56.360 --> 00:00:58.700
+For example, the demo VPC and voila.
+
+25
+00:00:58.700 --> 00:01:02.070
+You would have a private connection from one service
+
+26
+00:01:02.070 --> 00:01:04.730
+in another VPC to your own VPC privately
+
+27
+00:01:04.730 --> 00:01:07.800
+without either going to the public internet, okay?
+
+28
+00:01:07.800 --> 00:01:09.370
+That's it for this lecture, very theoretical
+
+29
+00:01:09.370 --> 00:01:10.760
+but I wanted to show you the options.
+
+30
+00:01:10.760 --> 00:01:13.760
+I hope you liked it, and I will see you in the next lecture.
+

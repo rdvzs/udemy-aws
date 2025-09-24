@@ -1,0 +1,326 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:01.920
+<v Instructor>So, let's try to really understand</v>
+
+2
+00:00:01.920 --> 00:00:05.760
+the difference between Cognito User Pools and Identity Pool.
+
+3
+00:00:05.760 --> 00:00:07.710
+But by now, you should have a good idea.
+
+4
+00:00:07.710 --> 00:00:11.880
+So, Cognito User Pools is used for authentication
+
+5
+00:00:11.880 --> 00:00:14.670
+which is identity verification.
+
+6
+00:00:14.670 --> 00:00:16.800
+So it's going to be a database of users
+
+7
+00:00:16.800 --> 00:00:19.020
+for your web and your mobile applications.
+
+8
+00:00:19.020 --> 00:00:21.060
+And then you have federation for logins,
+
+9
+00:00:21.060 --> 00:00:22.800
+so you can have social logins
+
+10
+00:00:22.800 --> 00:00:25.830
+such as Google, Facebook, Amazon, or OIDC,
+
+11
+00:00:25.830 --> 00:00:27.930
+or corporate logins using SAML.
+
+12
+00:00:27.930 --> 00:00:29.640
+But the idea is that Cognito User Pools
+
+13
+00:00:29.640 --> 00:00:31.350
+will be your database of users.
+
+14
+00:00:31.350 --> 00:00:34.830
+You can even customize the hosted UI for authentication,
+
+15
+00:00:34.830 --> 00:00:38.100
+include your logo, and you have integration with Lambda
+
+16
+00:00:38.100 --> 00:00:39.762
+during the authentication flow
+
+17
+00:00:39.762 --> 00:00:42.690
+for pre-, for post, and so on.
+
+18
+00:00:42.690 --> 00:00:44.790
+You can also adapt the sign-in experience
+
+19
+00:00:44.790 --> 00:00:46.620
+to different risk levels, for example,
+
+20
+00:00:46.620 --> 00:00:48.390
+with adaptive authentication.
+
+21
+00:00:48.390 --> 00:00:51.750
+So that MFA is used in due time.
+
+22
+00:00:51.750 --> 00:00:54.180
+Now for Cognito Identity Pools,
+
+23
+00:00:54.180 --> 00:00:57.450
+this is for authorization or access control.
+
+24
+00:00:57.450 --> 00:01:00.630
+And this is access control from within AWS.
+
+25
+00:01:00.630 --> 00:01:03.120
+So, for just the comparison,
+
+26
+00:01:03.120 --> 00:01:04.590
+if you have a mobile application
+
+27
+00:01:04.590 --> 00:01:06.900
+and you just wanna have a database of users,
+
+28
+00:01:06.900 --> 00:01:09.270
+you're good to go with Cognito User Pools.
+
+29
+00:01:09.270 --> 00:01:11.460
+But if you want these users to be able
+
+30
+00:01:11.460 --> 00:01:15.253
+to access your AWS environment, for example
+
+31
+00:01:15.253 --> 00:01:17.160
+a DynamoDB database or an S3 bucket,
+
+32
+00:01:17.160 --> 00:01:19.320
+then you need to give them authorization,
+
+33
+00:01:19.320 --> 00:01:22.800
+and this is achieved by using Cognito Identity Pools.
+
+34
+00:01:22.800 --> 00:01:26.430
+So, here you will obtain temporary credentials for users
+
+35
+00:01:26.430 --> 00:01:30.030
+and then the login to get these credentials,
+
+36
+00:01:30.030 --> 00:01:32.880
+the way to exchange a token for these credentials
+
+37
+00:01:32.880 --> 00:01:35.820
+can be done, again, by social, OIDC, SAML,
+
+38
+00:01:35.820 --> 00:01:39.300
+which can be confusing but also Cognito User Pools.
+
+39
+00:01:39.300 --> 00:01:43.050
+And so, the idea is that wherever your user is identified
+
+40
+00:01:43.050 --> 00:01:47.490
+then they can exchange this token for authorization.
+
+41
+00:01:47.490 --> 00:01:49.650
+So you can use Cognito Identity Pool
+
+42
+00:01:49.650 --> 00:01:51.390
+with Cognito User Pool,
+
+43
+00:01:51.390 --> 00:01:55.140
+but you can also use Cognito Identity Pool on its own.
+
+44
+00:01:55.140 --> 00:01:58.590
+The benefits also of using Cognito Identity Pools
+
+45
+00:01:58.590 --> 00:02:00.930
+is that the users can be unauthenticated,
+
+46
+00:02:00.930 --> 00:02:02.190
+they can be guests.
+
+47
+00:02:02.190 --> 00:02:06.630
+And then, once you have them set up in Identity Pool,
+
+48
+00:02:06.630 --> 00:02:07.830
+the users are going to be mapped
+
+49
+00:02:07.830 --> 00:02:09.900
+to specific IAM roles and policies,
+
+50
+00:02:09.900 --> 00:02:11.610
+and you can leverage policy variables,
+
+51
+00:02:11.610 --> 00:02:14.880
+which gives them access to, for example, a DynamoDB table
+
+52
+00:02:14.880 --> 00:02:16.560
+or an S3 Buckets.
+
+53
+00:02:16.560 --> 00:02:18.976
+So when you use Cognito User Pools
+
+54
+00:02:18.976 --> 00:02:21.330
+with Cognito Identity Pools,
+
+55
+00:02:21.330 --> 00:02:23.850
+you get authentication on the first hand
+
+56
+00:02:23.850 --> 00:02:26.490
+and authorization on the second hand.
+
+57
+00:02:26.490 --> 00:02:28.680
+And this is what I'm trying to represent in this diagram.
+
+58
+00:02:28.680 --> 00:02:31.710
+So, let's say you have a web and mobile application,
+
+59
+00:02:31.710 --> 00:02:34.380
+and you want to access your private S3 Bucket
+
+60
+00:02:34.380 --> 00:02:38.760
+and DynamoDB Table with a per user type of security.
+
+61
+00:02:38.760 --> 00:02:40.710
+So first, we'll do best practices.
+
+62
+00:02:40.710 --> 00:02:44.340
+We'll do a login and get token from Cognito User Pools.
+
+63
+00:02:44.340 --> 00:02:46.650
+So you'll have your internal database of users
+
+64
+00:02:46.650 --> 00:02:50.820
+and you can federate the login using SAML, OpenID Connect,
+
+65
+00:02:50.820 --> 00:02:53.010
+Google, or Facebook.
+
+66
+00:02:53.010 --> 00:02:56.280
+Then the user will have its identity will be verified.
+
+67
+00:02:56.280 --> 00:02:59.490
+What we can do is that we can exchange then this token
+
+68
+00:02:59.490 --> 00:03:02.850
+of your users for temporary AWS credentials.
+
+69
+00:03:02.850 --> 00:03:03.683
+And the way it works out
+
+70
+00:03:03.683 --> 00:03:06.690
+we can integrate Cognito Identity Pool directly
+
+71
+00:03:06.690 --> 00:03:08.700
+with Cognito User Pools.
+
+72
+00:03:08.700 --> 00:03:12.150
+Then we're going to get temporary credentials thanks to STS.
+
+73
+00:03:12.150 --> 00:03:14.280
+And then the web and mobile applications
+
+74
+00:03:14.280 --> 00:03:17.880
+can then issue API calls directly into AWS
+
+75
+00:03:17.880 --> 00:03:20.820
+and we'll have made sure from Cognito Identity Pool
+
+76
+00:03:20.820 --> 00:03:24.030
+that the IAM policy attached to these temporary credentials
+
+77
+00:03:24.030 --> 00:03:27.270
+allow them to perform exactly the action they need.
+
+78
+00:03:27.270 --> 00:03:29.190
+Okay, so by now you should really be able
+
+79
+00:03:29.190 --> 00:03:30.210
+to understand the differences
+
+80
+00:03:30.210 --> 00:03:32.700
+between user pools and identity pools.
+
+81
+00:03:32.700 --> 00:03:35.973
+I hope you liked it and I will see you in the next lecture.
+

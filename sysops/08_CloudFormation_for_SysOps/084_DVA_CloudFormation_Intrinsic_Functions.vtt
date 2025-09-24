@@ -1,0 +1,438 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:03.480
+<v Instructor>So now let's talk about intrinsic functions.</v>
+
+2
+00:00:03.480 --> 00:00:04.560
+So we've seen them before,
+
+3
+00:00:04.560 --> 00:00:05.610
+but I wanna give you a list
+
+4
+00:00:05.610 --> 00:00:09.510
+and the ones that are in blue are the one you must know.
+
+5
+00:00:09.510 --> 00:00:12.600
+So we have the Ref, the Get attribute function,
+
+6
+00:00:12.600 --> 00:00:16.890
+the FindInMap, ImportValue, Join, Sub
+
+7
+00:00:16.890 --> 00:00:19.380
+ForEach, ToJsonString.
+
+8
+00:00:19.380 --> 00:00:23.790
+The Conditions Function such as if, not, equals, et cetera.
+
+9
+00:00:23.790 --> 00:00:26.520
+The Base64, Cidr,
+
+10
+00:00:26.520 --> 00:00:30.300
+GetAZs, Select, Split, Transform, Length.
+
+11
+00:00:30.300 --> 00:00:32.700
+So all these are of course documented
+
+12
+00:00:32.700 --> 00:00:34.470
+on the CloudFormation websites
+
+13
+00:00:34.470 --> 00:00:37.590
+and so if one of them is not discussed in these slides
+
+14
+00:00:37.590 --> 00:00:38.730
+but you want to have a look at it,
+
+15
+00:00:38.730 --> 00:00:40.230
+please have a look online.
+
+16
+00:00:40.230 --> 00:00:42.300
+I'm going to discuss the most important ones,
+
+17
+00:00:42.300 --> 00:00:44.790
+especially from an exam perspective.
+
+18
+00:00:44.790 --> 00:00:47.730
+So the first one is the Ref function.
+
+19
+00:00:47.730 --> 00:00:49.620
+And so the Ref functions we can see
+
+20
+00:00:49.620 --> 00:00:51.510
+can be leveraged to get a reference.
+
+21
+00:00:51.510 --> 00:00:53.850
+It could be a reference to a parameter,
+
+22
+00:00:53.850 --> 00:00:56.130
+to return the value of this parameter,
+
+23
+00:00:56.130 --> 00:01:00.030
+or to resources to return the physical ID
+
+24
+00:01:00.030 --> 00:01:02.310
+of the underlying resource that has been created.
+
+25
+00:01:02.310 --> 00:01:04.800
+For example, an EC2 instance.
+
+26
+00:01:04.800 --> 00:01:07.590
+The shorthand is always with an exclamation point,
+
+27
+00:01:07.590 --> 00:01:09.960
+so !Ref.
+
+28
+00:01:09.960 --> 00:01:12.750
+And here is an example of how to use a Ref.
+
+29
+00:01:12.750 --> 00:01:15.720
+So here, we are creating a subnet
+
+30
+00:01:15.720 --> 00:01:19.650
+and we need to define the VPC to which the subnet belongs.
+
+31
+00:01:19.650 --> 00:01:22.347
+So we use the Ref to MyVPC
+
+32
+00:01:22.347 --> 00:01:25.320
+and MyVPC is either another resource
+
+33
+00:01:25.320 --> 00:01:27.033
+or it could be a parameter.
+
+34
+00:01:28.050 --> 00:01:31.020
+Then we have the GetAtt function.
+
+35
+00:01:31.020 --> 00:01:32.760
+So this is to get an attribute
+
+36
+00:01:32.760 --> 00:01:35.940
+and attributes are attached to any resource you create.
+
+37
+00:01:35.940 --> 00:01:38.670
+Now to know what attributes a resource has,
+
+38
+00:01:38.670 --> 00:01:41.010
+the best place to look at is the documentation.
+
+39
+00:01:41.010 --> 00:01:42.720
+So let's do it right now.
+
+40
+00:01:42.720 --> 00:01:45.291
+So here I am on the EC2 Instance
+
+41
+00:01:45.291 --> 00:01:48.060
+documentation page for CloudFormation.
+
+42
+00:01:48.060 --> 00:01:50.880
+And you have a look at return values.
+
+43
+00:01:50.880 --> 00:01:53.460
+So for return values, we have Ref.
+
+44
+00:01:53.460 --> 00:01:58.460
+So whenever we use a Ref to a resource of type EC2 instance,
+
+45
+00:01:58.800 --> 00:02:01.440
+what we're going to get is the instance ID,
+
+46
+00:02:01.440 --> 00:02:02.850
+for example this one.
+
+47
+00:02:02.850 --> 00:02:04.350
+So anytime we use Ref,
+
+48
+00:02:04.350 --> 00:02:07.140
+we're going to get the reference ID out of it.
+
+49
+00:02:07.140 --> 00:02:10.260
+But if we use GetAtt to get an attribute,
+
+50
+00:02:10.260 --> 00:02:12.540
+we have the option to get more information
+
+51
+00:02:12.540 --> 00:02:14.610
+out of this EC2 instance.
+
+52
+00:02:14.610 --> 00:02:17.550
+So here we have the AvailabilityZone.
+
+53
+00:02:17.550 --> 00:02:20.010
+So for example, we can know in which AZ
+
+54
+00:02:20.010 --> 00:02:23.340
+an instance was launched, for example, us-east-1b.
+
+55
+00:02:23.340 --> 00:02:24.990
+You get the Id again,
+
+56
+00:02:24.990 --> 00:02:28.140
+you could get the PrivateDNSName, the PrivateIp,
+
+57
+00:02:28.140 --> 00:02:30.900
+the PublicDNSName, and the PublicIp.
+
+58
+00:02:30.900 --> 00:02:34.860
+So while the Ref gives you usually a reference to the ID
+
+59
+00:02:34.860 --> 00:02:36.960
+of the resource you have created,
+
+60
+00:02:36.960 --> 00:02:39.930
+the GetAtt allows you to get more out of the resource
+
+61
+00:02:39.930 --> 00:02:44.520
+and you can only get what CloudFormation supports
+
+62
+00:02:44.520 --> 00:02:47.490
+in terms of attributes that are defined in here
+
+63
+00:02:47.490 --> 00:02:49.110
+in the documentation.
+
+64
+00:02:49.110 --> 00:02:52.260
+So here, if you want to get the AvailabilityZone
+
+65
+00:02:52.260 --> 00:02:53.940
+out of an EC2 instance,
+
+66
+00:02:53.940 --> 00:02:56.370
+first we define an EC2 instance
+
+67
+00:02:56.370 --> 00:02:59.340
+in our template and then we define for example,
+
+68
+00:02:59.340 --> 00:03:02.400
+an EBSVolume and because we want this volume
+
+69
+00:03:02.400 --> 00:03:06.210
+to be attached to our EC2 instance in the proper AZ,
+
+70
+00:03:06.210 --> 00:03:09.270
+we need to know the AZ of our EC2 instance.
+
+71
+00:03:09.270 --> 00:03:12.870
+And one way to do it is in the properties
+
+72
+00:03:12.870 --> 00:03:15.150
+under AvailabilityZone to use
+
+73
+00:03:15.150 --> 00:03:18.150
+the GetAtt intrinsic function
+
+74
+00:03:18.150 --> 00:03:22.140
+to reference the EC2Instance.AvailabilityZone.
+
+75
+00:03:22.140 --> 00:03:25.290
+The first part, EC2Instance is the name of the resource
+
+76
+00:03:25.290 --> 00:03:27.418
+as we defined it on the left hand side
+
+77
+00:03:27.418 --> 00:03:32.070
+and .AvailabilityZone is the name of the attribute
+
+78
+00:03:32.070 --> 00:03:34.350
+that is exposed by this resource.
+
+79
+00:03:34.350 --> 00:03:37.110
+So this is how we get the AZ out of it
+
+80
+00:03:37.110 --> 00:03:39.123
+and we input it into our EBSVolume.
+
+81
+00:03:40.320 --> 00:03:41.730
+We've seen FindInMap.
+
+82
+00:03:41.730 --> 00:03:44.310
+So again it's to get a value
+
+83
+00:03:44.310 --> 00:03:47.100
+directly from a specific key in a specific map.
+
+84
+00:03:47.100 --> 00:03:51.000
+So this was used when we had mappings, of course,
+
+85
+00:03:51.000 --> 00:03:55.290
+we have also seen the ImportValue intrinsic function.
+
+86
+00:03:55.290 --> 00:03:56.970
+This was used to import values
+
+87
+00:03:56.970 --> 00:04:00.300
+that were exported in other stacks.
+
+88
+00:04:00.300 --> 00:04:03.900
+So here's an example in which we create an EC2 instance
+
+89
+00:04:03.900 --> 00:04:05.820
+and we import the value
+
+90
+00:04:05.820 --> 00:04:09.450
+of a security group ID named SSHSecurityGroup.
+
+91
+00:04:09.450 --> 00:04:12.270
+And that security group was defined in another stack
+
+92
+00:04:12.270 --> 00:04:14.490
+and of course exported.
+
+93
+00:04:14.490 --> 00:04:16.770
+We have the Base64 function
+
+94
+00:04:16.770 --> 00:04:20.250
+to convert a string into a Base64 representation.
+
+95
+00:04:20.250 --> 00:04:22.350
+And the reason why we do so usually
+
+96
+00:04:22.350 --> 00:04:26.910
+is to pass data to the user data of an EC2 instance.
+
+97
+00:04:26.910 --> 00:04:29.160
+So we use the Base64 function
+
+98
+00:04:29.160 --> 00:04:32.490
+before we define the string of the user data
+
+99
+00:04:32.490 --> 00:04:34.110
+and automatically gets converted
+
+100
+00:04:34.110 --> 00:04:35.970
+and passed to your EC2 instance.
+
+101
+00:04:35.970 --> 00:04:38.940
+So that's probably one of the only usage of it.
+
+102
+00:04:38.940 --> 00:04:41.520
+We've seen the condition function,
+
+103
+00:04:41.520 --> 00:04:43.770
+so this is when we had a condition
+
+104
+00:04:43.770 --> 00:04:47.100
+to conditionally create resources and so on.
+
+105
+00:04:47.100 --> 00:04:49.830
+And so these intrinsic function can be used.
+
+106
+00:04:49.830 --> 00:04:53.100
+We have the End, the Equals, the If, the Not,
+
+107
+00:04:53.100 --> 00:04:55.086
+and the Or functions.
+
+108
+00:04:55.086 --> 00:04:57.480
+Okay, so that's it for intrinsic function.
+
+109
+00:04:57.480 --> 00:05:00.663
+I hope you liked it and I will see you in the next lecture.
+

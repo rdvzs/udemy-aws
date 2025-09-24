@@ -1,0 +1,346 @@
+WEBVTT
+
+1
+00:00:00.110 --> 00:00:01.950
+<v Instructor>Now let's have a look at what we need to know</v>
+
+2
+00:00:01.950 --> 00:00:04.630
+from a Memcached perspective regarding scaling.
+
+3
+00:00:04.630 --> 00:00:08.260
+So we have a Memcached Cluster and it has two cache nodes.
+
+4
+00:00:08.260 --> 00:00:12.240
+And as we can know, Memcached cluster can have up to one
+
+5
+00:00:12.240 --> 00:00:13.810
+between one and 40 nodes. Okay.
+
+6
+00:00:13.810 --> 00:00:15.010
+This is a soft limit.
+
+7
+00:00:15.010 --> 00:00:17.200
+That means that if you want to do horizontal scaling,
+
+8
+00:00:17.200 --> 00:00:19.720
+then you need to add and remove nodes from the cluster.
+
+9
+00:00:19.720 --> 00:00:21.230
+And then using auto-discovery
+
+10
+00:00:21.230 --> 00:00:22.910
+that I will show you in the next slide,
+
+11
+00:00:22.910 --> 00:00:25.090
+your app will be able to find these new notes.
+
+12
+00:00:25.090 --> 00:00:27.050
+So that means that if you want to do horizontal scaling,
+
+13
+00:00:27.050 --> 00:00:29.500
+well, you just add cache nodes to your cluster.
+
+14
+00:00:29.500 --> 00:00:32.650
+And you're good to go with the auto-discovery mechanism.
+
+15
+00:00:32.650 --> 00:00:34.790
+Now, in case of vertical scaling,
+
+16
+00:00:34.790 --> 00:00:38.700
+we can scale up and down to larger or smaller node types.
+
+17
+00:00:38.700 --> 00:00:41.360
+And the scale up process is essentially going to create
+
+18
+00:00:41.360 --> 00:00:43.820
+a new cluster with a new node type.
+
+19
+00:00:43.820 --> 00:00:45.650
+Then you're going to update your application
+
+20
+00:00:45.650 --> 00:00:47.510
+to use the new cluster's endpoints.
+
+21
+00:00:47.510 --> 00:00:49.400
+And then you're going to delete the old cluster.
+
+22
+00:00:49.400 --> 00:00:51.580
+This is something you have to do manually.
+
+23
+00:00:51.580 --> 00:00:52.800
+And then as you know,
+
+24
+00:00:52.800 --> 00:00:55.450
+Memcached does not have a backup system.
+
+25
+00:00:55.450 --> 00:00:58.300
+So that means that Memcached cluster or nodes
+
+26
+00:00:58.300 --> 00:01:00.576
+will start out without any data.
+
+27
+00:01:00.576 --> 00:01:02.470
+And that means your application has to
+
+28
+00:01:02.470 --> 00:01:03.890
+fill the data yourself. Okay.
+
+29
+00:01:03.890 --> 00:01:07.120
+So it's different than Redis that has a backup mechanism.
+
+30
+00:01:07.120 --> 00:01:09.670
+So if you ever look at the old Memcached cluster,
+
+31
+00:01:09.670 --> 00:01:12.280
+for example, it's running a smaller instance type,
+
+32
+00:01:12.280 --> 00:01:13.790
+we're going to have the application
+
+33
+00:01:13.790 --> 00:01:14.970
+connected to it right now,
+
+34
+00:01:14.970 --> 00:01:17.510
+but we're going to create a new Memcached cluster, okay,
+
+35
+00:01:17.510 --> 00:01:19.820
+with a larger cache type.
+
+36
+00:01:19.820 --> 00:01:22.800
+And as we know, this cluster will be empty.
+
+37
+00:01:22.800 --> 00:01:24.800
+So application side, we update the endpoints.
+
+38
+00:01:24.800 --> 00:01:27.510
+I mean that we stop being connected to the old cluster
+
+39
+00:01:27.510 --> 00:01:29.690
+and we started being connected to the new cluster
+
+40
+00:01:29.690 --> 00:01:32.240
+and our application, if it's well programmed,
+
+41
+00:01:32.240 --> 00:01:36.470
+will start populating data into this Memcached cluster.
+
+42
+00:01:36.470 --> 00:01:39.330
+Okay. Now from Memcached Auto Discovery, what it is?
+
+43
+00:01:39.330 --> 00:01:42.160
+Well, we have a cluster, say for example, with four nodes
+
+44
+00:01:42.160 --> 00:01:44.460
+and a client wants to connect to all of them.
+
+45
+00:01:44.460 --> 00:01:46.620
+So typically we need to have the client
+
+46
+00:01:46.620 --> 00:01:48.600
+reference each of these four nodes, okay,
+
+47
+00:01:48.600 --> 00:01:50.920
+using the DNS endpoints to connect to them.
+
+48
+00:01:50.920 --> 00:01:53.880
+But if we start adding new nodes over time,
+
+49
+00:01:53.880 --> 00:01:56.650
+how does the client get updated with all these nodes?
+
+50
+00:01:56.650 --> 00:01:58.470
+So there's auto-discovery
+
+51
+00:01:58.470 --> 00:02:01.350
+and the idea is that's all the cache nodes in the cluster
+
+52
+00:02:01.350 --> 00:02:03.240
+know about all the other nodes.
+
+53
+00:02:03.240 --> 00:02:04.860
+So that means that the client from a
+
+54
+00:02:04.860 --> 00:02:07.860
+con perspective will seamlessly connect to all of them.
+
+55
+00:02:07.860 --> 00:02:08.693
+So what that means is that
+
+56
+00:02:08.693 --> 00:02:11.260
+the clients will connect to the configuration endpoints,
+
+57
+00:02:11.260 --> 00:02:15.520
+will get back to the IP address of cache node one, okay.
+
+58
+00:02:15.520 --> 00:02:17.860
+Then it will connect directly into the Cache Node 1
+
+59
+00:02:17.860 --> 00:02:19.660
+and the Cache Node 1 will respond
+
+60
+00:02:19.660 --> 00:02:22.620
+with a metadata of the IP addresses
+
+61
+00:02:22.620 --> 00:02:24.690
+of all the nodes in the cluster
+
+62
+00:02:24.690 --> 00:02:27.050
+and the client can use that to connect to any nodes
+
+63
+00:02:27.050 --> 00:02:29.493
+to find the right data in your cluster.
+
+64
+00:02:30.720 --> 00:02:32.730
+Okay. Finally, some metrics to monitor,
+
+65
+00:02:32.730 --> 00:02:34.590
+which is very similar to Redis.
+
+66
+00:02:34.590 --> 00:02:35.750
+So we have Evictions,
+
+67
+00:02:35.750 --> 00:02:38.360
+which is the number of non-expired items
+
+68
+00:02:38.360 --> 00:02:40.510
+that the cache evicted to allow space for new writes
+
+69
+00:02:40.510 --> 00:02:43.840
+and so the solution is to use a new eviction policy
+
+70
+00:02:43.840 --> 00:02:45.640
+or to set up a larger node types
+
+71
+00:02:45.640 --> 00:02:47.670
+or to scale out by adding more nodes.
+
+72
+00:02:47.670 --> 00:02:49.930
+CPUUtilization, which is if it's too high,
+
+73
+00:02:49.930 --> 00:02:52.270
+well, you need to scale up to a larger node type
+
+74
+00:02:52.270 --> 00:02:54.670
+or to scale out by adding more nodes.
+
+75
+00:02:54.670 --> 00:02:56.330
+SwapUsage, same as before
+
+76
+00:02:56.330 --> 00:02:57.890
+and CurrConnection as well,
+
+77
+00:02:57.890 --> 00:02:59.070
+which has a number of connections,
+
+78
+00:02:59.070 --> 00:03:01.660
+between your application and Memcached.
+
+79
+00:03:01.660 --> 00:03:02.800
+So make sure that your application
+
+80
+00:03:02.800 --> 00:03:04.470
+does not have a bad behavior
+
+81
+00:03:04.470 --> 00:03:05.990
+to open too many connections.
+
+82
+00:03:05.990 --> 00:03:08.500
+And then FreeableMemory, which is the amount of free memory
+
+83
+00:03:08.500 --> 00:03:10.080
+on the host. Okay?
+
+84
+00:03:10.080 --> 00:03:11.110
+So hopefully that makes sense.
+
+85
+00:03:11.110 --> 00:03:13.480
+Hopefully you're good to go with Memcached now
+
+86
+00:03:13.480 --> 00:03:15.430
+and I will see you in the next lecture.
+

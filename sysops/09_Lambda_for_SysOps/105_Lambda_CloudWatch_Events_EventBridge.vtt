@@ -1,0 +1,58 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:01.070
+<v Instructor>So now let's talk</v>
+
+2
+00:00:01.070 --> 00:00:02.830
+about how we can integrate CloudWatch Events
+
+3
+00:00:02.830 --> 00:00:04.480
+or EventBridge with Lambda.
+
+4
+00:00:04.480 --> 00:00:05.770
+So two ways, number one is
+
+5
+00:00:05.770 --> 00:00:08.410
+to do a serverless CRON or a rate.
+
+6
+00:00:08.410 --> 00:00:10.360
+So we're going to create an EventBridge Rule,
+
+7
+00:00:10.360 --> 00:00:12.110
+and then every, for example, one hour
+
+8
+00:00:12.110 --> 00:00:15.200
+it's going to trigger our Lambda function to perform a task.
+
+9
+00:00:15.200 --> 00:00:17.650
+Or we can create a CodePipeline EventBridge Rule,
+
+10
+00:00:17.650 --> 00:00:21.030
+for example to detect every time CodePipeline State Changes,
+
+11
+00:00:21.030 --> 00:00:23.730
+and on State Changes is going to invoke
+
+12
+00:00:23.730 --> 00:00:25.600
+our Lambda function to perform a task.
+
+13
+00:00:25.600 --> 00:00:27.100
+Very simple idea, but let's see how
+
+14
+00:00:27.100 --> 00:00:28.550
+we can do it in the hands-on.
+

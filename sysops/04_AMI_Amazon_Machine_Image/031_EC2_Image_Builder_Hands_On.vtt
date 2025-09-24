@@ -1,0 +1,1254 @@
+WEBVTT
+
+1
+00:00:00.480 --> 00:00:04.480
+<v ->Okay, so let's practice using EC2 Image Builder.</v>
+
+2
+00:00:04.480 --> 00:00:07.720
+So let's go into the EC2 Image Builder service
+
+3
+00:00:07.720 --> 00:00:09.240
+and have a play with it.
+
+4
+00:00:09.240 --> 00:00:11.140
+So I'm into the service,
+
+5
+00:00:11.140 --> 00:00:13.830
+we can get started, we can create an image pipeline.
+
+6
+00:00:13.830 --> 00:00:15.400
+And so here's our first pipeline,
+
+7
+00:00:15.400 --> 00:00:19.800
+we'll call it my demo pipeline,
+
+8
+00:00:19.800 --> 00:00:22.770
+and then we have the option to create a build schedule.
+
+9
+00:00:22.770 --> 00:00:23.930
+So as we can see here,
+
+10
+00:00:23.930 --> 00:00:26.970
+we can schedule it to happen every week on Monday at 9:00 AM
+
+11
+00:00:26.970 --> 00:00:28.830
+and customize this.
+
+12
+00:00:28.830 --> 00:00:31.080
+And we can also say that you should run
+
+13
+00:00:31.080 --> 00:00:33.600
+at the scheduled time only if there are dependency updates,
+
+14
+00:00:33.600 --> 00:00:34.433
+these kind of things,
+
+15
+00:00:34.433 --> 00:00:36.410
+or just run every time based on schedule.
+
+16
+00:00:36.410 --> 00:00:38.010
+We can specify CRON expression,
+
+17
+00:00:38.010 --> 00:00:39.600
+but we'll just have it manual
+
+18
+00:00:39.600 --> 00:00:43.020
+because we're running it manually in this hands-on.
+
+19
+00:00:43.020 --> 00:00:44.400
+I'll click on next,
+
+20
+00:00:44.400 --> 00:00:45.860
+next we are to choose a recipe.
+
+21
+00:00:45.860 --> 00:00:47.320
+And so a recipe is a document
+
+22
+00:00:47.320 --> 00:00:51.390
+that defines how the source image is going to be customized.
+
+23
+00:00:51.390 --> 00:00:52.910
+And we need to create a new recipe
+
+24
+00:00:52.910 --> 00:00:54.950
+because we don't have one yet.
+
+25
+00:00:54.950 --> 00:00:56.150
+And here we have two options,
+
+26
+00:00:56.150 --> 00:00:57.670
+we can create either an AMI
+
+27
+00:00:57.670 --> 00:01:00.290
+out of the EC2 Image Builder service,
+
+28
+00:01:00.290 --> 00:01:01.360
+or a Docker image,
+
+29
+00:01:01.360 --> 00:01:02.500
+but for this instance,
+
+30
+00:01:02.500 --> 00:01:04.000
+we'll use an AMI.
+
+31
+00:01:04.000 --> 00:01:06.797
+Okay, so we'll call it MyDemoRecipe.
+
+32
+00:01:07.910 --> 00:01:11.240
+We need to provide a version, so 1.0.0,
+
+33
+00:01:11.240 --> 00:01:12.900
+and then we need to select a source image.
+
+34
+00:01:12.900 --> 00:01:16.340
+So we can either create one from images created by AWS,
+
+35
+00:01:16.340 --> 00:01:19.190
+or enter a custom AMI ID.
+
+36
+00:01:19.190 --> 00:01:21.850
+So we'll just go with managed images,
+
+37
+00:01:21.850 --> 00:01:24.250
+we'll choose Amazon Linux 2,
+
+38
+00:01:24.250 --> 00:01:26.520
+but we have different options as well as you can see.
+
+39
+00:01:26.520 --> 00:01:27.570
+We'll scroll down,
+
+40
+00:01:27.570 --> 00:01:29.250
+the image origins going to be quick start
+
+41
+00:01:29.250 --> 00:01:30.400
+from Amazon-managed,
+
+42
+00:01:30.400 --> 00:01:32.130
+and for the image ARN,
+
+43
+00:01:32.130 --> 00:01:37.030
+please choose Amazon Linux 2 x86, okay?
+
+44
+00:01:37.030 --> 00:01:39.440
+Do not choose ARM64, choose x86,
+
+45
+00:01:39.440 --> 00:01:41.880
+otherwise you will see an error later on.
+
+46
+00:01:41.880 --> 00:01:45.180
+Then we'll click on use the latest available OS version,
+
+47
+00:01:45.180 --> 00:01:46.220
+we'll scroll down,
+
+48
+00:01:46.220 --> 00:01:47.900
+and here is the interesting part,
+
+49
+00:01:47.900 --> 00:01:52.070
+so components, is how do we want to customize our image.
+
+50
+00:01:52.070 --> 00:01:54.550
+So we can apply the build components
+
+51
+00:01:54.550 --> 00:01:57.220
+that are pre-created by AWS,
+
+52
+00:01:57.220 --> 00:01:58.053
+for example,
+
+53
+00:01:58.053 --> 00:02:01.770
+if we wanted to have Java on our image and our AMI,
+
+54
+00:02:01.770 --> 00:02:03.400
+currently, there is no Java on Amazon Linux 2,
+
+55
+00:02:03.400 --> 00:02:07.300
+but if you select amazon-corretto-11-headless,
+
+56
+00:02:07.300 --> 00:02:11.260
+then you would have Java 11 being installed on your AMI,
+
+57
+00:02:11.260 --> 00:02:12.360
+so great.
+
+58
+00:02:12.360 --> 00:02:13.870
+And if you go to the next page,
+
+59
+00:02:13.870 --> 00:02:14.990
+there's another thing I want to install
+
+60
+00:02:14.990 --> 00:02:17.330
+which is aws-cli-version-2-linux,
+
+61
+00:02:17.330 --> 00:02:20.630
+so currently only version 1 is installed onto my AMI,
+
+62
+00:02:20.630 --> 00:02:22.940
+but if I wanted to upgrade it to version 2
+
+63
+00:02:22.940 --> 00:02:25.560
+then I could select this build component.
+
+64
+00:02:25.560 --> 00:02:28.560
+And it is possible for you to really create
+
+65
+00:02:28.560 --> 00:02:30.800
+your own build component if you wanted to,
+
+66
+00:02:30.800 --> 00:02:33.250
+if you wanted to customize and install your own application,
+
+67
+00:02:33.250 --> 00:02:34.640
+for example.
+
+68
+00:02:34.640 --> 00:02:36.680
+Okay, so let's scroll down,
+
+69
+00:02:36.680 --> 00:02:38.580
+and as we can see now we have the two components,
+
+70
+00:02:38.580 --> 00:02:41.770
+we can reorder in which order they're going to be installed,
+
+71
+00:02:41.770 --> 00:02:44.370
+so we can say first install the cli-version-2,
+
+72
+00:02:44.370 --> 00:02:48.780
+and then install the Java 11 from Amazon called corretto.
+
+73
+00:02:48.780 --> 00:02:50.720
+Okay next, how do we want to test
+
+74
+00:02:50.720 --> 00:02:53.150
+that the AMI is working, post-build?
+
+75
+00:02:53.150 --> 00:02:54.650
+We have different tests available here,
+
+76
+00:02:54.650 --> 00:02:55.980
+we can create our own test,
+
+77
+00:02:55.980 --> 00:02:56.920
+but I'm going to skip this
+
+78
+00:02:56.920 --> 00:02:59.673
+because we don't want to run any tests on our instance.
+
+79
+00:03:00.650 --> 00:03:02.193
+And then I will click on next.
+
+80
+00:03:03.060 --> 00:03:05.300
+Okay so next, how do we want to create this AMI?
+
+81
+00:03:05.300 --> 00:03:07.390
+On what type of EC2 instances
+
+82
+00:03:07.390 --> 00:03:10.130
+do we want to create our image?
+
+83
+00:03:10.130 --> 00:03:11.740
+And so, as we can see here,
+
+84
+00:03:11.740 --> 00:03:13.410
+we can either create the infrastructure
+
+85
+00:03:13.410 --> 00:03:14.560
+using service defaults,
+
+86
+00:03:14.560 --> 00:03:18.040
+or create a new infrastructure configuration.
+
+87
+00:03:18.040 --> 00:03:20.390
+So we want to select the last option,
+
+88
+00:03:20.390 --> 00:03:22.210
+and for this we'll create an IAM role,
+
+89
+00:03:22.210 --> 00:03:24.960
+so we'll call it the IAM role here,
+
+90
+00:03:24.960 --> 00:03:26.000
+see we have to choose?
+
+91
+00:03:26.000 --> 00:03:27.890
+Currently we have no results available,
+
+92
+00:03:27.890 --> 00:03:28.850
+but I'm going to go ahead
+
+93
+00:03:28.850 --> 00:03:31.630
+and create a new role for EC2 Image Builder.
+
+94
+00:03:31.630 --> 00:03:33.280
+So I'll click on create new role,
+
+95
+00:03:34.180 --> 00:03:36.084
+and I'm going to roles,
+
+96
+00:03:36.084 --> 00:03:37.890
+and I'll go and click on create role
+
+97
+00:03:37.890 --> 00:03:39.140
+for AWS service,
+
+98
+00:03:39.140 --> 00:03:41.960
+and this is going to be a role for EC2 instances.
+
+99
+00:03:41.960 --> 00:03:43.520
+Next, permissions.
+
+100
+00:03:43.520 --> 00:03:46.390
+And so here we need to start attaching policies.
+
+101
+00:03:46.390 --> 00:03:49.440
+So if I go back to the EC2 Image Builder,
+
+102
+00:03:49.440 --> 00:03:51.800
+and click on create using service defaults,
+
+103
+00:03:51.800 --> 00:03:52.990
+it says that here,
+
+104
+00:03:52.990 --> 00:03:55.140
+in order to have a correct role,
+
+105
+00:03:55.140 --> 00:03:57.630
+we need to create a role name with this role name.
+
+106
+00:03:57.630 --> 00:03:58.483
+So I'm going to,
+
+107
+00:03:59.480 --> 00:04:01.010
+sorry, the role name will have a letter,
+
+108
+00:04:01.010 --> 00:04:03.570
+but we need to attach some policies to it.
+
+109
+00:04:03.570 --> 00:04:06.120
+So we need to attach this first policy, called the
+
+110
+00:04:06.120 --> 00:04:07.363
+EC2InstanceProfileForImageBuilder.
+
+111
+00:04:09.220 --> 00:04:10.670
+We need to attach the second policy,
+
+112
+00:04:10.670 --> 00:04:12.450
+which is ECRContainerBuilds
+
+113
+00:04:12.450 --> 00:04:14.810
+if we wanted to create Docker images,
+
+114
+00:04:14.810 --> 00:04:17.310
+and the last, we need to attach is
+
+115
+00:04:17.310 --> 00:04:20.680
+the AmazonSSMManagedInstanceCore managed policy.
+
+116
+00:04:20.680 --> 00:04:21.776
+So all these things are necessary
+
+117
+00:04:21.776 --> 00:04:24.393
+for EC2 Image Builder to work.
+
+118
+00:04:25.240 --> 00:04:26.850
+I click on add tags,
+
+119
+00:04:26.850 --> 00:04:27.710
+next review,
+
+120
+00:04:27.710 --> 00:04:28.543
+and the role name,
+
+121
+00:04:28.543 --> 00:04:31.910
+I'm just going to give the default role name right here.
+
+122
+00:04:31.910 --> 00:04:33.000
+So I'm creating this role manually
+
+123
+00:04:33.000 --> 00:04:34.890
+because when I did create it automatically,
+
+124
+00:04:34.890 --> 00:04:36.300
+it wasn't correctly working,
+
+125
+00:04:36.300 --> 00:04:37.820
+so I wanna make sure this is done correctly.
+
+126
+00:04:37.820 --> 00:04:40.150
+So we have this create role dialogue,
+
+127
+00:04:40.150 --> 00:04:41.200
+and we're good to go.
+
+128
+00:04:42.460 --> 00:04:44.000
+Okay, so the role has been created.
+
+129
+00:04:44.000 --> 00:04:46.150
+Here's my EC2InstanceProfileForImageBuilder
+
+130
+00:04:47.370 --> 00:04:49.070
+that has been created.
+
+131
+00:04:49.070 --> 00:04:51.710
+And now in the image builder,
+
+132
+00:04:51.710 --> 00:04:52.543
+I'm going to click on
+
+133
+00:04:52.543 --> 00:04:55.150
+create new infrastructure configuration,
+
+134
+00:04:55.150 --> 00:04:56.363
+MyDemoInfra,
+
+135
+00:04:58.436 --> 00:05:00.270
+and the IM role I'm going to choose
+
+136
+00:05:00.270 --> 00:05:01.950
+is the role I just created right now
+
+137
+00:05:01.950 --> 00:05:04.810
+called the EC2InstanceProfileForImageBuilder.
+
+138
+00:05:04.810 --> 00:05:07.000
+Okay, now why do we do this?
+
+139
+00:05:07.000 --> 00:05:08.920
+Well, because we want to be able to customize
+
+140
+00:05:08.920 --> 00:05:10.837
+the AWS infrastructure,
+
+141
+00:05:10.837 --> 00:05:15.837
+and as such, I want the instant type to be of type t2.micro,
+
+142
+00:05:16.940 --> 00:05:18.160
+and the reason I'm doing this
+
+143
+00:05:18.160 --> 00:05:21.640
+is that I really want to be able to run
+
+144
+00:05:21.640 --> 00:05:23.520
+on the fridge here for this hands-on,
+
+145
+00:05:23.520 --> 00:05:25.280
+so that you don't pay any money.
+
+146
+00:05:25.280 --> 00:05:27.610
+If you were to run with the default settings,
+
+147
+00:05:27.610 --> 00:05:30.150
+then it will start launching an M5 large instance,
+
+148
+00:05:30.150 --> 00:05:32.350
+and you will have to pay for it, obviously.
+
+149
+00:05:32.350 --> 00:05:37.290
+As you can see, the t2.micro only has the x86 architecture,
+
+150
+00:05:37.290 --> 00:05:39.468
+it doesn't have the ARM64,
+
+151
+00:05:39.468 --> 00:05:42.640
+and this is why we've selected an AMI that was x86,
+
+152
+00:05:42.640 --> 00:05:44.123
+and not ARM64.
+
+153
+00:05:45.080 --> 00:05:48.730
+So next I scroll down, click on next.
+
+154
+00:05:48.730 --> 00:05:50.710
+And then for distribution settings,
+
+155
+00:05:50.710 --> 00:05:51.950
+we can either use the default,
+
+156
+00:05:51.950 --> 00:05:53.330
+and see that my AMI
+
+157
+00:05:53.330 --> 00:05:55.340
+is going to be distributed in the region I'm in,
+
+158
+00:05:55.340 --> 00:05:57.740
+which is eu-west-2.
+
+159
+00:05:57.740 --> 00:06:00.220
+But you could create a new distribution setting,
+
+160
+00:06:00.220 --> 00:06:02.570
+and in here you can set up region 1,
+
+161
+00:06:02.570 --> 00:06:04.360
+but also set up region 2,
+
+162
+00:06:04.360 --> 00:06:05.810
+and region 3, for example,
+
+163
+00:06:05.810 --> 00:06:08.260
+if you wanted to distribute your AMI
+
+164
+00:06:08.260 --> 00:06:09.950
+to different regions automatically,
+
+165
+00:06:09.950 --> 00:06:11.690
+which is really, really handy,
+
+166
+00:06:11.690 --> 00:06:12.860
+but for this hands-on,
+
+167
+00:06:12.860 --> 00:06:14.220
+we'll just use a service defaults,
+
+168
+00:06:14.220 --> 00:06:16.870
+and have the AMI in one region.
+
+169
+00:06:16.870 --> 00:06:18.230
+I'll click on next.
+
+170
+00:06:18.230 --> 00:06:20.600
+Everything does look good to me,
+
+171
+00:06:20.600 --> 00:06:23.033
+and I will click on create pipeline.
+
+172
+00:06:24.280 --> 00:06:26.090
+Okay, so everything has been created.
+
+173
+00:06:26.090 --> 00:06:27.990
+Now, let's click on our pipeline,
+
+174
+00:06:27.990 --> 00:06:29.190
+MyDemoPipeline,
+
+175
+00:06:29.190 --> 00:06:31.160
+and I'm going to do action,
+
+176
+00:06:31.160 --> 00:06:32.850
+and run pipeline,
+
+177
+00:06:32.850 --> 00:06:35.350
+and this is going to start an execution.
+
+178
+00:06:35.350 --> 00:06:38.350
+And so here I can click on view details,
+
+179
+00:06:38.350 --> 00:06:41.350
+and we're going to go straight into the execution.
+
+180
+00:06:41.350 --> 00:06:43.870
+So here is the output image, it is pending.
+
+181
+00:06:43.870 --> 00:06:45.163
+I'm going to click on it,
+
+182
+00:06:46.370 --> 00:06:47.330
+this opens a new screen,
+
+183
+00:06:47.330 --> 00:06:50.970
+and I'm going to wait until the build starts.
+
+184
+00:06:50.970 --> 00:06:53.800
+Okay, so my instance is now in the building stage,
+
+185
+00:06:53.800 --> 00:06:57.240
+and so that means that if I go into the EC2 service,
+
+186
+00:06:57.240 --> 00:06:58.830
+I should start seeing an EC2 instance.
+
+187
+00:06:58.830 --> 00:07:01.000
+So let's go into the EC2 service,
+
+188
+00:07:01.000 --> 00:07:04.040
+let's close this, go to instances,
+
+189
+00:07:04.040 --> 00:07:05.040
+close this again,
+
+190
+00:07:05.040 --> 00:07:08.920
+and we have here our build instance for my demo recipe.
+
+191
+00:07:08.920 --> 00:07:12.230
+So this instance was created by EC2 Image Builder,
+
+192
+00:07:12.230 --> 00:07:15.870
+and you can verify it by going into tags, for example.
+
+193
+00:07:15.870 --> 00:07:18.430
+And you can see that the created by tag
+
+194
+00:07:18.430 --> 00:07:20.460
+is for EC2 Image Builder,
+
+195
+00:07:20.460 --> 00:07:22.200
+the Ec2ImageBuilderArn
+
+196
+00:07:22.200 --> 00:07:24.073
+corresponds to the image we created,
+
+197
+00:07:25.414 --> 00:07:27.350
+and the name is build instance for my demo recipe.
+
+198
+00:07:27.350 --> 00:07:31.100
+So some stuff is happening right now on my instance,
+
+199
+00:07:31.100 --> 00:07:34.660
+as we can see the IAM role for my instance
+
+200
+00:07:34.660 --> 00:07:36.970
+is EC2InstanceProfileForImageBuilder,
+
+201
+00:07:36.970 --> 00:07:40.880
+which is the role that we have created just before
+
+202
+00:07:40.880 --> 00:07:42.730
+that contains the three policies
+
+203
+00:07:42.730 --> 00:07:44.790
+that we've attached manually to make sure
+
+204
+00:07:44.790 --> 00:07:46.700
+that everything was working correctly.
+
+205
+00:07:46.700 --> 00:07:48.180
+So what I'm going to do now
+
+206
+00:07:48.180 --> 00:07:49.610
+is just pause the video,
+
+207
+00:07:49.610 --> 00:07:51.610
+and wait for the build stage to be done.
+
+208
+00:07:52.550 --> 00:07:53.990
+So I just refreshed the page,
+
+209
+00:07:53.990 --> 00:07:56.490
+and the status is now testing.
+
+210
+00:07:56.490 --> 00:07:58.630
+So let's go have a look at what's happening here.
+
+211
+00:07:58.630 --> 00:08:01.630
+So if I go into my instances and refresh this,
+
+212
+00:08:01.630 --> 00:08:05.410
+we can see that my builder instance has now been terminated,
+
+213
+00:08:05.410 --> 00:08:07.960
+because we have built the AMI from it,
+
+214
+00:08:07.960 --> 00:08:10.310
+and my test instance is now running.
+
+215
+00:08:10.310 --> 00:08:13.500
+And if I look at my test instance and scroll down,
+
+216
+00:08:13.500 --> 00:08:15.670
+we can see that the AMI right here,
+
+217
+00:08:15.670 --> 00:08:17.127
+which I'm going to click on,
+
+218
+00:08:17.127 --> 00:08:20.190
+the AMI is a new AMI that has been created.
+
+219
+00:08:20.190 --> 00:08:22.470
+And the AMI name is MyDemoRecipe,
+
+220
+00:08:22.470 --> 00:08:25.220
+and contains the timestamp of when it was created.
+
+221
+00:08:25.220 --> 00:08:27.720
+So now the test instance is actually launched
+
+222
+00:08:27.720 --> 00:08:30.580
+from this new AMI, and is being tested.
+
+223
+00:08:30.580 --> 00:08:33.510
+So this AMI, as we can see if we go to the tags,
+
+224
+00:08:33.510 --> 00:08:37.300
+has been created by the EC2 Image Builder service,
+
+225
+00:08:37.300 --> 00:08:39.560
+and we can see the ARN right here as well.
+
+226
+00:08:39.560 --> 00:08:40.393
+So this is quite cool,
+
+227
+00:08:40.393 --> 00:08:41.930
+because now we can see that the AMI
+
+228
+00:08:41.930 --> 00:08:43.590
+has been automatically created,
+
+229
+00:08:43.590 --> 00:08:45.830
+and now it's in the test phase.
+
+230
+00:08:45.830 --> 00:08:48.330
+So let's wait a little bit until the test is done.
+
+231
+00:08:49.320 --> 00:08:51.110
+Okay, so now the status is distributing,
+
+232
+00:08:51.110 --> 00:08:53.290
+so the test phase is now done,
+
+233
+00:08:53.290 --> 00:08:56.340
+so there was no test being run on our AMI, obviously,
+
+234
+00:08:56.340 --> 00:08:57.572
+but if they were any tests,
+
+235
+00:08:57.572 --> 00:09:00.280
+then the test instance would've been running this test.
+
+236
+00:09:00.280 --> 00:09:03.640
+So now the instant test is also being terminated
+
+237
+00:09:03.640 --> 00:09:05.290
+which is good.
+
+238
+00:09:05.290 --> 00:09:07.520
+And then we are in the last stage
+
+239
+00:09:07.520 --> 00:09:09.230
+which is the distribution setting.
+
+240
+00:09:09.230 --> 00:09:10.340
+So if we look at it,
+
+241
+00:09:10.340 --> 00:09:12.300
+right now we only distribute to one region,
+
+242
+00:09:12.300 --> 00:09:13.410
+which is eu-west-2,
+
+243
+00:09:13.410 --> 00:09:15.180
+which is where the AMI was created,
+
+244
+00:09:15.180 --> 00:09:16.980
+so nothing much is going to happen.
+
+245
+00:09:16.980 --> 00:09:19.370
+But if we were distributing that image
+
+246
+00:09:19.370 --> 00:09:21.220
+into the United States,
+
+247
+00:09:21.220 --> 00:09:24.040
+into Southeast Asia, all these kind of places,
+
+248
+00:09:24.040 --> 00:09:26.961
+then the distribution would happen right now.
+
+249
+00:09:26.961 --> 00:09:29.830
+Okay, so my image is now available,
+
+250
+00:09:29.830 --> 00:09:30.663
+and this was good.
+
+251
+00:09:30.663 --> 00:09:31.600
+So if you go to images,
+
+252
+00:09:31.600 --> 00:09:34.290
+we can see that it was created, so perfect.
+
+253
+00:09:34.290 --> 00:09:36.390
+So let's just make sure that it actually did
+
+254
+00:09:36.390 --> 00:09:37.640
+what I wanted to do.
+
+255
+00:09:37.640 --> 00:09:40.160
+So if I go and launch an instance,
+
+256
+00:09:40.160 --> 00:09:41.520
+so I will call this one,
+
+257
+00:09:41.520 --> 00:09:44.320
+Test from AMI,
+
+258
+00:09:44.320 --> 00:09:46.380
+and I will choose my AMIs,
+
+259
+00:09:46.380 --> 00:09:48.550
+and I will choose the demo recipe
+
+260
+00:09:48.550 --> 00:09:52.810
+that I just created using the EC2 Image Builder service.
+
+261
+00:09:52.810 --> 00:09:53.670
+I will scroll down,
+
+262
+00:09:53.670 --> 00:09:55.430
+I will choose t2.micro,
+
+263
+00:09:55.430 --> 00:09:57.160
+I will proceed without a key pair,
+
+264
+00:09:57.160 --> 00:09:59.100
+because I will use EC2 instance connect
+
+265
+00:09:59.100 --> 00:10:00.253
+to run some commands.
+
+266
+00:10:01.220 --> 00:10:02.480
+Then for network settings,
+
+267
+00:10:02.480 --> 00:10:03.713
+I'm going to edit it,
+
+268
+00:10:07.510 --> 00:10:09.420
+and then choose an existing security group,
+
+269
+00:10:09.420 --> 00:10:12.030
+I'll choose my Launch-wizard-1.
+
+270
+00:10:12.030 --> 00:10:15.680
+So we can ssh into our instance, scroll down,
+
+271
+00:10:15.680 --> 00:10:17.650
+and actually none of the rest is necessary,
+
+272
+00:10:17.650 --> 00:10:19.940
+so I'll just click on launch instance,
+
+273
+00:10:19.940 --> 00:10:20.890
+and I'm good to go.
+
+274
+00:10:24.000 --> 00:10:25.713
+So my instance is now launching.
+
+275
+00:10:26.620 --> 00:10:27.930
+So my instance is now running,
+
+276
+00:10:27.930 --> 00:10:29.390
+so I'll click on connect,
+
+277
+00:10:29.390 --> 00:10:31.990
+I will use the EC2 instance connect service
+
+278
+00:10:31.990 --> 00:10:33.370
+and the username has to change,
+
+279
+00:10:33.370 --> 00:10:35.260
+it is ec2-user,
+
+280
+00:10:35.260 --> 00:10:36.560
+because we created a custom AMI,
+
+281
+00:10:36.560 --> 00:10:38.003
+we need to tell AWS
+
+282
+00:10:38.003 --> 00:10:40.950
+that we still want to use the ec2-user user
+
+283
+00:10:40.950 --> 00:10:43.143
+which is coming from Amazon Linux 2.
+
+284
+00:10:45.360 --> 00:10:47.970
+So I am into my image,
+
+285
+00:10:47.970 --> 00:10:49.300
+and we can verify two things.
+
+286
+00:10:49.300 --> 00:10:52.870
+Number one, that the aws-cli version 2 was installed,
+
+287
+00:10:52.870 --> 00:10:54.920
+so as we can see, it says version 2.7.0,
+
+288
+00:10:54.920 --> 00:10:56.890
+so indeed version 2 was installed,
+
+289
+00:10:56.890 --> 00:10:58.230
+which is an upgrade,
+
+290
+00:10:58.230 --> 00:11:02.450
+and then we can also verify that Java was installed.
+
+291
+00:11:02.450 --> 00:11:03.810
+And for this, we can verify indeed
+
+292
+00:11:03.810 --> 00:11:06.580
+that's we are running the openjdk version 11,
+
+293
+00:11:06.580 --> 00:11:09.740
+which is Amazon Corretto 11.
+
+294
+00:11:09.740 --> 00:11:11.700
+So our EC2 Image Builder works,
+
+295
+00:11:11.700 --> 00:11:14.700
+and we exactly had the output we wanted.
+
+296
+00:11:14.700 --> 00:11:17.105
+So now just to clean up what we have,
+
+297
+00:11:17.105 --> 00:11:21.040
+let's just terminate our instance.
+
+298
+00:11:21.040 --> 00:11:24.400
+Next, what you can do is go into your AMIs,
+
+299
+00:11:24.400 --> 00:11:29.390
+and from here, you can actually deregister your AMI,
+
+300
+00:11:29.390 --> 00:11:31.330
+and finally, in snapshots,
+
+301
+00:11:31.330 --> 00:11:32.993
+you can take your snapshots.
+
+302
+00:11:33.990 --> 00:11:36.200
+And I got two, 'cause I got different ones
+
+303
+00:11:36.200 --> 00:11:37.820
+but take the snapshot that was created
+
+304
+00:11:37.820 --> 00:11:39.980
+by the EC2 Image Builder,
+
+305
+00:11:39.980 --> 00:11:41.610
+which is this one,
+
+306
+00:11:41.610 --> 00:11:44.610
+and then action, delete snapshots,
+
+307
+00:11:44.610 --> 00:11:46.300
+and you are good to go.
+
+308
+00:11:46.300 --> 00:11:48.170
+Okay, you can leave the pipeline running
+
+309
+00:11:48.170 --> 00:11:50.590
+because while this is a manual pipeline,
+
+310
+00:11:50.590 --> 00:11:52.800
+so it's not going to run on its own.
+
+311
+00:11:52.800 --> 00:11:53.740
+So that's it for this lecture,
+
+312
+00:11:53.740 --> 00:11:54.600
+I hope you liked it,
+
+313
+00:11:54.600 --> 00:11:56.550
+and I will see you in the next lecture.
+

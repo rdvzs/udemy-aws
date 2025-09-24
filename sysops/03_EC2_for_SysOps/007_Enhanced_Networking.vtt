@@ -1,0 +1,434 @@
+WEBVTT
+
+1
+00:00:00.480 --> 00:00:01.560
+<v Instructor>Okay, so now let's talk</v>
+
+2
+00:00:01.560 --> 00:00:03.300
+about enhanced networking.
+
+3
+00:00:03.300 --> 00:00:06.030
+So it is a way for you to get better networking performance
+
+4
+00:00:06.030 --> 00:00:07.440
+for your EC2 instances.
+
+5
+00:00:07.440 --> 00:00:10.650
+And so we have the type SR-VIO which gives you
+
+6
+00:00:10.650 --> 00:00:13.830
+higher bandwidth and higher PPS, so packets per second,
+
+7
+00:00:13.830 --> 00:00:15.300
+with a lower latency.
+
+8
+00:00:15.300 --> 00:00:17.250
+And this is something that can come up in the exam.
+
+9
+00:00:17.250 --> 00:00:18.600
+And you have two options for this.
+
+10
+00:00:18.600 --> 00:00:22.620
+The most recent one is called Elastic Network Adapter, ENA,
+
+11
+00:00:22.620 --> 00:00:23.490
+which gives you performance
+
+12
+00:00:23.490 --> 00:00:25.740
+of up to 100 gigabits per second.
+
+13
+00:00:25.740 --> 00:00:28.620
+Or option two is using an Intel VF
+
+14
+00:00:28.620 --> 00:00:31.110
+up to 10 gigabits per second, which is LEGACY.
+
+15
+00:00:31.110 --> 00:00:34.770
+So this EC2 enhanced networking, especially the ENA adapter,
+
+16
+00:00:34.770 --> 00:00:37.380
+works for newer generations EC2 instances
+
+17
+00:00:37.380 --> 00:00:39.150
+as we will see in the hands-on.
+
+18
+00:00:39.150 --> 00:00:43.050
+And then we have the Elastic Fabric Adapter, EFA,
+
+19
+00:00:43.050 --> 00:00:46.470
+which is an improved ENA dedicated for HPC,
+
+20
+00:00:46.470 --> 00:00:48.450
+which is high performance computing.
+
+21
+00:00:48.450 --> 00:00:50.100
+It only works on Linux.
+
+22
+00:00:50.100 --> 00:00:51.600
+The idea is that if you have a lot
+
+23
+00:00:51.600 --> 00:00:54.960
+of internal node communications that are tightly coupled,
+
+24
+00:00:54.960 --> 00:00:57.030
+because they live within the same cluster,
+
+25
+00:00:57.030 --> 00:00:59.220
+then they're going to get better network performance
+
+26
+00:00:59.220 --> 00:01:00.870
+talking with one another.
+
+27
+00:01:00.870 --> 00:01:02.580
+This is going to leverage a standard
+
+28
+00:01:02.580 --> 00:01:03.750
+called the MPI standard,
+
+29
+00:01:03.750 --> 00:01:06.630
+the leverage the Message Passing Interface standard.
+
+30
+00:01:06.630 --> 00:01:08.940
+And the idea is that Elastic Fabric Adaptor
+
+31
+00:01:08.940 --> 00:01:10.800
+is having a higher performance
+
+32
+00:01:10.800 --> 00:01:13.620
+because your EC2 instances are talking with one another.
+
+33
+00:01:13.620 --> 00:01:15.570
+And so it knows that
+
+34
+00:01:15.570 --> 00:01:17.910
+and it will bypass the underlying Linux OS
+
+35
+00:01:17.910 --> 00:01:21.930
+to provide even lower latency with a reliable transport.
+
+36
+00:01:21.930 --> 00:01:23.610
+So bottom line of this lecture is that
+
+37
+00:01:23.610 --> 00:01:25.350
+if you just want to have enhanced networking
+
+38
+00:01:25.350 --> 00:01:27.840
+for lower latency, look for ENA,
+
+39
+00:01:27.840 --> 00:01:29.460
+the Elastic Network Adaptor,
+
+40
+00:01:29.460 --> 00:01:31.830
+and if you have a HPC cluster,
+
+41
+00:01:31.830 --> 00:01:35.163
+then look for the EFA on top of it to improve performance.
+
+42
+00:01:36.270 --> 00:01:38.460
+Okay, so I'm not going to be able to demonstrate the EFA
+
+43
+00:01:38.460 --> 00:01:40.200
+but I can demonstrate ENA.
+
+44
+00:01:40.200 --> 00:01:42.210
+So take your instance and start it.
+
+45
+00:01:42.210 --> 00:01:44.820
+This is my first instance, a type t2.micro,
+
+46
+00:01:44.820 --> 00:01:47.190
+and I'm going to launch a second EC2 instance
+
+47
+00:01:47.190 --> 00:01:49.200
+but this time it's going to be newer generation.
+
+48
+00:01:49.200 --> 00:01:51.360
+So I'll choose still Amazon Linux 2,
+
+49
+00:01:51.360 --> 00:01:52.470
+still this architecture,
+
+50
+00:01:52.470 --> 00:01:55.920
+but instead of a t2.micro, which is older generation,
+
+51
+00:01:55.920 --> 00:01:58.890
+I'm going to look for a t3.micro,
+
+52
+00:01:58.890 --> 00:02:00.630
+which is a newer generation
+
+53
+00:02:00.630 --> 00:02:02.730
+and has a newer kind of networking.
+
+54
+00:02:02.730 --> 00:02:05.040
+And this will not be free tier eligible
+
+55
+00:02:05.040 --> 00:02:07.260
+unless you don't have availability
+
+56
+00:02:07.260 --> 00:02:09.120
+of t2.micro in your region,
+
+57
+00:02:09.120 --> 00:02:12.870
+and in that case t3.micro is going to be free tier eligible.
+
+58
+00:02:12.870 --> 00:02:14.340
+Next for key pair I will just choose
+
+59
+00:02:14.340 --> 00:02:15.573
+we have the DemoKeyPair,
+
+60
+00:02:17.070 --> 00:02:18.990
+and then for network settings I will edit this
+
+61
+00:02:18.990 --> 00:02:22.110
+and I will select an existing security group
+
+62
+00:02:22.110 --> 00:02:24.600
+which is my SSH security group.
+
+63
+00:02:24.600 --> 00:02:26.070
+The rest looks fine.
+
+64
+00:02:26.070 --> 00:02:27.720
+I'm going to launch that instance
+
+65
+00:02:28.980 --> 00:02:30.420
+and then I will get back to my view
+
+66
+00:02:30.420 --> 00:02:32.970
+with my two EC2 instances.
+
+67
+00:02:32.970 --> 00:02:35.460
+And so I'm going to connect to my first instance,
+
+68
+00:02:35.460 --> 00:02:36.840
+this one a t2.micro
+
+69
+00:02:36.840 --> 00:02:38.490
+and t2.micro is what I call
+
+70
+00:02:38.490 --> 00:02:41.490
+an older generation type of instances.
+
+71
+00:02:41.490 --> 00:02:42.900
+So how do we know this?
+
+72
+00:02:42.900 --> 00:02:45.120
+Well, we can have a look to see
+
+73
+00:02:45.120 --> 00:02:48.450
+if the ENA mod is installed by first
+
+74
+00:02:48.450 --> 00:02:50.010
+and this is going to be installed, by the way,
+
+75
+00:02:50.010 --> 00:02:53.100
+on every single Amazon Linux 2 installation,
+
+76
+00:02:53.100 --> 00:02:55.860
+so if I do modinfo ena, as we can see,
+
+77
+00:02:55.860 --> 00:03:00.420
+the ENA module is loaded onto my EC2 instance,
+
+78
+00:03:00.420 --> 00:03:01.710
+but doesn't mean it's going to be leveraged
+
+79
+00:03:01.710 --> 00:03:04.800
+because this instance needs to have some kind of capability
+
+80
+00:03:04.800 --> 00:03:07.650
+and t2.micro is older generation.
+
+81
+00:03:07.650 --> 00:03:10.770
+So modinfo ena means that the ENA is installed
+
+82
+00:03:10.770 --> 00:03:12.150
+on Amazon Linux 2,
+
+83
+00:03:12.150 --> 00:03:15.360
+but if I type, and I clear my screen,
+
+84
+00:03:15.360 --> 00:03:19.890
+ethtool -i eth0,
+
+85
+00:03:19.890 --> 00:03:21.690
+this is going to give me some information
+
+86
+00:03:21.690 --> 00:03:25.170
+around the driver used for my network interface.
+
+87
+00:03:25.170 --> 00:03:29.250
+As we can see right now, it doesn't say ENA, it says vif.
+
+88
+00:03:29.250 --> 00:03:31.890
+But if I go back to my EC2 instances
+
+89
+00:03:31.890 --> 00:03:35.100
+and now look at my t3.micro and connect to it.
+
+90
+00:03:35.100 --> 00:03:38.550
+So I will use again EC2 instance connect,
+
+91
+00:03:38.550 --> 00:03:40.710
+if we type modinfo ena,
+
+92
+00:03:40.710 --> 00:03:42.960
+same result because we are using Amazon Linux 2
+
+93
+00:03:42.960 --> 00:03:45.150
+and so the ENA is going to be installed on it
+
+94
+00:03:45.150 --> 00:03:46.830
+as a module, okay?
+
+95
+00:03:46.830 --> 00:03:50.490
+But now if I type ethtool -i eth0,
+
+96
+00:03:50.490 --> 00:03:53.310
+as we can see the driver is ena
+
+97
+00:03:53.310 --> 00:03:56.550
+and that means that we're using the enhanced networking
+
+98
+00:03:56.550 --> 00:03:57.870
+that we need on this instance.
+
+99
+00:03:57.870 --> 00:04:00.240
+So bottom line is to leverage enhanced networking,
+
+100
+00:04:00.240 --> 00:04:03.810
+you need to have a newer generation type of EC2 instance.
+
+101
+00:04:03.810 --> 00:04:05.940
+And if you're using Amazon Linux 2,
+
+102
+00:04:05.940 --> 00:04:08.160
+by default it is going to be enabled.
+
+103
+00:04:08.160 --> 00:04:09.750
+So that's it for the quick demo.
+
+104
+00:04:09.750 --> 00:04:11.490
+Now, just to finish,
+
+105
+00:04:11.490 --> 00:04:15.990
+please make sure to terminate your EC2 t3.micro
+
+106
+00:04:15.990 --> 00:04:17.010
+to be good to go.
+
+107
+00:04:17.010 --> 00:04:17.843
+So that's it.
+
+108
+00:04:17.843 --> 00:04:20.303
+I hope you liked it and I will see you in the next lecture.
+

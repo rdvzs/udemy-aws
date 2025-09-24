@@ -1,0 +1,50 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:01.990
+<v Instructor>In order to clean up that section,</v>
+
+2
+00:00:01.990 --> 00:00:05.210
+take your instance and terminate it, okay?
+
+3
+00:00:05.210 --> 00:00:08.930
+And also if you wanted to terminate, delete your AMI,
+
+4
+00:00:08.930 --> 00:00:13.080
+so you can take that demo image and you would deregister it,
+
+5
+00:00:13.080 --> 00:00:15.540
+which should remove that AMI, okay?
+
+6
+00:00:15.540 --> 00:00:18.460
+And in the backend there has been a snapshots been created.
+
+7
+00:00:18.460 --> 00:00:19.960
+So, if you go to the snapshots,
+
+8
+00:00:19.960 --> 00:00:22.400
+which is the snapshot that was backing my AMI,
+
+9
+00:00:22.400 --> 00:00:25.860
+you can delete the snapshots and you'll be good to go.
+
+10
+00:00:25.860 --> 00:00:28.070
+So, that's it for the cleanup of the AMI section.
+
+11
+00:00:28.070 --> 00:00:28.903
+I hope you liked it.
+
+12
+00:00:28.903 --> 00:00:30.590
+And I will see you in the next section.
+

@@ -1,0 +1,222 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:01.033
+<v Instructor>Now let's talk</v>
+
+2
+00:00:01.033 --> 00:00:03.600
+about the VPC Reachability Analyzer.
+
+3
+00:00:03.600 --> 00:00:04.840
+So it's a really cool feature
+
+4
+00:00:04.840 --> 00:00:06.520
+because it's a network diagnostics tool
+
+5
+00:00:06.520 --> 00:00:08.670
+that helps you troubleshoot network connectivity
+
+6
+00:00:08.670 --> 00:00:10.860
+between two end points in your VPC.
+
+7
+00:00:10.860 --> 00:00:12.610
+So instead of having to dig through
+
+8
+00:00:12.610 --> 00:00:13.670
+the network configuration
+
+9
+00:00:13.670 --> 00:00:15.770
+and understand where the error is happening,
+
+10
+00:00:15.770 --> 00:00:17.870
+this builds a model of network configuration
+
+11
+00:00:17.870 --> 00:00:19.460
+between these two end points,
+
+12
+00:00:19.460 --> 00:00:22.331
+and then it will build and check the reachability
+
+13
+00:00:22.331 --> 00:00:25.460
+based on the configuration within your AWS accounts.
+
+14
+00:00:25.460 --> 00:00:26.960
+It doesn't not actually send back it
+
+15
+00:00:26.960 --> 00:00:28.920
+from source to destination.
+
+16
+00:00:28.920 --> 00:00:30.750
+It just analyzes your configuration
+
+17
+00:00:30.750 --> 00:00:33.290
+and tell you what's happening, which is very, very powerful.
+
+18
+00:00:33.290 --> 00:00:35.980
+So if we take an example of two EC2 instances, okay,
+
+19
+00:00:35.980 --> 00:00:37.710
+it says A and B.
+
+20
+00:00:37.710 --> 00:00:38.961
+They may be in different VPCs,
+
+21
+00:00:38.961 --> 00:00:40.200
+they have different ENIs
+
+22
+00:00:40.200 --> 00:00:42.350
+and they may have different security groups, okay?
+
+23
+00:00:42.350 --> 00:00:43.532
+And we're trying to figure out whether or not
+
+24
+00:00:43.532 --> 00:00:46.570
+Instance A can talk to Instance B.
+
+25
+00:00:46.570 --> 00:00:48.770
+So there's a bunch of things that need to happen, okay?
+
+26
+00:00:48.770 --> 00:00:51.500
+So first it goes from the Instance A to the ENI
+
+27
+00:00:51.500 --> 00:00:53.140
+then to the security group,
+
+28
+00:00:53.140 --> 00:00:55.140
+then to the network SCLs maybe,
+
+29
+00:00:55.140 --> 00:00:57.210
+and then to the security group
+
+30
+00:00:57.210 --> 00:00:58.447
+and through the ENI to Instance B,
+
+31
+00:00:58.447 --> 00:01:00.043
+and so all along the way,
+
+32
+00:01:00.043 --> 00:01:03.120
+this Network Reachability Analyzer Tool
+
+33
+00:01:03.120 --> 00:01:05.390
+from the VPC function is going to check
+
+34
+00:01:05.390 --> 00:01:08.270
+whether every single point is configured properly.
+
+35
+00:01:08.270 --> 00:01:09.670
+And in which case it will say, yes,
+
+36
+00:01:09.670 --> 00:01:12.400
+these two can communicate, they are reachable,
+
+37
+00:01:12.400 --> 00:01:13.460
+but in case they're not reachable,
+
+38
+00:01:13.460 --> 00:01:15.560
+for example, because of security group issue,
+
+39
+00:01:15.560 --> 00:01:17.730
+then it will automatically detect that one security group
+
+40
+00:01:17.730 --> 00:01:19.330
+will not allow traffic in.
+
+41
+00:01:19.330 --> 00:01:22.100
+And therefore your Instance B will not be reachable
+
+42
+00:01:22.100 --> 00:01:24.130
+from Instance A but all of this is done
+
+43
+00:01:24.130 --> 00:01:26.100
+by just analyzing network configuration,
+
+44
+00:01:26.100 --> 00:01:27.900
+not by sending packets.
+
+45
+00:01:27.900 --> 00:01:29.200
+So this is the idea,
+
+46
+00:01:29.200 --> 00:01:30.350
+and this is why it's super cool,
+
+47
+00:01:30.350 --> 00:01:31.440
+because he will tell you exactly.
+
+48
+00:01:31.440 --> 00:01:33.460
+Hey, your route table right here
+
+49
+00:01:33.460 --> 00:01:35.440
+is just not properly configured.
+
+50
+00:01:35.440 --> 00:01:38.250
+So the use cases for this is to do a troubleshooting of
+
+51
+00:01:38.250 --> 00:01:41.160
+connectivity issues and to ensure the network configuration
+
+52
+00:01:41.160 --> 00:01:43.030
+is made as intended.
+
+53
+00:01:43.030 --> 00:01:44.020
+So that's it for this lecture,
+
+54
+00:01:44.020 --> 00:01:44.853
+I hope you liked it.
+
+55
+00:01:44.853 --> 00:01:46.770
+And I will see you in the next lecture.
+

@@ -1,0 +1,378 @@
+﻿WEBVTT
+
+1
+00:00:00.343 --> 00:00:03.385
+<v ->So, let's look at RDS with CloudWatch.</v>
+
+2
+00:00:03.385 --> 00:00:04.709
+As we know, CloudWatch is going
+
+3
+00:00:04.709 --> 00:00:07.075
+to be deeply innovative with RDS.
+
+4
+00:00:07.075 --> 00:00:09.380
+We're going to get from the hypervisor
+
+5
+00:00:09.380 --> 00:00:11.222
+some basic metrics, such as number
+
+6
+00:00:11.222 --> 00:00:13.393
+of DatabaseConnections, SwapUsage,
+
+7
+00:00:13.393 --> 00:00:17.249
+ReadIOPS/WriteIOPS, ReadLatency/WriteLatency,
+
+8
+00:00:17.249 --> 00:00:21.217
+ReadThroughPut/WriteThroughPut, DiskQueueDepth,
+
+9
+00:00:21.217 --> 00:00:22.913
+and FreeStorageSpace.
+
+10
+00:00:22.913 --> 00:00:25.777
+From these, we can do a lot of troubleshooting.
+
+11
+00:00:25.777 --> 00:00:27.425
+For example, if the latency is high,
+
+12
+00:00:27.425 --> 00:00:30.481
+something is wrong, if the ReadIOPS are peaking,
+
+13
+00:00:30.481 --> 00:00:33.537
+maybe we've reached our IOPS for our EBS volume.
+
+14
+00:00:33.537 --> 00:00:36.001
+If the DiskQueueDepth is too high,
+
+15
+00:00:36.001 --> 00:00:37.585
+that means that a lot of operations are waiting
+
+16
+00:00:37.585 --> 00:00:38.864
+to be executed.
+
+17
+00:00:38.864 --> 00:00:40.241
+We can also look at the CPU.
+
+18
+00:00:40.241 --> 00:00:41.601
+I'm sure that that is not too high.
+
+19
+00:00:41.601 --> 00:00:43.297
+All that stuff, right?
+
+20
+00:00:43.297 --> 00:00:45.919
+This is provided by CloudWatch basic metrics
+
+21
+00:00:45.919 --> 00:00:47.937
+and you can enable enhanced monitoring
+
+22
+00:00:47.937 --> 00:00:49.505
+and we'll do this right away.
+
+23
+00:00:49.505 --> 00:00:52.993
+Enhanced monitoring is, usually, metrics
+
+24
+00:00:52.993 --> 00:00:55.392
+that are gathered from an agent
+
+25
+00:00:55.392 --> 00:00:57.130
+that runs on the DB instance.
+
+26
+00:00:57.130 --> 00:00:59.697
+So, it is more special, more specific,
+
+27
+00:00:59.697 --> 00:01:01.313
+and what you get with it is you get a lot
+
+28
+00:01:01.313 --> 00:01:03.041
+of information around the processes
+
+29
+00:01:03.041 --> 00:01:05.249
+and the threads that use the CPU,
+
+30
+00:01:05.249 --> 00:01:06.082
+and you get access to over 50 new CPU,
+
+31
+00:01:06.082 --> 00:01:10.753
+memory, file system, and disk I/O metrics.
+
+32
+00:01:10.753 --> 00:01:11.586
+Let's go have a look at
+
+33
+00:01:11.586 --> 00:01:13.889
+how we can enable enhanced monitoring right now.
+
+34
+00:01:13.889 --> 00:01:16.449
+Let's go to mydb, modify,
+
+35
+00:01:16.449 --> 00:01:18.017
+and in there we're going to be able
+
+36
+00:01:18.017 --> 00:01:21.300
+to enable enhanced monitoring.
+
+37
+00:01:21.300 --> 00:01:23.279
+If you remember, when we first created our database
+
+38
+00:01:23.279 --> 00:01:25.232
+we did not enable it.
+
+39
+00:01:25.232 --> 00:01:26.623
+I'll just scroll down,
+
+40
+00:01:26.623 --> 00:01:29.279
+and as you can see, all the way at the bottom
+
+41
+00:01:29.279 --> 00:01:31.997
+we can enable enhanced monitoring.
+
+42
+00:01:31.997 --> 00:01:34.943
+In there, you're able to get more information
+
+43
+00:01:34.943 --> 00:01:36.571
+and you need to define monitoring role.
+
+44
+00:01:36.571 --> 00:01:40.109
+We'll just create default and RDS will create a role for us.
+
+45
+00:01:40.109 --> 00:01:41.509
+Then, you can see how granular
+
+46
+00:01:41.509 --> 00:01:43.644
+you want your monitoring to be.
+
+47
+00:01:43.644 --> 00:01:45.084
+I'll leave it at 60 seconds, but as you can see,
+
+48
+00:01:45.084 --> 00:01:47.452
+you can get per second granularity,
+
+49
+00:01:47.452 --> 00:01:49.495
+which is quite awesome.
+
+50
+00:01:49.495 --> 00:01:52.755
+Now, you click on continue and apply immediately
+
+51
+00:01:52.755 --> 00:01:55.732
+to apply the changes right away.
+
+52
+00:01:55.732 --> 00:01:57.489
+And here we go, it's working
+
+53
+00:01:57.489 --> 00:01:59.073
+so it's just going to give you a little bit
+
+54
+00:01:59.073 --> 00:02:01.424
+of weird error message but you just have
+
+55
+00:02:01.424 --> 00:02:04.385
+to wait until everything is created.
+
+56
+00:02:04.385 --> 00:02:05.263
+Now, we're done.
+
+57
+00:02:05.263 --> 00:02:07.857
+So if you go to monitoring, in there,
+
+58
+00:02:07.857 --> 00:02:09.329
+you're going to get CloudWatch
+
+59
+00:02:09.329 --> 00:02:10.881
+so we can look at what CloudWatch gives you.
+
+60
+00:02:10.881 --> 00:02:14.273
+It gives you CPU utilization, the number of connections
+
+61
+00:02:14.273 --> 00:02:17.377
+that we have, the storage space, the write iops,
+
+62
+00:02:17.377 --> 00:02:20.662
+the read IOPS, the memory that's free.
+
+63
+00:02:20.662 --> 00:02:24.177
+Using enhanced monitoring, we're going to get a lot more.
+
+64
+00:02:24.177 --> 00:02:26.881
+To view enhanced monitoring, pretty tricky, monitoring,
+
+65
+00:02:26.881 --> 00:02:28.161
+there's a drop-down.
+
+66
+00:02:28.161 --> 00:02:29.361
+In here, you can choose CloudWatch,
+
+67
+00:02:29.361 --> 00:02:32.836
+so this will just give you the CloudWatch information.
+
+68
+00:02:32.836 --> 00:02:35.285
+Also, you can choose enhanced monitoring
+
+69
+00:02:35.285 --> 00:02:37.380
+and this will give you all the enhanced monitoring.
+
+70
+00:02:37.380 --> 00:02:41.603
+We have to wait a little bit until the agent starts up.
+
+71
+00:02:41.603 --> 00:02:44.256
+You can also get the OS process list if you wanted to.
+
+72
+00:02:44.256 --> 00:02:46.624
+Let me just wait a little bit for enhanced monitoring
+
+73
+00:02:46.624 --> 00:02:48.928
+to kick in and I'll be right back.
+
+74
+00:02:48.928 --> 00:02:51.424
+Okay, so now if I go to enhanced monitoring
+
+75
+00:02:51.424 --> 00:02:52.960
+I start seeing some data.
+
+76
+00:02:52.960 --> 00:02:56.124
+As we can see, we have free memory, active memory, CPU user,
+
+77
+00:02:56.124 --> 00:02:57.964
+load average, used filesystem.
+
+78
+00:02:57.964 --> 00:02:59.308
+We have more graphs as well
+
+79
+00:02:59.308 --> 00:03:01.532
+as available number of tasks running, etc.
+
+80
+00:03:01.532 --> 00:03:03.164
+So, enhanced monitoring does give me more access
+
+81
+00:03:03.164 --> 00:03:04.412
+to more metrics,
+
+82
+00:03:04.412 --> 00:03:06.524
+and if we go to OS process list,
+
+83
+00:03:06.524 --> 00:03:08.076
+you get some information around
+
+84
+00:03:08.076 --> 00:03:12.236
+which processes using whatever memory and RAM.
+
+85
+00:03:12.236 --> 00:03:14.764
+This gives you a lot more information around
+
+86
+00:03:14.764 --> 00:03:16.812
+what is happening on your database
+
+87
+00:03:16.812 --> 00:03:18.908
+thanks to this enhanced monitoring.
+
+88
+00:03:18.908 --> 00:03:19.741
+So, that's it.
+
+89
+00:03:19.741 --> 00:03:21.468
+Just wanted to show you this, but overall,
+
+90
+00:03:21.468 --> 00:03:23.772
+the idea is that the exam will ask you questions
+
+91
+00:03:23.772 --> 00:03:26.348
+around how maybe a metric can impact your database
+
+92
+00:03:26.348 --> 00:03:27.802
+and just use your common sense
+
+93
+00:03:27.802 --> 00:03:31.514
+and troubleshoot using your brain, basically.
+
+94
+00:03:31.514 --> 00:03:34.041
+So, that's it. I will see you in the next lecture.
+

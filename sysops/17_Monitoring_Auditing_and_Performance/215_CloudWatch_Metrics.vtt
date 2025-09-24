@@ -1,0 +1,314 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:01.550
+<v Instructor>Okay, so we've seen CloudWatch</v>
+
+2
+00:00:01.550 --> 00:00:02.383
+throughout the course,
+
+3
+00:00:02.383 --> 00:00:03.960
+but let's just go and do a quick summary on it.
+
+4
+00:00:03.960 --> 00:00:05.410
+So first CloudWatch metrics,
+
+5
+00:00:05.410 --> 00:00:08.120
+it's going to provide metrics for every service in AWS,
+
+6
+00:00:08.120 --> 00:00:10.141
+and you need to understand what the metric means.
+
+7
+00:00:10.141 --> 00:00:12.350
+So usually the name of the metric gives you
+
+8
+00:00:12.350 --> 00:00:13.730
+a pretty good indication of what it is.
+
+9
+00:00:13.730 --> 00:00:16.100
+For example, CPU Utilization, NetworkIn,
+
+10
+00:00:16.100 --> 00:00:18.709
+and then based on how the metric is behaving,
+
+11
+00:00:18.709 --> 00:00:21.820
+it gives you an idea of how the service is behaving,
+
+12
+00:00:21.820 --> 00:00:23.887
+and you can do some troubleshooting based on this.
+
+13
+00:00:23.887 --> 00:00:25.910
+So metrics belong to namespaces,
+
+14
+00:00:25.910 --> 00:00:27.388
+and then you have a dimension,
+
+15
+00:00:27.388 --> 00:00:29.390
+which is an attribute of a metric,
+
+16
+00:00:29.390 --> 00:00:31.870
+for example, instance id, environments,
+
+17
+00:00:31.870 --> 00:00:32.703
+et cetera, et cetera,
+
+18
+00:00:32.703 --> 00:00:35.476
+and you can choose up to 30 dimensions per metric.
+
+19
+00:00:35.476 --> 00:00:37.040
+Metrics will have timestamps,
+
+20
+00:00:37.040 --> 00:00:40.470
+and you can create CloudWatch dashboards of metrics.
+
+21
+00:00:40.470 --> 00:00:43.150
+So in this course we've seen EC2 metrics for example,
+
+22
+00:00:43.150 --> 00:00:46.170
+and we also seen the EC2 detailed monitoring.
+
+23
+00:00:46.170 --> 00:00:49.270
+So we know that by default EC2 instances will have
+
+24
+00:00:49.270 --> 00:00:50.800
+metrics every five minutes,
+
+25
+00:00:50.800 --> 00:00:54.270
+but if you enable detailed monitoring for a cost,
+
+26
+00:00:54.270 --> 00:00:55.250
+it's additional,
+
+27
+00:00:55.250 --> 00:00:58.564
+then you're going to get data of metrics every one minute.
+
+28
+00:00:58.564 --> 00:01:00.890
+And if you enable this, then for example,
+
+29
+00:01:00.890 --> 00:01:03.670
+you're going to be able to react faster to changing metrics
+
+30
+00:01:03.670 --> 00:01:06.200
+for your EC2 instances and it gives you some benefits for
+
+31
+00:01:06.200 --> 00:01:09.175
+your ASG, if you want to scale out and in faster.
+
+32
+00:01:09.175 --> 00:01:11.290
+Now, the feature allows you to get 10
+
+33
+00:01:11.290 --> 00:01:12.616
+detailed monitoring metrics.
+
+34
+00:01:12.616 --> 00:01:16.220
+And the thing to note is that the Institute memory usage,
+
+35
+00:01:16.220 --> 00:01:18.750
+so your Ram, is not pushed by default and needs to be pushed
+
+36
+00:01:18.750 --> 00:01:20.880
+from the instance as a custom metric.
+
+37
+00:01:20.880 --> 00:01:22.910
+And we'll have a look at how to push custom metrics
+
+38
+00:01:22.910 --> 00:01:23.743
+very, very soon.
+
+39
+00:01:24.670 --> 00:01:27.110
+So when you are in the CloudWatch dashboard
+
+40
+00:01:27.110 --> 00:01:27.943
+on the left hand side,
+
+41
+00:01:27.943 --> 00:01:30.320
+there is metrics and you can find all the metrics.
+
+42
+00:01:30.320 --> 00:01:31.153
+And as you can see,
+
+43
+00:01:31.153 --> 00:01:33.400
+we see all the namespaces in here for our metrics.
+
+44
+00:01:33.400 --> 00:01:36.210
+If we have a look, we have based on services, for example,
+
+45
+00:01:36.210 --> 00:01:39.430
+ELB auto-scaling EBS, EC2, EFS and so on.
+
+46
+00:01:39.430 --> 00:01:43.530
+So a lot of information given you given to you here,
+
+47
+00:01:43.530 --> 00:01:44.696
+so we can click on EC2,
+
+48
+00:01:44.696 --> 00:01:46.950
+And we can have a per instance metric,
+
+49
+00:01:46.950 --> 00:01:49.880
+just to see one metric and I'm going to type credits
+
+50
+00:01:49.880 --> 00:01:52.220
+to see the CPU credit balance.
+
+51
+00:01:52.220 --> 00:01:53.900
+For example, I will take this instance,
+
+52
+00:01:53.900 --> 00:01:56.010
+which was created a long time ago.
+
+53
+00:01:56.010 --> 00:01:58.070
+And then what I'm going to do is I'm going to choose a
+
+54
+00:01:58.070 --> 00:01:59.510
+custom range,
+
+55
+00:01:59.510 --> 00:02:03.850
+which is going to be a one month to find some data in here.
+
+56
+00:02:03.850 --> 00:02:05.240
+Okay, so we have the data here.
+
+57
+00:02:05.240 --> 00:02:06.810
+And so the cool thing in CloudWatch metrics
+
+58
+00:02:06.810 --> 00:02:08.174
+is that you can just click
+
+59
+00:02:08.174 --> 00:02:10.770
+and select the time span you want.
+
+60
+00:02:10.770 --> 00:02:11.627
+And here we go,
+
+61
+00:02:11.627 --> 00:02:13.740
+we're getting some information around our metrics.
+
+62
+00:02:13.740 --> 00:02:16.750
+As you can see, we get metrics every five minutes here.
+
+63
+00:02:16.750 --> 00:02:19.380
+So every data point is every five minutes because detailed
+
+64
+00:02:19.380 --> 00:02:22.120
+monitoring was not enabled for this instance, okay.
+
+65
+00:02:22.120 --> 00:02:23.580
+But if I did enable detailed monitoring,
+
+66
+00:02:23.580 --> 00:02:25.181
+I would get data every one minutes.
+
+67
+00:02:25.181 --> 00:02:28.037
+So this is just the basics of quality metrics and nothing
+
+68
+00:02:28.037 --> 00:02:31.140
+too fancy, but we can definitely filter by time.
+
+69
+00:02:31.140 --> 00:02:34.680
+We can view it as a different lines or stacked area or line
+
+70
+00:02:34.680 --> 00:02:37.960
+or number or a pie chart. You can add it to a dashboard.
+
+71
+00:02:37.960 --> 00:02:39.700
+You can download as a CSV, you can share it.
+
+72
+00:02:39.700 --> 00:02:41.950
+Okay, So cloud metric is very, very handy.
+
+73
+00:02:41.950 --> 00:02:44.231
+And you can have a look at all the metrics, you know,
+
+74
+00:02:44.231 --> 00:02:46.070
+based on the region you want,
+
+75
+00:02:46.070 --> 00:02:47.900
+based on the dimension you want,
+
+76
+00:02:47.900 --> 00:02:49.984
+the resource you want, so you can filter everything.
+
+77
+00:02:49.984 --> 00:02:51.380
+So that's it for closure metrics.
+
+78
+00:02:51.380 --> 00:02:54.380
+I hope you liked it. And I will see you in the next lecture.
+

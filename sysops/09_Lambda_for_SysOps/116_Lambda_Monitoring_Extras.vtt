@@ -1,0 +1,378 @@
+WEBVTT
+
+1
+00:00:00.120 --> 00:00:03.120
+<v Instructor>So let's do a deep dive on Lambda monitoring.</v>
+
+2
+00:00:03.120 --> 00:00:05.430
+So the first part is that you have many CloudWatch metrics
+
+3
+00:00:05.430 --> 00:00:06.390
+associated with Lambda.
+
+4
+00:00:06.390 --> 00:00:08.400
+For example, invocations, which give you
+
+5
+00:00:08.400 --> 00:00:11.460
+the number of times your function is invoked.
+
+6
+00:00:11.460 --> 00:00:14.400
+Duration, which is the amount of time your function spends
+
+7
+00:00:14.400 --> 00:00:16.110
+processing an event.
+
+8
+00:00:16.110 --> 00:00:18.990
+Errors, which is the number of time that the invocations
+
+9
+00:00:18.990 --> 00:00:20.610
+resulted in an error.
+
+10
+00:00:20.610 --> 00:00:22.650
+Throttles, which indicates how many requests
+
+11
+00:00:22.650 --> 00:00:23.483
+have been throttled.
+
+12
+00:00:23.483 --> 00:00:24.840
+That means that there hasn't been
+
+13
+00:00:24.840 --> 00:00:27.780
+any capacity for concurrency.
+
+14
+00:00:27.780 --> 00:00:29.610
+DeadLetterErrors is the number of time
+
+15
+00:00:29.610 --> 00:00:32.752
+Lambda failed to send an event to a dead letter queue.
+
+16
+00:00:32.752 --> 00:00:35.730
+IteratorAge is whenever you read from an event
+
+17
+00:00:35.730 --> 00:00:37.710
+source mapping that is from a stream,
+
+18
+00:00:37.710 --> 00:00:39.660
+you know how far beyond you are.
+
+19
+00:00:39.660 --> 00:00:42.240
+And ConcurrentExecutions, which gives you the number
+
+20
+00:00:42.240 --> 00:00:45.030
+of function instances that are processing events
+
+21
+00:00:45.030 --> 00:00:46.560
+at the very same time.
+
+22
+00:00:46.560 --> 00:00:49.740
+So here is a Lambda Metrics Dashboard
+
+23
+00:00:49.740 --> 00:00:51.240
+from one of my Lambda functions that I have
+
+24
+00:00:51.240 --> 00:00:52.620
+on one of my accounts.
+
+25
+00:00:52.620 --> 00:00:55.890
+And so you use Lambda, you've seen this before.
+
+26
+00:00:55.890 --> 00:00:57.870
+You will see some of the metrics I told you about
+
+27
+00:00:57.870 --> 00:01:00.090
+in this dashboard right here.
+
+28
+00:01:00.090 --> 00:01:02.220
+So why am I talking to you about metrics?
+
+29
+00:01:02.220 --> 00:01:05.190
+Well, because we can build alarms on tops of metrics.
+
+30
+00:01:05.190 --> 00:01:08.250
+The example number one is to get the number
+
+31
+00:01:08.250 --> 00:01:12.000
+of Lambda invocations using the invocations metric.
+
+32
+00:01:12.000 --> 00:01:15.120
+And we know that if it is equal to zero,
+
+33
+00:01:15.120 --> 00:01:17.190
+then maybe it's a problem because we expect
+
+34
+00:01:17.190 --> 00:01:19.590
+our Lambda function to be invoked continuously.
+
+35
+00:01:19.590 --> 00:01:21.060
+So that could be one alarm.
+
+36
+00:01:21.060 --> 00:01:22.620
+We could also have a look at
+
+37
+00:01:22.620 --> 00:01:24.720
+if errors are greater than zero,
+
+38
+00:01:24.720 --> 00:01:27.390
+to get alerted if our Lambda function
+
+39
+00:01:27.390 --> 00:01:29.460
+fails to process something.
+
+40
+00:01:29.460 --> 00:01:32.850
+Or we can have a look at throttles greater than zero.
+
+41
+00:01:32.850 --> 00:01:35.340
+This is when we are lacking capacity.
+
+42
+00:01:35.340 --> 00:01:38.490
+So all of these could be very interesting CloudWatch alarms.
+
+43
+00:01:38.490 --> 00:01:41.100
+So CloudWatch also is used
+
+44
+00:01:41.100 --> 00:01:43.560
+for logging from a Lambda perspective.
+
+45
+00:01:43.560 --> 00:01:46.800
+So the Lambda function sends stuff into CloudWatch Logs,
+
+46
+00:01:46.800 --> 00:01:48.810
+which has its own log group.
+
+47
+00:01:48.810 --> 00:01:50.880
+And for each function instance,
+
+48
+00:01:50.880 --> 00:01:54.000
+you're going to have a specific log stream.
+
+49
+00:01:54.000 --> 00:01:55.410
+For this to work, you need to make sure
+
+50
+00:01:55.410 --> 00:01:57.780
+that your Lambda function has an execution role
+
+51
+00:01:57.780 --> 00:02:01.530
+that allows it to create a log group, create log streams
+
+52
+00:02:01.530 --> 00:02:04.410
+and put log events in there.
+
+53
+00:02:04.410 --> 00:02:06.960
+So now that we have all the logs in CloudWatch Logs,
+
+54
+00:02:06.960 --> 00:02:09.840
+we can use CloudWatch Logs Insights to actually search
+
+55
+00:02:09.840 --> 00:02:12.300
+through all the logs of our Lambda functions.
+
+56
+00:02:12.300 --> 00:02:15.960
+So, for example, this query in CloudWatch Logs Insights,
+
+57
+00:02:15.960 --> 00:02:18.870
+will describe how many times your Lambda function had errors
+
+58
+00:02:18.870 --> 00:02:20.610
+in the last seven days.
+
+59
+00:02:20.610 --> 00:02:22.410
+And you can get very creative.
+
+60
+00:02:22.410 --> 00:02:24.510
+Here are a bunch of different queries.
+
+61
+00:02:24.510 --> 00:02:26.610
+You don't need to remember them, but just for example,
+
+62
+00:02:26.610 --> 00:02:30.180
+we can have a look at what were the last 100 errors,
+
+63
+00:02:30.180 --> 00:02:32.670
+or what is the percentage of cold starts
+
+64
+00:02:32.670 --> 00:02:34.320
+in the total invocations,
+
+65
+00:02:34.320 --> 00:02:36.420
+or how many invocations are actually using
+
+66
+00:02:36.420 --> 00:02:38.880
+100% of the assigned memory?
+
+67
+00:02:38.880 --> 00:02:41.220
+Or what is the average memory usage across
+
+68
+00:02:41.220 --> 00:02:44.970
+all the invocations, or how many invocations did time out?
+
+69
+00:02:44.970 --> 00:02:48.570
+All of these can be obtained directly by querying the logs
+
+70
+00:02:48.570 --> 00:02:51.270
+thanks to CloudWatch Logs Insights.
+
+71
+00:02:51.270 --> 00:02:54.090
+You also have Lambda Insights for Lambda monitoring.
+
+72
+00:02:54.090 --> 00:02:56.130
+So Lambda Insights is a way for you to collect,
+
+73
+00:02:56.130 --> 00:02:58.890
+aggregate, and summarize system level metrics
+
+74
+00:02:58.890 --> 00:03:02.280
+such as CPU time, memory, disk, and network
+
+75
+00:03:02.280 --> 00:03:05.310
+as well as diagnostic information such as cold starts
+
+76
+00:03:05.310 --> 00:03:07.110
+and Lambda worker shutdowns
+
+77
+00:03:07.110 --> 00:03:09.690
+directly from within your Lambda function.
+
+78
+00:03:09.690 --> 00:03:11.940
+So this is the kind of adjacent document
+
+79
+00:03:11.940 --> 00:03:15.810
+that will be collected from within your Lambda function,
+
+80
+00:03:15.810 --> 00:03:18.480
+and it will be sent into CloudWatch Logs
+
+81
+00:03:18.480 --> 00:03:21.810
+into a Lambda Insights log group.
+
+82
+00:03:21.810 --> 00:03:24.360
+Now this helps you isolate issues
+
+83
+00:03:24.360 --> 00:03:26.700
+with your Lambda functions very quickly
+
+84
+00:03:26.700 --> 00:03:29.580
+because you have access to all this system level info.
+
+85
+00:03:29.580 --> 00:03:31.230
+How to use Lambda Insights?
+
+86
+00:03:31.230 --> 00:03:34.050
+Well, you must use it as a Lambda layer
+
+87
+00:03:34.050 --> 00:03:36.060
+on your existing Lambda functions,
+
+88
+00:03:36.060 --> 00:03:37.590
+and then it's a Lambda extension.
+
+89
+00:03:37.590 --> 00:03:39.960
+And so therefore your function can just run
+
+90
+00:03:39.960 --> 00:03:42.660
+and thanks to this extra extension,
+
+91
+00:03:42.660 --> 00:03:45.480
+then you will have access to your Lambda Insights
+
+92
+00:03:45.480 --> 00:03:47.670
+directly from within CloudWatch Logs.
+
+93
+00:03:47.670 --> 00:03:49.590
+Okay, so that's it for this lecture.
+
+94
+00:03:49.590 --> 00:03:52.683
+I hope you liked it, and I will see you in the next lecture.
+

@@ -1,0 +1,194 @@
+WEBVTT
+
+1
+00:00:00.380 --> 00:00:02.350
+<v Instructor>So, here is a short lecture</v>
+
+2
+00:00:02.350 --> 00:00:04.690
+on how to use CloudFront with your ALB
+
+3
+00:00:04.690 --> 00:00:06.160
+when you have enabled sticky sessions.
+
+4
+00:00:06.160 --> 00:00:08.130
+So, say you have an Application Load Balancer
+
+5
+00:00:08.130 --> 00:00:10.140
+and a Target Group, and you've enabled sticky sessions
+
+6
+00:00:10.140 --> 00:00:12.470
+so that you want the same request from the same user
+
+7
+00:00:12.470 --> 00:00:15.740
+to go to the same backend EC2 instances.
+
+8
+00:00:15.740 --> 00:00:17.970
+So, you're set up CloudFront with an Edge Location
+
+9
+00:00:17.970 --> 00:00:20.100
+and you want the two to work together.
+
+10
+00:00:20.100 --> 00:00:22.970
+So, the solution is to forward the cookie
+
+11
+00:00:22.970 --> 00:00:26.140
+that controls the session affinity to the origin
+
+12
+00:00:26.140 --> 00:00:28.600
+for that, so that the session affinity still works.
+
+13
+00:00:28.600 --> 00:00:31.290
+Because if you don't, for this session, the cookie,
+
+14
+00:00:31.290 --> 00:00:33.940
+then obviously, it's not going to be passed on to the ALB.
+
+15
+00:00:33.940 --> 00:00:36.720
+And then, your session affinity is not going to work.
+
+16
+00:00:36.720 --> 00:00:39.340
+So concretely, the user will do a GET,
+
+17
+00:00:39.340 --> 00:00:40.650
+and will pass on a cookie,
+
+18
+00:00:40.650 --> 00:00:42.160
+and maybe you've set up the default cookie.
+
+19
+00:00:42.160 --> 00:00:45.070
+So, AWSALB equals whatever.
+
+20
+00:00:45.070 --> 00:00:48.100
+Then, CloudFront is going to be doing a whitelisting, okay,
+
+21
+00:00:48.100 --> 00:00:49.200
+on this cookie.
+
+22
+00:00:49.200 --> 00:00:52.360
+The AWSALB cookie, then the cookie is going
+
+23
+00:00:52.360 --> 00:00:54.940
+to be forwarded to the ALB.
+
+24
+00:00:54.940 --> 00:00:56.630
+That means the ALB will see the cookie.
+
+25
+00:00:56.630 --> 00:00:59.540
+And therefore, it will know to send the request to
+
+26
+00:00:59.540 --> 00:01:02.820
+the same EC2 instance all the time for the same user.
+
+27
+00:01:02.820 --> 00:01:07.350
+So that if another user has another, will pass on a request,
+
+28
+00:01:07.350 --> 00:01:09.000
+but this time, the cookie is still named,
+
+29
+00:01:09.000 --> 00:01:10.760
+of course, it was ALB, but the value is
+
+30
+00:01:10.760 --> 00:01:13.010
+going to be different because it's a different user.
+
+31
+00:01:13.010 --> 00:01:14.010
+Then that request, again,
+
+32
+00:01:14.010 --> 00:01:16.360
+will forward the value of that cookie,
+
+33
+00:01:16.360 --> 00:01:18.620
+and the ALB is going to forward that
+
+34
+00:01:18.620 --> 00:01:20.140
+to another EC2 instance.
+
+35
+00:01:20.140 --> 00:01:23.630
+And again, it will be a sticky session for that user.
+
+36
+00:01:23.630 --> 00:01:26.930
+So, this is a important set up to see because it makes sense
+
+37
+00:01:26.930 --> 00:01:29.680
+once you see it, but it's a trick to know, obviously.
+
+38
+00:01:29.680 --> 00:01:31.970
+So if you're using the ALB with sticky sessions
+
+39
+00:01:31.970 --> 00:01:35.580
+and CloudFront, please set a whitelisting on all cookies
+
+40
+00:01:35.580 --> 00:01:38.330
+or the cookie that is controlling the session affinity.
+
+41
+00:01:39.210 --> 00:01:43.200
+And also, as a security measure, you should set a TTL, okay?
+
+42
+00:01:43.200 --> 00:01:46.540
+For your cached request to a value lesser than
+
+43
+00:01:46.540 --> 00:01:48.800
+what the authentication cookie is.
+
+44
+00:01:48.800 --> 00:01:51.270
+But this is just, you know, very, very detailed,
+
+45
+00:01:51.270 --> 00:01:53.410
+and it's not something the exam will test you on.
+
+46
+00:01:53.410 --> 00:01:54.440
+So that's it for this lecture.
+
+47
+00:01:54.440 --> 00:01:55.273
+I hope you liked it.
+
+48
+00:01:55.273 --> 00:01:57.150
+And I will see you in the next lecture.
+

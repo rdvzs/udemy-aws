@@ -1,0 +1,458 @@
+WEBVTT
+
+1
+00:00:00.700 --> 00:00:02.970
+<v ->Now let's talk about the shutdown behavior</v>
+
+2
+00:00:02.970 --> 00:00:04.720
+of your EC2 instances.
+
+3
+00:00:04.720 --> 00:00:07.510
+So the question is, how should the instance react when
+
+4
+00:00:07.510 --> 00:00:10.760
+the shutdown is done from within the operating system?
+
+5
+00:00:10.760 --> 00:00:12.950
+So not within the console, but within the OS.
+
+6
+00:00:12.950 --> 00:00:14.370
+So by default, it is stop.
+
+7
+00:00:14.370 --> 00:00:16.920
+That means that if you stop the operating system,
+
+8
+00:00:16.920 --> 00:00:18.984
+then the EC2 instance will stop as well.
+
+9
+00:00:18.984 --> 00:00:21.510
+But you have a second option, named terminate.
+
+10
+00:00:21.510 --> 00:00:24.350
+That means that if you have an EC2 instance running
+
+11
+00:00:24.350 --> 00:00:27.360
+and you initiate a shutdown command from within,
+
+12
+00:00:27.360 --> 00:00:28.390
+then two options.
+
+13
+00:00:28.390 --> 00:00:29.820
+First, you stop your EC2 instance,
+
+14
+00:00:29.820 --> 00:00:31.210
+which is what we've seen so far.
+
+15
+00:00:31.210 --> 00:00:33.440
+Number two is to terminate the instance.
+
+16
+00:00:33.440 --> 00:00:34.870
+That means that it will be gone.
+
+17
+00:00:34.870 --> 00:00:36.380
+So this is not applicable when shutting
+
+18
+00:00:36.380 --> 00:00:38.850
+down the instance from the AWS console.
+
+19
+00:00:38.850 --> 00:00:41.010
+So, if you stop the instance by doing right-click,
+
+20
+00:00:41.010 --> 00:00:42.920
+stop instance, it's not going to terminate it.
+
+21
+00:00:42.920 --> 00:00:45.260
+It's only when you initiate the shutdown
+
+22
+00:00:45.260 --> 00:00:46.930
+from within the EC2 instance.
+
+23
+00:00:46.930 --> 00:00:48.725
+And the CLI attribute for this is
+
+24
+00:00:48.725 --> 00:00:50.580
+InstanceInitiatedShutdownBehaviour
+
+25
+00:00:50.580 --> 00:00:51.413
+which makes sense
+
+26
+00:00:51.413 --> 00:00:55.440
+because the shutdown is initiated from within the instance.
+
+27
+00:00:55.440 --> 00:00:56.500
+The second thing to know is
+
+28
+00:00:56.500 --> 00:00:58.270
+that there is a termination protection
+
+29
+00:00:58.270 --> 00:01:00.260
+on your EC2 instance that you can enable.
+
+30
+00:01:00.260 --> 00:01:03.400
+This is to protect against accidental termination
+
+31
+00:01:03.400 --> 00:01:05.650
+within the console or the CLI.
+
+32
+00:01:05.650 --> 00:01:06.920
+And so, an exam tip is that
+
+33
+00:01:06.920 --> 00:01:09.270
+if you have an instance where the shutdown behavior
+
+34
+00:01:09.270 --> 00:01:12.950
+is terminate and you still enable termination protection
+
+35
+00:01:12.950 --> 00:01:15.520
+then if you shutdown the EC2 instance from the OS,
+
+36
+00:01:15.520 --> 00:01:17.320
+what will happen?
+
+37
+00:01:17.320 --> 00:01:19.670
+Well, the instance will still be terminated
+
+38
+00:01:19.670 --> 00:01:22.330
+because you haven't been doing this from the console,
+
+39
+00:01:22.330 --> 00:01:24.000
+but you've done this from within the OS.
+
+40
+00:01:24.000 --> 00:01:27.470
+Okay? So let's have a look at this behavior in the console.
+
+41
+00:01:27.470 --> 00:01:29.770
+So let's launch an instance
+
+42
+00:01:29.770 --> 00:01:31.320
+and we're going to play
+
+43
+00:01:31.320 --> 00:01:32.870
+with the termination protection setting.
+
+44
+00:01:32.870 --> 00:01:34.890
+So let's choose Amazon Linux 2.
+
+45
+00:01:34.890 --> 00:01:37.610
+We choose the 64-bit.
+
+46
+00:01:37.610 --> 00:01:39.450
+We choose t2.micro
+
+47
+00:01:39.450 --> 00:01:41.850
+I will use whatever key pair, it doesn't really matter.
+
+48
+00:01:41.850 --> 00:01:43.580
+For network settings I will use
+
+49
+00:01:43.580 --> 00:01:47.290
+the same AWSSSH security group as before
+
+50
+00:01:47.290 --> 00:01:48.800
+I'm going to-
+
+51
+00:01:48.800 --> 00:01:49.970
+don't change the storage
+
+52
+00:01:49.970 --> 00:01:51.010
+and for advanced details,
+
+53
+00:01:51.010 --> 00:01:53.000
+this is where things get interesting.
+
+54
+00:01:53.000 --> 00:01:55.740
+So there is the shutdown behavior,
+
+55
+00:01:55.740 --> 00:01:58.080
+and what happens when you shut down the instance
+
+56
+00:01:58.080 --> 00:02:00.680
+either stop or terminate, stop is the default,
+
+57
+00:02:00.680 --> 00:02:02.460
+but then let's choose Terminate.
+
+58
+00:02:02.460 --> 00:02:05.140
+And I'm also going to enable termination protection
+
+59
+00:02:05.140 --> 00:02:06.930
+to show you that even though we have
+
+60
+00:02:06.930 --> 00:02:08.580
+enabled termination protection
+
+61
+00:02:08.580 --> 00:02:11.430
+when we shut down from within the instance,
+
+62
+00:02:11.430 --> 00:02:14.660
+then the instance itself is going to terminate, okay?
+
+63
+00:02:14.660 --> 00:02:16.130
+So let's verify this.
+
+64
+00:02:16.130 --> 00:02:19.653
+I'm going to go ahead and launch this instance.
+
+65
+00:02:22.100 --> 00:02:26.320
+And now it is successfully initiating. So let's find it.
+
+66
+00:02:26.320 --> 00:02:28.520
+This is the one I wanna look at, okay.
+
+67
+00:02:28.520 --> 00:02:30.100
+So if you look at this instance
+
+68
+00:02:30.100 --> 00:02:32.830
+and I do instance state and then terminate
+
+69
+00:02:32.830 --> 00:02:34.460
+It'll say, "would you like to terminate this instance?"
+
+70
+00:02:34.460 --> 00:02:35.910
+I say, "yes, please terminate."
+
+71
+00:02:35.910 --> 00:02:38.060
+You're going to get an error because, well,
+
+72
+00:02:38.060 --> 00:02:42.070
+this disableAPITermination instance attribute is not
+
+73
+00:02:42.070 --> 00:02:43.050
+at the correct value.
+
+74
+00:02:43.050 --> 00:02:46.300
+So that means that we have enabled termination protection.
+
+75
+00:02:46.300 --> 00:02:47.770
+And therefore, what you can do
+
+76
+00:02:47.770 --> 00:02:50.850
+is that you could change from the instance setting
+
+77
+00:02:50.850 --> 00:02:53.360
+the termination protection to disable it.
+
+78
+00:02:53.360 --> 00:02:56.400
+And once you disable the termination protection
+
+79
+00:02:56.400 --> 00:02:59.340
+then the instance can be terminated using the console
+
+80
+00:02:59.340 --> 00:03:01.130
+or an API code.
+
+81
+00:03:01.130 --> 00:03:02.410
+But, we don't want to disable it, okay?
+
+82
+00:03:02.410 --> 00:03:04.070
+We want keep it like this.
+
+83
+00:03:04.070 --> 00:03:06.060
+So we want to keep it enabled.
+
+84
+00:03:06.060 --> 00:03:07.720
+And what I show you is that even though
+
+85
+00:03:07.720 --> 00:03:10.900
+we have the termination protection currently enabled
+
+86
+00:03:10.900 --> 00:03:13.810
+on this instance, we can still terminate it by shutting it
+
+87
+00:03:13.810 --> 00:03:17.760
+down because of the shutdown behavior we set from before.
+
+88
+00:03:17.760 --> 00:03:20.820
+So to do so I'm going to use EC2 Instance Connect
+
+89
+00:03:20.820 --> 00:03:23.700
+to connect into my instance.
+
+90
+00:03:23.700 --> 00:03:27.580
+And then I will type "sudo shutdown".
+
+91
+00:03:27.580 --> 00:03:28.859
+And this-
+
+92
+00:03:28.859 --> 00:03:32.380
+this command actually shuts down the instance from within.
+
+93
+00:03:32.380 --> 00:03:35.670
+So this says an operating system type of shutdown.
+
+94
+00:03:35.670 --> 00:03:38.040
+Okay, it happens from within the operating system
+
+95
+00:03:38.040 --> 00:03:39.700
+of your instance.
+
+96
+00:03:39.700 --> 00:03:41.230
+And, what's going to happen now
+
+97
+00:03:41.230 --> 00:03:45.590
+is that if I close this and wait a little bit,
+
+98
+00:03:45.590 --> 00:03:47.570
+so let me wait for it to happen.
+
+99
+00:03:47.570 --> 00:03:49.250
+This is my instance right here.
+
+100
+00:03:49.250 --> 00:03:51.820
+I'm going to wait until the shutdown command is issued
+
+101
+00:03:51.820 --> 00:03:53.480
+and then we'll see it stopping.
+
+102
+00:03:53.480 --> 00:03:56.440
+And then because of the shutdown behavior
+
+103
+00:03:56.440 --> 00:03:58.820
+that has set before, in case a shutdown actually,
+
+104
+00:03:58.820 --> 00:04:00.690
+it will terminate the instance right away.
+
+105
+00:04:00.690 --> 00:04:01.730
+This is a setting I just enabled.
+
+106
+00:04:01.730 --> 00:04:04.040
+So let's observe this behavior.
+
+107
+00:04:04.040 --> 00:04:05.680
+And as we can see now, this was very quick,
+
+108
+00:04:05.680 --> 00:04:08.300
+but now the instance state is in the terminated phase.
+
+109
+00:04:08.300 --> 00:04:10.310
+So it actually got terminated, even
+
+110
+00:04:10.310 --> 00:04:12.540
+though what I did was issuing a shutdown command.
+
+111
+00:04:12.540 --> 00:04:14.870
+And that's because of the shutdown behavior we just set.
+
+112
+00:04:14.870 --> 00:04:16.600
+Okay. So that's it for this lecture.
+
+113
+00:04:16.600 --> 00:04:17.650
+I hope you liked it.
+
+114
+00:04:17.650 --> 00:04:19.600
+And I will see you in the next lecture.
+

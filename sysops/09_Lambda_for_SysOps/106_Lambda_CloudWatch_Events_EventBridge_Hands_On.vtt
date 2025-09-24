@@ -1,0 +1,514 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:01.260
+<v Lecturer>So let's go ahead</v>
+
+2
+00:00:01.260 --> 00:00:04.830
+and practice integrating Lambda with EventBridge.
+
+3
+00:00:04.830 --> 00:00:06.240
+So I'm going to create a function
+
+4
+00:00:06.240 --> 00:00:10.170
+called lambda-demo-eventbridge.
+
+5
+00:00:10.170 --> 00:00:11.250
+Scroll down.
+
+6
+00:00:11.250 --> 00:00:14.520
+And for the runtime I will choose Python 3.9.
+
+7
+00:00:14.520 --> 00:00:16.440
+Then I will create this function
+
+8
+00:00:16.440 --> 00:00:18.600
+and will make sure this function is being invoked
+
+9
+00:00:18.600 --> 00:00:20.130
+by EventBridge.
+
+10
+00:00:20.130 --> 00:00:24.480
+So to do so, let's also explore the EventBridge console
+
+11
+00:00:24.480 --> 00:00:26.790
+while this function is being created.
+
+12
+00:00:26.790 --> 00:00:30.360
+So I'll go under Rules, and I need to create a new rule.
+
+13
+00:00:30.360 --> 00:00:33.383
+Now I'll call this one InvokeLambdaEveryMinute.
+
+14
+00:00:36.510 --> 00:00:38.100
+And we need to select an Event bus,
+
+15
+00:00:38.100 --> 00:00:40.350
+we'll have the default Event bus.
+
+16
+00:00:40.350 --> 00:00:42.090
+And here we have two options.
+
+17
+00:00:42.090 --> 00:00:44.580
+The first one is to use a rule with an event pattern.
+
+18
+00:00:44.580 --> 00:00:45.690
+And this is when you want to
+
+19
+00:00:45.690 --> 00:00:47.700
+match events happening within AWS.
+
+20
+00:00:47.700 --> 00:00:50.940
+For example, code get committed to code commit
+
+21
+00:00:50.940 --> 00:00:54.240
+or an EC2 instance get terminated,
+
+22
+00:00:54.240 --> 00:00:55.350
+these kind of things.
+
+23
+00:00:55.350 --> 00:00:58.080
+And we won't go through this, we'll keep it simple.
+
+24
+00:00:58.080 --> 00:00:59.370
+We'll use Schedule.
+
+25
+00:00:59.370 --> 00:01:00.750
+And as you can see if you use Schedule,
+
+26
+00:01:00.750 --> 00:01:03.870
+it prompts you to go to EventBridge Scheduler,
+
+27
+00:01:03.870 --> 00:01:05.490
+which you can play with in your own time
+
+28
+00:01:05.490 --> 00:01:06.510
+and it's a fun exercise to do,
+
+29
+00:01:06.510 --> 00:01:08.940
+but right now I'm going to click on the bottom left
+
+30
+00:01:08.940 --> 00:01:10.620
+to continue to create rule
+
+31
+00:01:10.620 --> 00:01:11.820
+because this will create a rule
+
+32
+00:01:11.820 --> 00:01:15.120
+as an EventBridge rule and not as an EventBridge Scheduler.
+
+33
+00:01:15.120 --> 00:01:19.290
+But capability-wise, we are doing the exact same thing.
+
+34
+00:01:19.290 --> 00:01:21.270
+But let's click on Continue to create rule
+
+35
+00:01:21.270 --> 00:01:22.920
+because I wanna show you something specific
+
+36
+00:01:22.920 --> 00:01:24.690
+around resource policies.
+
+37
+00:01:24.690 --> 00:01:27.240
+So here we define the schedule pattern.
+
+38
+00:01:27.240 --> 00:01:29.370
+Do we want a Cron expression
+
+39
+00:01:29.370 --> 00:01:31.170
+or do we want to have a schedule
+
+40
+00:01:31.170 --> 00:01:33.030
+that is being run regularly?
+
+41
+00:01:33.030 --> 00:01:36.480
+And I want my schedule to be run every one minute.
+
+42
+00:01:36.480 --> 00:01:37.890
+I click on Next.
+
+43
+00:01:37.890 --> 00:01:41.220
+And next we have to choose a target of our rule.
+
+44
+00:01:41.220 --> 00:01:44.460
+So the target of our rule has to be Lambda, of course.
+
+45
+00:01:44.460 --> 00:01:46.440
+So I'll choose a Lambda function.
+
+46
+00:01:46.440 --> 00:01:49.530
+And here I will choose my lambda-demo-eventbridge.
+
+47
+00:01:49.530 --> 00:01:51.480
+We can configure a specific version in areas
+
+48
+00:01:51.480 --> 00:01:53.820
+if you wanted to, as well as additional settings
+
+49
+00:01:53.820 --> 00:01:57.090
+around dead-letter queues and max attempts and so on.
+
+50
+00:01:57.090 --> 00:01:59.910
+So this is going to invoke my Lambda function.
+
+51
+00:01:59.910 --> 00:02:01.500
+And as you can see here,
+
+52
+00:02:01.500 --> 00:02:02.790
+EventBridge will automatically configure
+
+53
+00:02:02.790 --> 00:02:04.980
+the proper permissions for the selected targets.
+
+54
+00:02:04.980 --> 00:02:07.800
+And we'll see this in a moment as well.
+
+55
+00:02:07.800 --> 00:02:09.120
+So let's click on Next.
+
+56
+00:02:09.120 --> 00:02:10.080
+Next.
+
+57
+00:02:10.080 --> 00:02:11.010
+And we are good to go.
+
+58
+00:02:11.010 --> 00:02:12.900
+So let's create this rule.
+
+59
+00:02:12.900 --> 00:02:16.590
+So now my Invoke Lambda Every Minute rule is created.
+
+60
+00:02:16.590 --> 00:02:18.990
+And if I go back to Lambda, as you can see right now,
+
+61
+00:02:18.990 --> 00:02:21.270
+there is no triggers on the left-hand side.
+
+62
+00:02:21.270 --> 00:02:23.373
+But if I decide to refresh this page,
+
+63
+00:02:25.050 --> 00:02:28.050
+now we have EventBridge as a source to my Lambda function.
+
+64
+00:02:28.050 --> 00:02:29.820
+If I click on it, as you can see,
+
+65
+00:02:29.820 --> 00:02:31.230
+we have the trigger right here,
+
+66
+00:02:31.230 --> 00:02:33.030
+which corresponds to the rule I have created
+
+67
+00:02:33.030 --> 00:02:35.820
+which is of the rate one minute.
+
+68
+00:02:35.820 --> 00:02:39.120
+So how does this EventBridge rule invoke Lambda function?
+
+69
+00:02:39.120 --> 00:02:41.340
+Well, if you go under permissions now,
+
+70
+00:02:41.340 --> 00:02:44.550
+and we look at the resource-based policy statements,
+
+71
+00:02:44.550 --> 00:02:46.170
+there is a statement that get added,
+
+72
+00:02:46.170 --> 00:02:48.570
+and I click on view policy.
+
+73
+00:02:48.570 --> 00:02:50.100
+And if you have a look at this statement,
+
+74
+00:02:50.100 --> 00:02:54.240
+it says allow the principle being the EventBridge service
+
+75
+00:02:54.240 --> 00:02:56.550
+to invoke our Lambda function.
+
+76
+00:02:56.550 --> 00:03:01.080
+And the resource ARN has to be our Lambda-demo-eventbridge
+
+77
+00:03:01.080 --> 00:03:02.880
+which is very same function.
+
+78
+00:03:02.880 --> 00:03:07.350
+And then the condition is for the ARN to be like,
+
+79
+00:03:07.350 --> 00:03:09.180
+and this is for the source ARN,
+
+80
+00:03:09.180 --> 00:03:12.510
+to be like the ARN of a rule on EventBridge,
+
+81
+00:03:12.510 --> 00:03:14.400
+meaning that only our EventBridge rule
+
+82
+00:03:14.400 --> 00:03:16.890
+has the right to invoke our Lambda function,
+
+83
+00:03:16.890 --> 00:03:18.240
+which is what we want.
+
+84
+00:03:18.240 --> 00:03:19.530
+So that's perfect.
+
+85
+00:03:19.530 --> 00:03:21.630
+So because we have a rate of one minute
+
+86
+00:03:21.630 --> 00:03:23.850
+and I've been most likely talking for one minute,
+
+87
+00:03:23.850 --> 00:03:27.270
+we can go under Monitor and look at the logs
+
+88
+00:03:27.270 --> 00:03:28.650
+and the invocations.
+
+89
+00:03:28.650 --> 00:03:30.660
+Now there's a chance that we don't see anything right here
+
+90
+00:03:30.660 --> 00:03:31.770
+because it's too early,
+
+91
+00:03:31.770 --> 00:03:34.740
+but if I click on View CloudWatch logs
+
+92
+00:03:34.740 --> 00:03:37.050
+I am taken directly into the CloudWatch console,
+
+93
+00:03:37.050 --> 00:03:40.230
+and from there I should be seeing some invocations.
+
+94
+00:03:40.230 --> 00:03:44.880
+So yes, we are in the log group Lambda-demo-eventbridge.
+
+95
+00:03:44.880 --> 00:03:47.340
+I scroll down, I have a log stream,
+
+96
+00:03:47.340 --> 00:03:50.340
+and right now I see my Lambda function is being invoked.
+
+97
+00:03:50.340 --> 00:03:52.890
+Now I'm going to make it a little bit more interesting.
+
+98
+00:03:52.890 --> 00:03:57.240
+Under the code in here, I'm going to print the events,
+
+99
+00:03:57.240 --> 00:04:00.000
+which is going to print what is going to be
+
+100
+00:04:00.000 --> 00:04:01.710
+sent to our Lambda function.
+
+101
+00:04:01.710 --> 00:04:04.770
+So I deploy this and it's going to update my function.
+
+102
+00:04:04.770 --> 00:04:06.450
+And now I just need to wait another minute
+
+103
+00:04:06.450 --> 00:04:09.180
+to see some events in my log.
+
+104
+00:04:09.180 --> 00:04:10.830
+So now it's been over a minute.
+
+105
+00:04:10.830 --> 00:04:14.310
+And if I go into here and refresh my log,
+
+106
+00:04:14.310 --> 00:04:16.110
+and actually we need to have a new log stream
+
+107
+00:04:16.110 --> 00:04:17.190
+because we really put the function.
+
+108
+00:04:17.190 --> 00:04:20.220
+So I go one level up and choose the latest log stream.
+
+109
+00:04:20.220 --> 00:04:22.333
+Now I see that in my log.
+
+110
+00:04:22.333 --> 00:04:25.980
+The event gets printed to the console.
+
+111
+00:04:25.980 --> 00:04:27.240
+So we see version zero.
+
+112
+00:04:27.240 --> 00:04:28.800
+This is the idea of the event.
+
+113
+00:04:28.800 --> 00:04:31.410
+The detail type is that it's a schedule event.
+
+114
+00:04:31.410 --> 00:04:34.350
+The source is aws.events.
+
+115
+00:04:34.350 --> 00:04:35.460
+Here is my accounts.
+
+116
+00:04:35.460 --> 00:04:36.390
+Here's the time.
+
+117
+00:04:36.390 --> 00:04:38.670
+Here's the region that this got invoked in.
+
+118
+00:04:38.670 --> 00:04:42.180
+And here's the resources that invoked our Lambda function.
+
+119
+00:04:42.180 --> 00:04:43.350
+And for detail, we have nothing
+
+120
+00:04:43.350 --> 00:04:45.690
+because we haven't provided any specific JSON.
+
+121
+00:04:45.690 --> 00:04:47.910
+But as you can see, we now have some information
+
+122
+00:04:47.910 --> 00:04:51.330
+around this invocation and everything is working.
+
+123
+00:04:51.330 --> 00:04:53.340
+So to just stop this hands-on,
+
+124
+00:04:53.340 --> 00:04:55.860
+just make sure to disable your rule
+
+125
+00:04:55.860 --> 00:04:57.570
+and you'll be good to go.
+
+126
+00:04:57.570 --> 00:04:58.500
+Okay, so let's it
+
+127
+00:04:58.500 --> 00:05:01.170
+we've seen how to integrate Lambda with EventBridge.
+
+128
+00:05:01.170 --> 00:05:04.323
+I hope you liked it and I will see you in the next lecture.
+

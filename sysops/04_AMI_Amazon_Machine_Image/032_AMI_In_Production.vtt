@@ -1,0 +1,190 @@
+WEBVTT
+
+1
+00:00:00.480 --> 00:00:02.650
+<v Host>Okay. So just a short theory lecture</v>
+
+2
+00:00:02.650 --> 00:00:04.930
+on how to use AMIs in production.
+
+3
+00:00:04.930 --> 00:00:08.280
+So there's a way for you to force users to only launch EC2
+
+4
+00:00:08.280 --> 00:00:11.160
+instances from pre-approved AMIs,
+
+5
+00:00:11.160 --> 00:00:13.190
+and what is a pre-approved AMI? Well,
+
+6
+00:00:13.190 --> 00:00:17.000
+it's an AMI that you're going to tag with a specific tag.
+
+7
+00:00:17.000 --> 00:00:19.990
+And then when you combine this with an IAM policy,
+
+8
+00:00:19.990 --> 00:00:22.873
+then you restrict the user to only launch, for example,
+
+9
+00:00:22.873 --> 00:00:26.850
+AMIs that have been tagged with the environment prod.
+
+10
+00:00:26.850 --> 00:00:27.683
+So as an example,
+
+11
+00:00:27.683 --> 00:00:31.600
+we have a user with the appropriate IAM permissions,
+
+12
+00:00:31.600 --> 00:00:34.767
+as you can see, it's a condition that we apply to the user.
+
+13
+00:00:34.767 --> 00:00:37.920
+And so now we have two types of AMI within our accounts.
+
+14
+00:00:37.920 --> 00:00:40.070
+We have the not approved the AMI, the non-approved AMI,
+
+15
+00:00:40.070 --> 00:00:42.660
+which is the ones that don't have tags.
+
+16
+00:00:42.660 --> 00:00:44.470
+And the AMI has been approved,
+
+17
+00:00:44.470 --> 00:00:47.580
+has been correctly tagged for environment prods.
+
+18
+00:00:47.580 --> 00:00:49.537
+Obviously you need to make sure that
+
+19
+00:00:49.537 --> 00:00:50.946
+you're also logged down,
+
+20
+00:00:50.946 --> 00:00:52.320
+who can add tags to your AMIs.
+
+21
+00:00:52.320 --> 00:00:55.870
+But then thanks to this combination of tags and IAM policy,
+
+22
+00:00:55.870 --> 00:00:58.520
+while the user is not going to be able to launch EC2
+
+23
+00:00:58.520 --> 00:01:01.980
+instance from a not approved AMI and is going to be allowed
+
+24
+00:01:01.980 --> 00:01:05.080
+to launch an AMI from an approved, EC2 instance sorry,
+
+25
+00:01:05.080 --> 00:01:07.010
+from an approved AMI.
+
+26
+00:01:07.010 --> 00:01:07.900
+And that's for number one.
+
+27
+00:01:07.900 --> 00:01:10.530
+So this is to prevent AMIs from being launched
+
+28
+00:01:10.530 --> 00:01:11.840
+if they're not approved.
+
+29
+00:01:11.840 --> 00:01:15.617
+But the second thing is that you can have AWS Config to find
+
+30
+00:01:15.617 --> 00:01:18.650
+non-compliant EC2 instances,
+
+31
+00:01:18.650 --> 00:01:21.703
+which are EC2 instances that have been launched using
+
+32
+00:01:21.703 --> 00:01:25.290
+AMIs that were not approved before.
+
+33
+00:01:25.290 --> 00:01:27.820
+So let's take an example, somehow a user managed to find a
+
+34
+00:01:27.820 --> 00:01:29.750
+way to launch two EC2 instances,
+
+35
+00:01:29.750 --> 00:01:31.240
+one from an approved AMI.
+
+36
+00:01:31.240 --> 00:01:33.200
+And one from one that wasn't approved.
+
+37
+00:01:33.200 --> 00:01:35.056
+In this case, using config we can write a rule
+
+38
+00:01:35.056 --> 00:01:38.780
+and it's going to monitor all the EC2 instances
+
+39
+00:01:38.780 --> 00:01:41.753
+and find if these two EC2 instances are complaint or not.
+
+40
+00:01:41.753 --> 00:01:44.980
+And the ones are not compliant will be flagged by config,
+
+41
+00:01:44.980 --> 00:01:46.570
+and then we can take actions.
+
+42
+00:01:46.570 --> 00:01:48.670
+And the ones are compliant will be marked green.
+
+43
+00:01:48.670 --> 00:01:50.020
+And we're good to go.
+
+44
+00:01:50.020 --> 00:01:51.450
+So that's a short theory lecture,
+
+45
+00:01:51.450 --> 00:01:54.640
+but it's a good way to see how you can have a production
+
+46
+00:01:54.640 --> 00:01:56.160
+ready set up for your AMIs.
+
+47
+00:01:56.160 --> 00:01:57.910
+I will see you in the next lecture.
+

@@ -1,0 +1,694 @@
+WEBVTT
+
+1
+00:00:00.330 --> 00:00:01.380
+<v Instructor>So, let's go ahead</v>
+
+2
+00:00:01.380 --> 00:00:04.320
+and practice using CloudFormation.
+
+3
+00:00:04.320 --> 00:00:07.093
+So, very important, first thing you need to do
+
+4
+00:00:07.093 --> 00:00:10.230
+is to select the US East, Northern Virginia,
+
+5
+00:00:10.230 --> 00:00:12.300
+us-east-1 region.
+
+6
+00:00:12.300 --> 00:00:15.030
+And the reason I want you to be in us-east-1
+
+7
+00:00:15.030 --> 00:00:17.130
+is that all the templates have been designed
+
+8
+00:00:17.130 --> 00:00:19.830
+for that region, especially when talking about AMI IDs,
+
+9
+00:00:19.830 --> 00:00:21.420
+which are region-specific,
+
+10
+00:00:21.420 --> 00:00:23.070
+so just for the sake of learning,
+
+11
+00:00:23.070 --> 00:00:26.640
+please use Northern Virginia, us-east-1.
+
+12
+00:00:26.640 --> 00:00:30.180
+Okay, so next, let's first have a look at CloudFormation.
+
+13
+00:00:30.180 --> 00:00:31.020
+So, this is a service.
+
+14
+00:00:31.020 --> 00:00:33.480
+As you can see, I currently have zero stacks.
+
+15
+00:00:33.480 --> 00:00:36.660
+You may have some stacks if you already use Beanstalk,
+
+16
+00:00:36.660 --> 00:00:37.493
+or stuff like this,
+
+17
+00:00:37.493 --> 00:00:40.290
+but it doesn't matter if you have zero or more.
+
+18
+00:00:40.290 --> 00:00:43.140
+So, let's go ahead and create a stack.
+
+19
+00:00:43.140 --> 00:00:44.190
+And we have several options,
+
+20
+00:00:44.190 --> 00:00:46.470
+we can choose an existing template,
+
+21
+00:00:46.470 --> 00:00:47.760
+or use a sample template,
+
+22
+00:00:47.760 --> 00:00:50.940
+or build directly from Application Composer.
+
+23
+00:00:50.940 --> 00:00:52.530
+We're going to use a sample template
+
+24
+00:00:52.530 --> 00:00:54.720
+just so I can show you exactly what CloudFormation
+
+25
+00:00:54.720 --> 00:00:56.100
+is made of.
+
+26
+00:00:56.100 --> 00:00:58.800
+And then, in the list of sample templates,
+
+27
+00:00:58.800 --> 00:01:03.210
+you can use, for example, Multi_AZ_Simple, WordPress blog.
+
+28
+00:01:03.210 --> 00:01:04.680
+It doesn't really matter what you choose,
+
+29
+00:01:04.680 --> 00:01:07.320
+but select this one. And we're not going to launch it,
+
+30
+00:01:07.320 --> 00:01:09.300
+but we're going to click here to view it
+
+31
+00:01:09.300 --> 00:01:10.953
+in Application Composer.
+
+32
+00:01:12.120 --> 00:01:14.730
+So, once we are in Application Composer,
+
+33
+00:01:14.730 --> 00:01:17.310
+we get to see how our application is made.
+
+34
+00:01:17.310 --> 00:01:18.720
+We get to see it visually,
+
+35
+00:01:18.720 --> 00:01:20.760
+and as well with code.
+
+36
+00:01:20.760 --> 00:01:23.040
+So, let me show you first the code.
+
+37
+00:01:23.040 --> 00:01:24.930
+So, you click here on Template,
+
+38
+00:01:24.930 --> 00:01:28.440
+and we have the option to choose YAML or JSON.
+
+39
+00:01:28.440 --> 00:01:31.341
+So I prefer YAML, but some people prefer JSON,
+
+40
+00:01:31.341 --> 00:01:32.430
+but I prefer YAML for the readability,
+
+41
+00:01:32.430 --> 00:01:34.440
+and this is what we're going to do in this course.
+
+42
+00:01:34.440 --> 00:01:38.730
+And so this entire file right here is your YAML template
+
+43
+00:01:38.730 --> 00:01:40.740
+of your CloudFormation file.
+
+44
+00:01:40.740 --> 00:01:42.990
+And as you can see, there's a lot of code,
+
+45
+00:01:42.990 --> 00:01:45.000
+we have a lot of things to look at,
+
+46
+00:01:45.000 --> 00:01:47.610
+and right now, we don't know anything about CloudFormation.
+
+47
+00:01:47.610 --> 00:01:49.170
+So, don't worry too much about this,
+
+48
+00:01:49.170 --> 00:01:50.670
+but later on in this course,
+
+49
+00:01:50.670 --> 00:01:53.280
+you'll be able to understand at least some of it.
+
+50
+00:01:53.280 --> 00:01:58.280
+So, this template is actually rendering into components,
+
+51
+00:01:59.820 --> 00:02:02.160
+and these components can be a lot of things.
+
+52
+00:02:02.160 --> 00:02:05.370
+And so this is why you can see here in the Canvas
+
+53
+00:02:05.370 --> 00:02:06.870
+what these components are.
+
+54
+00:02:06.870 --> 00:02:09.390
+So, if you were to zoom in, for example,
+
+55
+00:02:09.390 --> 00:02:13.002
+you see here we have a WebServerSecurityGroup,
+
+56
+00:02:13.002 --> 00:02:15.150
+a LaunchConfig, a WebServerGroup.
+
+57
+00:02:15.150 --> 00:02:16.530
+Here we have a database instance,
+
+58
+00:02:16.530 --> 00:02:18.660
+a database security group, and so on.
+
+59
+00:02:18.660 --> 00:02:21.090
+So, if you click on it, you can see, for example,
+
+60
+00:02:21.090 --> 00:02:23.724
+that there are some resource configuration
+
+61
+00:02:23.724 --> 00:02:25.800
+directly from the CloudFormation templates that are here.
+
+62
+00:02:25.800 --> 00:02:27.120
+So, bottom line is,
+
+63
+00:02:27.120 --> 00:02:29.070
+you have a direct representation
+
+64
+00:02:29.070 --> 00:02:30.870
+of your CloudFormation template
+
+65
+00:02:30.870 --> 00:02:33.030
+directly in a visual setting,
+
+66
+00:02:33.030 --> 00:02:34.440
+which is very nice.
+
+67
+00:02:34.440 --> 00:02:36.840
+So now we know that this code right here
+
+68
+00:02:36.840 --> 00:02:40.110
+corresponds to some resources in AWS.
+
+69
+00:02:40.110 --> 00:02:42.560
+So now, instead, let's go back to CloudFormation.
+
+70
+00:02:43.620 --> 00:02:45.870
+So we're not going to deploy the template,
+
+71
+00:02:45.870 --> 00:02:47.760
+because it would be useless,
+
+72
+00:02:47.760 --> 00:02:49.290
+and it would cost us some money.
+
+73
+00:02:49.290 --> 00:02:50.670
+Instead we're going to create a stack,
+
+74
+00:02:50.670 --> 00:02:53.070
+and this time we're going to use the code
+
+75
+00:02:53.070 --> 00:02:54.780
+that I've provided.
+
+76
+00:02:54.780 --> 00:02:57.780
+So first, let's have a look at the files we have.
+
+77
+00:02:57.780 --> 00:03:00.480
+So within your code, go to CloudFormation,
+
+78
+00:03:00.480 --> 00:03:03.870
+and you will find 0-just-ec2.yaml,
+
+79
+00:03:03.870 --> 00:03:04.980
+and open this file.
+
+80
+00:03:04.980 --> 00:03:07.620
+And this is our first YAML file.
+
+81
+00:03:07.620 --> 00:03:08.880
+So, let's have a look at what it does.
+
+82
+00:03:08.880 --> 00:03:10.230
+So, we have Resources,
+
+83
+00:03:10.230 --> 00:03:12.690
+and this is the mandatory thing
+
+84
+00:03:12.690 --> 00:03:15.270
+you need to have in your CloudFormation templates.
+
+85
+00:03:15.270 --> 00:03:16.740
+And then you have a name
+
+86
+00:03:16.740 --> 00:03:19.683
+of your first CloudFormation resource named MyInstance.
+
+87
+00:03:20.850 --> 00:03:25.080
+The type of MyInstance is AWS::EC2::Instance,
+
+88
+00:03:25.080 --> 00:03:26.640
+this right here.
+
+89
+00:03:26.640 --> 00:03:28.200
+And by the way, all the popups you see
+
+90
+00:03:28.200 --> 00:03:30.570
+is just made of VS Code,
+
+91
+00:03:30.570 --> 00:03:32.730
+and the CloudFormation plugin for VS Code,
+
+92
+00:03:32.730 --> 00:03:34.440
+but don't worry if you don't have it.
+
+93
+00:03:34.440 --> 00:03:36.600
+So, the type is EC2 instance.
+
+94
+00:03:36.600 --> 00:03:38.490
+And then we have Properties.
+
+95
+00:03:38.490 --> 00:03:41.550
+And so we're saying, hey, please create an EC2 instance,
+
+96
+00:03:41.550 --> 00:03:44.310
+and the first thing is that the availability zone
+
+97
+00:03:44.310 --> 00:03:46.800
+must be us-east-1a,
+
+98
+00:03:46.800 --> 00:03:50.730
+the ImageId AMI ID should be this AMI,
+
+99
+00:03:50.730 --> 00:03:54.390
+and the InstanceType should be t2.micro.
+
+100
+00:03:54.390 --> 00:03:55.920
+And these three parameters
+
+101
+00:03:55.920 --> 00:03:58.470
+are enough for us to start using
+
+102
+00:03:58.470 --> 00:04:00.660
+and creating an EC2 instance,
+
+103
+00:04:00.660 --> 00:04:03.330
+in which we have specified a few parameters.
+
+104
+00:04:03.330 --> 00:04:04.410
+So as you can see,
+
+105
+00:04:04.410 --> 00:04:08.310
+nothing has been decided and defined in the console,
+
+106
+00:04:08.310 --> 00:04:09.750
+only through code.
+
+107
+00:04:09.750 --> 00:04:11.730
+So, let's upload a template file,
+
+108
+00:04:11.730 --> 00:04:16.080
+and let's choose 0-just-ec2.yaml.
+
+109
+00:04:16.080 --> 00:04:19.833
+And we're going to name it EC2InstanceDemo.
+
+110
+00:04:24.810 --> 00:04:26.580
+And Next.
+
+111
+00:04:26.580 --> 00:04:29.250
+And right now we have no tags, no permissions,
+
+112
+00:04:29.250 --> 00:04:31.440
+we are not going to look at these settings either,
+
+113
+00:04:31.440 --> 00:04:33.660
+or those, they will come in due time
+
+114
+00:04:33.660 --> 00:04:36.900
+when we look at the rest of the lectures in CloudFormation.
+
+115
+00:04:36.900 --> 00:04:39.180
+So, right now, we just have a template.
+
+116
+00:04:39.180 --> 00:04:40.290
+The template is ready,
+
+117
+00:04:40.290 --> 00:04:45.290
+as you can see, it has been uploaded to Amazon S3 by AWS.
+
+118
+00:04:45.660 --> 00:04:47.610
+So when we click on upload a file, it goes to S3,
+
+119
+00:04:47.610 --> 00:04:50.730
+and then CloudFormation is referencing this file
+
+120
+00:04:50.730 --> 00:04:52.380
+in Amazon S3.
+
+121
+00:04:52.380 --> 00:04:56.340
+And finally, if we're good to go, then we click on Submit.
+
+122
+00:04:56.340 --> 00:05:01.340
+And voila, our first stack is being created.
+
+123
+00:05:01.530 --> 00:05:03.660
+So now, as you can see in Events, we have one event,
+
+124
+00:05:03.660 --> 00:05:06.210
+which is that the stack is being created.
+
+125
+00:05:06.210 --> 00:05:08.790
+And if I refresh this, as you can see,
+
+126
+00:05:08.790 --> 00:05:11.190
+there is MyInstance, CREATE_IN_PROGRESS,
+
+127
+00:05:11.190 --> 00:05:12.420
+and it was very quick,
+
+128
+00:05:12.420 --> 00:05:14.940
+now MyInstance is in CREATE_COMPLETE.
+
+129
+00:05:14.940 --> 00:05:15.773
+And what that means
+
+130
+00:05:15.773 --> 00:05:18.690
+is that the EC2 instance has been created.
+
+131
+00:05:18.690 --> 00:05:20.250
+Now, how do I access it?
+
+132
+00:05:20.250 --> 00:05:22.080
+Well, if you click on Resources,
+
+133
+00:05:22.080 --> 00:05:24.990
+here, you see that one resource has been created,
+
+134
+00:05:24.990 --> 00:05:27.240
+and the Physical ID is right here,
+
+135
+00:05:27.240 --> 00:05:28.530
+and if you click on it,
+
+136
+00:05:28.530 --> 00:05:32.400
+this takes you directly into the Amazon EC2 Console
+
+137
+00:05:32.400 --> 00:05:34.770
+for you to look at this EC2 instance
+
+138
+00:05:34.770 --> 00:05:37.860
+that has been created by CloudFormation.
+
+139
+00:05:37.860 --> 00:05:39.510
+So, as we can see,
+
+140
+00:05:39.510 --> 00:05:43.860
+the instance type is t2.micro, just as you requested it.
+
+141
+00:05:43.860 --> 00:05:46.290
+If we have a look at the availability zone,
+
+142
+00:05:46.290 --> 00:05:48.900
+which is, I'm not exactly sure where it's going to be,
+
+143
+00:05:48.900 --> 00:05:51.810
+yeah, right here, us-east-1a.
+
+144
+00:05:51.810 --> 00:05:54.120
+And if you have a look at the AMI,
+
+145
+00:05:54.120 --> 00:05:56.910
+it's going to be using the Amazon image
+
+146
+00:05:56.910 --> 00:05:58.680
+that we've requested, exactly that one,
+
+147
+00:05:58.680 --> 00:06:01.680
+which is Amazon Linux 2023.
+
+148
+00:06:01.680 --> 00:06:03.720
+So, this EC2 instance was created
+
+149
+00:06:03.720 --> 00:06:08.100
+exactly as it was requested in the CloudFormation template.
+
+150
+00:06:08.100 --> 00:06:09.810
+On top of it, if you look at Tags,
+
+151
+00:06:09.810 --> 00:06:10.980
+you can see that this instance
+
+152
+00:06:10.980 --> 00:06:13.290
+has been tagged by CloudFormation.
+
+153
+00:06:13.290 --> 00:06:16.980
+We have the stack ID, the logical ID, and the stack name,
+
+154
+00:06:16.980 --> 00:06:18.360
+that have been tagged properly,
+
+155
+00:06:18.360 --> 00:06:20.060
+so, stack name is EC2InstanceDemo.
+
+156
+00:06:21.120 --> 00:06:23.610
+The logical ID of my resource is MyInstance,
+
+157
+00:06:23.610 --> 00:06:24.900
+and then the stack ID
+
+158
+00:06:24.900 --> 00:06:29.190
+is a link to the ID of my CloudFormation stack.
+
+159
+00:06:29.190 --> 00:06:31.020
+So, now going back here,
+
+160
+00:06:31.020 --> 00:06:32.880
+we can have a look at the Stack Info,
+
+161
+00:06:32.880 --> 00:06:34.470
+the Events, which is all the events that happened
+
+162
+00:06:34.470 --> 00:06:36.510
+to my creation of my stack,
+
+163
+00:06:36.510 --> 00:06:38.340
+the Resources, which is linked to the resources
+
+164
+00:06:38.340 --> 00:06:39.630
+that are being created.
+
+165
+00:06:39.630 --> 00:06:41.400
+Outputs, we can only have nothing.
+
+166
+00:06:41.400 --> 00:06:42.360
+Parameters, nothing.
+
+167
+00:06:42.360 --> 00:06:45.960
+And template is the exact template as we uploaded it.
+
+168
+00:06:45.960 --> 00:06:47.190
+And that's it.
+
+169
+00:06:47.190 --> 00:06:49.290
+So, now we've seen the power of CloudFormation,
+
+170
+00:06:49.290 --> 00:06:51.540
+we started to create one EC2 instance
+
+171
+00:06:51.540 --> 00:06:53.100
+directly from the templates,
+
+172
+00:06:53.100 --> 00:06:54.840
+and I will see you in the next lecture
+
+173
+00:06:54.840 --> 00:06:57.033
+for more hands-on on CloudFormation.
+

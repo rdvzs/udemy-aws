@@ -1,0 +1,214 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:01.560
+<v Instructor>Okay, so let's go ahead</v>
+
+2
+00:00:01.560 --> 00:00:04.020
+and start launching instances
+
+3
+00:00:04.020 --> 00:00:05.920
+so that we can do our tutorial.
+
+4
+00:00:05.920 --> 00:00:08.453
+So let's name this one MyFirstInstance.
+
+5
+00:00:10.060 --> 00:00:13.370
+I will choose Amazon Linux,
+
+6
+00:00:13.370 --> 00:00:14.890
+and then I will scroll down.
+
+7
+00:00:14.890 --> 00:00:16.390
+I have a t2 micro.
+
+8
+00:00:16.390 --> 00:00:17.500
+For a key pair I can use one
+
+9
+00:00:17.500 --> 00:00:18.333
+I already have,
+
+10
+00:00:18.333 --> 00:00:20.400
+but I can just also create a new key pair.
+
+11
+00:00:20.400 --> 00:00:22.190
+Call this one DemoKeyPair.
+
+12
+00:00:22.190 --> 00:00:25.970
+I have to have RSA pem, and I will create it.
+
+13
+00:00:25.970 --> 00:00:27.220
+This way I can show you the complete steps
+
+14
+00:00:27.220 --> 00:00:30.490
+to making sure the key pair is properly configured.
+
+15
+00:00:30.490 --> 00:00:33.004
+Then for network settings, I can edit this
+
+16
+00:00:33.004 --> 00:00:35.440
+and I will create a new security group.
+
+17
+00:00:35.440 --> 00:00:39.630
+I will call it AWSSSH, and then I will make sure
+
+18
+00:00:39.630 --> 00:00:43.410
+to only have ssh on port 22 allowed from anywhere,
+
+19
+00:00:43.410 --> 00:00:44.720
+so that's good.
+
+20
+00:00:44.720 --> 00:00:45.850
+Storage looks good.
+
+21
+00:00:45.850 --> 00:00:49.253
+And then I will go ahead and launch my instance.
+
+22
+00:00:50.590 --> 00:00:52.910
+Okay, so my instance is now launched
+
+23
+00:00:52.910 --> 00:00:55.369
+and I'm going to perform the ssh on it.
+
+24
+00:00:55.369 --> 00:00:59.610
+So I will copy the public IPV4 address.
+
+25
+00:00:59.610 --> 00:01:02.940
+From there I'm going to go into my downloads directory.
+
+26
+00:01:02.940 --> 00:01:04.500
+This is where my key pair is.
+
+27
+00:01:04.500 --> 00:01:06.830
+So I'm going to change the permissions
+
+28
+00:01:06.830 --> 00:01:08.590
+of my DemoKeyPair.pem,
+
+29
+00:01:08.590 --> 00:01:11.140
+and then I will run the ssh utility.
+
+30
+00:01:11.140 --> 00:01:14.090
+So hopefully I'm not teaching you anything right here,
+
+31
+00:01:14.090 --> 00:01:18.533
+and then ec2-user@, and then the IP of the instance.
+
+32
+00:01:19.380 --> 00:01:21.190
+And then if everything's good I will say yes.
+
+33
+00:01:21.190 --> 00:01:23.940
+And then it will directly add a session to my instance.
+
+34
+00:01:26.060 --> 00:01:28.150
+And I am in my instance.
+
+35
+00:01:28.150 --> 00:01:28.983
+So that's good.
+
+36
+00:01:28.983 --> 00:01:29.816
+I could, as I said to you
+
+37
+00:01:29.816 --> 00:01:32.810
+now I can do any command such as echo "hello world."
+
+38
+00:01:32.810 --> 00:01:34.720
+And as you can see, it's working.
+
+39
+00:01:34.720 --> 00:01:35.860
+The other way I can connect
+
+40
+00:01:35.860 --> 00:01:38.390
+to my instance is using EC2 Instance Connect.
+
+41
+00:01:38.390 --> 00:01:39.490
+So to do so,
+
+42
+00:01:39.490 --> 00:01:41.450
+I just click on EC2 Instance Connect.
+
+43
+00:01:41.450 --> 00:01:43.580
+The username is suggested by me as ec2-user
+
+44
+00:01:43.580 --> 00:01:46.170
+which is good because we're using Amazon Linux.
+
+45
+00:01:46.170 --> 00:01:47.403
+Let's click on connect.
+
+46
+00:01:49.900 --> 00:01:51.490
+And yet again, I am in my instance
+
+47
+00:01:51.490 --> 00:01:54.400
+and I can issue any kind of commands.
+
+48
+00:01:54.400 --> 00:01:55.233
+So that's good.
+
+49
+00:01:55.233 --> 00:01:56.280
+We have created our instance.
+
+50
+00:01:56.280 --> 00:01:59.380
+We have connected two (indistinct) in two different ways.
+
+51
+00:01:59.380 --> 00:02:00.213
+So that's it.
+
+52
+00:02:00.213 --> 00:02:01.046
+I hope you liked it.
+
+53
+00:02:01.046 --> 00:02:02.780
+And I will see you in the next lecture.
+

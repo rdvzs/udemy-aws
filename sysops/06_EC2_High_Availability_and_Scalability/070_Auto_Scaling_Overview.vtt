@@ -1,0 +1,206 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:02.400
+<v Instructor>So are the backbone of Auto Scaling</v>
+
+2
+00:00:02.400 --> 00:00:04.720
+is the AWS Auto Scaling Service.
+
+3
+00:00:04.720 --> 00:00:06.670
+So it's going to be available for all the
+
+4
+00:00:06.670 --> 00:00:08.190
+scalable resources in AWS.
+
+5
+00:00:08.190 --> 00:00:10.340
+So Auto Scaling groups obviously to allow you
+
+6
+00:00:10.340 --> 00:00:12.530
+to launch or terminate EC2 instances.
+
+7
+00:00:12.530 --> 00:00:14.030
+But also Spot Fleet requests,
+
+8
+00:00:14.030 --> 00:00:15.800
+to launch or terminate instances
+
+9
+00:00:15.800 --> 00:00:17.800
+from a Spot Fleet request itself.
+
+10
+00:00:17.800 --> 00:00:20.270
+And to automatically replace instances that get interrupted
+
+11
+00:00:20.270 --> 00:00:22.210
+for price or capacity reasons.
+
+12
+00:00:22.210 --> 00:00:25.190
+You have Amazon ECS that will be leveraging Auto Scaling
+
+13
+00:00:25.190 --> 00:00:28.050
+to adjust the ECS service desired count up and down.
+
+14
+00:00:28.050 --> 00:00:31.430
+DynamoDB tables for your tables or your global
+
+15
+00:00:31.430 --> 00:00:34.880
+secondary indexes to adjust the WCU and RCU.
+
+16
+00:00:34.880 --> 00:00:38.740
+So write capacity units and read capacity units over time.
+
+17
+00:00:38.740 --> 00:00:41.170
+And Aurora will be using Auto Scanning as well
+
+18
+00:00:41.170 --> 00:00:43.760
+for Dynamic Read Replica Auto Scaling, okay?
+
+19
+00:00:43.760 --> 00:00:45.840
+And obviously, maybe other services as well
+
+20
+00:00:45.840 --> 00:00:49.570
+will be added over time to the Auto Scaling service in AWS.
+
+21
+00:00:49.570 --> 00:00:52.040
+So we have Scaling Plans and it can be dynamic scaling.
+
+22
+00:00:52.040 --> 00:00:55.450
+We start knowing it already to track a target itself.
+
+23
+00:00:55.450 --> 00:00:57.630
+So without dynamic scaling,
+
+24
+00:00:57.630 --> 00:00:59.000
+you have the same capacity over time.
+
+25
+00:00:59.000 --> 00:01:00.250
+But with dynamic scaling,
+
+26
+00:01:00.250 --> 00:01:02.530
+you start adjusting the capacity over time.
+
+27
+00:01:02.530 --> 00:01:06.910
+And so you stabilize the utilization of your service itself.
+
+28
+00:01:06.910 --> 00:01:09.580
+So you can optimize for availability in which case
+
+29
+00:01:09.580 --> 00:01:13.400
+40% of your research utilization will be the target.
+
+30
+00:01:13.400 --> 00:01:17.210
+You can balance, and so this will be about 50% utilization.
+
+31
+00:01:17.210 --> 00:01:19.100
+Or if you want to optimize for cost,
+
+32
+00:01:19.100 --> 00:01:21.560
+then you will have 70% of resource utilization.
+
+33
+00:01:21.560 --> 00:01:24.430
+But obviously the closer you get to 100%,
+
+34
+00:01:24.430 --> 00:01:26.270
+the less efficient your scaling is going to be
+
+35
+00:01:26.270 --> 00:01:29.220
+because you're going to reach a performance bottleneck.
+
+36
+00:01:29.220 --> 00:01:31.240
+And obviously you can choose your own metric
+
+37
+00:01:31.240 --> 00:01:32.600
+and your own target value
+
+38
+00:01:32.600 --> 00:01:34.880
+if you didn't want to follow the recommendations
+
+39
+00:01:34.880 --> 00:01:36.470
+provided by AWS.
+
+40
+00:01:36.470 --> 00:01:39.280
+And options for dynamic scaling is to disable scale-in.
+
+41
+00:01:39.280 --> 00:01:42.150
+So that means you can only scale out, but not scale-in.
+
+42
+00:01:42.150 --> 00:01:44.110
+You can specify the cool-down period,
+
+43
+00:01:44.110 --> 00:01:46.980
+as well as the warmup time for the ASG.
+
+44
+00:01:46.980 --> 00:01:49.980
+And opposite to dynamic scaling is predictive scaling.
+
+45
+00:01:49.980 --> 00:01:51.300
+So we know this already.
+
+46
+00:01:51.300 --> 00:01:53.350
+So with predictive scaling, the idea is that
+
+47
+00:01:53.350 --> 00:01:55.910
+you're going to analyze the historical loads
+
+48
+00:01:55.910 --> 00:01:58.550
+using a machine learning algorithm done by AWS for you,
+
+49
+00:01:58.550 --> 00:02:00.570
+and then a forecast will be generated
+
+50
+00:02:00.570 --> 00:02:03.430
+and then scheduling extras will be taken automatically
+
+51
+00:02:03.430 --> 00:02:04.963
+based on that forecast.
+

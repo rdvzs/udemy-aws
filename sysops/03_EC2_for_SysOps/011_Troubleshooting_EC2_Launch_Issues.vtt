@@ -1,0 +1,398 @@
+WEBVTT
+
+1
+00:00:00.360 --> 00:00:02.460
+<v Instructor>Let's look why an EC2 instance</v>
+
+2
+00:00:02.460 --> 00:00:04.380
+would have trouble to be launched.
+
+3
+00:00:04.380 --> 00:00:07.350
+So if you get an instance limit exceeded error,
+
+4
+00:00:07.350 --> 00:00:08.520
+that means that you have reached
+
+5
+00:00:08.520 --> 00:00:12.000
+the max number of vCPUs per region.
+
+6
+00:00:12.000 --> 00:00:13.410
+So when you launch an EC2 instance,
+
+7
+00:00:13.410 --> 00:00:15.960
+it has a specific number of vCPUs,
+
+8
+00:00:15.960 --> 00:00:18.480
+and there are limits for on-demand
+
+9
+00:00:18.480 --> 00:00:20.850
+and spot instances for vCPU.
+
+10
+00:00:20.850 --> 00:00:22.770
+So the resolution, in case you reach that limit,
+
+11
+00:00:22.770 --> 00:00:25.200
+is to launch either the instance in different region
+
+12
+00:00:25.200 --> 00:00:26.760
+where the limits will be reset,
+
+13
+00:00:26.760 --> 00:00:31.230
+or to request AWS to increase your limits in the region.
+
+14
+00:00:31.230 --> 00:00:33.480
+And just so you know, the vCPU-based limits
+
+15
+00:00:33.480 --> 00:00:37.530
+only apply to running on demand and spot instances.
+
+16
+00:00:37.530 --> 00:00:38.910
+So we can see this in two ways.
+
+17
+00:00:38.910 --> 00:00:41.520
+First of all, if we go to limits on the left-hand side,
+
+18
+00:00:41.520 --> 00:00:45.330
+and then we look for vCPU, we have two limits to look at.
+
+19
+00:00:45.330 --> 00:00:48.360
+So the first one is this one,
+
+20
+00:00:48.360 --> 00:00:51.210
+all standard spot instance request,
+
+21
+00:00:51.210 --> 00:00:53.880
+which is limited to 64 vCPUs.
+
+22
+00:00:53.880 --> 00:00:55.860
+That means that once we reach that number,
+
+23
+00:00:55.860 --> 00:00:57.630
+then we will have an error.
+
+24
+00:00:57.630 --> 00:00:58.890
+And if you scroll down,
+
+25
+00:00:58.890 --> 00:01:01.920
+there's a running on-demand all standard.
+
+26
+00:01:01.920 --> 00:01:05.430
+So again, 64 vCPUs, okay?
+
+27
+00:01:05.430 --> 00:01:07.950
+And in case you wanted to increase that limit,
+
+28
+00:01:07.950 --> 00:01:12.240
+you could click on here to request a limit increase.
+
+29
+00:01:12.240 --> 00:01:15.330
+There's also a way for you to calculate the vCPU limit
+
+30
+00:01:15.330 --> 00:01:17.730
+using this calculator, but I won't go over it.
+
+31
+00:01:17.730 --> 00:01:19.590
+And another way to look at it
+
+32
+00:01:19.590 --> 00:01:21.210
+would be the service quotas console,
+
+33
+00:01:21.210 --> 00:01:22.770
+which is a very cool service.
+
+34
+00:01:22.770 --> 00:01:26.250
+So you would go into the Amazon Elastic Compute Cloud,
+
+35
+00:01:26.250 --> 00:01:29.940
+Amazon EC2, and then you would look for
+
+36
+00:01:29.940 --> 00:01:31.920
+standard, the keyword standard.
+
+37
+00:01:31.920 --> 00:01:34.260
+As you can see, all standard spot instance request
+
+38
+00:01:34.260 --> 00:01:36.420
+has a 64 limit,
+
+39
+00:01:36.420 --> 00:01:39.480
+and running on-demand as well is a 64 limit.
+
+40
+00:01:39.480 --> 00:01:42.120
+And if I click on it, we can have a look at
+
+41
+00:01:42.120 --> 00:01:45.360
+what is the value and the quota value,
+
+42
+00:01:45.360 --> 00:01:47.790
+and then we can request a quota increase.
+
+43
+00:01:47.790 --> 00:01:49.560
+Now, how do we know how many VCPUs
+
+44
+00:01:49.560 --> 00:01:51.090
+get launched by each instance?
+
+45
+00:01:51.090 --> 00:01:53.430
+Well, if we go and launch an instance,
+
+46
+00:01:53.430 --> 00:01:55.950
+we can find out how many vPCUs
+
+47
+00:01:55.950 --> 00:01:58.050
+based on instance type by going into instance type,
+
+48
+00:01:58.050 --> 00:02:00.450
+and then click on compare instance types.
+
+49
+00:02:00.450 --> 00:02:01.283
+And in here,
+
+50
+00:02:01.283 --> 00:02:03.930
+you have the instance type versus number of vCPU.
+
+51
+00:02:03.930 --> 00:02:07.230
+For t2 micros, we can see we have one vCPU.
+
+52
+00:02:07.230 --> 00:02:10.320
+But if you choose an instance such as the c9,
+
+53
+00:02:10.320 --> 00:02:14.070
+c5 9xlarge, we have 36 vCPU.
+
+54
+00:02:14.070 --> 00:02:15.450
+So using this instance type,
+
+55
+00:02:15.450 --> 00:02:17.790
+it would quickly reach the limit.
+
+56
+00:02:17.790 --> 00:02:19.740
+The second kind of troubleshooting issue
+
+57
+00:02:19.740 --> 00:02:22.530
+is if you get an insufficient instance capacity.
+
+58
+00:02:22.530 --> 00:02:23.430
+So if you get this error,
+
+59
+00:02:23.430 --> 00:02:26.700
+that means that AWS has not enough capacity
+
+60
+00:02:26.700 --> 00:02:29.550
+for on-demand in the particular AZ
+
+61
+00:02:29.550 --> 00:02:31.170
+where the instance is launched.
+
+62
+00:02:31.170 --> 00:02:34.950
+This is not a problem on you, this is a problem for AWS.
+
+63
+00:02:34.950 --> 00:02:37.470
+So a resolution for this error can be multiple.
+
+64
+00:02:37.470 --> 00:02:38.970
+For example, you can wait a few minutes
+
+65
+00:02:38.970 --> 00:02:40.350
+before requesting again
+
+66
+00:02:40.350 --> 00:02:44.640
+in case there is more capacity added to that particular AZ.
+
+67
+00:02:44.640 --> 00:02:48.210
+Or you can, for example, request less instance at a time.
+
+68
+00:02:48.210 --> 00:02:51.210
+For example, say you're requesting 10 instances in an AZ,
+
+69
+00:02:51.210 --> 00:02:52.350
+but it's not possible,
+
+70
+00:02:52.350 --> 00:02:55.020
+then maybe break it down into smaller requests,
+
+71
+00:02:55.020 --> 00:02:58.350
+or make a request for a different instance type,
+
+72
+00:02:58.350 --> 00:03:00.900
+for example, something completely different,
+
+73
+00:03:00.900 --> 00:03:02.250
+and that you can resize later.
+
+74
+00:03:02.250 --> 00:03:04.230
+As we can see, we can resize our instances.
+
+75
+00:03:04.230 --> 00:03:07.320
+Or obviously, please try to launch the request
+
+76
+00:03:07.320 --> 00:03:08.640
+in a different AZ
+
+77
+00:03:08.640 --> 00:03:10.940
+if that's something that is acceptable to you.
+
+78
+00:03:11.940 --> 00:03:14.160
+And finally, if the instance that you launch
+
+79
+00:03:14.160 --> 00:03:15.090
+terminates immediately,
+
+80
+00:03:15.090 --> 00:03:16.830
+so it goes from permanent from pending
+
+81
+00:03:16.830 --> 00:03:19.380
+right away to terminated, that means a couple things.
+
+82
+00:03:19.380 --> 00:03:22.740
+You either reach your EBS volume limit, so check this out,
+
+83
+00:03:22.740 --> 00:03:24.510
+or your EBS snapshots you're launching,
+
+84
+00:03:24.510 --> 00:03:26.580
+your instance from is corrupt,
+
+85
+00:03:26.580 --> 00:03:28.890
+or the route EBS volume is encrypted
+
+86
+00:03:28.890 --> 00:03:30.210
+and you do not have permissions
+
+87
+00:03:30.210 --> 00:03:32.970
+to access the KMS key for decryption.
+
+88
+00:03:32.970 --> 00:03:36.240
+Or if it's an AMI instance, store-backed AMI,
+
+89
+00:03:36.240 --> 00:03:38.010
+then maybe it's missing a part.
+
+90
+00:03:38.010 --> 00:03:39.360
+So to find the exact reason,
+
+91
+00:03:39.360 --> 00:03:42.300
+you should check out the EC2 console of AWS,
+
+92
+00:03:42.300 --> 00:03:44.280
+which will give you in the description tab
+
+93
+00:03:44.280 --> 00:03:46.680
+the reason why there was a trouble,
+
+94
+00:03:46.680 --> 00:03:49.860
+a termination of your instance directly, okay?
+
+95
+00:03:49.860 --> 00:03:51.930
+But you need to remember all that I said to you,
+
+96
+00:03:51.930 --> 00:03:53.820
+so the instance terminate, the instance capacity,
+
+97
+00:03:53.820 --> 00:03:56.280
+and instance limit going into the exam.
+
+98
+00:03:56.280 --> 00:03:57.113
+So that's it.
+
+99
+00:03:57.113 --> 00:03:58.540
+I will see you in the next lecture.
+

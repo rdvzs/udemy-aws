@@ -1,0 +1,530 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:02.190
+<v Instructor>So now let's talk about the resources.</v>
+
+2
+00:00:02.190 --> 00:00:05.280
+And as I said before, the resources are the core
+
+3
+00:00:05.280 --> 00:00:06.780
+of your CloudFormation templates,
+
+4
+00:00:06.780 --> 00:00:09.690
+and this is the only mandatory section
+
+5
+00:00:09.690 --> 00:00:12.540
+in your entire CloudFormation templates.
+
+6
+00:00:12.540 --> 00:00:14.940
+These resources are going to represent
+
+7
+00:00:14.940 --> 00:00:17.640
+the different AWS components that will be created
+
+8
+00:00:17.640 --> 00:00:20.400
+and configured as part of your templates.
+
+9
+00:00:20.400 --> 00:00:23.430
+The resources are declared and can reference each other,
+
+10
+00:00:23.430 --> 00:00:26.190
+and then AWS is going to figure out the creation,
+
+11
+00:00:26.190 --> 00:00:29.310
+the updates, and the deletes of the resources for us.
+
+12
+00:00:29.310 --> 00:00:31.740
+There are so many types of resources.
+
+13
+00:00:31.740 --> 00:00:33.690
+They are always increasing in number.
+
+14
+00:00:33.690 --> 00:00:36.450
+Right now, there are over 700 types of resources,
+
+15
+00:00:36.450 --> 00:00:38.190
+and I can't teach you them all,
+
+16
+00:00:38.190 --> 00:00:40.830
+but I can teach you how to read the documentation.
+
+17
+00:00:40.830 --> 00:00:42.570
+So the resource type identifiers
+
+18
+00:00:42.570 --> 00:00:44.400
+are going to be in the form of
+
+19
+00:00:44.400 --> 00:00:49.400
+service-provider::service-name::data-type-name.
+
+20
+00:00:51.150 --> 00:00:53.910
+So how do we find the resource documentation?
+
+21
+00:00:53.910 --> 00:00:55.440
+Well, there's a page in which we right now
+
+22
+00:00:55.440 --> 00:00:56.910
+which has them all.
+
+23
+00:00:56.910 --> 00:00:58.200
+Then we just read the docs
+
+24
+00:00:58.200 --> 00:01:00.720
+and by the knowledge acquired in this course and the docs,
+
+25
+00:01:00.720 --> 00:01:02.040
+we should be good to go.
+
+26
+00:01:02.040 --> 00:01:04.620
+So let's have a look at these two links.
+
+27
+00:01:04.620 --> 00:01:06.240
+So the first link represents
+
+28
+00:01:06.240 --> 00:01:09.750
+all the possible CloudFormation resources.
+
+29
+00:01:09.750 --> 00:01:11.490
+So we can see here the format.
+
+30
+00:01:11.490 --> 00:01:13.410
+and then we can select the resource types.
+
+31
+00:01:13.410 --> 00:01:17.850
+So for example, let's have a look at Amazon Kinesis.
+
+32
+00:01:17.850 --> 00:01:20.430
+Within Kinesis we have two resource types.
+
+33
+00:01:20.430 --> 00:01:23.790
+And if you scroll back and you just look at Amazon EC2,
+
+34
+00:01:23.790 --> 00:01:27.450
+we have all these resources for Amazon EC2.
+
+35
+00:01:27.450 --> 00:01:30.150
+And if we wanted to have a look at a specific one,
+
+36
+00:01:30.150 --> 00:01:33.390
+for example, AWS::EC2::Instance,
+
+37
+00:01:33.390 --> 00:01:36.330
+this is the documentation for this type.
+
+38
+00:01:36.330 --> 00:01:39.390
+And so this is the same page as the one I had linked
+
+39
+00:01:39.390 --> 00:01:40.223
+in my slides.
+
+40
+00:01:40.223 --> 00:01:42.000
+So these two pages are the same.
+
+41
+00:01:42.000 --> 00:01:44.790
+And so here we have the syntax of this.
+
+42
+00:01:44.790 --> 00:01:46.680
+So we've been using this before,
+
+43
+00:01:46.680 --> 00:01:49.650
+and the syntax is either in JSON form,
+
+44
+00:01:49.650 --> 00:01:53.220
+which to me is very difficult to read, or YAML.
+
+45
+00:01:53.220 --> 00:01:56.490
+And so we can have a look at the type, it's EC2::Instance,
+
+46
+00:01:56.490 --> 00:01:57.690
+and then we get properties.
+
+47
+00:01:57.690 --> 00:02:00.660
+And properties are a list of key value pairs.
+
+48
+00:02:00.660 --> 00:02:02.340
+As you can see, they're all here.
+
+49
+00:02:02.340 --> 00:02:04.290
+And by clicking on one of them,
+
+50
+00:02:04.290 --> 00:02:06.900
+you get to learn how to use it.
+
+51
+00:02:06.900 --> 00:02:09.300
+For example, if you click on IamInstanceProfile,
+
+52
+00:02:10.290 --> 00:02:12.390
+you click on it and then you get the information
+
+53
+00:02:12.390 --> 00:02:15.060
+that this is the name of an IamInstanceProfile.
+
+54
+00:02:15.060 --> 00:02:18.690
+Then it tells you how to create an instance profile
+
+55
+00:02:18.690 --> 00:02:21.330
+by going here, and then you would have to look
+
+56
+00:02:21.330 --> 00:02:24.273
+at the YAML form and see how to create it.
+
+57
+00:02:25.290 --> 00:02:27.870
+And then it tells us that it's not required.
+
+58
+00:02:27.870 --> 00:02:28.920
+So we haven't been using it.
+
+59
+00:02:28.920 --> 00:02:32.010
+So it's not a mandatory property to fill in
+
+60
+00:02:32.010 --> 00:02:33.720
+to create an EC2 instance.
+
+61
+00:02:33.720 --> 00:02:34.980
+The type is String.
+
+62
+00:02:34.980 --> 00:02:38.070
+And if you do add it, or if you do create it
+
+63
+00:02:38.070 --> 00:02:42.300
+on an existing EC2 instance, it requires no interruption.
+
+64
+00:02:42.300 --> 00:02:45.570
+That means that the EC2 instance is not going to be stopped,
+
+65
+00:02:45.570 --> 00:02:47.880
+it's not going to be terminated or replaced.
+
+66
+00:02:47.880 --> 00:02:51.930
+But if you were to change the ImageId, the AMI ID,
+
+67
+00:02:51.930 --> 00:02:56.880
+then the update requires a replacement, of course, right?
+
+68
+00:02:56.880 --> 00:03:00.240
+So you get an access of all the syntax
+
+69
+00:03:00.240 --> 00:03:03.300
+of all the properties of the return values,
+
+70
+00:03:03.300 --> 00:03:06.420
+the examples that show in YAML and in JSON
+
+71
+00:03:06.420 --> 00:03:07.950
+how to use these things.
+
+72
+00:03:07.950 --> 00:03:12.450
+So it's quite handy, as well as more links if need be.
+
+73
+00:03:12.450 --> 00:03:15.330
+So going back into our stack,
+
+74
+00:03:15.330 --> 00:03:17.700
+we had a look at just EC2 YAML.
+
+75
+00:03:17.700 --> 00:03:19.980
+So we have type EC2::Instance,
+
+76
+00:03:19.980 --> 00:03:22.770
+and we had three properties that we put in,
+
+77
+00:03:22.770 --> 00:03:27.390
+AvailabilityZone, ImageId, and InstanceType.
+
+78
+00:03:27.390 --> 00:03:29.400
+And if we have a look at this one,
+
+79
+00:03:29.400 --> 00:03:32.850
+we had an EC2::Instance, but also had SecurityGroups.
+
+80
+00:03:32.850 --> 00:03:34.380
+So as you can see, it's a list.
+
+81
+00:03:34.380 --> 00:03:37.140
+So going back into the documentation,
+
+82
+00:03:37.140 --> 00:03:38.760
+let's have a look at the syntax
+
+83
+00:03:38.760 --> 00:03:42.570
+and click on SecurityGroupsId, or security groups.
+
+84
+00:03:42.570 --> 00:03:44.670
+Here we go, security groups.
+
+85
+00:03:44.670 --> 00:03:47.130
+And it says it's an Array of String,
+
+86
+00:03:47.130 --> 00:03:50.490
+and it says here are the names of the security groups.
+
+87
+00:03:50.490 --> 00:03:51.390
+So very easy.
+
+88
+00:03:51.390 --> 00:03:54.000
+And then we have these references right here.
+
+89
+00:03:54.000 --> 00:03:56.280
+So again, the documentation can help us understand
+
+90
+00:03:56.280 --> 00:03:57.300
+these things.
+
+91
+00:03:57.300 --> 00:03:58.830
+For the elastic IP,
+
+92
+00:03:58.830 --> 00:04:03.330
+this is a whole different type of documentation page.
+
+93
+00:04:03.330 --> 00:04:06.777
+So to find it, I would type "elastic IP cloudformation,"
+
+94
+00:04:08.040 --> 00:04:10.140
+and then automatically you will find
+
+95
+00:04:10.140 --> 00:04:11.970
+on the docs the correct page,
+
+96
+00:04:11.970 --> 00:04:15.090
+which tells you how to declare an elastic IP.
+
+97
+00:04:15.090 --> 00:04:16.560
+So here is how to.
+
+98
+00:04:16.560 --> 00:04:18.660
+And then in the bottom under examples,
+
+99
+00:04:18.660 --> 00:04:21.300
+you can see as well how to create one.
+
+100
+00:04:21.300 --> 00:04:24.090
+And this is what I've been using in my own templates.
+
+101
+00:04:24.090 --> 00:04:26.700
+And so here you have SSHSecurityGroup.
+
+102
+00:04:26.700 --> 00:04:28.560
+Again, look at the docs to understand how it works,
+
+103
+00:04:28.560 --> 00:04:29.430
+and so on.
+
+104
+00:04:29.430 --> 00:04:31.740
+And so this is the whole power of resources.
+
+105
+00:04:31.740 --> 00:04:34.050
+Now you know how to create resources
+
+106
+00:04:34.050 --> 00:04:35.490
+and how to find the documentation
+
+107
+00:04:35.490 --> 00:04:38.670
+to properly fill in the properties you need.
+
+108
+00:04:38.670 --> 00:04:41.880
+As you can see, there are tons of properties available
+
+109
+00:04:41.880 --> 00:04:43.350
+for many resources.
+
+110
+00:04:43.350 --> 00:04:44.850
+And so this is all the things
+
+111
+00:04:44.850 --> 00:04:46.590
+you can specify in the console,
+
+112
+00:04:46.590 --> 00:04:49.950
+usually can also be specified through CloudFormation.
+
+113
+00:04:49.950 --> 00:04:52.260
+Now, there are a few frequently asked questions
+
+114
+00:04:52.260 --> 00:04:53.280
+for resources.
+
+115
+00:04:53.280 --> 00:04:56.700
+So first one, "Can I create a dynamic number of resources?"
+
+116
+00:04:56.700 --> 00:04:58.650
+So yes, you can and you need to use
+
+117
+00:04:58.650 --> 00:05:00.870
+CloudFormation Macros and Transform,
+
+118
+00:05:00.870 --> 00:05:03.690
+but it is really not in scope for this course.
+
+119
+00:05:03.690 --> 00:05:06.210
+In this course, everything you write in the template
+
+120
+00:05:06.210 --> 00:05:07.560
+is what's being created,
+
+121
+00:05:07.560 --> 00:05:10.657
+and you cannot dynamically create a number of resources.
+
+122
+00:05:10.657 --> 00:05:13.560
+"Is every AWS Service supported?"
+
+123
+00:05:13.560 --> 00:05:15.540
+The answer is almost.
+
+124
+00:05:15.540 --> 00:05:18.720
+Only a select few things are not there yet.
+
+125
+00:05:18.720 --> 00:05:20.550
+And the way to work around it,
+
+126
+00:05:20.550 --> 00:05:23.220
+and the way the exam expects you to know
+
+127
+00:05:23.220 --> 00:05:24.660
+how to work around it,
+
+128
+00:05:24.660 --> 00:05:28.320
+is by the usage of CloudFormation Custom Resources.
+
+129
+00:05:28.320 --> 00:05:30.960
+So remember that, and I will be talking to you
+
+130
+00:05:30.960 --> 00:05:34.170
+about them a little bit more later in this course.
+
+131
+00:05:34.170 --> 00:05:35.730
+Alright, so that's it for resources.
+
+132
+00:05:35.730 --> 00:05:39.033
+I hope you liked it and I will see you in the next lecture.
+

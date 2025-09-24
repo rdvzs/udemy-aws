@@ -1,0 +1,298 @@
+WEBVTT
+
+1
+00:00:00.130 --> 00:00:02.570
+<v ->So the first surveys we will see into Cognito</v>
+
+2
+00:00:02.570 --> 00:00:05.670
+is called Cognito User Pools, or CUP.
+
+3
+00:00:05.670 --> 00:00:10.060
+And, this is a way to create a serverless database
+
+4
+00:00:10.060 --> 00:00:13.920
+for your web and mobile application users.
+
+5
+00:00:13.920 --> 00:00:15.570
+So, what is a serverless database?
+
+6
+00:00:15.570 --> 00:00:18.250
+That means that your users can use, for example,
+
+7
+00:00:18.250 --> 00:00:21.330
+a simple login, their username or their email,
+
+8
+00:00:21.330 --> 00:00:23.460
+and a password combination,
+
+9
+00:00:23.460 --> 00:00:25.730
+to connect into your applications.
+
+10
+00:00:25.730 --> 00:00:28.670
+They can also obviously reset their passwords,
+
+11
+00:00:28.670 --> 00:00:30.840
+we can, thanks to Cognito User Pools,
+
+12
+00:00:30.840 --> 00:00:34.000
+do an email and phone number verification,
+
+13
+00:00:34.000 --> 00:00:37.600
+we can enable multi-factor authentication for our users,
+
+14
+00:00:37.600 --> 00:00:40.910
+and we are able to tell our users they can login
+
+15
+00:00:40.910 --> 00:00:44.240
+with Google, Facebook, or even SAML,
+
+16
+00:00:44.240 --> 00:00:46.500
+so this is called Federated Identities.
+
+17
+00:00:46.500 --> 00:00:49.030
+So this is pretty much the thing you see
+
+18
+00:00:49.030 --> 00:00:51.160
+when you go onto any other website,
+
+19
+00:00:51.160 --> 00:00:53.090
+they ask you to register users,
+
+20
+00:00:53.090 --> 00:00:54.580
+either create a username/password,
+
+21
+00:00:54.580 --> 00:00:58.300
+or login Google, Facebook, or some other way.
+
+22
+00:00:58.300 --> 00:01:00.650
+There is a feature that you can block users
+
+23
+00:01:00.650 --> 00:01:02.690
+if their credentials are compromised elsewhere,
+
+24
+00:01:02.690 --> 00:01:05.690
+so AWS scans the web for compromised credentials,
+
+25
+00:01:05.690 --> 00:01:08.430
+and will let your user knows into Cognito User Pools,
+
+26
+00:01:08.430 --> 00:01:09.700
+and then finally,
+
+27
+00:01:09.700 --> 00:01:12.900
+and then finally, when your users log in
+
+28
+00:01:12.900 --> 00:01:16.720
+with the Cognito User Pool, what they get back from the API
+
+29
+00:01:16.720 --> 00:01:20.670
+is a JWT, so a JSON Web Token.
+
+30
+00:01:20.670 --> 00:01:24.510
+So, in a diagram, what does our Cognito User Pool look like?
+
+31
+00:01:24.510 --> 00:01:26.720
+Well, they're a database of users,
+
+32
+00:01:26.720 --> 00:01:29.790
+so CUP will have its own internal database of users
+
+33
+00:01:29.790 --> 00:01:31.310
+that we can see,
+
+34
+00:01:31.310 --> 00:01:33.800
+and then our mobile applications
+
+35
+00:01:33.800 --> 00:01:36.200
+and our web application can login
+
+36
+00:01:36.200 --> 00:01:38.220
+against our Cognito User Pool,
+
+37
+00:01:38.220 --> 00:01:39.990
+and when they are logged in,
+
+38
+00:01:39.990 --> 00:01:42.730
+the CUP will return to our user,
+
+39
+00:01:42.730 --> 00:01:44.690
+our mobile applications and our web applications,
+
+40
+00:01:44.690 --> 00:01:47.230
+a JSON Web Token, JWT.
+
+41
+00:01:47.230 --> 00:01:51.430
+As I said, we can also provide login with Amazon, or Google,
+
+42
+00:01:51.430 --> 00:01:54.670
+or Facebook, facility into our Cognito User Pools,
+
+43
+00:01:54.670 --> 00:01:56.430
+so we can do Federation
+
+44
+00:01:56.430 --> 00:01:58.760
+through Third Party Identity Providers,
+
+45
+00:01:58.760 --> 00:02:02.560
+and offer a social login through a social identity provider,
+
+46
+00:02:02.560 --> 00:02:05.310
+so login with Google, login with Facebook.
+
+47
+00:02:05.310 --> 00:02:08.033
+We can also integrate more specific
+
+48
+00:02:08.033 --> 00:02:13.033
+identity providers with SAML, or even OpenID Connect,
+
+49
+00:02:13.490 --> 00:02:16.770
+if you're identity provider supports OpenID Connect.
+
+50
+00:02:16.770 --> 00:02:20.280
+So, that's for how CUP works at a high level,
+
+51
+00:02:20.280 --> 00:02:25.280
+then let's talk about the integrations within AWS for CUP.
+
+52
+00:02:25.300 --> 00:02:28.100
+So CUP integrates with the API Gateway
+
+53
+00:02:28.100 --> 00:02:31.500
+and the Application Load Balancer natively,
+
+54
+00:02:31.500 --> 00:02:34.620
+so for the API Gateway, we've seen how that works already,
+
+55
+00:02:34.620 --> 00:02:37.730
+our users will authenticate with our Cognito User Pool,
+
+56
+00:02:37.730 --> 00:02:40.660
+and retrieve the JSON Web Token from it,
+
+57
+00:02:40.660 --> 00:02:43.420
+then they will pass the web token,
+
+58
+00:02:43.420 --> 00:02:45.608
+the JSON Web Token, to the API Gateway,
+
+59
+00:02:45.608 --> 00:02:48.300
+which will evaluate the Cognito Token
+
+60
+00:02:48.300 --> 00:02:49.800
+and make sure that it is valid,
+
+61
+00:02:49.800 --> 00:02:52.410
+and then, allowing us to access our backend,
+
+62
+00:02:52.410 --> 00:02:54.560
+and this is how we provide authentication
+
+63
+00:02:54.560 --> 00:02:56.750
+onto our API Gateway.
+
+64
+00:02:56.750 --> 00:02:58.750
+But, very simply, we can also use
+
+65
+00:02:58.750 --> 00:03:00.110
+an Application Load Balancer,
+
+66
+00:03:00.110 --> 00:03:03.620
+so using Application Load Balancer Listeners and Rules,
+
+67
+00:03:03.620 --> 00:03:05.890
+we are able to authenticate our users
+
+68
+00:03:05.890 --> 00:03:09.300
+against Cognito User Pools, and then once done,
+
+69
+00:03:09.300 --> 00:03:13.120
+we can forward our users to the backend in our Target Group,
+
+70
+00:03:13.120 --> 00:03:15.940
+which could be EC2 instances, Lambda functions,
+
+71
+00:03:15.940 --> 00:03:17.670
+or ECS containers.
+
+72
+00:03:17.670 --> 00:03:20.410
+So that's it for high level of Cognito User Pools,
+
+73
+00:03:20.410 --> 00:03:22.300
+now let's do a hands on in the next lecture,
+
+74
+00:03:22.300 --> 00:03:24.550
+to practice and see how they work in details.
+

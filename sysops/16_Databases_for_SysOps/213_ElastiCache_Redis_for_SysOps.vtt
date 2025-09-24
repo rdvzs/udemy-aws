@@ -1,0 +1,478 @@
+WEBVTT
+
+1
+00:00:00.350 --> 00:00:02.770
+<v Lecturer>Okay, so now let's do a little bit of dive</v>
+
+2
+00:00:02.770 --> 00:00:07.670
+into how Redis is going to be seen for the SysOps exam.
+
+3
+00:00:07.670 --> 00:00:09.790
+And first of all, you need to know how to scale Redis.
+
+4
+00:00:09.790 --> 00:00:11.670
+So there are two modes for Redis,
+
+5
+00:00:11.670 --> 00:00:13.380
+there's a cluster mode disabled,
+
+6
+00:00:13.380 --> 00:00:15.180
+and the cluster mode enabled.
+
+7
+00:00:15.180 --> 00:00:17.270
+So in case of cluster mode disabled,
+
+8
+00:00:17.270 --> 00:00:19.070
+then we just have one node group
+
+9
+00:00:19.070 --> 00:00:22.530
+with a primary node and up to zero and five replica nodes.
+
+10
+00:00:22.530 --> 00:00:24.120
+So if you want to do horizontal scaling,
+
+11
+00:00:24.120 --> 00:00:27.260
+that means adding instances or removing instances
+
+12
+00:00:27.260 --> 00:00:29.710
+while it's as easy as adding and removing
+
+13
+00:00:29.710 --> 00:00:32.080
+read replicas from your node group,
+
+14
+00:00:32.080 --> 00:00:35.880
+and as you know, you can have a maximum of five replicas.
+
+15
+00:00:35.880 --> 00:00:37.840
+The other kind of scaling you can do for Redis
+
+16
+00:00:37.840 --> 00:00:39.870
+is going to be vertical scaling.
+
+17
+00:00:39.870 --> 00:00:43.120
+In this case, you're going to scale up or down
+
+18
+00:00:43.120 --> 00:00:46.300
+to larger or smaller node types, okay?
+
+19
+00:00:46.300 --> 00:00:48.510
+So that means you're going to change the instance type
+
+20
+00:00:48.510 --> 00:00:51.080
+behind your LST cache cluster.
+
+21
+00:00:51.080 --> 00:00:54.350
+And so to do so is going to be a one-click operation
+
+22
+00:00:54.350 --> 00:00:56.070
+in Redis as well.
+
+23
+00:00:56.070 --> 00:00:58.040
+But you need to know that internally
+
+24
+00:00:58.040 --> 00:01:00.100
+what's going to happen is that elastic cache
+
+25
+00:01:00.100 --> 00:01:02.580
+will create a new node group.
+
+26
+00:01:02.580 --> 00:01:04.640
+And then they will be a data replication
+
+27
+00:01:04.640 --> 00:01:07.290
+from the old node group to the new node group.
+
+28
+00:01:07.290 --> 00:01:10.460
+And then finally, once this replication has happened,
+
+29
+00:01:10.460 --> 00:01:12.360
+then there's going to be a DNS update
+
+30
+00:01:12.360 --> 00:01:15.050
+being done by LST cache service
+
+31
+00:01:15.050 --> 00:01:17.300
+so that it's transparent for your application
+
+32
+00:01:17.300 --> 00:01:20.570
+and they can connect to the new node group directly.
+
+33
+00:01:20.570 --> 00:01:22.730
+So that's for cluster mode disabled,
+
+34
+00:01:22.730 --> 00:01:23.960
+now for cluster mode enabled
+
+35
+00:01:23.960 --> 00:01:25.820
+it gets a little bit more complicated.
+
+36
+00:01:25.820 --> 00:01:27.700
+So there are two kinds of scaling,
+
+37
+00:01:27.700 --> 00:01:29.630
+the first one is online scaling
+
+38
+00:01:29.630 --> 00:01:32.040
+where your cluster is still up and running
+
+39
+00:01:32.040 --> 00:01:33.440
+during the scaling process,
+
+40
+00:01:33.440 --> 00:01:34.980
+that means there is no downtime
+
+41
+00:01:34.980 --> 00:01:37.240
+and you may get some degradation in performance,
+
+42
+00:01:37.240 --> 00:01:39.850
+but your Redis cluster is up and running.
+
+43
+00:01:39.850 --> 00:01:42.420
+And Offline Scaling, which is that,
+
+44
+00:01:42.420 --> 00:01:44.310
+you'll take your entire cluster offline.
+
+45
+00:01:44.310 --> 00:01:46.470
+So you will not be able to serve requests
+
+46
+00:01:46.470 --> 00:01:48.360
+during the scaling process, okay.
+
+47
+00:01:48.360 --> 00:01:50.930
+But then you can do more configuration changes
+
+48
+00:01:50.930 --> 00:01:54.110
+for example, node types or upgrading the engine version.
+
+49
+00:01:54.110 --> 00:01:57.000
+So if we have a look at horizontal scaling
+
+50
+00:01:57.000 --> 00:01:58.460
+for cluster mode enabled,
+
+51
+00:01:58.460 --> 00:02:00.480
+then you can do resharding,
+
+52
+00:02:00.480 --> 00:02:02.240
+that means scaling in and out
+
+53
+00:02:02.240 --> 00:02:04.830
+by adding and removing shards, okay.
+
+54
+00:02:04.830 --> 00:02:06.050
+So in cluster mode enabled,
+
+55
+00:02:06.050 --> 00:02:07.480
+remember we have multiple shards,
+
+56
+00:02:07.480 --> 00:02:10.260
+so we can horizontally scale by adding more shards,
+
+57
+00:02:10.260 --> 00:02:12.120
+or you can do shard rebalancing
+
+58
+00:02:12.120 --> 00:02:13.860
+to distribute the key space
+
+59
+00:02:13.860 --> 00:02:16.330
+among the shards as much as possible.
+
+60
+00:02:16.330 --> 00:02:19.300
+And this horizontal scaling is supported
+
+61
+00:02:19.300 --> 00:02:22.250
+for both online and offline modes, okay.
+
+62
+00:02:22.250 --> 00:02:25.020
+So you can keep it up or take it down
+
+63
+00:02:25.020 --> 00:02:28.460
+if you wanted to add horizontal scaling.
+
+64
+00:02:28.460 --> 00:02:29.490
+Now for vertical scaling,
+
+65
+00:02:29.490 --> 00:02:31.980
+which is to change the node types, okay.
+
+66
+00:02:31.980 --> 00:02:33.740
+To change the read/write capacity.
+
+67
+00:02:33.740 --> 00:02:36.630
+So you want to change to a larger or a smaller node type,
+
+68
+00:02:36.630 --> 00:02:38.780
+and this supports online scaling,
+
+69
+00:02:38.780 --> 00:02:40.470
+and again, this is a one-click thing,
+
+70
+00:02:40.470 --> 00:02:43.000
+and this is going to happen behind the scenes.
+
+71
+00:02:43.000 --> 00:02:45.820
+Okay, now for Redis metrics to monitor.
+
+72
+00:02:45.820 --> 00:02:47.350
+So we have a few metrics
+
+73
+00:02:47.350 --> 00:02:49.930
+that should make sense for a cache technology.
+
+74
+00:02:49.930 --> 00:02:51.370
+So the first one is eviction,
+
+75
+00:02:51.370 --> 00:02:53.610
+so this is the number of non expired items
+
+76
+00:02:53.610 --> 00:02:57.530
+that the cache evicted to allow space for new writes,
+
+77
+00:02:57.530 --> 00:03:00.240
+so that means that you have memory being overfilled.
+
+78
+00:03:00.240 --> 00:03:02.550
+So the solution is to choose an eviction policy
+
+79
+00:03:02.550 --> 00:03:03.990
+to evict expired item,
+
+80
+00:03:03.990 --> 00:03:05.140
+that means that for example,
+
+81
+00:03:05.140 --> 00:03:06.770
+you want to evict automatically
+
+82
+00:03:06.770 --> 00:03:08.540
+the least recently used items
+
+83
+00:03:08.540 --> 00:03:11.060
+to make sure that you don't have too many evictions,
+
+84
+00:03:11.060 --> 00:03:13.480
+or you want to have a larger node type,
+
+85
+00:03:13.480 --> 00:03:14.410
+for our example,
+
+86
+00:03:14.410 --> 00:03:15.530
+to you have more memory
+
+87
+00:03:15.530 --> 00:03:18.140
+or you want to scale out by adding more nodes, for example,
+
+88
+00:03:18.140 --> 00:03:21.810
+if you're using Redis in cluster mode enabled.
+
+89
+00:03:21.810 --> 00:03:24.430
+Then you want to monitor obviously the CPU utilization,
+
+90
+00:03:24.430 --> 00:03:26.100
+that means that if it's too high,
+
+91
+00:03:26.100 --> 00:03:28.710
+then you want to scale up to a larger node time,
+
+92
+00:03:28.710 --> 00:03:31.690
+or you want to scale out horizontally by adding more nodes
+
+93
+00:03:31.690 --> 00:03:34.570
+and Swap Usage should not exceed 50 megabytes,
+
+94
+00:03:34.570 --> 00:03:36.470
+and if so, if it does,
+
+95
+00:03:36.470 --> 00:03:38.970
+please make sure you look at your memory settings.
+
+96
+00:03:40.110 --> 00:03:41.570
+Then we have current connections,
+
+97
+00:03:41.570 --> 00:03:44.490
+so this is a number of current and active connections
+
+98
+00:03:44.490 --> 00:03:45.700
+to your Redis cluster,
+
+99
+00:03:45.700 --> 00:03:46.770
+and if it's too high,
+
+100
+00:03:46.770 --> 00:03:49.270
+then maybe your application is having some bad behavior
+
+101
+00:03:49.270 --> 00:03:51.940
+and initiating a connection every single time to Reddis
+
+102
+00:03:51.940 --> 00:03:53.010
+in that case, this is bad,
+
+103
+00:03:53.010 --> 00:03:55.620
+and have a look at the application behavior,
+
+104
+00:03:55.620 --> 00:03:57.410
+the database memory usage percentage,
+
+105
+00:03:57.410 --> 00:04:00.640
+which is a percentage of memory utilization,
+
+106
+00:04:00.640 --> 00:04:02.060
+and then network in and outs
+
+107
+00:04:02.060 --> 00:04:04.620
+and replication bytes or replication lag,
+
+108
+00:04:04.620 --> 00:04:06.040
+which is giving you some information
+
+109
+00:04:06.040 --> 00:04:07.670
+around the replication of the data
+
+110
+00:04:07.670 --> 00:04:09.200
+within your Redis cluster.
+
+111
+00:04:09.200 --> 00:04:11.860
+And so obviously you want the replication bytes to be high
+
+112
+00:04:11.860 --> 00:04:14.350
+and replication lag to be low,
+
+113
+00:04:14.350 --> 00:04:16.860
+so that there is no lag between the replica,
+
+114
+00:04:16.860 --> 00:04:19.630
+the re-replica and the main nodes, okay?
+
+115
+00:04:19.630 --> 00:04:21.470
+So that's it, that's all you need to know for Redis,
+
+116
+00:04:21.470 --> 00:04:23.020
+obviously hopefully everything
+
+117
+00:04:23.020 --> 00:04:24.690
+should be quite intuitive, okay.
+
+118
+00:04:24.690 --> 00:04:26.150
+But it's good to see it once.
+
+119
+00:04:26.150 --> 00:04:28.100
+And I will see you in the next lecture.
+

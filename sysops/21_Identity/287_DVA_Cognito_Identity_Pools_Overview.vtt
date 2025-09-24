@@ -1,0 +1,638 @@
+WEBVTT
+
+1
+00:00:00.580 --> 00:00:03.590
+<v ->So now let's talk a service that I wish wasn't named</v>
+
+2
+00:00:03.590 --> 00:00:05.350
+like this, but is named like this.
+
+3
+00:00:05.350 --> 00:00:07.730
+It's the Cognito Identity Pools,
+
+4
+00:00:07.730 --> 00:00:09.930
+also called Federated Identities.
+
+5
+00:00:09.930 --> 00:00:11.100
+And I wish it wasn't named like this
+
+6
+00:00:11.100 --> 00:00:14.560
+because it's so not the same as a Cognito User Pool,
+
+7
+00:00:14.560 --> 00:00:17.160
+but it's under the same umbrella of Cognito,
+
+8
+00:00:17.160 --> 00:00:19.460
+which I don't like, but it's just my personal opinion.
+
+9
+00:00:19.460 --> 00:00:23.250
+Let's try to understand what Cognito Identity Pools are.
+
+10
+00:00:23.250 --> 00:00:27.626
+So, our users are outside of our AWS environment,
+
+11
+00:00:27.626 --> 00:00:30.100
+and there can be a web application users,
+
+12
+00:00:30.100 --> 00:00:33.530
+or mobile users, and they want access to stuff
+
+13
+00:00:33.530 --> 00:00:35.730
+within our AWS environments.
+
+14
+00:00:35.730 --> 00:00:37.660
+So for example, they want to have access
+
+15
+00:00:37.660 --> 00:00:40.440
+to DynamoDB table, or an S3 bucket.
+
+16
+00:00:40.440 --> 00:00:42.210
+And so to access these things,
+
+17
+00:00:42.210 --> 00:00:45.120
+they need temporary AWS credentials.
+
+18
+00:00:45.120 --> 00:00:48.205
+So we cannot create normal IAM users for these users
+
+19
+00:00:48.205 --> 00:00:50.740
+because there are too many of them,
+
+20
+00:00:50.740 --> 00:00:53.110
+it doesn't scale, and we don't trust them.
+
+21
+00:00:53.110 --> 00:00:56.170
+So instead, we're going to give these users access
+
+22
+00:00:56.170 --> 00:00:59.720
+to AWS through a Cognito Identity Pool.
+
+23
+00:00:59.720 --> 00:01:03.143
+So this identity pool can allow your users to log in
+
+24
+00:01:03.143 --> 00:01:05.750
+through a trusted third party.
+
+25
+00:01:05.750 --> 00:01:07.520
+And that could be a public provider,
+
+26
+00:01:07.520 --> 00:01:11.880
+for example, log in with Amazon, Facebook, Google and Apple,
+
+27
+00:01:11.880 --> 00:01:14.900
+or even allow the users that are already logged in
+
+28
+00:01:14.900 --> 00:01:16.925
+with the Amazon Cognito user pool,
+
+29
+00:01:16.925 --> 00:01:21.429
+or even allow OpenID Connect Providers and SAML Providers,
+
+30
+00:01:21.429 --> 00:01:24.990
+or finally, the Developer Authenticated Identities,
+
+31
+00:01:24.990 --> 00:01:27.770
+which is a custom login server.
+
+32
+00:01:27.770 --> 00:01:30.385
+So, on top of all these login providers,
+
+33
+00:01:30.385 --> 00:01:33.158
+to allow to give our users an identity
+
+34
+00:01:33.158 --> 00:01:36.680
+before they trade it for AWS credentials,
+
+35
+00:01:36.680 --> 00:01:41.680
+we can allow unauthenticated guest users access into AWS.
+
+36
+00:01:42.470 --> 00:01:46.210
+So it is possible for us to define a Guest Policy,
+
+37
+00:01:46.210 --> 00:01:49.150
+and give our guest users AWS credentials.
+
+38
+00:01:49.150 --> 00:01:53.553
+So, once the users have obtained these AWS credentials,
+
+39
+00:01:53.553 --> 00:01:56.830
+then they can access the AWS services directly,
+
+40
+00:01:56.830 --> 00:02:01.090
+with an API call using an SDK, or through the API gateway.
+
+41
+00:02:01.090 --> 00:02:04.180
+So these credentials, these credentials that the users get,
+
+42
+00:02:04.180 --> 00:02:07.670 line:15% 
+they have an IAM policy that is defined by what we do
+
+43
+00:02:07.670 --> 00:02:11.318 line:15% 
+in Cognito Identity Pools, and they can be customized
+
+44
+00:02:11.318 --> 00:02:15.480 line:15% 
+based on the value of the user ID, for fine grained control.
+
+45
+00:02:15.480 --> 00:02:17.980 line:15% 
+And we see this in this theory lecture.
+
+46
+00:02:17.980 --> 00:02:21.062
+So, I'll try to make it as simple as possible.
+
+47
+00:02:21.062 --> 00:02:23.972
+So we have a web and mobile applications,
+
+48
+00:02:23.972 --> 00:02:27.520
+and they want to access our private S3 Bucket,
+
+49
+00:02:27.520 --> 00:02:29.300
+and a DynamoDB Table.
+
+50
+00:02:29.300 --> 00:02:31.840
+But we want to make sure the users first get
+
+51
+00:02:31.840 --> 00:02:34.810
+credentials of AWS, but we don't wanna create
+
+52
+00:02:34.810 --> 00:02:36.750
+an IAM users for these applications.
+
+53
+00:02:36.750 --> 00:02:37.810
+So what do we do?
+
+54
+00:02:37.810 --> 00:02:39.950
+We're going to leverage Cognito Identity Pools,
+
+55
+00:02:39.950 --> 00:02:43.640
+but first, we want the users to get a login
+
+56
+00:02:43.640 --> 00:02:46.320
+and obtain a token out of this login.
+
+57
+00:02:46.320 --> 00:02:48.890
+So we will allow our users to connect,
+
+58
+00:02:48.890 --> 00:02:51.080
+for example, to a Cognito User Pool,
+
+59
+00:02:51.080 --> 00:02:54.970
+or to connect to Google login, Facebook login,
+
+60
+00:02:54.970 --> 00:02:57.050
+so for social identity providers,
+
+61
+00:02:57.050 --> 00:02:59.810
+or SAML, or OpenID Connect.
+
+62
+00:02:59.810 --> 00:03:02.190
+So they will login with any of those.
+
+63
+00:03:02.190 --> 00:03:04.360
+They will get a token, and they will go
+
+64
+00:03:04.360 --> 00:03:07.220
+and talk to the Cognito Identity Pool service
+
+65
+00:03:07.220 --> 00:03:11.540
+to exchange the token for temporary AWS credentials.
+
+66
+00:03:11.540 --> 00:03:13.798
+So first, the identity pool will verify
+
+67
+00:03:13.798 --> 00:03:17.130
+the login with whatever provider we have defined,
+
+68
+00:03:17.130 --> 00:03:20.880
+and then, once it's validated, the Cognito Identity Pool
+
+69
+00:03:20.880 --> 00:03:23.736
+will talk to the STS service to get temporary
+
+70
+00:03:23.736 --> 00:03:27.143
+credentials for our web and mobile application users.
+
+71
+00:03:27.143 --> 00:03:29.670
+Once this is done, the credentials are returned
+
+72
+00:03:29.670 --> 00:03:32.600
+to our applications, and they can use,
+
+73
+00:03:32.600 --> 00:03:36.200
+and directly access AWS, thanks to these credentials,
+
+74
+00:03:36.200 --> 00:03:39.030
+and the associated IAM policy.
+
+75
+00:03:39.030 --> 00:03:41.610
+So this is very simple, and a big difference
+
+76
+00:03:41.610 --> 00:03:43.610
+from what Cognito User Pools are,
+
+77
+00:03:43.610 --> 00:03:44.960
+but you see there is a lot of common,
+
+78
+00:03:44.960 --> 00:03:47.090
+especially around the identity provider.
+
+79
+00:03:47.090 --> 00:03:49.911
+So, the question is, how does it work, if I use
+
+80
+00:03:49.911 --> 00:03:53.492
+Cognito Identity Pools with Cognito User Pools?
+
+81
+00:03:53.492 --> 00:03:54.746
+So here's the answer.
+
+82
+00:03:54.746 --> 00:03:56.220
+We have the same diagram.
+
+83
+00:03:56.220 --> 00:03:59.564
+We want our users to connect to a Private S3 Bucket,
+
+84
+00:03:59.564 --> 00:04:02.736
+or DynamDB Table, but we want their identity
+
+85
+00:04:02.736 --> 00:04:05.680
+to be stored in Cognito User Pools.
+
+86
+00:04:05.680 --> 00:04:07.290
+Okay, so this is the same diagram as before,
+
+87
+00:04:07.290 --> 00:04:09.836
+but I'm just expanding into Cognito User Pools.
+
+88
+00:04:09.836 --> 00:04:12.034
+So they need to login and get a token.
+
+89
+00:04:12.034 --> 00:04:13.640
+And why would you do this?
+
+90
+00:04:13.640 --> 00:04:15.540
+Well, I do, because we want all our users
+
+91
+00:04:15.540 --> 00:04:18.500
+to be centralized in the Cognito User Pool database,
+
+92
+00:04:18.500 --> 00:04:20.307
+so it could be an internal database of users,
+
+93
+00:04:20.307 --> 00:04:23.400
+or we can also enable social identity providers,
+
+94
+00:04:23.400 --> 00:04:26.160
+SAML and OpenID Connect,
+
+95
+00:04:26.160 --> 00:04:28.480
+as Federated Identity Providers,
+
+96
+00:04:28.480 --> 00:04:29.960
+for our Cognito User Pools,
+
+97
+00:04:29.960 --> 00:04:32.493
+but none the less, all users are going to show up
+
+98
+00:04:32.493 --> 00:04:35.140
+in my Cognito User Pool.
+
+99
+00:04:35.140 --> 00:04:38.010
+Then, our web and mobile application users
+
+100
+00:04:38.010 --> 00:04:40.410
+can exchange the adjacent web token obtained
+
+101
+00:04:40.410 --> 00:04:44.074
+from Cognito User Pools, into the Cognito Identity Pool,
+
+102
+00:04:44.074 --> 00:04:46.680
+for credentials, so there will be verification
+
+103
+00:04:46.680 --> 00:04:50.098
+of these token, and then talking to the STS service
+
+104
+00:04:50.098 --> 00:04:52.314
+to get these credentials that will be returned
+
+105
+00:04:52.314 --> 00:04:54.477
+to our web and mobile applications.
+
+106
+00:04:54.477 --> 00:04:56.860
+And then, thanks to these credentials,
+
+107
+00:04:56.860 --> 00:04:59.760
+we will have direct access into AWS.
+
+108
+00:04:59.760 --> 00:05:01.970
+If you understood this, I'm so happy,
+
+109
+00:05:01.970 --> 00:05:03.670
+and you're good to go for the exam.
+
+110
+00:05:03.670 --> 00:05:05.730
+So, how does Cognito Identity Pools
+
+111
+00:05:05.730 --> 00:05:08.001
+decide which role to apply to which user?
+
+112
+00:05:08.001 --> 00:05:10.572
+Well, we can define a default IAM role
+
+113
+00:05:10.572 --> 00:05:14.113
+for both authenticated users, and guest users.
+
+114
+00:05:14.113 --> 00:05:16.380
+So that means the guest users will have one IAM role,
+
+115
+00:05:16.380 --> 00:05:18.540
+and the other will have another one's IAM role.
+
+116
+00:05:18.540 --> 00:05:20.812
+And we can define rules to choose which role
+
+117
+00:05:20.812 --> 00:05:23.508
+goes to which user, based on the user ID.
+
+118
+00:05:23.508 --> 00:05:26.295
+And then we can customize the IAM policy,
+
+119
+00:05:26.295 --> 00:05:29.440
+thanks to using policy variables,
+
+120
+00:05:29.440 --> 00:05:31.930
+and this will be allowing us to make sure
+
+121
+00:05:31.930 --> 00:05:34.420
+that the users will only get access to what they need
+
+122
+00:05:34.420 --> 00:05:36.676
+in DynamoDB or Amazon S3, for example.
+
+123
+00:05:36.676 --> 00:05:40.396
+These IAM credentials, as we said in the previous slide,
+
+124
+00:05:40.396 --> 00:05:43.903
+are obtained by Cognito Identity Pools through STS.
+
+125
+00:05:43.903 --> 00:05:46.569
+And the roles must have a trust policy
+
+126
+00:05:46.569 --> 00:05:49.570
+of Cognito Identity Pools for it to work.
+
+127
+00:05:49.570 --> 00:05:51.250
+So, I'll make it a bit more concrete,
+
+128
+00:05:51.250 --> 00:05:52.490
+here is an example.
+
+129
+00:05:52.490 --> 00:05:55.939
+So we want to give our guest users access to AWS,
+
+130
+00:05:55.939 --> 00:05:58.854
+so we want to create an IAM policy, for example,
+
+131
+00:05:58.854 --> 00:06:02.588
+that would allow any guest user to do a get object
+
+132
+00:06:02.588 --> 00:06:05.310
+on a bucket for my picture, the jpeg.
+
+133
+00:06:05.310 --> 00:06:08.423
+So this would give us, for the guest users,
+
+134
+00:06:08.423 --> 00:06:11.011
+access to AWS with a very simple,
+
+135
+00:06:11.011 --> 00:06:13.630
+and obviously restricted, IAM policy.
+
+136
+00:06:13.630 --> 00:06:15.887
+Then, for the authenticated users,
+
+137
+00:06:15.887 --> 00:06:18.880
+you can define a policy variable on Amazon S3,
+
+138
+00:06:18.880 --> 00:06:20.356
+so our users are connected,
+
+139
+00:06:20.356 --> 00:06:23.230
+but we want to make sure that they only have access
+
+140
+00:06:23.230 --> 00:06:24.826
+to a prefix in your S3 bucket,
+
+141
+00:06:24.826 --> 00:06:27.846
+that represents what the user's identity is.
+
+142
+00:06:27.846 --> 00:06:30.660
+So, as such, you can use a policy variable,
+
+143
+00:06:30.660 --> 00:06:33.455
+like here in green, and this is allowing
+
+144
+00:06:33.455 --> 00:06:37.431
+our user to only access within the bucket we've defined,
+
+145
+00:06:37.431 --> 00:06:41.110
+anything that starts with a prefix of its user ID.
+
+146
+00:06:41.110 --> 00:06:42.909
+So effectively, we gave the user access,
+
+147
+00:06:42.909 --> 00:06:47.909
+only to what it can access, thanks to his, its user ID.
+
+148
+00:06:48.110 --> 00:06:50.400
+And we can define the same on DynamoDB.
+
+149
+00:06:50.400 --> 00:06:52.400
+So here's a sample policy, on which we allow
+
+150
+00:06:52.400 --> 00:06:54.743
+the user to do anything it wants on DynamoDB,
+
+151
+00:06:54.743 --> 00:06:57.909
+from my table, as long as the leading key
+
+152
+00:06:57.909 --> 00:07:02.909
+for DynamoDB is corresponding to the user ID of the user.
+
+153
+00:07:03.110 --> 00:07:05.511
+So effectively, we've done row-based security,
+
+154
+00:07:05.511 --> 00:07:07.700
+thanks to this IAM policy.
+
+155
+00:07:07.700 --> 00:07:09.110
+Now these are advanced, but I just wanted
+
+156
+00:07:09.110 --> 00:07:10.898
+to give you a sneak peek into how they worked.
+
+157
+00:07:10.898 --> 00:07:13.000
+So that's it for this theory lecture.
+
+158
+00:07:13.000 --> 00:07:14.530
+In the next lecture, we're going to practice
+
+159
+00:07:14.530 --> 00:07:15.943
+Cognito Identity Pools.
+

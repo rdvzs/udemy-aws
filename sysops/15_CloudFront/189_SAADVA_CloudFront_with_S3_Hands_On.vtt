@@ -1,0 +1,586 @@
+WEBVTT
+
+1
+00:00:00.360 --> 00:00:01.193
+<v Instructor>So let's go</v>
+
+2
+00:00:01.193 --> 00:00:02.310
+and practice using CloudFront,
+
+3
+00:00:02.310 --> 00:00:04.860
+but first we have to create an S3 bucket
+
+4
+00:00:04.860 --> 00:00:07.560
+to hold our files for our distribution.
+
+5
+00:00:07.560 --> 00:00:08.580
+So let's create a bucket,
+
+6
+00:00:08.580 --> 00:00:12.913
+and I'll call this one demo-cloudfront-stephane-v4.
+
+7
+00:00:14.370 --> 00:00:15.480
+And then we'll scroll down,
+
+8
+00:00:15.480 --> 00:00:17.370
+leave everything as the default,
+
+9
+00:00:17.370 --> 00:00:19.143
+and click on Create Bucket.
+
+10
+00:00:20.460 --> 00:00:22.260
+Okay, so my bucket is now created
+
+11
+00:00:22.260 --> 00:00:25.260
+and I'm going to upload some files in it.
+
+12
+00:00:25.260 --> 00:00:26.490
+So let me add files
+
+13
+00:00:26.490 --> 00:00:28.110
+and I will choose my three files,
+
+14
+00:00:28.110 --> 00:00:31.830
+beach, coffee, and index.html.
+
+15
+00:00:31.830 --> 00:00:33.003
+So let's upload them.
+
+16
+00:00:34.230 --> 00:00:35.430
+And now they've been uploaded.
+
+17
+00:00:35.430 --> 00:00:36.450
+So if I go in my bucket,
+
+18
+00:00:36.450 --> 00:00:37.860
+we can see all of them.
+
+19
+00:00:37.860 --> 00:00:39.960
+And as a reminder, if I go on index.html,
+
+20
+00:00:39.960 --> 00:00:41.700
+I have two ways of open it.
+
+21
+00:00:41.700 --> 00:00:44.100
+The first one is to use the Object URL.
+
+22
+00:00:44.100 --> 00:00:46.560
+But if I try it, I get an access denied
+
+23
+00:00:46.560 --> 00:00:48.750
+because my object is not public.
+
+24
+00:00:48.750 --> 00:00:51.180
+And if I go and click on Open here,
+
+25
+00:00:51.180 --> 00:00:53.250
+this generates a pre-signed.
+
+26
+00:00:53.250 --> 00:00:54.600
+So let's allow pop-ups.
+
+27
+00:00:54.600 --> 00:00:58.530
+This generates a pre-signed URL for my S3 objects,
+
+28
+00:00:58.530 --> 00:01:00.030
+which allows me to access the object.
+
+29
+00:01:00.030 --> 00:01:01.470
+So I see "I love coffee" and "Hello, world!"
+
+30
+00:01:01.470 --> 00:01:03.000
+But I still don't see the image
+
+31
+00:01:03.000 --> 00:01:05.460
+because the image itself is not public.
+
+32
+00:01:05.460 --> 00:01:07.470
+So let's see how we can instead
+
+33
+00:01:07.470 --> 00:01:10.320
+use CloudFront to make these files accessible
+
+34
+00:01:10.320 --> 00:01:12.003
+without making them public.
+
+35
+00:01:12.870 --> 00:01:15.783
+So let's open up the CloudFront console.
+
+36
+00:01:17.010 --> 00:01:21.000
+And I'm going to create a CloudFront distribution.
+
+37
+00:01:21.000 --> 00:01:25.023
+So here I will call it DemoCloudFrontDistribution.
+
+38
+00:01:26.970 --> 00:01:29.700
+And now we're going to choose the distribution type.
+
+39
+00:01:29.700 --> 00:01:31.770
+So is it a single website or app
+
+40
+00:01:31.770 --> 00:01:33.720
+or a multi-tenant architecture?
+
+41
+00:01:33.720 --> 00:01:35.940
+Well, this is a single website or app.
+
+42
+00:01:35.940 --> 00:01:38.280
+And then we don't have a custom domain.
+
+43
+00:01:38.280 --> 00:01:39.113
+Right now, we're going to use
+
+44
+00:01:39.113 --> 00:01:41.310
+the domain name of CloudFront.
+
+45
+00:01:41.310 --> 00:01:44.010
+Okay, so next we have the origin type.
+
+46
+00:01:44.010 --> 00:01:46.530
+So we have different kinds of origin for CloudFront:
+
+47
+00:01:46.530 --> 00:01:48.525
+Amazon S3, Elastic Loud Balancer,
+
+48
+00:01:48.525 --> 00:01:50.970
+API Gateway, and then other ones.
+
+49
+00:01:50.970 --> 00:01:53.430
+But we're going to use Amazon S3.
+
+50
+00:01:53.430 --> 00:01:55.260
+We then need to choose an origin.
+
+51
+00:01:55.260 --> 00:01:57.180
+So this is your buckets.
+
+52
+00:01:57.180 --> 00:01:59.910
+So we're going to browse Amazon S3,
+
+53
+00:01:59.910 --> 00:02:00.870
+and then I'm going to find
+
+54
+00:02:00.870 --> 00:02:04.350
+my demo-cloudfront-stephane-v4 bucket.
+
+55
+00:02:04.350 --> 00:02:05.700
+We choose it.
+
+56
+00:02:05.700 --> 00:02:07.500
+And then for the origin path,
+
+57
+00:02:07.500 --> 00:02:08.850
+this is where your content is stored.
+
+58
+00:02:08.850 --> 00:02:12.870
+But we stored everything in the root of our buckets,
+
+59
+00:02:12.870 --> 00:02:14.913
+so we're just going to keep it as is.
+
+60
+00:02:15.840 --> 00:02:18.090
+Next for settings, we want to allow
+
+61
+00:02:18.090 --> 00:02:20.790
+private S3 bucket access to CloudFront.
+
+62
+00:02:20.790 --> 00:02:22.830
+So this is going to allow CloudFront
+
+63
+00:02:22.830 --> 00:02:27.360
+to access the buckets directly, privately,
+
+64
+00:02:27.360 --> 00:02:29.670
+and modify the bucket policy automatically.
+
+65
+00:02:29.670 --> 00:02:30.600
+So we don't need to make
+
+66
+00:02:30.600 --> 00:02:32.730
+any of these objects public.
+
+67
+00:02:32.730 --> 00:02:34.050
+CloudFront is going to create
+
+68
+00:02:34.050 --> 00:02:36.240
+what's called an origin access control
+
+69
+00:02:36.240 --> 00:02:38.910
+and access our S3 bucket privately.
+
+70
+00:02:38.910 --> 00:02:41.640
+So we'll have a look at the changes made
+
+71
+00:02:41.640 --> 00:02:43.680
+to the S3 bucket policy.
+
+72
+00:02:43.680 --> 00:02:44.760
+So yes, we're going to use
+
+73
+00:02:44.760 --> 00:02:46.440
+the recommended origin settings
+
+74
+00:02:46.440 --> 00:02:48.360
+and then click on Next.
+
+75
+00:02:48.360 --> 00:02:50.160
+Then, do we want to enable security?
+
+76
+00:02:50.160 --> 00:02:51.450
+For now, no need.
+
+77
+00:02:51.450 --> 00:02:54.000
+This is an extra cost that's not needed for us.
+
+78
+00:02:54.000 --> 00:02:56.130
+And very simply, we're done.
+
+79
+00:02:56.130 --> 00:02:57.960
+We need to just review and create.
+
+80
+00:02:57.960 --> 00:02:58.793
+And as you see, it says,
+
+81
+00:02:58.793 --> 00:03:00.780
+"Because you granted CloudFront access to your origin,"
+
+82
+00:03:00.780 --> 00:03:02.557
+so our Amazon S3 bucket,
+
+83
+00:03:02.557 --> 00:03:05.310
+"CloudFront can write and update S3 bucket policies
+
+84
+00:03:05.310 --> 00:03:08.070
+that restrict access to your S3 origin to CloudFront."
+
+85
+00:03:08.070 --> 00:03:09.540
+So yes, this is perfect.
+
+86
+00:03:09.540 --> 00:03:10.440
+We're going to observe this.
+
+87
+00:03:10.440 --> 00:03:12.820
+So if I go into Permissions
+
+88
+00:03:13.710 --> 00:03:15.570
+and look at my bucket policy,
+
+89
+00:03:15.570 --> 00:03:17.940
+as you can see right now, it's empty.
+
+90
+00:03:17.940 --> 00:03:18.990
+Okay, so now let's go ahead
+
+91
+00:03:18.990 --> 00:03:20.913
+and create this distribution.
+
+92
+00:03:24.570 --> 00:03:26.370
+And this is good.
+
+93
+00:03:26.370 --> 00:03:29.070
+Now this is successfully created.
+
+94
+00:03:29.070 --> 00:03:30.780
+Now let's have a look at our S3 bucket.
+
+95
+00:03:30.780 --> 00:03:33.030
+So I'm going to refresh this page.
+
+96
+00:03:33.030 --> 00:03:37.620
+And now we can see that the bucket policy is changed,
+
+97
+00:03:37.620 --> 00:03:40.530
+and we have this CloudFront that I did this.
+
+98
+00:03:40.530 --> 00:03:41.940
+So what does it allow?
+
+99
+00:03:41.940 --> 00:03:45.060
+Well, this policy allows the CloudFront service
+
+100
+00:03:45.060 --> 00:03:48.330
+to get objects anywhere on my bucket
+
+101
+00:03:48.330 --> 00:03:51.750
+as long as the source of this operation
+
+102
+00:03:51.750 --> 00:03:54.300
+is my CloudFront distribution
+
+103
+00:03:54.300 --> 00:03:56.220
+that I just created, this one.
+
+104
+00:03:56.220 --> 00:03:57.690
+So that's perfect.
+
+105
+00:03:57.690 --> 00:04:00.840
+And now how do we access our CloudFront distribution?
+
+106
+00:04:00.840 --> 00:04:03.360
+Well, if I wait, we need to wait
+
+107
+00:04:03.360 --> 00:04:04.470
+because it says, "Deploying."
+
+108
+00:04:04.470 --> 00:04:05.520
+So let's wait a little bit.
+
+109
+00:04:05.520 --> 00:04:07.050
+Let me refresh.
+
+110
+00:04:07.050 --> 00:04:08.220
+Okay, I need to wait a little bit more,
+
+111
+00:04:08.220 --> 00:04:09.573
+so I'll get back to you.
+
+112
+00:04:10.560 --> 00:04:13.020
+So my distribution is now ready.
+
+113
+00:04:13.020 --> 00:04:14.880
+And I can just copy this domain name,
+
+114
+00:04:14.880 --> 00:04:17.130
+open a new tab, and paste it in.
+
+115
+00:04:17.130 --> 00:04:19.380
+So right now, I haven't specified any paths.
+
+116
+00:04:19.380 --> 00:04:20.610
+Of course I'm gonna get an error.
+
+117
+00:04:20.610 --> 00:04:23.670
+But if I type coffee.jpg,
+
+118
+00:04:23.670 --> 00:04:25.080
+I see my coffee.
+
+119
+00:04:25.080 --> 00:04:28.350
+If I type beach.jpg,
+
+120
+00:04:28.350 --> 00:04:29.610
+I see my beach.
+
+121
+00:04:29.610 --> 00:04:32.640
+And if I type index.html,
+
+122
+00:04:32.640 --> 00:04:35.310
+I will see my whole HTML page.
+
+123
+00:04:35.310 --> 00:04:37.800
+And this is accessed through CloudFront.
+
+124
+00:04:37.800 --> 00:04:40.320
+And then CloudFront is going to access my S3 bucket.
+
+125
+00:04:40.320 --> 00:04:43.200
+But remember, my elements in my S3 bucket
+
+126
+00:04:43.200 --> 00:04:44.370
+are still private.
+
+127
+00:04:44.370 --> 00:04:45.510
+Nothing is public.
+
+128
+00:04:45.510 --> 00:04:47.970
+So everything is distributed through CloudFront.
+
+129
+00:04:47.970 --> 00:04:49.350
+But the benefit of using CloudFront
+
+130
+00:04:49.350 --> 00:04:50.280
+is that, for example,
+
+131
+00:04:50.280 --> 00:04:53.820
+if I go back to beach.jpg,
+
+132
+00:04:53.820 --> 00:04:56.010
+it was instant to load, very instant.
+
+133
+00:04:56.010 --> 00:04:58.770
+That's because we have a cached version
+
+134
+00:04:58.770 --> 00:05:00.570
+of this file thanks to CloudFront.
+
+135
+00:05:00.570 --> 00:05:03.060
+So that makes everything super smooth
+
+136
+00:05:03.060 --> 00:05:04.530
+and globally distributed.
+
+137
+00:05:04.530 --> 00:05:07.470
+Even if I access this page from somewhere in Asia,
+
+138
+00:05:07.470 --> 00:05:09.420
+I will have very little latency.
+
+139
+00:05:09.420 --> 00:05:10.500
+So that's awesome.
+
+140
+00:05:10.500 --> 00:05:12.840
+We've created our first platform distribution,
+
+141
+00:05:12.840 --> 00:05:14.640
+and we've seen how to set it up
+
+142
+00:05:14.640 --> 00:05:16.650
+as well as security settings
+
+143
+00:05:16.650 --> 00:05:19.950
+that were set up on our bucket policy.
+
+144
+00:05:19.950 --> 00:05:20.880
+So this is great.
+
+145
+00:05:20.880 --> 00:05:22.110
+So I hope you liked it.
+
+146
+00:05:22.110 --> 00:05:24.063
+And I will see you in the next lecture.
+

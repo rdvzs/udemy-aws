@@ -1,0 +1,258 @@
+WEBVTT
+
+1
+00:00:00.180 --> 00:00:01.680
+<v Instructor>So now, let's talk about</v>
+
+2
+00:00:01.680 --> 00:00:04.380
+CloudFormation custom resources.
+
+3
+00:00:04.380 --> 00:00:06.780
+So as we said, many, many resources
+
+4
+00:00:06.780 --> 00:00:08.070
+are supported by CloudFormation.
+
+5
+00:00:08.070 --> 00:00:10.893
+But you have custom resources to define resources
+
+6
+00:00:10.893 --> 00:00:13.890
+that are not yet supported by CloudFormation
+
+7
+00:00:13.890 --> 00:00:16.440
+or to define custom provisioning logic
+
+8
+00:00:16.440 --> 00:00:18.840
+for resources that can be outside of CloudFormation.
+
+9
+00:00:18.840 --> 00:00:23.280
+For example, your own on-premises resources
+
+10
+00:00:23.280 --> 00:00:25.170
+or your third-party resources,
+
+11
+00:00:25.170 --> 00:00:27.240
+or if you want to have custom scripts
+
+12
+00:00:27.240 --> 00:00:29.520
+being run during the create, update,
+
+13
+00:00:29.520 --> 00:00:32.880
+and delete phases of your CloudFormation stack
+
+14
+00:00:32.880 --> 00:00:34.650
+through Lambda functions.
+
+15
+00:00:34.650 --> 00:00:36.900
+And one example I will give you, again,
+
+16
+00:00:36.900 --> 00:00:40.740
+is to run a Lambda function to empty and S3 bucket
+
+17
+00:00:40.740 --> 00:00:42.360
+before being deleted.
+
+18
+00:00:42.360 --> 00:00:45.000
+And this is a common exam question.
+
+19
+00:00:45.000 --> 00:00:47.010
+So to define a custom resource,
+
+20
+00:00:47.010 --> 00:00:49.620
+you define it in the template, and the type of it
+
+21
+00:00:49.620 --> 00:00:50.968
+is Custom::MyCustomResourceTypeName.
+
+22
+00:00:50.968 --> 00:00:54.810
+is Custom::MyCustomResourceTypeName.
+
+23
+00:00:54.810 --> 00:00:57.090
+It's backed by either a Lambda function,
+
+24
+00:00:57.090 --> 00:01:00.840
+which is the most common one, or an SNS topic.
+
+25
+00:01:00.840 --> 00:01:02.550
+So how do we define a custom resource?
+
+26
+00:01:02.550 --> 00:01:05.670
+I will only go over the Lambda custom resource
+
+27
+00:01:05.670 --> 00:01:06.780
+because it's the most common one.
+
+28
+00:01:06.780 --> 00:01:10.562
+So we have a custom resource of type custom,
+
+29
+00:01:10.562 --> 00:01:12.540
+MyLambdaResource.
+
+30
+00:01:12.540 --> 00:01:16.200
+And then, in the properties, we have a service token.
+
+31
+00:01:16.200 --> 00:01:20.160
+And the service token is either your Lambda function, ARN,
+
+32
+00:01:20.160 --> 00:01:21.930
+or your SNS ARN.
+
+33
+00:01:21.930 --> 00:01:24.000
+They must be in the same region.
+
+34
+00:01:24.000 --> 00:01:26.790
+And the idea is that this Lambda function
+
+35
+00:01:26.790 --> 00:01:28.680
+is going to have its own logic
+
+36
+00:01:28.680 --> 00:01:30.630
+to provision your customer resource
+
+37
+00:01:30.630 --> 00:01:32.250
+or to do whatever it needs.
+
+38
+00:01:32.250 --> 00:01:35.610
+On top of it, thanks to input data parameters,
+
+39
+00:01:35.610 --> 00:01:40.110
+you can provide input values to your Lambda function.
+
+40
+00:01:40.110 --> 00:01:41.730
+So the use case, for example, as I said,
+
+41
+00:01:41.730 --> 00:01:44.400
+is to delete content from an S3 bucket
+
+42
+00:01:44.400 --> 00:01:46.710
+because it turns out that you cannot delete
+
+43
+00:01:46.710 --> 00:01:50.400
+a non-empty S3 bucket from CloudFormation.
+
+44
+00:01:50.400 --> 00:01:53.490
+So first, you must delete all the objects in it,
+
+45
+00:01:53.490 --> 00:01:55.350
+and then you delete the buckets.
+
+46
+00:01:55.350 --> 00:01:58.620
+To do so, you use a custom resource.
+
+47
+00:01:58.620 --> 00:02:01.740
+And the idea is that when that custom resource is deleted,
+
+48
+00:02:01.740 --> 00:02:03.090
+it's going to run API calls
+
+49
+00:02:03.090 --> 00:02:05.370
+to actually delete your S3 buckets.
+
+50
+00:02:05.370 --> 00:02:06.840
+So here's an example.
+
+51
+00:02:06.840 --> 00:02:09.960
+Whenever we run delete stack on CloudFormation,
+
+52
+00:02:09.960 --> 00:02:13.410
+then your custom resource backed by Lambda function
+
+53
+00:02:13.410 --> 00:02:17.310
+is going to run API calls to empty your S3 bucket.
+
+54
+00:02:17.310 --> 00:02:18.390
+And then only then,
+
+55
+00:02:18.390 --> 00:02:20.490
+when your S3 bucket is emptied,
+
+56
+00:02:20.490 --> 00:02:22.642
+then CloudFormation is going to actually attempt
+
+57
+00:02:22.642 --> 00:02:24.540
+to delete your S3 bucket,
+
+58
+00:02:24.540 --> 00:02:26.280
+and everything will work.
+
+59
+00:02:26.280 --> 00:02:27.960
+So that's the most common use case
+
+60
+00:02:27.960 --> 00:02:29.430
+from an example perspective.
+
+61
+00:02:29.430 --> 00:02:31.050
+And that's the one I wanted to show you
+
+62
+00:02:31.050 --> 00:02:32.970
+by the way of diagram.
+
+63
+00:02:32.970 --> 00:02:34.230
+So I hope you liked it,
+
+64
+00:02:34.230 --> 00:02:36.333
+and I will see you in the next lecture.
+

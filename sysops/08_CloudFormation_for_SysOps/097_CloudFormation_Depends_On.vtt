@@ -1,0 +1,290 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:02.970
+<v Instructor>So now let's talk about DependsOn.</v>
+
+2
+00:00:02.970 --> 00:00:07.080
+And DependsOn is a way for you to specify a specific order
+
+3
+00:00:07.080 --> 00:00:09.450
+for the creation of resources.
+
+4
+00:00:09.450 --> 00:00:12.540
+So here in this template, we have an EC2 instance
+
+5
+00:00:12.540 --> 00:00:15.480
+and we have an RDS database instance.
+
+6
+00:00:15.480 --> 00:00:18.540
+And if I did not have this DependsOn right here,
+
+7
+00:00:18.540 --> 00:00:21.150
+they would both be created at the same time.
+
+8
+00:00:21.150 --> 00:00:25.230
+But because I'm adding DependsOn DBInstance, it turns out
+
+9
+00:00:25.230 --> 00:00:28.650
+that my DBInstance is going to be created first,
+
+10
+00:00:28.650 --> 00:00:31.560
+and only if it gets successfully created,
+
+11
+00:00:31.560 --> 00:00:35.580
+then my EC2 instance will be created on its own.
+
+12
+00:00:35.580 --> 00:00:38.580
+And so DependsOn allow you to specify some hints
+
+13
+00:00:38.580 --> 00:00:41.670
+at the order of which resources should be created at.
+
+14
+00:00:41.670 --> 00:00:44.730
+Now we've seen that CloudFormation also makes judgment calls
+
+15
+00:00:44.730 --> 00:00:48.480
+about in which order to generate resources.
+
+16
+00:00:48.480 --> 00:00:50.100
+And it turns out that if,
+
+17
+00:00:50.100 --> 00:00:53.100
+from your EC2 instance you're using, for example,
+
+18
+00:00:53.100 --> 00:00:55.140
+a reference intrinsic function
+
+19
+00:00:55.140 --> 00:00:58.170
+to a security group, then CloudFormation knows
+
+20
+00:00:58.170 --> 00:01:01.140
+that your EC2 instance depends on your security group
+
+21
+00:01:01.140 --> 00:01:04.530
+and therefore will create it only after your security groups
+
+22
+00:01:04.530 --> 00:01:05.670
+are created.
+
+23
+00:01:05.670 --> 00:01:08.070
+But if you're not using a ref function
+
+24
+00:01:08.070 --> 00:01:11.250
+or a get attribute function to link two things together,
+
+25
+00:01:11.250 --> 00:01:12.630
+then you can link them together
+
+26
+00:01:12.630 --> 00:01:15.000
+with the DependsOn attributes,
+
+27
+00:01:15.000 --> 00:01:16.920
+and that works with any resource.
+
+28
+00:01:16.920 --> 00:01:19.020
+So let's have a look at it right now.
+
+29
+00:01:19.020 --> 00:01:22.680
+So here is the file, 5-dependson.yml,
+
+30
+00:01:22.680 --> 00:01:24.000
+and we have two resources in it,
+
+31
+00:01:24.000 --> 00:01:27.600
+we have an EC2 instance of Type EC2 Instance,
+
+32
+00:01:27.600 --> 00:01:30.720
+the properties is a specific ImageId,
+
+33
+00:01:30.720 --> 00:01:33.450
+and an InstanceType of t2.micro,
+
+34
+00:01:33.450 --> 00:01:36.690
+and MyBucket, in MyBucket is an S3 bucket,
+
+35
+00:01:36.690 --> 00:01:39.600
+but we made it depend on MyEC2Instance,
+
+36
+00:01:39.600 --> 00:01:41.580
+and I need to rename things correctly,
+
+37
+00:01:41.580 --> 00:01:42.900
+otherwise it's not going to work.
+
+38
+00:01:42.900 --> 00:01:44.010
+Here we go.
+
+39
+00:01:44.010 --> 00:01:45.870
+And so what it means is that,
+
+40
+00:01:45.870 --> 00:01:48.630
+well, the S3 bucket will not be created
+
+41
+00:01:48.630 --> 00:01:51.510
+up until the EC2 instance is created.
+
+42
+00:01:51.510 --> 00:01:54.900
+If I did not have this line, if this slide was not existing,
+
+43
+00:01:54.900 --> 00:01:57.330
+then they would both be created at the same time
+
+44
+00:01:57.330 --> 00:01:59.970
+because there is no link between my EC2 instance
+
+45
+00:01:59.970 --> 00:02:01.680
+and my S3 buckets.
+
+46
+00:02:01.680 --> 00:02:03.840
+So let's observe this real quick.
+
+47
+00:02:03.840 --> 00:02:08.840
+We're going to upload the file, being this one, next.
+
+48
+00:02:09.120 --> 00:02:10.533
+Then we'll, DependsOn,
+
+49
+00:02:15.210 --> 00:02:16.203
+and submit.
+
+50
+00:02:17.280 --> 00:02:19.350
+And so as we can see, let's look at the events
+
+51
+00:02:19.350 --> 00:02:21.900
+to really make sure this is working as expected.
+
+52
+00:02:21.900 --> 00:02:23.247
+So as you can see,
+
+53
+00:02:23.247 --> 00:02:27.240
+MyEC2Instance is the only thing being created
+
+54
+00:02:27.240 --> 00:02:28.860
+and even if I refresh,
+
+55
+00:02:28.860 --> 00:02:31.920
+well, there is no S3 bucket being created right now.
+
+56
+00:02:31.920 --> 00:02:35.250
+And only when the EC2 instance is going to switch
+
+57
+00:02:35.250 --> 00:02:39.720
+to create completed will my S3 bucket be created.
+
+58
+00:02:39.720 --> 00:02:43.440
+Again, this is due to the DependsOn attribute,
+
+59
+00:02:43.440 --> 00:02:46.650
+so now MyEC2Instance is in create complete,
+
+60
+00:02:46.650 --> 00:02:48.600
+and as soon as it was done, as you can see,
+
+61
+00:02:48.600 --> 00:02:51.690
+MyBucket is being created and we're good to go.
+
+62
+00:02:51.690 --> 00:02:54.150
+So now my S3 bucket is being created.
+
+63
+00:02:54.150 --> 00:02:58.140
+And this works the exact same way on the deletes,
+
+64
+00:02:58.140 --> 00:03:00.060
+so when you have a DependsOn attribute,
+
+65
+00:03:00.060 --> 00:03:01.980
+let's go through the delete now,
+
+66
+00:03:01.980 --> 00:03:03.210
+if I delete things,
+
+67
+00:03:03.210 --> 00:03:06.300
+it's first going to delete the S3 bucket
+
+68
+00:03:06.300 --> 00:03:10.410
+and then when the delete of the S3 bucket is completed,
+
+69
+00:03:10.410 --> 00:03:13.170
+will it actually terminate the EC2 instance.
+
+70
+00:03:13.170 --> 00:03:15.480
+And that shows you the power of DependsOn.
+
+71
+00:03:15.480 --> 00:03:16.890
+So I hope you liked it,
+
+72
+00:03:16.890 --> 00:03:18.963
+and I will see you in the next lecture.
+

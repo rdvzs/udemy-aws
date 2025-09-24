@@ -1,0 +1,734 @@
+WEBVTT
+
+1
+00:00:00.500 --> 00:00:02.450
+<v Stephane>Okay, so let's learn all the common issues</v>
+
+2
+00:00:02.450 --> 00:00:04.550
+around SSH for troubleshooting.
+
+3
+00:00:04.550 --> 00:00:06.190
+So the first one is that
+
+4
+00:00:06.190 --> 00:00:08.890
+if you don't have the right permissions on your PEM file,
+
+5
+00:00:08.890 --> 00:00:11.400
+you're going to get an unprotected private key file error,
+
+6
+00:00:11.400 --> 00:00:14.330
+and need to fix it before being able to SSH.
+
+7
+00:00:14.330 --> 00:00:16.810
+Also, you need to make sure that the username you provide
+
+8
+00:00:16.810 --> 00:00:19.240
+when doing the SSH command is correct
+
+9
+00:00:19.240 --> 00:00:20.990
+based on the OS you're connecting to,
+
+10
+00:00:20.990 --> 00:00:22.270
+otherwise, you will get an error
+
+11
+00:00:22.270 --> 00:00:24.050
+that will say host key not found, permission denied
+
+12
+00:00:24.050 --> 00:00:27.850
+or connection closed by the instance on port 22.
+
+13
+00:00:27.850 --> 00:00:31.080
+And finally, if you get a connection timeout error by SSH,
+
+14
+00:00:31.080 --> 00:00:32.620
+you know, this is network-related.
+
+15
+00:00:32.620 --> 00:00:34.300
+So that means that your security group
+
+16
+00:00:34.300 --> 00:00:35.920
+is not configured correctly,
+
+17
+00:00:35.920 --> 00:00:38.320
+or you need to check that the route table for the subnets
+
+18
+00:00:38.320 --> 00:00:39.610
+also are not configured correctly,
+
+19
+00:00:39.610 --> 00:00:41.890
+maybe it's a NACL that is not configured correctly.
+
+20
+00:00:41.890 --> 00:00:44.840
+So all these things are related to networking.
+
+21
+00:00:44.840 --> 00:00:46.220
+Also, it's possible that the instance
+
+22
+00:00:46.220 --> 00:00:48.010
+just doesn't have a public IPv4,
+
+23
+00:00:48.010 --> 00:00:49.980
+and therefore you can't reach it obviously,
+
+24
+00:00:49.980 --> 00:00:53.000
+or if your EC2 Instance is doing a lot of work
+
+25
+00:00:53.000 --> 00:00:53.833
+and is swamped,
+
+26
+00:00:53.833 --> 00:00:56.640
+and the CPU is maxed out at 100%,
+
+27
+00:00:56.640 --> 00:00:59.200
+then the instance will sort of be unreachable
+
+28
+00:00:59.200 --> 00:01:02.620
+and so you will also get a connection timeout error.
+
+29
+00:01:02.620 --> 00:01:05.710
+Okay, the second type of SSH issue in (mumbles)
+
+30
+00:01:05.710 --> 00:01:08.120
+is when using SSH versus EC2 Instance Connect.
+
+31
+00:01:08.120 --> 00:01:10.530
+So we're going to do a little bit of a deeper dive
+
+32
+00:01:10.530 --> 00:01:13.220
+into how EC2 Instance Connect works.
+
+33
+00:01:13.220 --> 00:01:15.370
+So the first one is that when you connect using SSH,
+
+34
+00:01:15.370 --> 00:01:16.970
+we know we have a rule
+
+35
+00:01:16.970 --> 00:01:20.870
+and the user that has a IP that fits the inbound rule
+
+36
+00:01:20.870 --> 00:01:24.020
+will be allowed to SSH onto your EC2 Instance,
+
+37
+00:01:24.020 --> 00:01:27.310
+and a user with a different IP will not be allowed to SSH.
+
+38
+00:01:27.310 --> 00:01:29.240
+So this is something we already know.
+
+39
+00:01:29.240 --> 00:01:30.860
+But now for EC2 Instance Connect,
+
+40
+00:01:30.860 --> 00:01:32.570
+things are a little bit different.
+
+41
+00:01:32.570 --> 00:01:35.440
+So your EC2 Instance will have an inbound rule
+
+42
+00:01:35.440 --> 00:01:39.700
+in which we allow a specific range of IP from AWS
+
+43
+00:01:39.700 --> 00:01:42.280
+that corresponds to the EC2 Instance Connect range.
+
+44
+00:01:42.280 --> 00:01:43.340
+So how do we get this range?
+
+45
+00:01:43.340 --> 00:01:45.850
+We'll see this there's adjacent file available online,
+
+46
+00:01:45.850 --> 00:01:47.970
+which gives us for a specific region,
+
+47
+00:01:47.970 --> 00:01:49.310
+what is the IP prefix
+
+48
+00:01:49.310 --> 00:01:51.980
+coming from the EC2 Instance Connect service.
+
+49
+00:01:51.980 --> 00:01:52.880
+What does that mean?
+
+50
+00:01:52.880 --> 00:01:53.940
+That means that a user
+
+51
+00:01:53.940 --> 00:01:56.930
+with an IP that is completely different from that range,
+
+52
+00:01:56.930 --> 00:01:58.560
+for example, 1, 2, 3, 4,
+
+53
+00:01:58.560 --> 00:02:01.160
+will be using the AWS API
+
+54
+00:02:01.160 --> 00:02:04.400
+to use the EC2 Instance Connect API,
+
+55
+00:02:04.400 --> 00:02:06.730
+and then EC2 Instance Connect will be pushing
+
+56
+00:02:06.730 --> 00:02:10.300
+a one-time SSH public key that is valid for 60 seconds
+
+57
+00:02:10.300 --> 00:02:12.940
+onto our EC2 Instance and connect to it
+
+58
+00:02:12.940 --> 00:02:16.370
+from this IP group that we have defined before.
+
+59
+00:02:16.370 --> 00:02:19.200
+So this is why when you use EC2 Instance Connect,
+
+60
+00:02:19.200 --> 00:02:20.830
+you don't provide your SSH key,
+
+61
+00:02:20.830 --> 00:02:23.730
+it actually pushes a one-time SSH public key
+
+62
+00:02:23.730 --> 00:02:26.610
+onto your EC2 Instance and connect directly to it,
+
+63
+00:02:26.610 --> 00:02:28.840
+and what we do is that we just interface
+
+64
+00:02:28.840 --> 00:02:31.610
+with the EC2 Instance Connect service directly.
+
+65
+00:02:31.610 --> 00:02:34.460
+So let's have a look at all these cases and the hands-on.
+
+66
+00:02:35.700 --> 00:02:37.910
+So we have our EC2 Instance right here,
+
+67
+00:02:37.910 --> 00:02:40.740
+and I'm going to copy the IPv4,
+
+68
+00:02:40.740 --> 00:02:42.910
+and then launch an SSH command.
+
+69
+00:02:42.910 --> 00:02:45.530
+So if we launch a SSH command
+
+70
+00:02:45.530 --> 00:02:47.500
+with the right key pair and so on,
+
+71
+00:02:47.500 --> 00:02:49.400
+we are able to log into it
+
+72
+00:02:49.400 --> 00:02:51.720
+because SSH security group is open.
+
+73
+00:02:51.720 --> 00:02:56.720
+Now, if I change the permissions of my KeyPair file,
+
+74
+00:02:56.810 --> 00:02:59.510
+and try to run again this command.
+
+75
+00:02:59.510 --> 00:03:00.510
+As we can see,
+
+76
+00:03:00.510 --> 00:03:03.100
+we get a warning, unprotected private key file.
+
+77
+00:03:03.100 --> 00:03:04.560
+So this is not going to work.
+
+78
+00:03:04.560 --> 00:03:07.263
+We need to first revert the permission.
+
+79
+00:03:08.628 --> 00:03:11.600
+So to a 400 for my DemoKeyPair file,
+
+80
+00:03:11.600 --> 00:03:14.200
+and then you will be allowed to run the SSH command
+
+81
+00:03:14.200 --> 00:03:15.890
+and login.
+
+82
+00:03:15.890 --> 00:03:17.450
+Okay, this is perfect.
+
+83
+00:03:17.450 --> 00:03:18.470
+The second kind of issue
+
+84
+00:03:18.470 --> 00:03:20.850
+is if we launch using the wrong username.
+
+85
+00:03:20.850 --> 00:03:22.750
+So we're using right now EC2 user
+
+86
+00:03:22.750 --> 00:03:25.730
+because we're doing it into Amazon and X2,
+
+87
+00:03:25.730 --> 00:03:28.860
+but say that we mistakenly think that it's Ubuntu.
+
+88
+00:03:28.860 --> 00:03:31.650
+So we do SSH Ubuntu at the IP.
+
+89
+00:03:31.650 --> 00:03:32.530
+Then as we can see,
+
+90
+00:03:32.530 --> 00:03:35.920
+we receive a response from the instance
+
+91
+00:03:35.920 --> 00:03:37.920
+saying too many authentication failures,
+
+92
+00:03:37.920 --> 00:03:39.310
+and then we're disconnected.
+
+93
+00:03:39.310 --> 00:03:42.550
+The idea is that we still are accessing the instance
+
+94
+00:03:42.550 --> 00:03:43.870
+over port 22,
+
+95
+00:03:43.870 --> 00:03:45.610
+but then we are presenting the username Ubuntu
+
+96
+00:03:45.610 --> 00:03:48.070
+and the KeyPair, DemoKeyPair.pem,
+
+97
+00:03:48.070 --> 00:03:50.100
+which is not a valid combination for my instance,
+
+98
+00:03:50.100 --> 00:03:52.570
+and so we get an authentication error.
+
+99
+00:03:52.570 --> 00:03:55.330
+So again, we need to make sure that we are using
+
+100
+00:03:55.330 --> 00:03:58.164
+the correct username for your operating system,
+
+101
+00:03:58.164 --> 00:03:59.610
+and this is something you can only know
+
+102
+00:03:59.610 --> 00:04:02.980
+by having a look from the AMI you are into.
+
+103
+00:04:02.980 --> 00:04:05.890
+The other thing is around security and timeouts.
+
+104
+00:04:05.890 --> 00:04:10.890
+So right now we have port 22 open on my security group.
+
+105
+00:04:11.520 --> 00:04:13.510
+But if I open my security group,
+
+106
+00:04:13.510 --> 00:04:15.030
+edit the inbound rules,
+
+107
+00:04:15.030 --> 00:04:18.620
+and for example, I will delete this rule and save this,
+
+108
+00:04:18.620 --> 00:04:22.360
+and now we try to SSH into my instance.
+
+109
+00:04:22.360 --> 00:04:24.840
+Then we can see that we are timing out
+
+110
+00:04:24.840 --> 00:04:26.760
+and this is not going to work.
+
+111
+00:04:26.760 --> 00:04:29.550
+And if you wanted a restrictive kind of rule,
+
+112
+00:04:29.550 --> 00:04:32.240
+you could edit the inbound rule, add a rule,
+
+113
+00:04:32.240 --> 00:04:36.910
+and then you would do SSH from my IP
+
+114
+00:04:38.720 --> 00:04:40.760
+and then save the rule.
+
+115
+00:04:40.760 --> 00:04:42.640
+And now if I try again,
+
+116
+00:04:42.640 --> 00:04:45.200
+I'm able to connect into my EC2 Instance,
+
+117
+00:04:45.200 --> 00:04:48.510
+which brings us on to EC2 Instance Connect.
+
+118
+00:04:48.510 --> 00:04:50.638
+So as we can see right now,
+
+119
+00:04:50.638 --> 00:04:51.471
+and I will close this page.
+
+120
+00:04:51.471 --> 00:04:52.440
+As we can see,
+
+121
+00:04:52.440 --> 00:04:54.370
+the inbound rule that is available
+
+122
+00:04:54.370 --> 00:04:57.090
+is SSH in port 22 from my IP.
+
+123
+00:04:57.090 --> 00:05:01.160
+So one would think that if we do EC2 Instance Connect,
+
+124
+00:05:01.160 --> 00:05:02.650
+then it will work,
+
+125
+00:05:02.650 --> 00:05:04.500
+but it turns out that if you do this,
+
+126
+00:05:04.500 --> 00:05:06.140
+it will not work,
+
+127
+00:05:06.140 --> 00:05:08.570
+because the CIDR range we need
+
+128
+00:05:08.570 --> 00:05:10.810
+is not the one we have configured.
+
+129
+00:05:10.810 --> 00:05:14.470
+So if we look at the documentation around configuration
+
+130
+00:05:14.470 --> 00:05:16.000
+and of this,
+
+131
+00:05:16.000 --> 00:05:19.010
+we need to allow the SSH traffic, okay?
+
+132
+00:05:19.010 --> 00:05:21.490
+Coming from the list of IP range.
+
+133
+00:05:21.490 --> 00:05:24.120
+So there is this IP address range right here
+
+134
+00:05:24.120 --> 00:05:25.560
+that we can have a look at,
+
+135
+00:05:25.560 --> 00:05:29.130
+and we need to look for the EC2 Instance Connect block
+
+136
+00:05:29.130 --> 00:05:30.790
+for my specific region.
+
+137
+00:05:30.790 --> 00:05:34.000
+So let's open this IP address range.
+
+138
+00:05:34.000 --> 00:05:35.370
+We click on download
+
+139
+00:05:35.370 --> 00:05:37.970
+and it's going to open the IP address range.
+
+140
+00:05:37.970 --> 00:05:40.460
+And so we'll look at prefixes,
+
+141
+00:05:40.460 --> 00:05:42.510
+and I'm going to just filter the JSON
+
+142
+00:05:42.510 --> 00:05:43.720
+for EC2 Instance Connect,
+
+143
+00:05:43.720 --> 00:05:45.090
+is going to be a bit quicker,
+
+144
+00:05:45.090 --> 00:05:46.563
+and which you expend all.
+
+145
+00:05:48.130 --> 00:05:49.720
+And this is something that I'm using Firefox
+
+146
+00:05:49.720 --> 00:05:50.553
+just for this example,
+
+147
+00:05:50.553 --> 00:05:52.730
+so this is why it's a little bit slow.
+
+148
+00:05:52.730 --> 00:05:55.830
+Okay, and I'm going to look at the raw data
+
+149
+00:05:55.830 --> 00:05:57.300
+is going to be even better.
+
+150
+00:05:57.300 --> 00:05:59.000
+Okay, here we go.
+
+151
+00:05:59.000 --> 00:06:01.386
+We're going to look for EC2 Instance Connect.
+
+152
+00:06:01.386 --> 00:06:02.219
+Okay.
+
+153
+00:06:02.219 --> 00:06:03.260
+And as we can see now,
+
+154
+00:06:03.260 --> 00:06:06.350
+we need to have a look at the EC2 Instance Connect IP range
+
+155
+00:06:06.350 --> 00:06:07.820
+for the region we're in.
+
+156
+00:06:07.820 --> 00:06:10.000
+And currently I am in the Frankfurt region,
+
+157
+00:06:10.000 --> 00:06:12.540
+which is eu-central-1.
+
+158
+00:06:12.540 --> 00:06:16.590
+So we'll go in here and I will look for eu-central-1.
+
+159
+00:06:16.590 --> 00:06:18.840
+So it's going to take a little bit of time,
+
+160
+00:06:18.840 --> 00:06:21.700
+but I think it was used right before.
+
+161
+00:06:21.700 --> 00:06:22.640
+Here we go.
+
+162
+00:06:22.640 --> 00:06:26.490
+Eu-central-1 and the service is EC2 Instance Connect.
+
+163
+00:06:26.490 --> 00:06:29.530
+And here's the IP prefix I need to enable
+
+164
+00:06:29.530 --> 00:06:31.070
+into my security group
+
+165
+00:06:31.070 --> 00:06:33.300
+for the EC2 Instance Connect service to work.
+
+166
+00:06:33.300 --> 00:06:37.400
+So let's go back in here into my instance,
+
+167
+00:06:37.400 --> 00:06:40.250
+security, security group,
+
+168
+00:06:40.250 --> 00:06:42.390
+and then I will edit the inbound rules.
+
+169
+00:06:42.390 --> 00:06:43.650
+And so we'll remove this rule
+
+170
+00:06:43.650 --> 00:06:46.180
+and instead add this specific CIDR block,
+
+171
+00:06:46.180 --> 00:06:49.310
+which comes from this file we have just downloaded.
+
+172
+00:06:49.310 --> 00:06:53.030
+So I'll click on save the rule and now my source is correct.
+
+173
+00:06:53.030 --> 00:06:54.790
+So it's gonna be different obviously for you
+
+174
+00:06:54.790 --> 00:06:56.440
+if you are in a different region.
+
+175
+00:06:57.490 --> 00:07:01.420
+And then I will retry access using EC2 Instance Connect,
+
+176
+00:07:01.420 --> 00:07:03.930
+and Vwa-lah, I am connected into my EC2 Instance,
+
+177
+00:07:03.930 --> 00:07:06.330
+but of course, if I try to SSH directly into it,
+
+178
+00:07:06.330 --> 00:07:07.640
+it's not going to work.
+
+179
+00:07:07.640 --> 00:07:08.473
+So that's it.
+
+180
+00:07:08.473 --> 00:07:10.780
+We've seen all the SSH and connection issues,
+
+181
+00:07:10.780 --> 00:07:12.550
+troubleshooting for EC2 Instance.
+
+182
+00:07:12.550 --> 00:07:13.440
+I hope you liked it,
+
+183
+00:07:13.440 --> 00:07:15.390
+and I will see you in the next lecture.
+

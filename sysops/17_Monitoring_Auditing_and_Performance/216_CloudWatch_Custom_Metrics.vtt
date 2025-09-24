@@ -1,0 +1,410 @@
+WEBVTT
+
+1
+00:00:00.350 --> 00:00:01.610
+<v Narrator>So all the metrics we've seen</v>
+
+2
+00:00:01.610 --> 00:00:03.383
+so far in this course are metrics
+
+3
+00:00:03.383 --> 00:00:06.550
+taken directly from the inner services that we have
+
+4
+00:00:06.550 --> 00:00:07.820
+enabled by default,
+
+5
+00:00:07.820 --> 00:00:10.020
+but there is a way for you to get custom metrics for
+
+6
+00:00:10.020 --> 00:00:11.990
+CloudWatch, and this is choose,
+
+7
+00:00:11.990 --> 00:00:14.080
+you can define your own custom metrics.
+
+8
+00:00:14.080 --> 00:00:16.636
+For example, you wanted to push the memory usage for the RAM
+
+9
+00:00:16.636 --> 00:00:18.510
+to CloudWatch or the disk base.
+
+10
+00:00:18.510 --> 00:00:20.760
+So the number of login user for your application for this,
+
+11
+00:00:20.760 --> 00:00:24.260
+you would use an API call named PutMetricData.
+
+12
+00:00:24.260 --> 00:00:25.560
+You can add dimensions or attributes
+
+13
+00:00:25.560 --> 00:00:26.393
+to your segment metrics.
+
+14
+00:00:26.393 --> 00:00:28.540
+For example, instance.id, environment.name,
+
+15
+00:00:28.540 --> 00:00:29.396
+whatever you want really.
+
+16
+00:00:29.396 --> 00:00:31.580
+It's up to you to name it however you want.
+
+17
+00:00:31.580 --> 00:00:34.690
+And then you can specify a metric resolution with a storage
+
+18
+00:00:34.690 --> 00:00:37.500
+resolution, API parameter with two possible values.
+
+19
+00:00:37.500 --> 00:00:40.780
+So either it's a standard custom metric and you can push a
+
+20
+00:00:40.780 --> 00:00:42.380
+metric every one minute.
+
+21
+00:00:42.380 --> 00:00:43.301
+So 60 seconds.
+
+22
+00:00:43.301 --> 00:00:45.770
+Or it can enable very high resolution.
+
+23
+00:00:45.770 --> 00:00:47.590
+In which case you can enable to push metrics
+
+24
+00:00:47.590 --> 00:00:51.570
+every one, five, 10, or 30 seconds, okay.
+
+25
+00:00:51.570 --> 00:00:53.860
+Something good to know is that with custom metrics,
+
+26
+00:00:53.860 --> 00:00:56.790
+when you push a metric in the past or in the future,
+
+27
+00:00:56.790 --> 00:00:57.700
+this works as well.
+
+28
+00:00:57.700 --> 00:00:59.920
+So this is a very important exam point.
+
+29
+00:00:59.920 --> 00:01:03.820
+So if you are pushing a metric up to two weeks in the past
+
+30
+00:01:03.820 --> 00:01:05.130
+or two hours in the future,
+
+31
+00:01:05.130 --> 00:01:07.480
+you're not going to get an error from CloudWatch, okay.
+
+32
+00:01:07.480 --> 00:01:10.030
+This is going to accept your metric as is.
+
+33
+00:01:10.030 --> 00:01:11.237
+And so that means you need to make sure that your
+
+34
+00:01:11.237 --> 00:01:14.040
+EC2 instance time is currently configured.
+
+35
+00:01:14.040 --> 00:01:16.340
+If you want the metrics to be synchronized with the actual
+
+36
+00:01:16.340 --> 00:01:17.967
+time from AWS.
+
+37
+00:01:19.540 --> 00:01:21.080
+So let's push a custom metric.
+
+38
+00:01:21.080 --> 00:01:23.890
+And for this, I went to the documentation into CloudWatch,
+
+39
+00:01:23.890 --> 00:01:24.880
+put metric data.
+
+40
+00:01:24.880 --> 00:01:26.930
+This is a CLI documentation,
+
+41
+00:01:26.930 --> 00:01:29.790
+and this shows you how to push a metric into CloudWatch.
+
+42
+00:01:29.790 --> 00:01:31.390
+So I'm not going to read the documentation.
+
+43
+00:01:31.390 --> 00:01:33.960
+You can have a look at all the parameters in here, okay.
+
+44
+00:01:33.960 --> 00:01:35.570
+But very important timestamp can be specified.
+
+45
+00:01:35.570 --> 00:01:38.870
+And so you can specify a timestamp up to two weeks in the
+
+46
+00:01:38.870 --> 00:01:40.140
+past and two hours in the future.
+
+47
+00:01:40.140 --> 00:01:41.940
+So very, very important.
+
+48
+00:01:41.940 --> 00:01:43.250
+Then you can specify the data,
+
+49
+00:01:43.250 --> 00:01:45.650
+the name of the value of the units, the value,
+
+50
+00:01:45.650 --> 00:01:48.490
+and so on dimensions, as well as the storage resolution,
+
+51
+00:01:48.490 --> 00:01:51.060
+if you want it to get a high resolution metric
+
+52
+00:01:51.060 --> 00:01:53.030
+or a standard resolution, okay.
+
+53
+00:01:53.030 --> 00:01:57.910
+So what I'm going to do is just push a very custom example.
+
+54
+00:01:57.910 --> 00:01:59.603
+So at the end there's examples,
+
+55
+00:01:59.603 --> 00:02:04.110
+and you can use a metrics of JS file to push a metric like
+
+56
+00:02:04.110 --> 00:02:06.283
+this, if you want it to, and then use this API call,
+
+57
+00:02:06.283 --> 00:02:08.620
+or if you want it to go even quicker,
+
+58
+00:02:08.620 --> 00:02:12.710
+you can just use one API command to specify the value of
+
+59
+00:02:12.710 --> 00:02:14.580
+your metric, the unit, the bytes,
+
+60
+00:02:14.580 --> 00:02:16.810
+as well as instance ID instance type and so on.
+
+61
+00:02:16.810 --> 00:02:20.130
+And so let me take this command right here,
+
+62
+00:02:20.130 --> 00:02:24.820
+and we're going to open the CloudShell utility
+
+63
+00:02:24.820 --> 00:02:26.203
+to push that metric,
+
+64
+00:02:27.350 --> 00:02:28.780
+Okay, so CloudShell is launched
+
+65
+00:02:28.780 --> 00:02:32.200
+and I'm going to paste the command in and then press enter.
+
+66
+00:02:32.200 --> 00:02:35.740
+So this is going to push a custom metric into CloudWatch.
+
+67
+00:02:35.740 --> 00:02:37.930
+Now you have to imagine that if this is done from an
+
+68
+00:02:37.930 --> 00:02:39.640
+institute instance with a script, for example,
+
+69
+00:02:39.640 --> 00:02:41.670
+you can push any metric regularly.
+
+70
+00:02:41.670 --> 00:02:44.970
+Right now I'm just pushing one data point using the CLI into
+
+71
+00:02:44.970 --> 00:02:48.270
+CloudWatch, which is quite empty already, okay.
+
+72
+00:02:48.270 --> 00:02:50.870
+And if you know, the unified agent for CloudWatch,
+
+73
+00:02:50.870 --> 00:02:53.990
+what it does is that it does use this put metric data API
+
+74
+00:02:53.990 --> 00:02:56.555
+call to push metrics into CloudWatch regularly.
+
+75
+00:02:56.555 --> 00:02:57.860
+So when this is pushed,
+
+76
+00:02:57.860 --> 00:03:00.003
+we have pushed a new namespace named MyNameSpace.
+
+77
+00:03:01.310 --> 00:03:04.647
+And so that means that if I go back to my CloudWatch metrics
+
+78
+00:03:04.647 --> 00:03:06.023
+and refresh this,
+
+79
+00:03:09.936 --> 00:03:12.160
+I need to clear my graph.
+
+80
+00:03:12.160 --> 00:03:15.700
+And then I'm just going to go out of the service.
+
+81
+00:03:15.700 --> 00:03:18.323
+And going back to the service is going to be easier,
+
+82
+00:03:19.480 --> 00:03:21.030
+then go to all metrics.
+
+83
+00:03:21.030 --> 00:03:22.750
+And as you can see, we have a custom namespace
+
+84
+00:03:22.750 --> 00:03:23.660
+that has been created right here.
+
+85
+00:03:23.660 --> 00:03:27.200
+So all of those before where namespaces credited by AWS,
+
+86
+00:03:27.200 --> 00:03:29.140
+but now we have a namespace created by us.
+
+87
+00:03:29.140 --> 00:03:31.660
+And so in it we have two dimensions instance ID and
+
+88
+00:03:31.660 --> 00:03:32.493
+instance type,
+
+89
+00:03:32.493 --> 00:03:35.380
+and these represents the same instance ID and instance type
+
+90
+00:03:35.380 --> 00:03:37.330
+dimensions that were specified in the command.
+
+91
+00:03:37.330 --> 00:03:39.760
+So this is up to you to define these dimensions,
+
+92
+00:03:39.760 --> 00:03:43.080
+obviously, then you click on it and you can see the instance
+
+93
+00:03:43.080 --> 00:03:46.160
+ID, the instance type and the metric name buffers.
+
+94
+00:03:46.160 --> 00:03:49.323
+And if I click on it now, we don't see much because, well,
+
+95
+00:03:49.323 --> 00:03:50.640
+we don't have much,
+
+96
+00:03:50.640 --> 00:03:53.490
+but there's one data point in here that has been created,
+
+97
+00:03:53.490 --> 00:03:56.090
+okay, and this is part of my custom metric.
+
+98
+00:03:56.090 --> 00:03:57.600
+So that's, it, it's quite easy.
+
+99
+00:03:57.600 --> 00:03:58.940
+You can see how to create custom metrics,
+
+100
+00:03:58.940 --> 00:04:00.690
+very easily using an API call.
+
+101
+00:04:00.690 --> 00:04:01.530
+So I hope you liked it.
+
+102
+00:04:01.530 --> 00:04:03.480
+And I will see you in the next lecture.
+

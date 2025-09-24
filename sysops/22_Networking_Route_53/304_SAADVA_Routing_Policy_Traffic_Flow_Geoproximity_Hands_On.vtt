@@ -1,0 +1,750 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:01.780
+<v Stephane>So, let's have a look into a way</v>
+
+2
+00:00:01.780 --> 00:00:06.170
+we can build these complex geoproximity records
+
+3
+00:00:06.170 --> 00:00:08.020
+using a feature called Traffic Flow.
+
+4
+00:00:08.020 --> 00:00:10.180
+This is not just applying to geoproximity,
+
+5
+00:00:10.180 --> 00:00:11.590
+but applies to everything.
+
+6
+00:00:11.590 --> 00:00:15.210
+So, the idea is that we have a UI, a visual editor,
+
+7
+00:00:15.210 --> 00:00:19.070
+that allows us to manage complex routing decision trees.
+
+8
+00:00:19.070 --> 00:00:20.440
+So, this is the UI we'll have,
+
+9
+00:00:20.440 --> 00:00:22.210
+and in there we can specify different rules.
+
+10
+00:00:22.210 --> 00:00:23.330
+We'll have a play with it.
+
+11
+00:00:23.330 --> 00:00:25.550
+Though the idea is that instead of writing the records
+
+12
+00:00:25.550 --> 00:00:28.930
+one by one in your DNS management system in Route 53
+
+13
+00:00:28.930 --> 00:00:31.880
+we're going to just manage all of them visually.
+
+14
+00:00:31.880 --> 00:00:34.230
+And the cool thing about it is that it's going to be saved
+
+15
+00:00:34.230 --> 00:00:35.970
+as a Traffic Flow Policy,
+
+16
+00:00:35.970 --> 00:00:37.050
+and it can be versioned,
+
+17
+00:00:37.050 --> 00:00:38.930
+it can be applied to different hosted zones,
+
+18
+00:00:38.930 --> 00:00:41.530
+and we can easily change them
+
+19
+00:00:41.530 --> 00:00:44.050
+and apply them in our hosted zones.
+
+20
+00:00:44.050 --> 00:00:45.620
+So, let's have a look in the hands-on right now
+
+21
+00:00:45.620 --> 00:00:47.360
+to see how we can do it.
+
+22
+00:00:47.360 --> 00:00:48.550
+Okay, so let's go ahead.
+
+23
+00:00:48.550 --> 00:00:50.430
+We're gonna go on the left-hand side panel,
+
+24
+00:00:50.430 --> 00:00:52.910
+and you will find Traffic policies.
+
+25
+00:00:52.910 --> 00:00:54.220
+So, in here we get the UI,
+
+26
+00:00:54.220 --> 00:00:56.250
+we can create a Traffic Policy.
+
+27
+00:00:56.250 --> 00:01:01.250
+And I'll call this one DemoGeoPolicy, and click on Next.
+
+28
+00:01:01.400 --> 00:01:03.250
+So, here we have a starting point,
+
+29
+00:01:03.250 --> 00:01:04.840
+and the starting point is you have to specify
+
+30
+00:01:04.840 --> 00:01:06.380
+the type of record you want to create.
+
+31
+00:01:06.380 --> 00:01:10.560
+Is it an A, AAAA, CNAME, etcetera, etcetera,
+
+32
+00:01:10.560 --> 00:01:12.810
+and it gives you a detail about what each record is.
+
+33
+00:01:12.810 --> 00:01:14.690
+So, we'll have an A record,
+
+34
+00:01:14.690 --> 00:01:17.640
+and here we have to connect to a specific rule.
+
+35
+00:01:17.640 --> 00:01:19.320
+And as you can see, we can get Weighted rule,
+
+36
+00:01:19.320 --> 00:01:21.390
+Failover rule, Geolocation rule, Latency rule,
+
+37
+00:01:21.390 --> 00:01:24.720
+Multivalue, Geoproximity, or just an endpoint.
+
+38
+00:01:24.720 --> 00:01:26.620
+So, if you wanted to specify something very simple,
+
+39
+00:01:26.620 --> 00:01:28.580
+for example an A into an endpoint,
+
+40
+00:01:28.580 --> 00:01:32.130
+you could say the A record will point to this value
+
+41
+00:01:32.130 --> 00:01:34.350
+one, two, three, four, five, six, seven, right?
+
+42
+00:01:34.350 --> 00:01:37.270
+And this would be the record itself,
+
+43
+00:01:37.270 --> 00:01:38.850
+a very, very simple record.
+
+44
+00:01:38.850 --> 00:01:41.760
+But obviously we can create more complicated policies.
+
+45
+00:01:41.760 --> 00:01:43.677
+So, we can connect to a Weighted rule,
+
+46
+00:01:43.677 --> 00:01:45.760
+and here we can specify multiple weights.
+
+47
+00:01:45.760 --> 00:01:48.980
+So, we say a weight of 10 goes to, and then again,
+
+48
+00:01:48.980 --> 00:01:51.833
+we could have some advanced records, for example,
+
+49
+00:01:51.833 --> 00:01:53.210
+a Failover and so on.
+
+50
+00:01:53.210 --> 00:01:55.280
+So, we can get some really complicated stuff.
+
+51
+00:01:55.280 --> 00:01:57.670
+And when you're ready you can say endpoint,
+
+52
+00:01:57.670 --> 00:02:01.680
+and specify the value of the IPv4 that you want.
+
+53
+00:02:01.680 --> 00:02:03.060
+So, obviously we're not going to build
+
+54
+00:02:03.060 --> 00:02:04.590
+something as complicated.
+
+55
+00:02:04.590 --> 00:02:06.780
+As you can see, on the Weighted rule for example
+
+56
+00:02:06.780 --> 00:02:08.747
+we can add another weight, and so on, and so on.
+
+57
+00:02:08.747 --> 00:02:10.510
+And so, all of it is visual,
+
+58
+00:02:10.510 --> 00:02:12.130
+and it really allows us to make sense
+
+59
+00:02:12.130 --> 00:02:15.160
+of what is happening within Route 53.
+
+60
+00:02:15.160 --> 00:02:16.960
+So, we are not going to create a Weighted rule though,
+
+61
+00:02:16.960 --> 00:02:19.860
+we are going to create a Geoproximity rule.
+
+62
+00:02:19.860 --> 00:02:23.580
+And we can show the map as well to have a visual feedback
+
+63
+00:02:23.580 --> 00:02:25.440
+of what we're trying to do.
+
+64
+00:02:25.440 --> 00:02:28.440
+So, here we have to enter the first region,
+
+65
+00:02:28.440 --> 00:02:30.390
+and then we can have the second region.
+
+66
+00:02:31.250 --> 00:02:33.420
+So, now for the first endpoint location
+
+67
+00:02:33.420 --> 00:02:37.060
+you can enter custom coordinates, or you can, for example,
+
+68
+00:02:37.060 --> 00:02:40.600
+have one of these regions of AWS available to you.
+
+69
+00:02:40.600 --> 00:02:42.680
+So, we're going to use the ones we have created from before.
+
+70
+00:02:42.680 --> 00:02:45.830
+So, we'll choose US-East-1,
+
+71
+00:02:45.830 --> 00:02:47.940
+and then we have to specify a bias.
+
+72
+00:02:47.940 --> 00:02:50.800
+And then I will move the map a little bit to the left,
+
+73
+00:02:50.800 --> 00:02:52.630
+I will just remove it for now.
+
+74
+00:02:52.630 --> 00:02:56.100
+And then this record right here is going to connect
+
+75
+00:02:56.100 --> 00:02:57.560
+to a new endpoint,
+
+76
+00:02:57.560 --> 00:02:58.393
+and the value of it
+
+77
+00:02:58.393 --> 00:03:02.420
+is going to be my US-East-1 EC2 instance.
+
+78
+00:03:02.420 --> 00:03:05.160
+So, I will paste the value, and we're good to go.
+
+79
+00:03:05.160 --> 00:03:08.170
+For now we'll leave the bias as zero.
+
+80
+00:03:08.170 --> 00:03:11.340
+Then for the second region we can enter some coordinates.
+
+81
+00:03:11.340 --> 00:03:14.290
+So, we can say for example Singapore,
+
+82
+00:03:14.290 --> 00:03:16.393
+which was AP Southeast 1.
+
+83
+00:03:17.320 --> 00:03:20.540
+And let's do it, Singapore, again, here we go.
+
+84
+00:03:20.540 --> 00:03:23.010
+And then this is going to connect to a new endpoint,
+
+85
+00:03:23.010 --> 00:03:28.010
+and that endpoint has to be my IP address of AP-Southeast-1.
+
+86
+00:03:29.020 --> 00:03:30.940
+Press Enter, and we're good to go.
+
+87
+00:03:30.940 --> 00:03:33.010
+So, now that we have created this policy
+
+88
+00:03:33.010 --> 00:03:35.090
+let's have a look at the map.
+
+89
+00:03:35.090 --> 00:03:37.190
+So, for this I will click on Show Map.
+
+90
+00:03:37.190 --> 00:03:40.210
+And so, this geoproximity map is going to show me,
+
+91
+00:03:40.210 --> 00:03:42.280
+based on the input I have right now,
+
+92
+00:03:42.280 --> 00:03:44.360
+which users are going to go to which instance.
+
+93
+00:03:44.360 --> 00:03:46.450
+So, if you're on that side of the world,
+
+94
+00:03:46.450 --> 00:03:47.650
+the blue side of the world,
+
+95
+00:03:47.650 --> 00:03:48.890
+as you can see there's a line dividing
+
+96
+00:03:48.890 --> 00:03:50.780
+the blue and the orange side of the world,
+
+97
+00:03:50.780 --> 00:03:52.840
+then you're going to go to my first instance.
+
+98
+00:03:52.840 --> 00:03:54.510
+If you're on the second side of the world
+
+99
+00:03:54.510 --> 00:03:56.450
+you're gonna go to my second instance.
+
+100
+00:03:56.450 --> 00:03:57.590
+And if we change the bias,
+
+101
+00:03:57.590 --> 00:04:00.470
+so if we increase the bias for example
+
+102
+00:04:00.470 --> 00:04:03.730
+of my instance in here, so we put a bias of 34,
+
+103
+00:04:03.730 --> 00:04:06.290
+this is going to increase the surface of the world
+
+104
+00:04:06.290 --> 00:04:08.030
+that is going to be redirected
+
+105
+00:04:08.030 --> 00:04:10.380
+to my instance in North America.
+
+106
+00:04:10.380 --> 00:04:12.520
+If I decrease the bias to something negative
+
+107
+00:04:12.520 --> 00:04:13.803
+it's going to do the opposite thing.
+
+108
+00:04:13.803 --> 00:04:16.650
+It's going to center more of the traffic
+
+109
+00:04:16.650 --> 00:04:19.240
+onto my instance number two.
+
+110
+00:04:19.240 --> 00:04:22.260
+So, we can really play it and really have a visual aspect,
+
+111
+00:04:22.260 --> 00:04:24.060
+and the cool thing is that we can consider
+
+112
+00:04:24.060 --> 00:04:25.630
+more than two instances.
+
+113
+00:04:25.630 --> 00:04:29.170
+Of course, we can add another geoproximity location,
+
+114
+00:04:29.170 --> 00:04:31.200
+and for the details we're going to say
+
+115
+00:04:31.200 --> 00:04:32.703
+this is in Frankfurt.
+
+116
+00:04:34.100 --> 00:04:36.700
+And then we're going to have, as you can see now, a new map.
+
+117
+00:04:36.700 --> 00:04:38.407
+And again, you can play with the bias,
+
+118
+00:04:38.407 --> 00:04:41.240
+and see how the bias is going to impact
+
+119
+00:04:41.240 --> 00:04:43.200
+your geoproximity map.
+
+120
+00:04:43.200 --> 00:04:45.230
+And so, this Frankfurt, we're going to have it
+
+121
+00:04:45.230 --> 00:04:46.640
+to a new endpoint.
+
+122
+00:04:46.640 --> 00:04:51.640
+And we'll have the EU-Central-1 in here, paste it,
+
+123
+00:04:51.930 --> 00:04:54.490
+and then Create traffic policy.
+
+124
+00:04:54.490 --> 00:04:55.710
+So, we've done this one,
+
+125
+00:04:55.710 --> 00:04:57.180
+and now we need to deploy this
+
+126
+00:04:57.180 --> 00:04:58.740
+traffic policy with policy records.
+
+127
+00:04:58.740 --> 00:05:00.650
+So, for this I will just deploy this one
+
+128
+00:05:00.650 --> 00:05:03.620
+into the hosted zone, stephanetheteacher.com,
+
+129
+00:05:03.620 --> 00:05:06.410
+and we can set that, this policy record name
+
+130
+00:05:06.410 --> 00:05:10.680
+is going to be proximity.stephanetheteacher.com.
+
+131
+00:05:10.680 --> 00:05:12.860
+And we can specify a TTL.
+
+132
+00:05:12.860 --> 00:05:14.190
+And very importantly,
+
+133
+00:05:14.190 --> 00:05:16.220
+the pricing per month is $50 per month,
+
+134
+00:05:16.220 --> 00:05:18.380
+so to just create this policy record
+
+135
+00:05:18.380 --> 00:05:19.730
+you will pay $50 per month.
+
+136
+00:05:19.730 --> 00:05:21.880
+It's prorated obviously for how long you keep it,
+
+137
+00:05:21.880 --> 00:05:24.380
+but if you want to remain within the free tier and,
+
+138
+00:05:24.380 --> 00:05:26.430
+you shouldn't create it obviously.
+
+139
+00:05:26.430 --> 00:05:28.650
+So, I'll just create it just to show you what it means,
+
+140
+00:05:28.650 --> 00:05:30.210
+and I will delete it right after.
+
+141
+00:05:30.210 --> 00:05:31.760
+But this is not necessary for you to go
+
+142
+00:05:31.760 --> 00:05:33.470
+all the way, obviously.
+
+143
+00:05:33.470 --> 00:05:35.380
+So, let's create this policy record.
+
+144
+00:05:35.380 --> 00:05:38.540
+As you can see now, the policy versions are here.
+
+145
+00:05:38.540 --> 00:05:41.090
+So, we can edit this policy if we wanted to,
+
+146
+00:05:41.090 --> 00:05:43.900
+and edit this and deploy it as a new version.
+
+147
+00:05:43.900 --> 00:05:46.840
+And from there we can see the records that have been created
+
+148
+00:05:46.840 --> 00:05:48.103
+with this DemoGeoPolicy.
+
+149
+00:05:49.640 --> 00:05:51.840
+And so, if we have a look again at the map
+
+150
+00:05:51.840 --> 00:05:53.100
+we can demonstrate how this works.
+
+151
+00:05:53.100 --> 00:05:57.210
+So, let's click on this Geoproximity rule in here,
+
+152
+00:05:57.210 --> 00:05:59.870
+so let's edit this as a new version, Next,
+
+153
+00:05:59.870 --> 00:06:01.990
+and then click on this map.
+
+154
+00:06:01.990 --> 00:06:04.480
+So, as we can see, if I'm in Europe, like I'm in France,
+
+155
+00:06:04.480 --> 00:06:06.240
+I will be able to connect to this instance,
+
+156
+00:06:06.240 --> 00:06:08.630
+if I'm in Brazil I will connect to that instance,
+
+157
+00:06:08.630 --> 00:06:11.810
+and if I am in, for example, India, again,
+
+158
+00:06:11.810 --> 00:06:12.860
+I will connect to that region.
+
+159
+00:06:12.860 --> 00:06:16.330
+So, we'll verify this in a second by testing the record.
+
+160
+00:06:16.330 --> 00:06:19.343
+So, let's cancel and wait for this to be created.
+
+161
+00:06:20.270 --> 00:06:22.210
+So, the policy record has been applied.
+
+162
+00:06:22.210 --> 00:06:24.750
+As you can see, the version used is number one.
+
+163
+00:06:24.750 --> 00:06:26.940
+So, if I connect from where I am, I'm in Europe right now,
+
+164
+00:06:26.940 --> 00:06:29.470
+I will get the EU-Central-1,
+
+165
+00:06:29.470 --> 00:06:30.990
+and so, which is perfect.
+
+166
+00:06:30.990 --> 00:06:35.990
+If I go to Brazil, for example, zed, and refresh my page,
+
+167
+00:06:37.420 --> 00:06:39.390
+and then it should be connecting to my American instance.
+
+168
+00:06:39.390 --> 00:06:41.970
+So, let's verify this in a second.
+
+169
+00:06:41.970 --> 00:06:45.400
+Yes, and finally, if I connect to something in Asia,
+
+170
+00:06:45.400 --> 00:06:46.496
+so let's change this.
+
+171
+00:06:46.496 --> 00:06:47.993
+Let's go to Thailand, for example,
+
+172
+00:06:49.450 --> 00:06:53.010
+and then refresh, I'm gonna get my AP-Southeast-1b instance.
+
+173
+00:06:53.010 --> 00:06:54.440
+So, this is perfect.
+
+174
+00:06:54.440 --> 00:06:58.480
+And if we go back into Route 53 now and refresh this
+
+175
+00:07:02.000 --> 00:07:06.260
+you can see if I go to Filter and type proximity
+
+176
+00:07:06.260 --> 00:07:08.430
+the record itself, this proximity record,
+
+177
+00:07:08.430 --> 00:07:12.780
+is directly routing to a traffic policy record, okay?
+
+178
+00:07:12.780 --> 00:07:14.755
+And the only way I can edit this record
+
+179
+00:07:14.755 --> 00:07:16.810
+is if I click on Edit right here,
+
+180
+00:07:16.810 --> 00:07:18.030
+and this will take me directly
+
+181
+00:07:18.030 --> 00:07:21.690
+into the traffic policy UI, okay?
+
+182
+00:07:21.690 --> 00:07:23.200
+So, that's it for this lecture.
+
+183
+00:07:23.200 --> 00:07:25.140
+I'm just going to save some money, obviously,
+
+184
+00:07:25.140 --> 00:07:27.000
+and delete this policy record right now
+
+185
+00:07:27.000 --> 00:07:29.320
+so it doesn't cost me $50 a month.
+
+186
+00:07:29.320 --> 00:07:30.750
+And I hope you liked this lecture.
+
+187
+00:07:30.750 --> 00:07:32.500
+I will see you in the next lecture.
+

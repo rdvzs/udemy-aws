@@ -1,0 +1,366 @@
+WEBVTT
+
+1
+00:00:00.090 --> 00:00:01.380
+<v Instructor>So let's talk about how we want</v>
+
+2
+00:00:01.380 --> 00:00:06.380
+to pass user data to our EC2 instances using CloudFormation.
+
+3
+00:00:06.660 --> 00:00:10.410
+So we know that user data can be used as a script
+
+4
+00:00:10.410 --> 00:00:13.140
+for the first EC2 instance launch,
+
+5
+00:00:13.140 --> 00:00:15.000
+and then we can set up for the console,
+
+6
+00:00:15.000 --> 00:00:16.380
+but we can also do the same
+
+7
+00:00:16.380 --> 00:00:18.510
+through the CloudFormation template.
+
+8
+00:00:18.510 --> 00:00:20.880
+The one important thing you should do
+
+9
+00:00:20.880 --> 00:00:22.980
+is to pass your entire script
+
+10
+00:00:22.980 --> 00:00:26.640
+through a function named Base64.
+
+11
+00:00:26.640 --> 00:00:28.800
+And then, as we'll see very soon,
+
+12
+00:00:28.800 --> 00:00:32.100
+the user data script is also going to be stored in a file
+
+13
+00:00:32.100 --> 00:00:35.160
+named /var/log/cloud-init-output.log.
+
+14
+00:00:35.160 --> 00:00:36.240
+And we'll have a look at it
+
+15
+00:00:36.240 --> 00:00:38.640
+in case we want to have a look at what happened
+
+16
+00:00:38.640 --> 00:00:40.350
+and if there were any failures.
+
+17
+00:00:40.350 --> 00:00:43.140
+So let's go ahead and do this in CloudFormation.
+
+18
+00:00:43.140 --> 00:00:47.760
+So here I am in my file named O-user-data.yaml,
+
+19
+00:00:47.760 --> 00:00:50.518
+and we are creating an EC2 instance in a specified AZ
+
+20
+00:00:50.518 --> 00:00:55.140
+with a specified image ID, a t2.micro.
+
+21
+00:00:55.140 --> 00:00:58.590
+We reference a security group that we define right after,
+
+22
+00:00:58.590 --> 00:01:02.490
+which allows us to SSH and to use HTP.
+
+23
+00:01:02.490 --> 00:01:04.680
+And then, we're going to start a web server
+
+24
+00:01:04.680 --> 00:01:06.540
+on our EC2 instance.
+
+25
+00:01:06.540 --> 00:01:11.250
+For this, we start with the user data property
+
+26
+00:01:11.250 --> 00:01:15.600
+and we pass in the function Base64.
+
+27
+00:01:15.600 --> 00:01:17.610
+And then, we have this vertical line here,
+
+28
+00:01:17.610 --> 00:01:21.090
+which means that all of this is a multi-line string.
+
+29
+00:01:21.090 --> 00:01:23.370
+And this vertical line is saying that we passed
+
+30
+00:01:23.370 --> 00:01:26.100
+this entire script as our user data
+
+31
+00:01:26.100 --> 00:01:29.640
+in which we update and install HTTPD.
+
+32
+00:01:29.640 --> 00:01:31.500
+Then we start it and enable it.
+
+33
+00:01:31.500 --> 00:01:35.880
+And finally, we create a file named index.html.
+
+34
+00:01:35.880 --> 00:01:38.700
+So let's have a test and see if this script
+
+35
+00:01:38.700 --> 00:01:41.610
+actually gets passed to our EC2 instance.
+
+36
+00:01:41.610 --> 00:01:44.460
+So to do so, let's create a stack.
+
+37
+00:01:44.460 --> 00:01:46.233
+We upload a template file,
+
+38
+00:01:47.790 --> 00:01:51.540
+and we choose O-user-data.yaml.
+
+39
+00:01:51.540 --> 00:01:53.280
+Let's click on Next.
+
+40
+00:01:53.280 --> 00:01:55.130
+I will call this one DemoEC2UserData.
+
+41
+00:01:57.300 --> 00:01:58.323
+Click on Next.
+
+42
+00:01:59.280 --> 00:02:00.113
+Next.
+
+43
+00:02:00.113 --> 00:02:01.860
+And then, finally,
+
+44
+00:02:01.860 --> 00:02:04.440
+Submit to create this template.
+
+45
+00:02:04.440 --> 00:02:06.210
+And so we are getting started
+
+46
+00:02:06.210 --> 00:02:09.300
+and launching a security group first,
+
+47
+00:02:09.300 --> 00:02:12.480
+and then we'll be launching an EC2 instance.
+
+48
+00:02:12.480 --> 00:02:13.860
+So what I want to show you
+
+49
+00:02:13.860 --> 00:02:16.830
+is that we can go directly into the EC2 console
+
+50
+00:02:16.830 --> 00:02:18.830
+and wait for the instance to be running.
+
+51
+00:02:20.670 --> 00:02:24.510
+So now our EC2 instance is in the running state,
+
+52
+00:02:24.510 --> 00:02:29.220
+and I'm going to use the public IPv4 address to copy it
+
+53
+00:02:29.220 --> 00:02:30.870
+and open it in my web browser.
+
+54
+00:02:30.870 --> 00:02:33.690
+And I get a "Hello World from user data."
+
+55
+00:02:33.690 --> 00:02:38.690
+So my user data script here was passed to my EC2 instance
+
+56
+00:02:39.000 --> 00:02:40.950
+through CloudFormation.
+
+57
+00:02:40.950 --> 00:02:44.760
+Now I'm just going to connect to my EC2 instance
+
+58
+00:02:44.760 --> 00:02:47.490
+using EC2 Instance Connect.
+
+59
+00:02:47.490 --> 00:02:50.550
+And the reason why I'm doing so is that I wanna show you
+
+60
+00:02:50.550 --> 00:02:55.500
+how we can have a look at at the lugs of the clouds-init.
+
+61
+00:02:55.500 --> 00:03:00.480
+So you do cat /var/log/cloud-init
+
+62
+00:03:00.480 --> 00:03:03.330
+and then -output.log.
+
+63
+00:03:03.330 --> 00:03:06.030
+And this entire log gives you
+
+64
+00:03:06.030 --> 00:03:08.970
+all the commands you are running using your user data
+
+65
+00:03:08.970 --> 00:03:11.160
+and the outcome of it.
+
+66
+00:03:11.160 --> 00:03:14.400
+So as we can see here, we have the init info,
+
+67
+00:03:14.400 --> 00:03:16.770
+and here we have the first command we ran,
+
+68
+00:03:16.770 --> 00:03:18.810
+which has dnf update -y,
+
+69
+00:03:18.810 --> 00:03:21.900
+which created all this log.
+
+70
+00:03:21.900 --> 00:03:25.110
+Then we did dnf install -y http.
+
+71
+00:03:25.110 --> 00:03:26.550
+So we installed HTTPD.
+
+72
+00:03:26.550 --> 00:03:29.940
+As we can see everything was done and successful.
+
+73
+00:03:29.940 --> 00:03:32.070
+And then we had these two commands
+
+74
+00:03:32.070 --> 00:03:34.710
+to start and enable HTTPD.
+
+75
+00:03:34.710 --> 00:03:37.680
+And finally, we had this echo command
+
+76
+00:03:37.680 --> 00:03:42.210
+to actually create our index.html file.
+
+77
+00:03:42.210 --> 00:03:45.120
+And so everything was finished and was successful,
+
+78
+00:03:45.120 --> 00:03:47.190
+and it took 34 seconds,
+
+79
+00:03:47.190 --> 00:03:49.620
+and we had this content as a result
+
+80
+00:03:49.620 --> 00:03:51.750
+being ready on our web server.
+
+81
+00:03:51.750 --> 00:03:53.160
+So this is great,
+
+82
+00:03:53.160 --> 00:03:57.900
+and it turns out that our EC2 instance was created
+
+83
+00:03:57.900 --> 00:04:00.150
+and was successful in this template.
+
+84
+00:04:00.150 --> 00:04:03.390
+Even though if we had issues in this
+
+85
+00:04:03.390 --> 00:04:05.460
+and the web server was not deployed,
+
+86
+00:04:05.460 --> 00:04:07.470
+CloudFormation would return a success.
+
+87
+00:04:07.470 --> 00:04:10.110
+And so we'll see how we can link the success
+
+88
+00:04:10.110 --> 00:04:14.100
+of the user data script to the success of CloudFormation.
+
+89
+00:04:14.100 --> 00:04:16.050
+So let's delete the stack,
+
+90
+00:04:16.050 --> 00:04:17.670
+and I will see you in the next lecture
+
+91
+00:04:17.670 --> 00:04:19.473
+to discuss what I just introduced.
+

@@ -1,0 +1,302 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:02.818
+<v ->Okay, so let's get started with systems manager.</v>
+
+2
+00:00:02.818 --> 00:00:05.160
+And for this we need to first register
+
+3
+00:00:05.160 --> 00:00:06.930
+some instances within.
+
+4
+00:00:06.930 --> 00:00:09.510
+So on the left hand side, let's go into Fleet Manager.
+
+5
+00:00:09.510 --> 00:00:11.850
+And as you can see right now I have zero managed nodes
+
+6
+00:00:11.850 --> 00:00:13.200
+but that will change in a second.
+
+7
+00:00:13.200 --> 00:00:16.551
+So what we want to do is to go into the EC2 console
+
+8
+00:00:16.551 --> 00:00:20.940
+and start some instances to be registered in Fleet Manager.
+
+9
+00:00:20.940 --> 00:00:23.040
+So in my EC2 console, I'm gonna go
+
+10
+00:00:23.040 --> 00:00:27.160
+under instances and I'm gonna click on Launch Instances.
+
+11
+00:00:27.160 --> 00:00:29.040
+The
+
+12
+00:00:29.040 --> 00:00:31.620
+operating system is going to be Amazon Linux two.
+
+13
+00:00:31.620 --> 00:00:33.540
+And the reason we use Amazon Linux two is
+
+14
+00:00:33.540 --> 00:00:37.590
+that the SSM agent is already running on it.
+
+15
+00:00:37.590 --> 00:00:41.130
+So all we need is to then give the proper IAM permissions
+
+16
+00:00:41.130 --> 00:00:44.700
+to our instance, and then it will be registered in SSM.
+
+17
+00:00:44.700 --> 00:00:47.730
+So if we look at our instance type, we'll choose T2 Micro
+
+18
+00:00:47.730 --> 00:00:50.430
+for a key pair, we'll proceed without a key pair.
+
+19
+00:00:50.430 --> 00:00:53.760
+And for a security group, we'll create a new security group.
+
+20
+00:00:53.760 --> 00:00:55.380
+But as you can see
+
+21
+00:00:55.380 --> 00:00:58.470
+we will remove any kind of connectivity to it.
+
+22
+00:00:58.470 --> 00:01:02.040
+So no SSH, no HTTPS, no HTTP, just to show you
+
+23
+00:01:02.040 --> 00:01:04.290
+that the instance doesn't need to be accessible.
+
+24
+00:01:04.290 --> 00:01:06.840
+It's the agent that's actually accessing the service
+
+25
+00:01:06.840 --> 00:01:10.050
+and not the service that's accessing the instance.
+
+26
+00:01:10.050 --> 00:01:14.310
+So we create a new security group without any rules in it.
+
+27
+00:01:14.310 --> 00:01:16.680
+And then under advanced details, most importantly
+
+28
+00:01:16.680 --> 00:01:19.590
+we need to select an IAM instance profile.
+
+29
+00:01:19.590 --> 00:01:22.430
+So let's click on create new IAM instance profile,
+
+30
+00:01:22.430 --> 00:01:25.233
+and then we're going to create a role,
+
+31
+00:01:26.220 --> 00:01:28.290
+and it's for an EC2 instance.
+
+32
+00:01:28.290 --> 00:01:29.490
+Next.
+
+33
+00:01:29.490 --> 00:01:33.720
+And then here we need to find the proper permission policy.
+
+34
+00:01:33.720 --> 00:01:36.270
+So we'll go into SSM.
+
+35
+00:01:36.270 --> 00:01:40.950
+And here we have the Amazon SSM Managed Instance score,
+
+36
+00:01:40.950 --> 00:01:43.110
+which contains enough permissions
+
+37
+00:01:43.110 --> 00:01:45.810
+for the instance to be managed by SSM.
+
+38
+00:01:45.810 --> 00:01:47.700
+And that's extremely important.
+
+39
+00:01:47.700 --> 00:01:51.000
+So we'll have this as a
+
+40
+00:01:51.000 --> 00:01:53.670
+attached policy of my instance.
+
+41
+00:01:53.670 --> 00:01:56.500
+And then I will scroll down and
+
+42
+00:01:58.350 --> 00:02:03.007
+go in here and call this Amazon EC2 Role for SSM.
+
+43
+00:02:04.560 --> 00:02:05.580
+So now we're good.
+
+44
+00:02:05.580 --> 00:02:08.880
+We have the Amazon SSM Manage Instance Core.
+
+45
+00:02:08.880 --> 00:02:10.203
+Let's create this role.
+
+46
+00:02:13.500 --> 00:02:14.520
+And we're good.
+
+47
+00:02:14.520 --> 00:02:16.530
+So back into our instance Launch,
+
+48
+00:02:16.530 --> 00:02:19.270
+we need to find this SSM role so
+
+49
+00:02:20.550 --> 00:02:23.373
+that we created the Amazon EC2 Role for SSM.
+
+50
+00:02:24.300 --> 00:02:26.880
+And we are going to launch three instances.
+
+51
+00:02:26.880 --> 00:02:30.682
+So said three instances just to show you how to launch
+
+52
+00:02:30.682 --> 00:02:34.680
+and have three instances in SSM in the fleet manager.
+
+53
+00:02:34.680 --> 00:02:35.910
+So let's launch our instances.
+
+54
+00:02:35.910 --> 00:02:39.000
+Now they have the proper security group and
+
+55
+00:02:39.000 --> 00:02:41.100
+they have the proper IAM role.
+
+56
+00:02:41.100 --> 00:02:44.100
+So let's wait until they are up and running.
+
+57
+00:02:44.100 --> 00:02:47.370
+So my instances are now running and the SSM agent is
+
+58
+00:02:47.370 --> 00:02:49.230
+going to automatically boot up on them because
+
+59
+00:02:49.230 --> 00:02:50.970
+we're using Amazon X two.
+
+60
+00:02:50.970 --> 00:02:53.033
+And therefore if I go into Fleet Manager
+
+61
+00:02:53.033 --> 00:02:56.640
+and refresh this page, as you can see, my three nodes
+
+62
+00:02:56.640 --> 00:03:00.120
+are appearing in the managed notes under fleet Manager.
+
+63
+00:03:00.120 --> 00:03:02.730
+So they're running, we can look at the platform,
+
+64
+00:03:02.730 --> 00:03:04.635
+the operating system, the source type,
+
+65
+00:03:04.635 --> 00:03:08.610
+the agent is online, yes, as well as the agent version.
+
+66
+00:03:08.610 --> 00:03:09.510
+So that's pretty good.
+
+67
+00:03:09.510 --> 00:03:12.900
+We have successfully started three EC2 instances,
+
+68
+00:03:12.900 --> 00:03:15.480
+assigned the proper IAM role and fleet.
+
+69
+00:03:15.480 --> 00:03:17.010
+There is Return Fleet Manager.
+
+70
+00:03:17.010 --> 00:03:18.480
+And again, what I wanna show you is
+
+71
+00:03:18.480 --> 00:03:21.390
+that if we look at the security group of my instances
+
+72
+00:03:21.390 --> 00:03:23.760
+as you can see, there are no inbound rules
+
+73
+00:03:23.760 --> 00:03:27.420
+which means that it's actually the instance accessing SSM.
+
+74
+00:03:27.420 --> 00:03:28.320
+Alright, that's it.
+
+75
+00:03:28.320 --> 00:03:31.323
+I hope you liked it and I will see you in the next lecture.
+

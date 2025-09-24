@@ -1,0 +1,418 @@
+WEBVTT
+
+1
+00:00:00.380 --> 00:00:01.730
+<v Instructor>Okay so let's have a look at</v>
+
+2
+00:00:01.730 --> 00:00:03.690
+monitoring and tracing.
+
+3
+00:00:03.690 --> 00:00:06.450
+So for this let's open the Lambda S3 function
+
+4
+00:00:06.450 --> 00:00:09.840
+and we're going to the monitor tab of it
+
+5
+00:00:09.840 --> 00:00:11.970
+and under metrics, we can get some information
+
+6
+00:00:11.970 --> 00:00:15.060
+around how many times our Lambda function was being invoked,
+
+7
+00:00:15.060 --> 00:00:17.960
+how long the invocation was lasting,
+
+8
+00:00:17.960 --> 00:00:19.690
+the error counts and success rates.
+
+9
+00:00:19.690 --> 00:00:22.040
+As we can see, some of it is green.
+
+10
+00:00:22.040 --> 00:00:24.820
+So that means that at some point it was doing successes
+
+11
+00:00:24.820 --> 00:00:25.990
+and then it became red.
+
+12
+00:00:25.990 --> 00:00:26.823
+So it became an error.
+
+13
+00:00:26.823 --> 00:00:28.730
+So this is because we're testing both two destinations
+
+14
+00:00:28.730 --> 00:00:29.750
+for successes and errors.
+
+15
+00:00:29.750 --> 00:00:33.410
+So this is really good to monitor this graph over time
+
+16
+00:00:33.410 --> 00:00:35.770
+when you have a Lambda function in production.
+
+17
+00:00:35.770 --> 00:00:37.830
+The throttle, so in case we are going
+
+18
+00:00:37.830 --> 00:00:41.290
+over our Lambda limits, the Async delivery failures.
+
+19
+00:00:41.290 --> 00:00:45.530
+If the function doesn't get the chance
+
+20
+00:00:45.530 --> 00:00:48.770
+to process the events.
+
+21
+00:00:48.770 --> 00:00:51.720
+The iterator age, in case we're reading from a stream
+
+22
+00:00:51.720 --> 00:00:54.220
+and concurrent execution to get the level of concurrency
+
+23
+00:00:54.220 --> 00:00:55.300
+of our Lambda function.
+
+24
+00:00:55.300 --> 00:00:56.930
+Right now we only have one because we don't
+
+25
+00:00:56.930 --> 00:00:58.140
+invoke it that much
+
+26
+00:00:58.140 --> 00:01:00.110
+but in case you have a high volume Lambda function
+
+27
+00:01:00.110 --> 00:01:02.670
+then the concurrency, concurrent execution
+
+28
+00:01:02.670 --> 00:01:05.650
+is going to go way higher, okay.
+
+29
+00:01:05.650 --> 00:01:08.580
+So CloudWatch metrics are great for Lambda functions.
+
+30
+00:01:08.580 --> 00:01:11.700
+We've seen extensively the CloudWatch logs
+
+31
+00:01:11.700 --> 00:01:12.630
+for our Lambda functions.
+
+32
+00:01:12.630 --> 00:01:15.363
+So we know that whenever our Lambda functions gets invoked
+
+33
+00:01:15.363 --> 00:01:17.860
+then we're going to get a log stream.
+
+34
+00:01:17.860 --> 00:01:18.760
+And in this log streams
+
+35
+00:01:18.760 --> 00:01:21.020
+we're going to be able to get all the logs of our Lambda
+
+36
+00:01:21.020 --> 00:01:23.951
+functions, including for example, the request ID,
+
+37
+00:01:23.951 --> 00:01:25.799
+whenever we log into the consult
+
+38
+00:01:25.799 --> 00:01:29.076
+as well as the end of the request ID whenever it happened,
+
+39
+00:01:29.076 --> 00:01:31.730
+and a reports to get some information
+
+40
+00:01:31.730 --> 00:01:34.290
+around how long the function was lasting,
+
+41
+00:01:34.290 --> 00:01:36.350
+how much we got billed for it, the memory size,
+
+42
+00:01:36.350 --> 00:01:38.541
+the max memory used, and the init duration
+
+43
+00:01:38.541 --> 00:01:41.170
+if it's relevant for your Lambda function.
+
+44
+00:01:41.170 --> 00:01:43.610
+Okay. Last thing you may want to look at
+
+45
+00:01:43.610 --> 00:01:45.685
+is going to be around x-ray.
+
+46
+00:01:45.685 --> 00:01:48.333
+So if we go into configuration,
+
+47
+00:01:49.590 --> 00:01:53.420
+and then we go into monitoring and operation tools
+
+48
+00:01:53.420 --> 00:01:54.360
+and click on edit
+
+49
+00:01:55.220 --> 00:01:57.780
+then we have the option to obviously have CloudWatch logs
+
+50
+00:01:57.780 --> 00:01:59.690
+which is enabled by default.
+
+51
+00:01:59.690 --> 00:02:03.040
+Now we also get x-ray and by enabling this
+
+52
+00:02:03.040 --> 00:02:06.210
+the Lambda function will be logging its traces
+
+53
+00:02:06.210 --> 00:02:08.450
+into AWS x-ray.
+
+54
+00:02:08.450 --> 00:02:10.320
+So again, the permissions were not found
+
+55
+00:02:10.320 --> 00:02:12.720
+for Lambda to write into x-ray
+
+56
+00:02:12.720 --> 00:02:14.520
+but the console will attempt to fix this
+
+57
+00:02:14.520 --> 00:02:16.830
+by adding the execution role directly.
+
+58
+00:02:16.830 --> 00:02:17.980
+So let's click on save,
+
+59
+00:02:19.910 --> 00:02:21.910
+and now this is enabled.
+
+60
+00:02:21.910 --> 00:02:23.920
+And so to make sure that this is working,
+
+61
+00:02:23.920 --> 00:02:26.590
+if we go into permissions, open the Lambda role,
+
+62
+00:02:26.590 --> 00:02:27.760
+actually it's right here.
+
+63
+00:02:27.760 --> 00:02:29.650
+In terms of resource summary, we can see
+
+64
+00:02:29.650 --> 00:02:31.630
+we have access to CloudWatch logs.
+
+65
+00:02:31.630 --> 00:02:32.790
+SQS I'm not exactly sure.
+
+66
+00:02:32.790 --> 00:02:34.250
+Oh yes, Because of destinations
+
+67
+00:02:34.250 --> 00:02:36.620
+and x-ray because we want to be able to put
+
+68
+00:02:36.620 --> 00:02:39.510
+trace segments and to put telemetry reports.
+
+69
+00:02:39.510 --> 00:02:40.830
+So now this Lambda function is
+
+70
+00:02:40.830 --> 00:02:44.230
+going to be writing into x-ray.
+
+71
+00:02:44.230 --> 00:02:49.230
+And so if we go into the S3 buckets in here
+
+72
+00:02:49.590 --> 00:02:52.340
+and I'm going to upload an object, for example,
+
+73
+00:02:52.340 --> 00:02:57.333
+I'm going to upload my error.HTML file and click on upload.
+
+74
+00:02:58.210 --> 00:03:01.180
+Actually the Lambda function was failing.
+
+75
+00:03:01.180 --> 00:03:03.200
+So let's just return.
+
+76
+00:03:03.200 --> 00:03:08.200
+Instead, let's make it return success and deploy it.
+
+77
+00:03:09.390 --> 00:03:11.460
+And we're going to upload a new file into our S3
+
+78
+00:03:11.460 --> 00:03:12.670
+bracket as well.
+
+79
+00:03:12.670 --> 00:03:16.180
+So let's close this, upload a new file, add file
+
+80
+00:03:16.180 --> 00:03:20.253
+and it will add, whatever index with fetch,
+
+81
+00:03:21.270 --> 00:03:22.450
+just a different file every time.
+
+82
+00:03:22.450 --> 00:03:24.950
+I could also re-upload the same file actually
+
+83
+00:03:24.950 --> 00:03:25.783
+but this is fine.
+
+84
+00:03:25.783 --> 00:03:26.920
+Okay. So I've uploaded all these files.
+
+85
+00:03:26.920 --> 00:03:29.450
+So my Lambda function is going to process these files
+
+86
+00:03:29.450 --> 00:03:31.510
+and hopefully we should see the traces
+
+87
+00:03:31.510 --> 00:03:33.430
+in x-ray after a bit of time.
+
+88
+00:03:33.430 --> 00:03:35.360
+So let's open the x-ray console
+
+89
+00:03:38.390 --> 00:03:39.790
+And getting our service map.
+
+90
+00:03:41.990 --> 00:03:44.100
+So this took maybe five minutes
+
+91
+00:03:44.100 --> 00:03:46.940
+but as we can see the clients invoking
+
+92
+00:03:46.940 --> 00:03:50.300
+our Lambda function and then the service does not great.
+
+93
+00:03:50.300 --> 00:03:52.230
+And then they Lambda function, if stuff was being invoked,
+
+94
+00:03:52.230 --> 00:03:53.760
+we get some information around the fact
+
+95
+00:03:53.760 --> 00:03:55.880
+that sometimes there was having errors
+
+96
+00:03:55.880 --> 00:03:56.990
+and sometimes it was green.
+
+97
+00:03:56.990 --> 00:03:59.510
+So green and orange, because sometimes it was having errors
+
+98
+00:03:59.510 --> 00:04:00.380
+and sometimes it was working
+
+99
+00:04:00.380 --> 00:04:02.569
+but we get the idea that now our Lambda function
+
+100
+00:04:02.569 --> 00:04:06.150
+is appearing within our x-ray consult.
+
+101
+00:04:06.150 --> 00:04:07.570
+And so this is the whole power
+
+102
+00:04:07.570 --> 00:04:10.490
+of the integration between Lambda and x-ray.
+
+103
+00:04:10.490 --> 00:04:12.000
+So I hope you liked it
+
+104
+00:04:12.000 --> 00:04:13.950
+and I will see you in the next lecture.
+

@@ -1,0 +1,46 @@
+WEBVTT
+
+1
+00:00:00.620 --> 00:00:02.710
+<v Instructor>Okay, so just to clean up the section,</v>
+
+2
+00:00:02.710 --> 00:00:04.420
+please take your ASG
+
+3
+00:00:04.420 --> 00:00:07.760
+and delete this field type delete in this field,
+
+4
+00:00:07.760 --> 00:00:10.040
+and then you can take your load balancers
+
+5
+00:00:10.040 --> 00:00:11.940
+so in the load balancer section,
+
+6
+00:00:11.940 --> 00:00:15.343
+you can take it and then delete your DemoALB.
+
+7
+00:00:17.990 --> 00:00:18.823
+And finally,
+
+8
+00:00:18.823 --> 00:00:21.510
+you could go ahead and delete your target group as well,
+
+9
+00:00:21.510 --> 00:00:22.483
+if you wanted to.
+
+10
+00:00:27.380 --> 00:00:29.150
+And you're good to go, so that's it for this lecture.
+
+11
+00:00:29.150 --> 00:00:31.813
+I hope you liked it, and I will see you in the next section.
+

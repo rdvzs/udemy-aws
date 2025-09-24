@@ -1,0 +1,350 @@
+WEBVTT
+
+1
+00:00:00.180 --> 00:00:02.520
+<v Presenter>So now let's talk about AWS STS</v>
+
+2
+00:00:02.520 --> 00:00:07.050
+which is a security service at the backbone of all of AWS.
+
+3
+00:00:07.050 --> 00:00:09.420
+So it's called a Security Token Service
+
+4
+00:00:09.420 --> 00:00:11.610
+and it allows to grant limited
+
+5
+00:00:11.610 --> 00:00:15.450
+and temporary access to AWS resources.
+
+6
+00:00:15.450 --> 00:00:16.830
+So you have tech tokens
+
+7
+00:00:16.830 --> 00:00:19.590
+and they can be valid up for to one hour or more
+
+8
+00:00:19.590 --> 00:00:22.560
+and they must be refreshed when they're invalid.
+
+9
+00:00:22.560 --> 00:00:25.350
+So when you want to get these tokens
+
+10
+00:00:25.350 --> 00:00:29.370
+you must first issue an API call into the STS service.
+
+11
+00:00:29.370 --> 00:00:30.960
+So when you assume a role, for example,
+
+12
+00:00:30.960 --> 00:00:33.570
+this is an STS AssumeRole API call.
+
+13
+00:00:33.570 --> 00:00:35.460
+What's going to happen is that you assume a role
+
+14
+00:00:35.460 --> 00:00:38.100
+within your accounts for enhanced security so that
+
+15
+00:00:38.100 --> 00:00:41.430
+you have credentials that will be invalidated after a while,
+
+16
+00:00:41.430 --> 00:00:42.780
+or you can assume a role
+
+17
+00:00:42.780 --> 00:00:45.570
+in a Cross Account Access type of setting,
+
+18
+00:00:45.570 --> 00:00:47.580
+to assume a role in a target account
+
+19
+00:00:47.580 --> 00:00:49.590
+to perform actions there.
+
+20
+00:00:49.590 --> 00:00:51.300
+So AssumeRole gives you credentials
+
+21
+00:00:51.300 --> 00:00:53.070
+and then they will be expired at some point.
+
+22
+00:00:53.070 --> 00:00:56.400
+So you need to AssumeRole when credentials expire.
+
+23
+00:00:56.400 --> 00:00:58.920
+You can also AssumeRoleWithSAML.
+
+24
+00:00:58.920 --> 00:01:01.980
+So that means that your users are logged in with SAML
+
+25
+00:01:01.980 --> 00:01:05.520
+and then you extend that SAML token to get credentials
+
+26
+00:01:05.520 --> 00:01:07.470
+from STS, you first must configure
+
+27
+00:01:07.470 --> 00:01:10.200
+of course, STS, to be able to exchange
+
+28
+00:01:10.200 --> 00:01:12.990
+and verify these SAML tokens.
+
+29
+00:01:12.990 --> 00:01:15.660
+You can also do AssumeRoleWithWebIdentity.
+
+30
+00:01:15.660 --> 00:01:19.290
+So this way when the users are identified
+
+31
+00:01:19.290 --> 00:01:22.590
+with an identity provider such as Facebook Login
+
+32
+00:01:22.590 --> 00:01:25.590
+Google Dot login, or anything OIDC compatible,
+
+33
+00:01:25.590 --> 00:01:29.160
+and then they're going to exchange these credentials
+
+34
+00:01:29.160 --> 00:01:32.100
+for, again, credentials of STS.
+
+35
+00:01:32.100 --> 00:01:33.450
+They're gonna be temporary.
+
+36
+00:01:34.841 --> 00:01:37.500
+And now this API call is sort of deprecated
+
+37
+00:01:37.500 --> 00:01:39.780
+and AWS is going to recommend
+
+38
+00:01:39.780 --> 00:01:42.390
+for you to use Cognito instead.
+
+39
+00:01:42.390 --> 00:01:44.220
+You also have GetSessionToken.
+
+40
+00:01:44.220 --> 00:01:46.410
+So this is when you're doing MFA
+
+41
+00:01:46.410 --> 00:01:49.020
+from a user or an account root user
+
+42
+00:01:49.020 --> 00:01:50.940
+and you want to get actual credentials
+
+43
+00:01:50.940 --> 00:01:54.061
+after having logged in with MFA.
+
+44
+00:01:54.061 --> 00:01:56.820
+So when you're using STS to assume a role,
+
+45
+00:01:56.820 --> 00:01:58.320
+you must first define an IAM role
+
+46
+00:01:58.320 --> 00:02:00.210
+within your account or cross account,
+
+47
+00:02:00.210 --> 00:02:01.740
+and then you define which principles
+
+48
+00:02:01.740 --> 00:02:04.110
+can access this IAM role.
+
+49
+00:02:04.110 --> 00:02:06.480
+Then you're going to use the STS service,
+
+50
+00:02:06.480 --> 00:02:07.770
+to retrieve credentials,
+
+51
+00:02:07.770 --> 00:02:10.740
+and then impersonate the IAM role you have access to,
+
+52
+00:02:10.740 --> 00:02:13.440
+for example, using the AssumeRole API.
+
+53
+00:02:13.440 --> 00:02:16.530
+So again, as I said, you have temporary credentials.
+
+54
+00:02:16.530 --> 00:02:19.140
+So if you have a look here, for example
+
+55
+00:02:19.140 --> 00:02:22.140
+a user wants to access a role in the same
+
+56
+00:02:22.140 --> 00:02:25.800
+or another account is going to do AssumeRole API to STS.
+
+57
+00:02:25.800 --> 00:02:29.190
+Of course he must be authorized to perform that API call.
+
+58
+00:02:29.190 --> 00:02:31.290
+Then STS is going to look at the permissions,
+
+59
+00:02:31.290 --> 00:02:33.240
+and then say, "Okay, you're good to go."
+
+60
+00:02:33.240 --> 00:02:35.490
+Here are some temporary credentials,
+
+61
+00:02:35.490 --> 00:02:37.920
+and then these credentials are going to be used,
+
+62
+00:02:37.920 --> 00:02:40.500
+and we will have assumed the role,
+
+63
+00:02:40.500 --> 00:02:42.570
+Thanks to these credentials.
+
+64
+00:02:42.570 --> 00:02:45.630
+So if we have a look at Cross-Account Access with STS,
+
+65
+00:02:45.630 --> 00:02:48.270
+let's say we have a Dev account and a Prod account
+
+66
+00:02:48.270 --> 00:02:50.310
+and we have an S3 bucket in Prod
+
+67
+00:02:50.310 --> 00:02:54.870
+that we want to access from IAM users in a group in Dev.
+
+68
+00:02:54.870 --> 00:02:57.630
+So the first thing we have to do is to create an IAM role
+
+69
+00:02:57.630 --> 00:02:59.100
+in the production account
+
+70
+00:02:59.100 --> 00:03:04.100
+And this IAM role is going to have access to the S3 buckets.
+
+71
+00:03:04.290 --> 00:03:08.190
+Next, we grant in the IAM group permissions,
+
+72
+00:03:08.190 --> 00:03:13.190
+to assume the UpdateApp IAM role from the other accounts.
+
+73
+00:03:13.590 --> 00:03:16.230
+So we're going to be able to assume this role
+
+74
+00:03:16.230 --> 00:03:19.440
+and then we're going to get back STS Role Credentials.
+
+75
+00:03:19.440 --> 00:03:21.420
+And then these credentials will allow us
+
+76
+00:03:21.420 --> 00:03:24.840
+to access the bucket in the target accounts.
+
+77
+00:03:24.840 --> 00:03:26.100
+So this IAM role,
+
+78
+00:03:26.100 --> 00:03:27.900
+that we define in the production accounts,
+
+79
+00:03:27.900 --> 00:03:29.160
+must also of course,
+
+80
+00:03:29.160 --> 00:03:32.820
+authorize the development accounts to assume it.
+
+81
+00:03:32.820 --> 00:03:35.280
+And so if you have an IAM group of testers
+
+82
+00:03:35.280 --> 00:03:37.470
+that are not authorized to assume this role
+
+83
+00:03:37.470 --> 00:03:39.690
+then they cannot access your production account.
+
+84
+00:03:39.690 --> 00:03:42.330
+So you've seen the process of using STS to
+
+85
+00:03:42.330 --> 00:03:44.430
+assume a role and get temporary credentials.
+
+86
+00:03:44.430 --> 00:03:45.690
+So I hope you liked it
+
+87
+00:03:45.690 --> 00:03:47.640
+and I will see you in the next lecture.
+

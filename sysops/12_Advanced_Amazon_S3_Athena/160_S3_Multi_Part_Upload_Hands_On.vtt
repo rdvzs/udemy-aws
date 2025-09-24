@@ -1,0 +1,606 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:02.010
+<v Narrator>So let's have a look at whether</v>
+
+2
+00:00:02.010 --> 00:00:04.320
+the commands that are necessary to create
+
+3
+00:00:04.320 --> 00:00:07.680
+and do a multipart upload in Amazon S3.
+
+4
+00:00:07.680 --> 00:00:10.050
+So to do so, I'm going to use CloudShell.
+
+5
+00:00:10.050 --> 00:00:12.420
+CloudShell is a way to get a terminal in AWS
+
+6
+00:00:12.420 --> 00:00:15.390
+that's going to be already set up with your account.
+
+7
+00:00:15.390 --> 00:00:16.223
+So that's perfect.
+
+8
+00:00:16.223 --> 00:00:18.840
+It has your credentials and your permissions.
+
+9
+00:00:18.840 --> 00:00:21.480
+Next we're going to actually go and create a file,
+
+10
+00:00:21.480 --> 00:00:23.040
+create a bucket, and so on.
+
+11
+00:00:23.040 --> 00:00:26.310
+So you do copy this file from S3-advanced,
+
+12
+00:00:26.310 --> 00:00:28.560
+multipart-upload.sh.
+
+13
+00:00:28.560 --> 00:00:29.520
+And what you're going to do
+
+14
+00:00:29.520 --> 00:00:31.410
+is that you're going to create first a bucket.
+
+15
+00:00:31.410 --> 00:00:33.120
+So name whatever bucket you want,
+
+16
+00:00:33.120 --> 00:00:36.177
+for example, multipartuploadstephandemo,
+
+17
+00:00:37.380 --> 00:00:39.300
+and of course the bucket name needs not to be taken.
+
+18
+00:00:39.300 --> 00:00:44.300
+So then we'll do aws s3 mb to make a bucket.
+
+19
+00:00:44.340 --> 00:00:46.140
+And then we pass in the bucket name.
+
+20
+00:00:46.140 --> 00:00:48.660
+So this bucket has been created
+
+21
+00:00:48.660 --> 00:00:51.930
+and if I go into my buckets in here
+
+22
+00:00:51.930 --> 00:00:55.020
+and I find the bucket by name, I find it right here.
+
+23
+00:00:55.020 --> 00:00:57.270
+Okay, so my bucket is created
+
+24
+00:00:57.270 --> 00:00:59.433
+and currently there are no objects in it.
+
+25
+00:01:00.270 --> 00:01:01.290
+So next we're going to do
+
+26
+00:01:01.290 --> 00:01:03.030
+is that we're going to create a large file.
+
+27
+00:01:03.030 --> 00:01:04.860
+Now a large is going to be 100 megabytes,
+
+28
+00:01:04.860 --> 00:01:07.410
+not keep it too large, but you get the idea.
+
+29
+00:01:07.410 --> 00:01:10.680
+And so this command, dd, just generates a file
+
+30
+00:01:10.680 --> 00:01:14.070
+that is going to be exactly 100 megabytes.
+
+31
+00:01:14.070 --> 00:01:17.400
+So now we have this file and we're good to go.
+
+32
+00:01:17.400 --> 00:01:19.320
+So if I list my files doing ll,
+
+33
+00:01:19.320 --> 00:01:21.240
+as you can see there's 100 megabytes
+
+34
+00:01:21.240 --> 00:01:23.017
+for the file named 100MB.txt.
+
+35
+00:01:23.940 --> 00:01:25.080
+So that's perfect.
+
+36
+00:01:25.080 --> 00:01:27.420
+Next, we're going to split that file into parts.
+
+37
+00:01:27.420 --> 00:01:28.560
+So imagines it's a big file
+
+38
+00:01:28.560 --> 00:01:30.720
+and you want to split it in to many parts,
+
+39
+00:01:30.720 --> 00:01:32.430
+you can use the split command.
+
+40
+00:01:32.430 --> 00:01:34.830
+And this split command in the way I set it up is
+
+41
+00:01:34.830 --> 00:01:39.830
+that it is going to divide it in blobs of 35 megabytes.
+
+42
+00:01:40.830 --> 00:01:42.780
+And so these 35 megabytes
+
+43
+00:01:42.780 --> 00:01:44.580
+are not going to be three times equal.
+
+44
+00:01:44.580 --> 00:01:46.200
+So the first two are going to be equal.
+
+45
+00:01:46.200 --> 00:01:48.360
+They will have the same size, but then the last one
+
+46
+00:01:48.360 --> 00:01:51.120
+will be smaller because well my file is only 100 megabytes
+
+47
+00:01:51.120 --> 00:01:54.360
+and not exactly 3 times 35 megabytes.
+
+48
+00:01:54.360 --> 00:01:56.700
+So we have our three parts and they're named
+
+49
+00:01:56.700 --> 00:01:58.750
+100MP_part_aa, part_ab, and then part_ac.
+
+50
+00:02:01.350 --> 00:02:03.150
+So now that we have different parts,
+
+51
+00:02:03.150 --> 00:02:08.150
+we can upload them into Amazon S3 with a multipart upload.
+
+52
+00:02:08.310 --> 00:02:11.883
+So to do so first we need to create a multipart upload.
+
+53
+00:02:13.020 --> 00:02:16.500
+So let's paste this command in, and we're good to go.
+
+54
+00:02:16.500 --> 00:02:19.170
+So we have initiated a multipart upload.
+
+55
+00:02:19.170 --> 00:02:21.540
+As you can see, the target key is the name file
+
+56
+00:02:21.540 --> 00:02:23.520
+that will write to our S3 bucket,
+
+57
+00:02:23.520 --> 00:02:26.400
+so it's the same that I have on my computer right here.
+
+58
+00:02:26.400 --> 00:02:28.950
+And the upload ID is something you need to keep
+
+59
+00:02:28.950 --> 00:02:31.800
+because this represents the ID
+
+60
+00:02:31.800 --> 00:02:34.590
+that we will use to upload each parts.
+
+61
+00:02:34.590 --> 00:02:36.660
+So what you can do is that you can take this upload ID,
+
+62
+00:02:36.660 --> 00:02:38.880
+you copy it in your text file,
+
+63
+00:02:38.880 --> 00:02:40.860
+and then you're going to paste this so that you would
+
+64
+00:02:40.860 --> 00:02:44.013
+define the variable in our terminal called UploadId.
+
+65
+00:02:45.000 --> 00:02:46.020
+Okay, so we're good.
+
+66
+00:02:46.020 --> 00:02:48.240
+Now we have the upload ID done.
+
+67
+00:02:48.240 --> 00:02:51.810
+So now we can actually see if we have initiated
+
+68
+00:02:51.810 --> 00:02:53.130
+a multipart upload using
+
+69
+00:02:53.130 --> 00:02:57.180
+the s3api list-multipart-uploads command.
+
+70
+00:02:57.180 --> 00:02:58.770
+And as you can see all the commands
+
+71
+00:02:58.770 --> 00:03:02.130
+so far we're using is aws s3api.
+
+72
+00:03:02.130 --> 00:03:03.900
+Just before we use s3 to create a bucket,
+
+73
+00:03:03.900 --> 00:03:05.420
+but then to do the multipart upload
+
+74
+00:03:05.420 --> 00:03:08.040
+it is the s3api command.
+
+75
+00:03:08.040 --> 00:03:10.170
+Okay, so we list the multipart upload.
+
+76
+00:03:10.170 --> 00:03:13.800
+As we can see one upload is pending, it is been initiated.
+
+77
+00:03:13.800 --> 00:03:14.940
+This is the key.
+
+78
+00:03:14.940 --> 00:03:17.843
+This is the upload ID, and we're good to go.
+
+79
+00:03:17.843 --> 00:03:21.120
+So let's go ahead and actually upload each part.
+
+80
+00:03:21.120 --> 00:03:22.230
+Now when you upload the part
+
+81
+00:03:22.230 --> 00:03:24.480
+you specify the target buckets,
+
+82
+00:03:24.480 --> 00:03:26.340
+you specify the key,
+
+83
+00:03:26.340 --> 00:03:28.920
+and then you specify the part number,
+
+84
+00:03:28.920 --> 00:03:31.110
+and the body of the part.
+
+85
+00:03:31.110 --> 00:03:34.080
+So the part number is going to be 1, 2, 3.
+
+86
+00:03:34.080 --> 00:03:37.380
+And then the body itself is going to correspond
+
+87
+00:03:37.380 --> 00:03:39.660
+to the splits that we have created from before.
+
+88
+00:03:39.660 --> 00:03:43.518
+So part_aa, part_ab, and part_ac.
+
+89
+00:03:43.518 --> 00:03:45.933
+So let's upload one part in here.
+
+90
+00:03:48.300 --> 00:03:50.853
+And then I'm going to upload a second part.
+
+91
+00:03:53.010 --> 00:03:55.683
+And I'm going to upload a third part.
+
+92
+00:03:57.540 --> 00:04:00.210
+Now don't clear your screen, just leave it like this.
+
+93
+00:04:00.210 --> 00:04:03.090
+And if I go into my S3 bucket now and refresh
+
+94
+00:04:03.090 --> 00:04:05.190
+we currently don't see any objects.
+
+95
+00:04:05.190 --> 00:04:08.220
+That's because the parts don't appear in the console UI.
+
+96
+00:04:08.220 --> 00:04:10.980
+The parts are not yet objects.
+
+97
+00:04:10.980 --> 00:04:12.570
+So how do we view the parts?
+
+98
+00:04:12.570 --> 00:04:16.680
+Well, we can do a s3api list-parts,
+
+99
+00:04:16.680 --> 00:04:19.050
+and then we specify the upload ID, and it's going
+
+100
+00:04:19.050 --> 00:04:22.230
+to give us the list of the parts for our stuff.
+
+101
+00:04:22.230 --> 00:04:26.160
+So as you can see, we have part one, part two, part three.
+
+102
+00:04:26.160 --> 00:04:28.740
+We have the ETag and the size and so on.
+
+103
+00:04:28.740 --> 00:04:31.500
+So this is awesome because now that we have the parts
+
+104
+00:04:31.500 --> 00:04:34.920
+we can actually go ahead and complete the multipart upload.
+
+105
+00:04:34.920 --> 00:04:37.140
+So I could upload as many parts as needed.
+
+106
+00:04:37.140 --> 00:04:39.210
+And all those parts are going to be combined
+
+107
+00:04:39.210 --> 00:04:40.410
+by Amazon S3.
+
+108
+00:04:40.410 --> 00:04:41.760
+But of course I know I'm done
+
+109
+00:04:41.760 --> 00:04:44.730
+because I have uploaded each part individually.
+
+110
+00:04:44.730 --> 00:04:47.460
+So how do we complete this multipart upload?
+
+111
+00:04:47.460 --> 00:04:49.653
+Then you do this command right here.
+
+112
+00:04:50.550 --> 00:04:54.900
+And you have to specify here the parts.
+
+113
+00:04:54.900 --> 00:04:57.540
+So we paste this in.
+
+114
+00:04:57.540 --> 00:05:00.150
+And what we have to do now is to replace the ETags.
+
+115
+00:05:00.150 --> 00:05:04.680
+So the ETag one right here has to be replaced
+
+116
+00:05:04.680 --> 00:05:07.380
+by the ETag one right here.
+
+117
+00:05:07.380 --> 00:05:09.623
+We paste it in, that's one ETag and that's part number one.
+
+118
+00:05:09.623 --> 00:05:13.020
+This is the little manual part we have to do.
+
+119
+00:05:13.020 --> 00:05:16.260
+The EAG two is here.
+
+120
+00:05:16.260 --> 00:05:17.580
+We paste it in.
+
+121
+00:05:17.580 --> 00:05:21.270
+And I have the wrong one, so let's try again.
+
+122
+00:05:21.270 --> 00:05:24.933
+So I'll take this one right here.
+
+123
+00:05:27.120 --> 00:05:29.160
+And I will paste it in.
+
+124
+00:05:29.160 --> 00:05:32.583
+And finally, the ETag three.
+
+125
+00:05:33.630 --> 00:05:34.863
+I will take this one.
+
+126
+00:05:36.300 --> 00:05:38.043
+Nope, wrong command again.
+
+127
+00:05:39.660 --> 00:05:41.280
+I will remove it.
+
+128
+00:05:41.280 --> 00:05:45.300
+And finally paste it in.
+
+129
+00:05:45.300 --> 00:05:47.040
+Let's press Enter.
+
+130
+00:05:47.040 --> 00:05:49.590
+And there's a dot that shouldn't be here.
+
+131
+00:05:49.590 --> 00:05:50.490
+Let's press Enter.
+
+132
+00:05:51.420 --> 00:05:55.710
+And now as you can see this multipart upload get completed
+
+133
+00:05:55.710 --> 00:05:56.940
+and we have completed it.
+
+134
+00:05:56.940 --> 00:06:00.810
+So if I have a look at the list-multipart-uploads
+
+135
+00:06:00.810 --> 00:06:02.670
+I shouldn't see anything anymore.
+
+136
+00:06:02.670 --> 00:06:04.080
+Yes, there are no more.
+
+137
+00:06:04.080 --> 00:06:07.440
+And if I go into my S3 bucket, refresh my object,
+
+138
+00:06:07.440 --> 00:06:10.110
+here is my 100 megabyte text file.
+
+139
+00:06:10.110 --> 00:06:15.110
+It says 95.4 because it was actually 100 just bytes itself.
+
+140
+00:06:15.300 --> 00:06:18.120
+But don't worry about this, this is expected.
+
+141
+00:06:18.120 --> 00:06:19.410
+We're good to go.
+
+142
+00:06:19.410 --> 00:06:22.650
+So we have completed the multipart upload.
+
+143
+00:06:22.650 --> 00:06:23.790
+We've seen all the commands.
+
+144
+00:06:23.790 --> 00:06:26.370
+Remember is the aws s3api.
+
+145
+00:06:26.370 --> 00:06:27.990
+We've seen the process to do so.
+
+146
+00:06:27.990 --> 00:06:29.430
+Now, if you don't want to be billed
+
+147
+00:06:29.430 --> 00:06:32.550
+for this 100 megabyte file that has nothing in it
+
+148
+00:06:32.550 --> 00:06:35.310
+then just permanently delete it.
+
+149
+00:06:35.310 --> 00:06:39.030
+And then you can also delete the underlying S3 buckets.
+
+150
+00:06:39.030 --> 00:06:40.470
+Alright, that's it for this lecture.
+
+151
+00:06:40.470 --> 00:06:43.473
+I hope you liked it and I will see you in the next lecture.
+

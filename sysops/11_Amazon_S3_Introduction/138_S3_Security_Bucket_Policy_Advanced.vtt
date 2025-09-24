@@ -1,0 +1,262 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:02.020
+<v Instructor>So here are some examples</v>
+
+2
+00:00:02.020 --> 00:00:03.589
+of S3 bucket policies.
+
+3
+00:00:03.589 --> 00:00:05.600
+They are advanced and you don't need
+
+4
+00:00:05.600 --> 00:00:07.080
+to know them going into the exam.
+
+5
+00:00:07.080 --> 00:00:08.260
+Just that the possibility does exist.
+
+6
+00:00:08.260 --> 00:00:09.890
+So you can use an S3 bucket policy
+
+7
+00:00:09.890 --> 00:00:12.020
+to grant public access to the bucket,
+
+8
+00:00:12.020 --> 00:00:14.150
+force objects to be encrypted at upload,
+
+9
+00:00:14.150 --> 00:00:16.530
+grant access to other countries and cross accounts,
+
+10
+00:00:16.530 --> 00:00:19.990
+and you can specify conditions on Public IP or Elastic IP,
+
+11
+00:00:19.990 --> 00:00:21.740
+but not on Private IP.
+
+12
+00:00:21.740 --> 00:00:23.720
+The source VPC or source VPC endpoint,
+
+13
+00:00:23.720 --> 00:00:26.130
+and this works only with VPC endpoints,
+
+14
+00:00:26.130 --> 00:00:28.250
+the CloudFront origin identity.
+
+15
+00:00:28.250 --> 00:00:31.070
+So if you want the traffic to just come from CloudFront,
+
+16
+00:00:31.070 --> 00:00:34.120
+MFA, if you wants multifactor authentication to be present,
+
+17
+00:00:34.120 --> 00:00:36.000
+and you can find a lot of examples here
+
+18
+00:00:36.000 --> 00:00:38.870
+and I invite you to have a look at it in your own time.
+
+19
+00:00:38.870 --> 00:00:39.703
+Okay.
+
+20
+00:00:39.703 --> 00:00:40.980
+So if we have a look at some of them
+
+21
+00:00:40.980 --> 00:00:42.490
+that I think are very valuable,
+
+22
+00:00:42.490 --> 00:00:43.720
+here's an example.
+
+23
+00:00:43.720 --> 00:00:47.600
+So this one is restricting access to an S3 bucket.
+
+24
+00:00:47.600 --> 00:00:48.750
+to all principals,
+
+25
+00:00:48.750 --> 00:00:52.800
+as long as they belong to an AWS organization.
+
+26
+00:00:52.800 --> 00:00:54.760
+So the idea here is that if your account
+
+27
+00:00:54.760 --> 00:00:56.070
+is part of an organization,
+
+28
+00:00:56.070 --> 00:00:58.090
+it will have access to this bucket
+
+29
+00:00:58.090 --> 00:01:00.830
+which is a scalable way of doing cross account access
+
+30
+00:01:00.830 --> 00:01:02.390
+across an organization.
+
+31
+00:01:02.390 --> 00:01:03.490
+And to do so, well,
+
+32
+00:01:03.490 --> 00:01:05.340
+it's a condition and you specify
+
+33
+00:01:05.340 --> 00:01:08.710
+the aws:PrincipleOrdID condition key
+
+34
+00:01:08.710 --> 00:01:09.703
+to be done with it.
+
+35
+00:01:10.910 --> 00:01:14.850
+This one policy prevents upload of unencrypted objects.
+
+36
+00:01:14.850 --> 00:01:16.530
+So you force objects to have
+
+37
+00:01:16.530 --> 00:01:19.328
+an X AMZ service at encryption, True.
+
+38
+00:01:19.328 --> 00:01:22.801
+And to make sure that this header is present
+
+39
+00:01:22.801 --> 00:01:24.390
+So this is a very common one,
+
+40
+00:01:24.390 --> 00:01:28.070
+to deny any upload of unencrypted objects.
+
+41
+00:01:28.070 --> 00:01:30.690
+This one is to restrict IP addresses.
+
+42
+00:01:30.690 --> 00:01:33.990
+So you're saying that if the IP is not in the range
+
+43
+00:01:33.990 --> 00:01:35.850
+that you've provided in the condition,
+
+44
+00:01:35.850 --> 00:01:37.300
+then deny and upload it.
+
+45
+00:01:37.300 --> 00:01:40.623
+So this one is an example of the NotIpAddress condition key.
+
+46
+00:01:41.570 --> 00:01:45.010
+This one is to show that a user can list and download
+
+47
+00:01:45.010 --> 00:01:47.130
+objects in an S3 bucket, but as you can see,
+
+48
+00:01:47.130 --> 00:01:50.150
+and this is very important, the list bucket property
+
+49
+00:01:50.150 --> 00:01:53.310
+is applied to the resource ARN without a slash
+
+50
+00:01:53.310 --> 00:01:56.250
+because it supplies to the bucket itself.
+
+51
+00:01:56.250 --> 00:02:00.030
+But the GetObject applies to the objects within the bucket,
+
+52
+00:02:00.030 --> 00:02:03.390
+so the resource ARN applied to it is the full object,
+
+53
+00:02:03.390 --> 00:02:06.723
+it is the full resource slash and a star.
+
+54
+00:02:08.210 --> 00:02:11.790
+This bucket policy is making sure that you do get objects
+
+55
+00:02:11.790 --> 00:02:13.570
+only if you have been authenticated
+
+56
+00:02:13.570 --> 00:02:15.630
+using multi-factor authentication.
+
+57
+00:02:15.630 --> 00:02:19.940
+So the condition here is multifactor of presence, True.
+
+58
+00:02:19.940 --> 00:02:21.870
+So just make sure that you have a look at these policies
+
+59
+00:02:21.870 --> 00:02:23.570
+and make sure you understand their use cases
+
+60
+00:02:23.570 --> 00:02:24.860
+and how they're formed.
+
+61
+00:02:24.860 --> 00:02:26.830
+The important stuff to know out of it
+
+62
+00:02:26.830 --> 00:02:29.160
+is that conditions allow you to create very,
+
+63
+00:02:29.160 --> 00:02:32.930
+very complex conditions for your S3 bucket policies.
+
+64
+00:02:32.930 --> 00:02:34.780
+So that's it for this section, I hope you liked it.
+
+65
+00:02:34.780 --> 00:02:36.730
+And I will see you in the next lecture.
+

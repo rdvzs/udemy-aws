@@ -1,0 +1,466 @@
+WEBVTT
+
+1
+00:00:00.400 --> 00:00:01.820
+<v Instructor>Okay, so now let's do a deep dive</v>
+
+2
+00:00:01.820 --> 00:00:02.660
+into EBS snapshots.
+
+3
+00:00:02.660 --> 00:00:04.610
+So we can know that we can make a snapshot
+
+4
+00:00:04.610 --> 00:00:07.060
+at any point of time of your EBS volume, okay?
+
+5
+00:00:07.060 --> 00:00:09.540
+And it's not necessary to detach your volume
+
+6
+00:00:09.540 --> 00:00:11.053
+to do snapshots, but it's recommended
+
+7
+00:00:11.053 --> 00:00:14.150
+because if a volume is attached to an instance,
+
+8
+00:00:14.150 --> 00:00:17.590
+that means that you may have some kind of consistency issue.
+
+9
+00:00:17.590 --> 00:00:20.561
+Now you can copy a snapshot across AZs or Region.
+
+10
+00:00:20.561 --> 00:00:24.823
+That means that you can take US-EAST-1 and US-1B.
+
+11
+00:00:24.823 --> 00:00:27.520
+So you have an EBS volume in here,
+
+12
+00:00:27.520 --> 00:00:29.740
+then you have an instance in US-1B,
+
+13
+00:00:29.740 --> 00:00:32.850
+and so you take an EBS volume, you make a snapshot from it,
+
+14
+00:00:32.850 --> 00:00:37.050
+and then you restore it in another AZ
+
+15
+00:00:37.050 --> 00:00:42.050
+which is the action of migrating a snapshot, okay?
+
+16
+00:00:42.580 --> 00:00:44.750
+Next, there is a service with an EBS
+
+17
+00:00:44.750 --> 00:00:47.460
+called Amazon Data Lifecycle Manager
+
+18
+00:00:47.460 --> 00:00:50.140
+which is used to automate the creation, retention
+
+19
+00:00:50.140 --> 00:00:53.330
+and deletion of EBS snapshots, and EBS-backed AMI.
+
+20
+00:00:53.330 --> 00:00:55.600
+So it's a way for you to schedule backups,
+
+21
+00:00:55.600 --> 00:00:57.950
+do cross-account snapshot copies automatically,
+
+22
+00:00:57.950 --> 00:01:01.460
+or to delete outdated backup using policy.
+
+23
+00:01:01.460 --> 00:01:03.401
+Use resource tags to identify the resources
+
+24
+00:01:03.401 --> 00:01:05.880
+you want to back up, for example, EC2 instances
+
+25
+00:01:05.880 --> 00:01:07.130
+or EBS volumes.
+
+26
+00:01:07.130 --> 00:01:08.180
+And so here's an example.
+
+27
+00:01:08.180 --> 00:01:11.084
+We can tag an EBS volume with Environment Prod
+
+28
+00:01:11.084 --> 00:01:13.210
+to make sure that it automatically gets backed up
+
+29
+00:01:13.210 --> 00:01:15.400
+by Amazon Data Lifecycle Manager.
+
+30
+00:01:15.400 --> 00:01:17.490
+Or we can tag directly an EC2 instance
+
+31
+00:01:17.490 --> 00:01:19.090
+with this Environment Prod,
+
+32
+00:01:19.090 --> 00:01:21.160
+and then the instance itself would be,
+
+33
+00:01:21.160 --> 00:01:23.174
+and its EBS volumes backed up.
+
+34
+00:01:23.174 --> 00:01:24.626
+So it goes into Data Lifecycle Manager
+
+35
+00:01:24.626 --> 00:01:28.190
+and we can create snapshots and AMIs out of it.
+
+36
+00:01:28.190 --> 00:01:30.790
+It cannot be used to manage snapshots or AMIs created
+
+37
+00:01:30.790 --> 00:01:32.990
+outside of DLM, so everything has to be contained
+
+38
+00:01:32.990 --> 00:01:34.730
+within Data Lifecycle Manager.
+
+39
+00:01:34.730 --> 00:01:38.690
+And it cannot be used to manage instant-store backed AMIs.
+
+40
+00:01:38.690 --> 00:01:41.660
+Next, one little feature that could be really really helpful
+
+41
+00:01:41.660 --> 00:01:43.060
+but really really expensive,
+
+42
+00:01:43.060 --> 00:01:46.310
+is called Fast Snapshots Restorative, FSR.
+
+43
+00:01:46.310 --> 00:01:48.569
+So the idea is that your EBS snapshots internally,
+
+44
+00:01:48.569 --> 00:01:49.977
+they are stored in Amazon S3.
+
+45
+00:01:49.977 --> 00:01:52.590
+So you don't see them, but this is how they're stored
+
+46
+00:01:52.590 --> 00:01:54.320
+internally in AWS.
+
+47
+00:01:54.320 --> 00:01:57.276
+And so when you restore a snapshot into an EBS volume,
+
+48
+00:01:57.276 --> 00:02:00.159
+and you access a specific block of data, okay?
+
+49
+00:02:00.159 --> 00:02:02.520
+There's a latency on this I/O operation.
+
+50
+00:02:02.520 --> 00:02:05.240
+The first one, because the block is going to be pulled
+
+51
+00:02:05.240 --> 00:02:07.640
+from Amazon S3 every time.
+
+52
+00:02:07.640 --> 00:02:09.910
+And so there a solution for it,
+
+53
+00:02:09.910 --> 00:02:12.610
+to force the initialization of the entire volume
+
+54
+00:02:12.610 --> 00:02:15.450
+by reading the entire volume from the EC2 instance
+
+55
+00:02:15.450 --> 00:02:18.270
+using the dd or the fio command.
+
+56
+00:02:18.270 --> 00:02:19.458
+This is the previous solution.
+
+57
+00:02:19.458 --> 00:02:21.440
+And so the idea is that you start an EC2 instance,
+
+58
+00:02:21.440 --> 00:02:24.830
+you attach an EBS volume, and you read the entire volume.
+
+59
+00:02:24.830 --> 00:02:26.590
+Then therefore, all the blocks
+
+60
+00:02:26.590 --> 00:02:28.890
+will be accessed and initiated.
+
+61
+00:02:28.890 --> 00:02:30.810
+Or you can do something called
+
+62
+00:02:30.810 --> 00:02:33.460
+a Fast Snapshot Restore of FSR.
+
+63
+00:02:33.460 --> 00:02:35.780
+So the idea with FSR is that you can enable it
+
+64
+00:02:35.780 --> 00:02:37.680
+on any snapshot at any time.
+
+65
+00:02:37.680 --> 00:02:41.410
+And what FSR will do is that it will do this initialization
+
+66
+00:02:41.410 --> 00:02:44.070
+of the entire volume for you, okay?
+
+67
+00:02:44.070 --> 00:02:46.386
+And then once a volume is fully initialized,
+
+68
+00:02:46.386 --> 00:02:48.770
+you can restore it into an EBS volume
+
+69
+00:02:48.770 --> 00:02:51.080
+on which there will be no I/O latency.
+
+70
+00:02:51.080 --> 00:02:53.460
+So to show you an EBS snapshot being restored
+
+71
+00:02:53.460 --> 00:02:56.590
+into an EBS volume may only have a few blocks initialized,
+
+72
+00:02:56.590 --> 00:02:57.810
+and as you read the blocks,
+
+73
+00:02:57.810 --> 00:03:00.650
+they will be pulled from Amazon S3.
+
+74
+00:03:00.650 --> 00:03:04.332
+But if you enable FSR on the snapshot and FSR is complete,
+
+75
+00:03:04.332 --> 00:03:07.380
+what will happen is that the entire EBS volume
+
+76
+00:03:07.380 --> 00:03:09.430
+is going to be ready and available to use
+
+77
+00:03:09.430 --> 00:03:11.111
+at best performance right away.
+
+78
+00:03:11.111 --> 00:03:13.980
+So you enable this for a snapshot in particular,
+
+79
+00:03:13.980 --> 00:03:14.813
+it's billed per minutes
+
+80
+00:03:14.813 --> 00:03:16.960
+and it's honestly very very expensive.
+
+81
+00:03:16.960 --> 00:03:20.120
+So leaving FSR on all the time can be very costly,
+
+82
+00:03:20.120 --> 00:03:21.730
+around $500 per month.
+
+83
+00:03:21.730 --> 00:03:25.490
+But the use case in the real world is to take a snapshot,
+
+84
+00:03:25.490 --> 00:03:29.500
+enable FSR so that AWS will initialize the snapshot for you,
+
+85
+00:03:29.500 --> 00:03:30.961
+and then you restore it into an EBS volume,
+
+86
+00:03:30.961 --> 00:03:34.410
+and then you disable FSR, okay?
+
+87
+00:03:34.410 --> 00:03:37.840
+So finally, you can use Data Lifecycle Managers, DLM
+
+88
+00:03:37.840 --> 00:03:40.140
+to enable this on snapshots directly.
+
+89
+00:03:40.140 --> 00:03:43.080
+Although personally speaking, this could be not recommended
+
+90
+00:03:43.080 --> 00:03:45.147
+and very very expensive.
+
+91
+00:03:45.147 --> 00:03:47.900
+So some features you need to know about for EBS snapshots
+
+92
+00:03:47.900 --> 00:03:51.230
+is the first one, an EBS Snapshot Archive.
+
+93
+00:03:51.230 --> 00:03:53.410
+So it allows you to move your snapshots
+
+94
+00:03:53.410 --> 00:03:56.860
+to another storage tier called an archive tier.
+
+95
+00:03:56.860 --> 00:03:59.630
+And that tier is 75% cheaper.
+
+96
+00:03:59.630 --> 00:04:01.720
+So your snapshot is going to be moved, you know,
+
+97
+00:04:01.720 --> 00:04:05.290
+manually or whatever, however you set to the archive tier.
+
+98
+00:04:05.290 --> 00:04:08.000
+But if you have it in your archive, it takes you
+
+99
+00:04:08.000 --> 00:04:12.410
+between 24 to 72 hours to restore from the archive.
+
+100
+00:04:12.410 --> 00:04:16.670
+So these are for snapshot that are not very important to you
+
+101
+00:04:16.670 --> 00:04:18.135
+to restore in a rush, okay?
+
+102
+00:04:18.135 --> 00:04:21.010
+But you wanna save some costs on them.
+
+103
+00:04:21.010 --> 00:04:24.600
+The second feature is around recycle bin for EBS snapshots.
+
+104
+00:04:24.600 --> 00:04:27.530
+So by default, when you delete snapshots they're gone.
+
+105
+00:04:27.530 --> 00:04:29.227
+But you can set up a recycle bin,
+
+106
+00:04:29.227 --> 00:04:31.543
+and the recycle bin will have all those snapshots
+
+107
+00:04:31.543 --> 00:04:33.230
+that are deleted.
+
+108
+00:04:33.230 --> 00:04:35.940
+And then after a while, maybe you can specify from one day
+
+109
+00:04:35.940 --> 00:04:38.750
+to one year, the snapshots are gone from the bin.
+
+110
+00:04:38.750 --> 00:04:42.270
+So on deleting a snapshot, it would go into recycle bin,
+
+111
+00:04:42.270 --> 00:04:43.960
+and you may have, for example one year
+
+112
+00:04:43.960 --> 00:04:44.793
+to recover the snapshot,
+
+113
+00:04:44.793 --> 00:04:46.900
+which allows you to protect yourself
+
+114
+00:04:46.900 --> 00:04:49.010
+against accidental deletion.
+
+115
+00:04:49.010 --> 00:04:51.610
+Okay, that's it for this lecture, I hope you liked it,
+
+116
+00:04:51.610 --> 00:04:53.560
+and I will see you in the next lecture.
+

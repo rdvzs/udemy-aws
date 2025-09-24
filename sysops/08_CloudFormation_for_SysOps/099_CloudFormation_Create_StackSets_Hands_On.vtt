@@ -1,0 +1,1162 @@
+WEBVTT
+
+1
+00:00:00.520 --> 00:00:02.100
+<v Instructor>Okay, so let's get into the hands-on.</v>
+
+2
+00:00:02.100 --> 00:00:04.730
+So, in this hands-on, we're going to deploy StackSets
+
+3
+00:00:04.730 --> 00:00:08.000
+across multiple regions to enable AWS Config
+
+4
+00:00:08.000 --> 00:00:09.710
+within each region.
+
+5
+00:00:09.710 --> 00:00:11.400
+And the idea is that you are going to be able
+
+6
+00:00:11.400 --> 00:00:14.150
+to track the resource configuration over time
+
+7
+00:00:14.150 --> 00:00:15.810
+of all your resources within all regions
+
+8
+00:00:15.810 --> 00:00:18.360
+within the same account, which is a great use case.
+
+9
+00:00:18.360 --> 00:00:20.150
+So let's see how we can do this in a hands-on.
+
+10
+00:00:20.150 --> 00:00:21.660
+We'll have to create IAM roles,
+
+11
+00:00:21.660 --> 00:00:22.720
+add the trust relationships,
+
+12
+00:00:22.720 --> 00:00:24.883
+and then we'll deal with StackSets.
+
+13
+00:00:25.870 --> 00:00:27.620
+Okay, so let's deal with StackSets.
+
+14
+00:00:27.620 --> 00:00:29.300
+So the first thing you need to do
+
+15
+00:00:29.300 --> 00:00:32.860
+is to create a StackSet administration role,
+
+16
+00:00:32.860 --> 00:00:35.000
+and this is going to be a role to be deployed
+
+17
+00:00:35.000 --> 00:00:36.480
+in your admin account.
+
+18
+00:00:36.480 --> 00:00:38.570
+And this IAM role is going to be assumed
+
+19
+00:00:38.570 --> 00:00:39.560
+by a CloudFormation.
+
+20
+00:00:39.560 --> 00:00:42.380
+So this is the assumed role policy document.
+
+21
+00:00:42.380 --> 00:00:44.150
+And then the policy itself is saying
+
+22
+00:00:44.150 --> 00:00:47.100
+that this role has the right to assume roles
+
+23
+00:00:47.100 --> 00:00:50.380
+named AWS CloudFormation StackSet execution role.
+
+24
+00:00:50.380 --> 00:00:52.610
+So we're giving the administrator the right
+
+25
+00:00:52.610 --> 00:00:55.859
+to basically assume roles in the target account
+
+26
+00:00:55.859 --> 00:00:59.530
+from which you will be able to deploy StackSets.
+
+27
+00:00:59.530 --> 00:01:02.270
+So to create this role, very easy, we'll use CloudFormation.
+
+28
+00:01:02.270 --> 00:01:06.440
+We'll upload this template file under a 13 StackSets,
+
+29
+00:01:06.440 --> 00:01:09.610
+and let's choose the first template right here.
+
+30
+00:01:09.610 --> 00:01:14.133
+So Next, StackSet admin role.
+
+31
+00:01:15.750 --> 00:01:18.680
+Next, Next, and Create,
+
+32
+00:01:18.680 --> 00:01:20.020
+and you need to acknowledge the fact
+
+33
+00:01:20.020 --> 00:01:22.540
+that this is going to create IAM resources.
+
+34
+00:01:22.540 --> 00:01:24.870
+And so the outcome of this will be an IAM role.
+
+35
+00:01:24.870 --> 00:01:26.450
+Now, the second step we have to do
+
+36
+00:01:26.450 --> 00:01:28.720
+is to create the execution role.
+
+37
+00:01:28.720 --> 00:01:31.130
+So this CloudFormation templates must be applied
+
+38
+00:01:31.130 --> 00:01:33.177
+in all the target accounts that you want to use
+
+39
+00:01:33.177 --> 00:01:34.930
+the StackSet feature in.
+
+40
+00:01:34.930 --> 00:01:37.880
+Now we are in a single account type of setting,
+
+41
+00:01:37.880 --> 00:01:40.250
+so we have to deploy this template as well
+
+42
+00:01:40.250 --> 00:01:41.350
+in the same account.
+
+43
+00:01:41.350 --> 00:01:44.080
+But imagine that if you had different target accounts
+
+44
+00:01:44.080 --> 00:01:46.680
+in AWS, then you would deploy these template
+
+45
+00:01:46.680 --> 00:01:48.210
+in all the target accounts.
+
+46
+00:01:48.210 --> 00:01:50.260
+This is an initial setup that you cannot avoid
+
+47
+00:01:50.260 --> 00:01:53.570
+unless you are using AWS organizations.
+
+48
+00:01:53.570 --> 00:01:55.680
+So, this template has a parameter,
+
+49
+00:01:55.680 --> 00:01:58.130
+which is the administrator account ID
+
+50
+00:01:58.130 --> 00:01:59.010
+that we'll have to specify.
+
+51
+00:01:59.010 --> 00:02:01.740
+This is necessary to allow this role
+
+52
+00:02:01.740 --> 00:02:06.330
+to be trusting in assuming the parent role, admin role.
+
+53
+00:02:06.330 --> 00:02:08.880
+So this is going to create an IAM role,
+
+54
+00:02:08.880 --> 00:02:11.730
+and this is going to have the right name, and the idea's
+
+55
+00:02:11.730 --> 00:02:14.630
+that we're going to have an assume role policy document
+
+56
+00:02:14.630 --> 00:02:16.240
+to say who can assume this role,
+
+57
+00:02:16.240 --> 00:02:19.450
+and we'll have a reference to the administrator account ID,
+
+58
+00:02:19.450 --> 00:02:20.920
+so fairly easy.
+
+59
+00:02:20.920 --> 00:02:23.480
+And now let's go ahead and apply this template.
+
+60
+00:02:23.480 --> 00:02:26.030
+So, in Stacks, I'm going to create a stack
+
+61
+00:02:26.030 --> 00:02:29.920
+with new resources, upload a template, and choose this one,
+
+62
+00:02:29.920 --> 00:02:32.210
+the StackSet execution role.
+
+63
+00:02:32.210 --> 00:02:33.285
+It connects.
+
+64
+00:02:33.285 --> 00:02:36.173
+So StackSet execution role.
+
+65
+00:02:37.220 --> 00:02:39.610
+Now for the administrator account ID,
+
+66
+00:02:39.610 --> 00:02:41.690
+I need to just retrieve my account ID from here.
+
+67
+00:02:41.690 --> 00:02:46.690
+So I will just copy this and paste it, Next,
+
+68
+00:02:48.820 --> 00:02:50.780
+Next, and then this is going to create an IAM role.
+
+69
+00:02:50.780 --> 00:02:52.990
+So I'm going to acknowledge this capability,
+
+70
+00:02:52.990 --> 00:02:56.230
+create the stack, and we're good to go.
+
+71
+00:02:56.230 --> 00:02:58.040
+So if we have a look at the resources
+
+72
+00:02:58.040 --> 00:03:01.480
+created by the first stack, a confirmation stack,
+
+73
+00:03:01.480 --> 00:03:03.760
+we have this admin role in IAM,
+
+74
+00:03:03.760 --> 00:03:06.000
+and you can have a look at the permissions,
+
+75
+00:03:06.000 --> 00:03:07.740
+which are defined right here.
+
+76
+00:03:07.740 --> 00:03:10.040
+And you can have a look at the trust relationship,
+
+77
+00:03:10.040 --> 00:03:12.843
+which is going to be assumed by CloudFormation.
+
+78
+00:03:13.820 --> 00:03:15.310
+And then if we have a look at
+
+79
+00:03:15.310 --> 00:03:18.600
+the second template right here,
+
+80
+00:03:18.600 --> 00:03:21.540
+this execution role also has been created.
+
+81
+00:03:21.540 --> 00:03:24.350
+And you can have a look at everything, so the permissions.
+
+82
+00:03:24.350 --> 00:03:27.070
+It has administrator access, so you can do everything
+
+83
+00:03:27.070 --> 00:03:28.350
+on the account.
+
+84
+00:03:28.350 --> 00:03:29.560
+And in terms of trust relationship,
+
+85
+00:03:29.560 --> 00:03:33.443
+it allows this local accounts to assume it.
+
+86
+00:03:34.410 --> 00:03:35.300
+So this is perfect.
+
+87
+00:03:35.300 --> 00:03:37.110
+We have done the initial setup,
+
+88
+00:03:37.110 --> 00:03:39.380
+and now we can go ahead and use StackSets.
+
+89
+00:03:39.380 --> 00:03:41.040
+So on the left-hand side,
+
+90
+00:03:41.040 --> 00:03:44.160
+there is this menu where we can see Stacks, Stack Details,
+
+91
+00:03:44.160 --> 00:03:46.610
+Drifts as well, so all the drifts you had from before
+
+92
+00:03:46.610 --> 00:03:50.069
+can be seen here, and, obviously, well StackSets.
+
+93
+00:03:50.069 --> 00:03:51.919
+So a StackSet is going to be created.
+
+94
+00:03:53.439 --> 00:03:54.350
+So first let's have a look.
+
+95
+00:03:54.350 --> 00:03:57.970
+We're going to enable the AWS config.yaml.
+
+96
+00:03:57.970 --> 00:04:00.060
+And here we see some interesting parts.
+
+97
+00:04:00.060 --> 00:04:02.550
+So first of all, the CloudFormation interface
+
+98
+00:04:02.550 --> 00:04:05.050
+within metadata, so we have parameter grouping
+
+99
+00:04:05.050 --> 00:04:07.270
+within our template, which is a cool application
+
+100
+00:04:07.270 --> 00:04:08.510
+to what we saw before.
+
+101
+00:04:08.510 --> 00:04:10.750
+So I'm going to scroll down and skip that.
+
+102
+00:04:10.750 --> 00:04:13.730
+Then parameters has a string right here,
+
+103
+00:04:13.730 --> 00:04:16.350
+which is true or false in terms of allowed values,
+
+104
+00:04:16.350 --> 00:04:18.410
+include global resources, true or false.
+
+105
+00:04:18.410 --> 00:04:20.450
+So we can really customize how config work.
+
+106
+00:04:20.450 --> 00:04:22.830
+Resource types, so we can say all by default,
+
+107
+00:04:22.830 --> 00:04:24.620
+but we have options as well.
+
+108
+00:04:24.620 --> 00:04:26.530
+Delivery channel names, so name of the channel,
+
+109
+00:04:26.530 --> 00:04:28.790
+which is by default generated.
+
+110
+00:04:28.790 --> 00:04:32.660
+Frequency, which is how often the config service
+
+111
+00:04:32.660 --> 00:04:34.290
+will deliver the configuration snapshots.
+
+112
+00:04:34.290 --> 00:04:36.880
+So we have specified some allowed values.
+
+113
+00:04:36.880 --> 00:04:40.190
+A topic ARN if you want to have notifications
+
+114
+00:04:40.190 --> 00:04:44.360
+delivered to it, and we can create a new topic out of this.
+
+115
+00:04:44.360 --> 00:04:47.190
+Notification email, default, none.
+
+116
+00:04:47.190 --> 00:04:48.340
+And then some conditions.
+
+117
+00:04:48.340 --> 00:04:50.880
+So a lot of conditions are defined in this template,
+
+118
+00:04:50.880 --> 00:04:53.330
+which is a good reference to go back to the conditions.
+
+119
+00:04:53.330 --> 00:04:55.750
+And as we can see, this create subscription right here
+
+120
+00:04:55.750 --> 00:04:57.260
+is a little bit more complicated.
+
+121
+00:04:57.260 --> 00:05:01.260
+So we have and, and we reference a produced condition,
+
+122
+00:05:01.260 --> 00:05:03.210
+create topic and not,
+
+123
+00:05:03.210 --> 00:05:05.020
+and then we have nested conditions as well.
+
+124
+00:05:05.020 --> 00:05:07.410
+So, I like it, 'cause this is really showing you
+
+125
+00:05:07.410 --> 00:05:09.100
+the whole power of conditions right here
+
+126
+00:05:09.100 --> 00:05:11.300
+in the more advanced way.
+
+127
+00:05:11.300 --> 00:05:12.133
+We have mapping.
+
+128
+00:05:12.133 --> 00:05:14.660
+So, based on the frequency map, we map it
+
+129
+00:05:14.660 --> 00:05:16.990
+to actual values that will be accepted by CloudFormation,
+
+130
+00:05:16.990 --> 00:05:18.670
+so a really, really good use case
+
+131
+00:05:18.670 --> 00:05:20.600
+of making it user-friendly here
+
+132
+00:05:20.600 --> 00:05:22.760
+and mapping to actual CloudFormation values,
+
+133
+00:05:22.760 --> 00:05:24.500
+so a good use case for mappings.
+
+134
+00:05:24.500 --> 00:05:26.620
+And now we go into the resources.
+
+135
+00:05:26.620 --> 00:05:30.150
+So we have a config bucket named S3 bucket,
+
+136
+00:05:30.150 --> 00:05:31.540
+and the deletion policy is retained.
+
+137
+00:05:31.540 --> 00:05:34.670
+So whenever we delete our template,
+
+138
+00:05:34.670 --> 00:05:36.700
+the bucket is going to remain.
+
+139
+00:05:36.700 --> 00:05:38.700
+Then we have a bucket policy,
+
+140
+00:05:38.700 --> 00:05:40.410
+which is referencing the bucket.
+
+141
+00:05:40.410 --> 00:05:43.080
+And then we have the policy document in here,
+
+142
+00:05:43.080 --> 00:05:45.870
+a good usage of the sub function right here
+
+143
+00:05:45.870 --> 00:05:48.030
+to create a resource that is going to have
+
+144
+00:05:48.030 --> 00:05:50.930
+the right AWS partition, so a good use case as well
+
+145
+00:05:50.930 --> 00:05:52.870
+to use the partition pseudo variables,
+
+146
+00:05:52.870 --> 00:05:55.070
+as well as the config bucket,
+
+147
+00:05:55.070 --> 00:05:57.000
+and that's going to be a substituted in here
+
+148
+00:05:57.000 --> 00:05:59.473
+to have a really good end tightened policy.
+
+149
+00:06:00.700 --> 00:06:03.200
+And, finally, again, the sub function is being used
+
+150
+00:06:03.200 --> 00:06:05.170
+for the config bucket delivery to allow you
+
+151
+00:06:05.170 --> 00:06:09.440
+to put objects on the target bucket, so very handy.
+
+152
+00:06:09.440 --> 00:06:12.940
+Next we have a config topic, which is a condition.
+
+153
+00:06:12.940 --> 00:06:15.410
+So is create topic on, yes or not?
+
+154
+00:06:15.410 --> 00:06:16.640
+So this is a condition with defined before.
+
+155
+00:06:16.640 --> 00:06:19.330
+And if yes, then create this SNS topic
+
+156
+00:06:19.330 --> 00:06:22.840
+where we have a topic name, as well as the display name.
+
+157
+00:06:22.840 --> 00:06:25.620
+Config topic policy, so again, the condition of it
+
+158
+00:06:25.620 --> 00:06:28.170
+is managed by this create topic condition.
+
+159
+00:06:28.170 --> 00:06:31.303
+And you can have a look at the policy document itself.
+
+160
+00:06:34.740 --> 00:06:37.300
+Email notification, so again, the condition of it
+
+161
+00:06:37.300 --> 00:06:40.810
+is create subscription, and then a new role.
+
+162
+00:06:40.810 --> 00:06:42.720
+So I'll scroll down.
+
+163
+00:06:42.720 --> 00:06:44.490
+So we have this config recorder now,
+
+164
+00:06:44.490 --> 00:06:46.020
+and this is a really interesting one.
+
+165
+00:06:46.020 --> 00:06:47.830
+So we are using depends on
+
+166
+00:06:47.830 --> 00:06:50.320
+to depend on the config bucket policy,
+
+167
+00:06:50.320 --> 00:06:53.620
+so it will be created after this config bucket policy.
+
+168
+00:06:53.620 --> 00:06:55.550
+And for the properties, it gets really cool.
+
+169
+00:06:55.550 --> 00:06:59.050
+So, this recording group right now
+
+170
+00:06:59.050 --> 00:07:01.510
+has a really interesting property,
+
+171
+00:07:01.510 --> 00:07:05.230
+so this one, resource types, which has an if condition.
+
+172
+00:07:05.230 --> 00:07:08.120
+So you can use conditions within properties as well.
+
+173
+00:07:08.120 --> 00:07:11.100
+So if is all supported,
+
+174
+00:07:11.100 --> 00:07:13.680
+then there is a reference saying, hey,
+
+175
+00:07:13.680 --> 00:07:15.790
+use the pseudo variable no value.
+
+176
+00:07:15.790 --> 00:07:18.960
+So this is effectively going to disregard this property.
+
+177
+00:07:18.960 --> 00:07:20.620
+So this is a really, really good use case
+
+178
+00:07:20.620 --> 00:07:22.680
+of the pseudo variable no value.
+
+179
+00:07:22.680 --> 00:07:25.730
+And if this is not our resources supported,
+
+180
+00:07:25.730 --> 00:07:28.950
+then there's going to be resource types parameter
+
+181
+00:07:28.950 --> 00:07:30.440
+and just you have a reference to that.
+
+182
+00:07:30.440 --> 00:07:32.900
+So this is a really, really good powerful
+
+183
+00:07:32.900 --> 00:07:34.380
+confirmation block right here.
+
+184
+00:07:34.380 --> 00:07:35.870
+I like this template, because it really shows you
+
+185
+00:07:35.870 --> 00:07:38.110
+all the things we've seen together so far
+
+186
+00:07:38.110 --> 00:07:40.300
+and how they come along together.
+
+187
+00:07:40.300 --> 00:07:41.370
+Same for the delivery channel.
+
+188
+00:07:41.370 --> 00:07:43.850
+So, again, there's an if here,
+
+189
+00:07:43.850 --> 00:07:46.570
+and if is generated delivery channel name,
+
+190
+00:07:46.570 --> 00:07:50.650
+then no value else, please use this delivery channel name.
+
+191
+00:07:50.650 --> 00:07:52.490
+So that is super, super nice.
+
+192
+00:07:52.490 --> 00:07:56.510
+Find in map functions, we have a good use case of it.
+
+193
+00:07:56.510 --> 00:07:58.380
+And then we are good to go.
+
+194
+00:07:58.380 --> 00:08:00.070
+So, again, if function on the SNS topic.
+
+195
+00:08:00.070 --> 00:08:02.213
+So we can really show how the CloudFormation templates
+
+196
+00:08:02.213 --> 00:08:04.407
+can get complicated, can have conditions,
+
+197
+00:08:04.407 --> 00:08:05.900
+can have if statements.
+
+198
+00:08:05.900 --> 00:08:06.870
+We've seen the no value.
+
+199
+00:08:06.870 --> 00:08:07.710
+We've seen a lot.
+
+200
+00:08:07.710 --> 00:08:09.840
+So, anyways, we will use this template
+
+201
+00:08:09.840 --> 00:08:12.700
+and deploy it now as part of our StackSet.
+
+202
+00:08:12.700 --> 00:08:16.750
+So now I'm going to create a StackSet and upload it,
+
+203
+00:08:16.750 --> 00:08:19.853
+and we're going to upload this enable AWS config.yaml file.
+
+204
+00:08:20.930 --> 00:08:22.370
+Click on Next.
+
+205
+00:08:22.370 --> 00:08:25.063
+Here, I'll call this one demo StackSet.
+
+206
+00:08:26.270 --> 00:08:27.250
+And then for the parameters,
+
+207
+00:08:27.250 --> 00:08:28.540
+let's just leave everything as is.
+
+208
+00:08:28.540 --> 00:08:30.720
+So, yes, please support all resource types.
+
+209
+00:08:30.720 --> 00:08:32.920
+Include global resource types, yes.
+
+210
+00:08:32.920 --> 00:08:34.380
+I'll keep this as all.
+
+211
+00:08:34.380 --> 00:08:37.850
+As you can see, the metadata really shows a nice way of us
+
+212
+00:08:37.850 --> 00:08:40.400
+to configure these parameters, so I like it.
+
+213
+00:08:40.400 --> 00:08:42.520
+And then everything looks good here.
+
+214
+00:08:42.520 --> 00:08:44.920
+I'll just click on Next.
+
+215
+00:08:44.920 --> 00:08:46.290
+And also pretty cool,
+
+216
+00:08:46.290 --> 00:08:48.700
+we can see that whenever we had an optional parameter,
+
+217
+00:08:48.700 --> 00:08:50.540
+we specify optional in here,
+
+218
+00:08:50.540 --> 00:08:52.810
+and this is where the if configs
+
+219
+00:08:52.810 --> 00:08:55.520
+or the labels of the parameters were being used,
+
+220
+00:08:55.520 --> 00:08:58.580
+as well as where the conditions came in.
+
+221
+00:08:58.580 --> 00:08:59.703
+So I'll click on Next.
+
+222
+00:09:00.610 --> 00:09:03.110
+Then we're going to specify the StackSet options.
+
+223
+00:09:03.110 --> 00:09:05.390
+So the StackSet option I have is the IAM role,
+
+224
+00:09:05.390 --> 00:09:08.330
+and I'm going to use the one that we have created,
+
+225
+00:09:08.330 --> 00:09:11.700
+so the StackSet administration role for the admin role ARN,
+
+226
+00:09:11.700 --> 00:09:15.070
+as well as the IAM execution role name to execute it
+
+227
+00:09:15.070 --> 00:09:18.410
+within each and every target stack.
+
+228
+00:09:18.410 --> 00:09:19.990
+So I'll click on Next.
+
+229
+00:09:19.990 --> 00:09:22.980
+And then we can deploy stacks in specific accounts.
+
+230
+00:09:22.980 --> 00:09:25.590
+So we can specify the account number
+
+231
+00:09:25.590 --> 00:09:26.423
+that we have right here.
+
+232
+00:09:26.423 --> 00:09:29.433
+So I'll just paste this and remove this,
+
+233
+00:09:30.300 --> 00:09:33.970
+or we could use it if we're using AWS organizations.
+
+234
+00:09:33.970 --> 00:09:35.340
+Then we need to specify regions.
+
+235
+00:09:35.340 --> 00:09:38.960
+So let's specify EU Frankfurt,
+
+236
+00:09:38.960 --> 00:09:41.760
+and then I will specify EU Ireland.
+
+237
+00:09:41.760 --> 00:09:42.593
+And that's good.
+
+238
+00:09:42.593 --> 00:09:45.240
+I have two regions specified already.
+
+239
+00:09:45.240 --> 00:09:47.480
+Deployment options, so this is where it gets interesting.
+
+240
+00:09:47.480 --> 00:09:50.220
+So, how many concurrent accounts at max?
+
+241
+00:09:50.220 --> 00:09:51.530
+So one at a time,
+
+242
+00:09:51.530 --> 00:09:53.160
+but you can set this to a really, really high number,
+
+243
+00:09:53.160 --> 00:09:55.386
+and, obviously, the highest number,
+
+244
+00:09:55.386 --> 00:09:57.220
+the faster the operation.
+
+245
+00:09:57.220 --> 00:09:59.290
+Fail tolerance, so how many stacks can fail
+
+246
+00:09:59.290 --> 00:10:01.310
+before making the entire deployment fail,
+
+247
+00:10:01.310 --> 00:10:03.440
+which is nice if you have a tricky deployment,
+
+248
+00:10:03.440 --> 00:10:05.030
+and you (indistinct) a very, very large number
+
+249
+00:10:05.030 --> 00:10:05.863
+of target accounts.
+
+250
+00:10:05.863 --> 00:10:08.850
+Maybe you want to allow some failures,
+
+251
+00:10:08.850 --> 00:10:10.010
+as well as the region concurrency.
+
+252
+00:10:10.010 --> 00:10:14.060
+So do you want to deploy one region at a time or parallel?
+
+253
+00:10:14.060 --> 00:10:16.370
+And because we wanna speed things up, we'll use parallel.
+
+254
+00:10:16.370 --> 00:10:20.240
+That means that it will be deployed to Frankfurt and Ireland
+
+255
+00:10:20.240 --> 00:10:21.440
+at the same time.
+
+256
+00:10:21.440 --> 00:10:22.333
+Click on Next.
+
+257
+00:10:23.360 --> 00:10:24.710
+Everything looks good.
+
+258
+00:10:24.710 --> 00:10:26.250
+And then I will go ahead and say, yes,
+
+259
+00:10:26.250 --> 00:10:28.100
+this might create IAM resources.
+
+260
+00:10:28.100 --> 00:10:29.513
+Let's submit this.
+
+261
+00:10:30.670 --> 00:10:33.330
+And now my StackSet is in details in action.
+
+262
+00:10:33.330 --> 00:10:36.320
+So there's one operation right now that is running.
+
+263
+00:10:36.320 --> 00:10:38.920
+So this is a StackSet operation,
+
+264
+00:10:38.920 --> 00:10:40.950
+and we can look at the stack instances.
+
+265
+00:10:40.950 --> 00:10:43.370
+So as we can see, we have two stack instances,
+
+266
+00:10:43.370 --> 00:10:47.430
+so in the target account and the AWS region.
+
+267
+00:10:47.430 --> 00:10:50.580
+So one is EU central one and one is EU West one.
+
+268
+00:10:50.580 --> 00:10:53.080
+So the cool thing is that you can go to the info.
+
+269
+00:10:53.080 --> 00:10:56.000
+It shows you like the status of your StackSet itself
+
+270
+00:10:56.000 --> 00:10:57.600
+and the operations going on.
+
+271
+00:10:57.600 --> 00:10:59.110
+We can click on these operations.
+
+272
+00:10:59.110 --> 00:11:00.330
+We could stop it if we wanted to,
+
+273
+00:11:00.330 --> 00:11:01.880
+but we don't need to right now.
+
+274
+00:11:01.880 --> 00:11:03.840
+And so what I'm going to do is then I can go directly
+
+275
+00:11:03.840 --> 00:11:04.963
+into my stacks.
+
+276
+00:11:07.830 --> 00:11:10.270
+And as you can see, this success is currently
+
+277
+00:11:10.270 --> 00:11:13.270
+creating a stack in my region of Frankfurt.
+
+278
+00:11:13.270 --> 00:11:15.820
+And if I go to my other region, if I go to Ireland,
+
+279
+00:11:18.280 --> 00:11:20.420
+I had another stack before, which was for Lambda functions.
+
+280
+00:11:20.420 --> 00:11:21.660
+Don't worry about this one,
+
+281
+00:11:21.660 --> 00:11:23.700
+but, as you can see, this Stackset, demo Stackset,
+
+282
+00:11:23.700 --> 00:11:24.790
+also has been created.
+
+283
+00:11:24.790 --> 00:11:29.110
+So, the config has been deployed through a StackSet
+
+284
+00:11:29.110 --> 00:11:31.500
+into all my target regions.
+
+285
+00:11:31.500 --> 00:11:35.530
+So back in Frankfurt, the create is complete.
+
+286
+00:11:35.530 --> 00:11:38.840
+So if I go back into my StackSet now and I refresh this,
+
+287
+00:11:38.840 --> 00:11:41.640
+the create of my StackSet has succeeded,
+
+288
+00:11:41.640 --> 00:11:42.840
+which is quite awesome.
+
+289
+00:11:42.840 --> 00:11:44.920
+So that's it for the introduction to StackSets.
+
+290
+00:11:44.920 --> 00:11:47.833
+I hope you liked it, and I will see you in the next lecture.
+

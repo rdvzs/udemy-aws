@@ -1,0 +1,538 @@
+﻿WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.257
+<v Narrator>So let's talk about RDS Performance Insights.</v>
+
+2
+00:00:02.257 --> 00:00:04.068
+And that's the last one around monitoring for RDS
+
+3
+00:00:04.068 --> 00:00:06.520
+but I think you need to know it and it is quite
+
+4
+00:00:06.520 --> 00:00:07.740
+a cool tool overall.
+
+5
+00:00:07.740 --> 00:00:09.957
+So Performance Insights allows you to visualize
+
+6
+00:00:09.957 --> 00:00:12.105
+your database performance and you can analyze
+
+7
+00:00:12.105 --> 00:00:15.038
+why there are issues that affect your database.
+
+8
+00:00:15.038 --> 00:00:17.019
+So you can visualize the database load
+
+9
+00:00:17.019 --> 00:00:18.378
+and you can filter the load
+
+10
+00:00:18.378 --> 00:00:20.628
+by four different types of metrics.
+
+11
+00:00:20.628 --> 00:00:22.503
+The number one is called Waits.
+
+12
+00:00:22.503 --> 00:00:26.089
+And Waits is very cryptic but basically it shows you
+
+13
+00:00:26.089 --> 00:00:28.119
+the resource that will be the bottleneck.
+
+14
+00:00:28.119 --> 00:00:31.209
+It could be CPU, IO, could be some locks.
+
+15
+00:00:31.209 --> 00:00:33.097
+If you needed to know how to upgrade
+
+16
+00:00:33.097 --> 00:00:35.517
+your database to a different type of instance
+
+17
+00:00:35.517 --> 00:00:37.753
+and know if you wanted to optimize the CPU
+
+18
+00:00:37.753 --> 00:00:39.802
+or optimize the IO, Waits will give you
+
+19
+00:00:39.802 --> 00:00:42.711
+a good idea of what your database waits on the most.
+
+20
+00:00:42.711 --> 00:00:44.743
+If it's a CPU the IOS etc.
+
+21
+00:00:44.743 --> 00:00:47.385
+Now you can also filter by SQL statements
+
+22
+00:00:47.385 --> 00:00:50.778
+so if an SQL statement is, by default,
+
+23
+00:00:50.778 --> 00:00:52.855
+blocking your database or making it crawl for
+
+24
+00:00:52.855 --> 00:00:54.487
+whatever reason, then you can identify
+
+25
+00:00:54.487 --> 00:00:55.999
+that sequel statement and maybe you can
+
+26
+00:00:55.999 --> 00:00:57.938
+reach out to the team or the application
+
+27
+00:00:57.938 --> 00:00:59.842
+that runs that statement and to understand
+
+28
+00:00:59.842 --> 00:01:02.284
+how you can optimize that statement.
+
+29
+00:01:02.284 --> 00:01:04.520
+You can also filter by hosts.
+
+30
+00:01:04.520 --> 00:01:07.995
+Basically by filtering and by grouping by hosts
+
+31
+00:01:07.995 --> 00:01:10.358
+you can find the server or the application server
+
+32
+00:01:10.358 --> 00:01:12.978
+that will maybe be hammering our database
+
+33
+00:01:12.978 --> 00:01:13.811
+and take action.
+
+34
+00:01:13.811 --> 00:01:16.254
+Maybe blocking access or maybe talking to them
+
+35
+00:01:16.254 --> 00:01:17.803
+and understanding why they are using
+
+36
+00:01:17.803 --> 00:01:19.560
+so much of our database.
+
+37
+00:01:19.560 --> 00:01:21.148
+Maybe they need a re-replica.
+
+38
+00:01:21.148 --> 00:01:22.537
+And then finally by users.
+
+39
+00:01:22.537 --> 00:01:25.112
+This is to connect using the user names
+
+40
+00:01:25.112 --> 00:01:26.652
+and to find the user that are using
+
+41
+00:01:26.652 --> 00:01:27.929
+the most our database.
+
+42
+00:01:27.929 --> 00:01:30.299
+The idea is that the this Performance Insights
+
+43
+00:01:30.299 --> 00:01:33.272
+allows us to understand who or where from
+
+44
+00:01:33.272 --> 00:01:36.000
+or what statements is using our Waits
+
+45
+00:01:36.000 --> 00:01:38.888
+which is it CPO, IO lock, etc.
+
+46
+00:01:38.888 --> 00:01:40.870
+Now database load will be evaluated
+
+47
+00:01:40.870 --> 00:01:42.328
+as the number of active sessions
+
+48
+00:01:42.328 --> 00:01:44.004
+for the database engine.
+
+49
+00:01:44.004 --> 00:01:45.741
+And the whole thing basically allows
+
+50
+00:01:45.741 --> 00:01:47.700
+you to troubleshoot including viewing those
+
+51
+00:01:47.700 --> 00:01:50.092
+SQU queries that are putting loads on your database.
+
+52
+00:01:50.092 --> 00:01:51.743
+Our database is not interesting
+
+53
+00:01:51.743 --> 00:01:53.532
+because it's not running anything special.
+
+54
+00:01:53.532 --> 00:01:55.340
+There's not application so I was just
+
+55
+00:01:55.340 --> 00:01:57.863
+going to show you screen shots of what you can expect.
+
+56
+00:01:57.863 --> 00:02:00.143 line:15% 
+This is Performance Insights and this is from
+
+57
+00:02:00.143 --> 00:02:00.976 line:15% 
+the Amazon blog.
+
+58
+00:02:00.976 --> 00:02:03.674 line:15% 
+As you can see you get a line right here
+
+59
+00:02:03.674 --> 00:02:05.513 line:15% 
+and it shows you the max number of CPU.
+
+60
+00:02:05.513 --> 00:02:07.842 line:15% 
+As long as you are under it you're doing fine.
+
+61
+00:02:07.842 --> 00:02:09.889 line:15% 
+But if you are over it that means that
+
+62
+00:02:09.889 --> 00:02:11.580 line:15% 
+your database is running at capacity.
+
+63
+00:02:11.580 --> 00:02:15.260 line:15% 
+If you slice that graph by Waits, on the right-hand-side
+
+64
+00:02:15.260 --> 00:02:18.877 line:15% 
+its shows you what's using your database.
+
+65
+00:02:18.877 --> 00:02:20.294 line:15% 
+CPU is only 0.32.
+
+66
+00:02:21.580 --> 00:02:24.955 line:15% 
+And IO table SQL handler is 1.82.
+
+67
+00:02:24.955 --> 00:02:27.933 line:15% 
+It seems like IO in there is going to be something
+
+68
+00:02:27.933 --> 00:02:29.682 line:15% 
+that you may want to optimize and improve
+
+69
+00:02:29.682 --> 00:02:31.590 line:15% 
+maybe using a better disk or whatever.
+
+70
+00:02:31.590 --> 00:02:33.413 line:15% 
+But this is the kind of idea using
+
+71
+00:02:33.413 --> 00:02:36.446 line:15% 
+the Slide by Waits which gives you all this list
+
+72
+00:02:36.446 --> 00:02:38.241 line:15% 
+of stuff that's happening and you can understand
+
+73
+00:02:38.241 --> 00:02:41.117 line:15% 
+what's blocking your database.
+
+74
+00:02:41.117 --> 00:02:44.109
+Now you can also analyze the SQL queries
+
+75
+00:02:44.109 --> 00:02:45.012
+that are running.
+
+76
+00:02:45.012 --> 00:02:48.162
+So as you can see, this one 1.38,
+
+77
+00:02:48.162 --> 00:02:50.482
+is an SQL query that is taking a long time
+
+78
+00:02:50.482 --> 00:02:53.752
+so maybe updates came at three table one set
+
+79
+00:02:53.752 --> 00:02:55.967
+s1 equals md5 random.
+
+80
+00:02:55.967 --> 00:02:58.151
+Basically that's a lot of action in this
+
+81
+00:02:58.151 --> 00:03:00.802
+takes a lot of resources and maybe their team
+
+82
+00:03:00.802 --> 00:03:03.064
+running that sequel statements, you should go
+
+83
+00:03:03.064 --> 00:03:04.493
+and talk to them and understand why they are
+
+84
+00:03:04.493 --> 00:03:06.769
+doing it and if they can do anything better.
+
+85
+00:03:06.769 --> 00:03:08.918
+This is quite a cool way of troubleshooting
+
+86
+00:03:08.918 --> 00:03:11.513
+which sequel queries are taking the most time.
+
+87
+00:03:11.513 --> 00:03:13.924
+And then you can also view by users.
+
+88
+00:03:13.924 --> 00:03:15.662
+You can see on the right-hand-side
+
+89
+00:03:15.662 --> 00:03:18.852
+that rds_user is having four connections,
+
+90
+00:03:18.852 --> 00:03:21.085
+jeremiah is having two, again that's from the blog.
+
+91
+00:03:21.085 --> 00:03:23.535
+But you get a lot more information around
+
+92
+00:03:23.535 --> 00:03:25.460
+who is doing what on your database
+
+93
+00:03:25.460 --> 00:03:27.359
+which could be quite helpful as well.
+
+94
+00:03:27.359 --> 00:03:29.890
+Maybe some application is opening 1000 connections
+
+95
+00:03:29.890 --> 00:03:32.399
+and you need to know about it right away.
+
+96
+00:03:32.399 --> 00:03:34.208
+By host, I don't have a graph for it,
+
+97
+00:03:34.208 --> 00:03:35.498
+but it will basically tell you
+
+98
+00:03:35.498 --> 00:03:36.987
+which application server is connected
+
+99
+00:03:36.987 --> 00:03:37.915
+to your database.
+
+100
+00:03:37.915 --> 00:03:39.792
+Overall all these things really help.
+
+101
+00:03:39.792 --> 00:03:41.595
+I think Performance Insights is a great tool
+
+102
+00:03:41.595 --> 00:03:42.886
+to help you troubleshoot.
+
+103
+00:03:42.886 --> 00:03:44.054
+Let me just show you where it is
+
+104
+00:03:44.054 --> 00:03:46.088
+in the AWS console.
+
+105
+00:03:46.088 --> 00:03:47.532
+To use Performance Insights you will
+
+106
+00:03:47.532 --> 00:03:48.365
+go to the left-hand-side
+
+107
+00:03:48.365 --> 00:03:49.921
+and you will need to actually enable
+
+108
+00:03:49.921 --> 00:03:51.414
+Performance Insights.
+
+109
+00:03:51.414 --> 00:03:52.900
+To enable it you would have to go to
+
+110
+00:03:52.900 --> 00:03:54.125
+your database and modify it.
+
+111
+00:03:54.125 --> 00:03:56.453
+Click on your Database Instances
+
+112
+00:03:56.453 --> 00:03:57.844
+and click on Modify.
+
+113
+00:03:57.844 --> 00:04:00.287
+But it turns out that since because we using
+
+114
+00:04:00.287 --> 00:04:03.893
+a t2 type of instance, Performance Insights
+
+115
+00:04:03.893 --> 00:04:05.173
+is not supported right now
+
+116
+00:04:05.173 --> 00:04:08.339
+on db.t2 instance classes, unfortunately,
+
+117
+00:04:08.339 --> 00:04:09.739
+so we can't have it and this is
+
+118
+00:04:09.739 --> 00:04:11.458
+why I showed you screenshots of it,
+
+119
+00:04:11.458 --> 00:04:13.307
+but from the screenshots you should get
+
+120
+00:04:13.307 --> 00:04:14.557
+a great idea of how it works.
+
+121
+00:04:14.557 --> 00:04:17.835
+But if you had a non t2 micro type of instance
+
+122
+00:04:17.835 --> 00:04:20.046
+than you should be able to modify your DB instance
+
+123
+00:04:20.046 --> 00:04:22.985
+and enable Performance Monitoring.
+
+124
+00:04:22.985 --> 00:04:24.273
+So as you can see, if I click on it
+
+125
+00:04:24.273 --> 00:04:26.673
+and maybe do an m4.large
+
+126
+00:04:26.673 --> 00:04:28.163
+and then scroll all the way down,
+
+127
+00:04:28.163 --> 00:04:29.794
+then I start seeing Performance Insight
+
+128
+00:04:29.794 --> 00:04:31.509
+and I can enable it and say
+
+129
+00:04:31.509 --> 00:04:34.414
+how many days of retention of data I want, etc., etc.,
+
+130
+00:04:34.414 --> 00:04:35.562
+but I won't do it right now.
+
+131
+00:04:35.562 --> 00:04:36.694
+But you can an idea and now
+
+132
+00:04:36.694 --> 00:04:38.891
+you're supposed to be a monitoring expert for RDS,
+
+133
+00:04:38.891 --> 00:04:39.862
+so congratulations.
+
+134
+00:04:39.862 --> 00:04:41.711
+I will see you in the next lecture.
+

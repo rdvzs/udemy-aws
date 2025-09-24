@@ -1,0 +1,506 @@
+WEBVTT
+
+1
+00:00:00.370 --> 00:00:02.240
+<v Instructor>Now let's talk about Amazon S3 Glacier.</v>
+
+2
+00:00:02.240 --> 00:00:04.290
+So this is a low-cost object storage meant
+
+3
+00:00:04.290 --> 00:00:06.750
+for archiving and backup, and the data is going
+
+4
+00:00:06.750 --> 00:00:07.700
+to be there for the long term,
+
+5
+00:00:07.700 --> 00:00:09.460
+so we're talking about tens of years.
+
+6
+00:00:09.460 --> 00:00:10.920
+So it's an alternative to running
+
+7
+00:00:10.920 --> 00:00:12.680
+a magnetic tape storage on-premises.
+
+8
+00:00:12.680 --> 00:00:15.500
+So now instead of running things on-premises
+
+9
+00:00:15.500 --> 00:00:17.160
+and actually storing your data on tapes,
+
+10
+00:00:17.160 --> 00:00:19.970
+you can do the same in the cloud with Glacier.
+
+11
+00:00:19.970 --> 00:00:21.190
+The durability is really good,
+
+12
+00:00:21.190 --> 00:00:22.700
+it's the same as Amazon S3 standard,
+
+13
+00:00:22.700 --> 00:00:25.910
+so 11 nines and the cost per storage depend on your tier.
+
+14
+00:00:25.910 --> 00:00:28.992
+If it's standard, it's about 0.4 cents per gigabyte
+
+15
+00:00:28.992 --> 00:00:31.369
+and if it's the deep archive tier,
+
+16
+00:00:31.369 --> 00:00:35.740
+it's 0.099 cents per gigabytes which is really, really good.
+
+17
+00:00:35.740 --> 00:00:38.050
+So, each item in Glacier is called an archive
+
+18
+00:00:38.050 --> 00:00:40.340
+and an archive can be up to 40 terabytes
+
+19
+00:00:40.340 --> 00:00:42.690
+and the archives are going to be stored in vaults.
+
+20
+00:00:42.690 --> 00:00:45.900
+So it's the same as a object and a bucket,
+
+21
+00:00:45.900 --> 00:00:49.400
+but in Glacier it's called Archive and Vault.
+
+22
+00:00:49.400 --> 00:00:52.020
+By default, all the data will be encrypted at rest
+
+23
+00:00:52.020 --> 00:00:55.640
+using AES-256 and the keys are managed by AWS.
+
+24
+00:00:55.640 --> 00:00:58.220
+So all the data in Glacier is automatically encrypted
+
+25
+00:00:58.220 --> 00:01:00.430
+no matter what, so there is a tip.
+
+26
+00:01:00.430 --> 00:01:04.370
+If you want to archive in S3 after x number of days,
+
+27
+00:01:04.370 --> 00:01:08.810
+then use Glacier and use a backup, a life cycle policy.
+
+28
+00:01:08.810 --> 00:01:10.420
+So, a few Glacier opportunities to know
+
+29
+00:01:10.420 --> 00:01:13.470
+so you can create and delete vaults only when,
+
+30
+00:01:13.470 --> 00:01:16.000
+and you can only delete the vaults when it's empty.
+
+31
+00:01:16.000 --> 00:01:18.040
+You can retrieve metadata from your vaults.
+
+32
+00:01:18.040 --> 00:01:19.820
+So the creation date, number of archives,
+
+33
+00:01:19.820 --> 00:01:21.930
+the total size of all the archives, and so on.
+
+34
+00:01:21.930 --> 00:01:24.600
+And you can download the inventory of your vault,
+
+35
+00:01:24.600 --> 00:01:26.630
+which is a list of all the archives units,
+
+36
+00:01:26.630 --> 00:01:29.120
+including the archive ID, the creation date, the size,
+
+37
+00:01:29.120 --> 00:01:33.050
+and so on, the operations in your vault include uploads.
+
+38
+00:01:33.050 --> 00:01:35.750
+You upload files directly into Glacier
+
+39
+00:01:35.750 --> 00:01:37.600
+or you can do it by parts, if you want to use
+
+40
+00:01:37.600 --> 00:01:40.290
+the multi-part upload for larger archives,
+
+41
+00:01:40.290 --> 00:01:43.490
+and you can download files directly from your vault.
+
+42
+00:01:43.490 --> 00:01:46.220
+This is after you have done a retrieval job
+
+43
+00:01:46.220 --> 00:01:48.330
+then Glacier will prepare that file
+
+44
+00:01:48.330 --> 00:01:50.450
+for download and then you can download it
+
+45
+00:01:50.450 --> 00:01:52.680
+during the timeframe that's given to you.
+
+46
+00:01:52.680 --> 00:01:54.680
+Okay, and delete, if you wanted to delete,
+
+47
+00:01:54.680 --> 00:01:56.390
+obviously, a specific archive.
+
+48
+00:01:56.390 --> 00:01:58.550
+So when you restore a link, it has an expiry date.
+
+49
+00:01:58.550 --> 00:02:00.280
+And when you want to retrieve and create
+
+50
+00:02:00.280 --> 00:02:02.330
+the retrieval links, okay, you need to have,
+
+51
+00:02:02.330 --> 00:02:03.630
+you have three options you can do.
+
+52
+00:02:03.630 --> 00:02:06.270
+The first one is expedited which is the most expensive
+
+53
+00:02:06.270 --> 00:02:08.570
+and it gives you your file between one
+
+54
+00:02:08.570 --> 00:02:10.760
+to five minutes intervals so very, very quickly.
+
+55
+00:02:10.760 --> 00:02:12.810
+And you're going to pay 3 cents
+
+56
+00:02:12.810 --> 00:02:15.970
+per gigabytes and $10 per 1000 requests.
+
+57
+00:02:15.970 --> 00:02:18.920
+Standard, which is slower, which is three to five hours,
+
+58
+00:02:18.920 --> 00:02:20.650
+gives you 1 cents per gigabytes
+
+59
+00:02:20.650 --> 00:02:23.090
+and 3 cents per 1000 requests.
+
+60
+00:02:23.090 --> 00:02:25.480
+And then finally, bulk, which is those longer,
+
+61
+00:02:25.480 --> 00:02:27.630
+the slowest, but also the most cost-effective,
+
+62
+00:02:27.630 --> 00:02:28.850
+which gives you your files available
+
+63
+00:02:28.850 --> 00:02:31.120
+between five to 12 hours from your request,
+
+64
+00:02:31.120 --> 00:02:34.100
+which gives you 0.25 cents per gigabytes,
+
+65
+00:02:34.100 --> 00:02:38.160
+and 2.50 cents per 1000 requests.
+
+66
+00:02:38.160 --> 00:02:40.130
+Okay, so next Glacier is really good
+
+67
+00:02:40.130 --> 00:02:42.892
+because you can have vault policies and Vault Lock.
+
+68
+00:02:42.892 --> 00:02:45.480
+So, each vault will have one vault access policy
+
+69
+00:02:45.480 --> 00:02:48.490
+and one Vault Lock policy, these policies are written
+
+70
+00:02:48.490 --> 00:02:52.473
+in JSON, okay, and the first one is the vault access policy.
+
+71
+00:02:52.473 --> 00:02:55.930
+It's going to behave like an S3 bucket policy in which that,
+
+72
+00:02:55.930 --> 00:02:58.830
+in which that it allows you to restrict user
+
+73
+00:02:58.830 --> 00:03:02.370
+and accounts permissions whereas a Vault Lock policy
+
+74
+00:03:02.370 --> 00:03:05.090
+is a policy in which will you allow you to lock
+
+75
+00:03:05.090 --> 00:03:07.040
+for regulatory and compliance requirements,
+
+76
+00:03:07.040 --> 00:03:09.740
+your files in your Glacier vaults.
+
+77
+00:03:09.740 --> 00:03:11.640
+That means that the policy is going to be immutable.
+
+78
+00:03:11.640 --> 00:03:14.580
+It can never be changed so once it's locked,
+
+79
+00:03:14.580 --> 00:03:16.880
+the policy can not be changed and it's locked
+
+80
+00:03:16.880 --> 00:03:18.830
+for the lifetime of the policy.
+
+81
+00:03:18.830 --> 00:03:21.370
+And so, for example, an example of that would be
+
+82
+00:03:21.370 --> 00:03:24.770
+to forbid deleting an archive if less than one year old
+
+83
+00:03:24.770 --> 00:03:26.830
+or for example, to implement a WORM policy,
+
+84
+00:03:26.830 --> 00:03:29.740
+so write once, read many and to show
+
+85
+00:03:29.740 --> 00:03:31.360
+that compliance and regular insurance
+
+86
+00:03:31.360 --> 00:03:33.710
+that you can not delete even the vault,
+
+87
+00:03:33.710 --> 00:03:37.210
+the files within the vault, or the vault policy itself.
+
+88
+00:03:37.210 --> 00:03:39.210
+So, here's my vault, it has several archives.
+
+89
+00:03:39.210 --> 00:03:41.170
+So, the Vault Lock policy really allows you
+
+90
+00:03:41.170 --> 00:03:43.210
+to lockdown the archives in the vault,
+
+91
+00:03:43.210 --> 00:03:44.910
+as well as the Lock policy itself.
+
+92
+00:03:44.910 --> 00:03:47.020
+And then, the users have the permissions
+
+93
+00:03:47.020 --> 00:03:48.960
+to talk to the vault, but you can also regulate
+
+94
+00:03:48.960 --> 00:03:50.986
+that through a vault access policy
+
+95
+00:03:50.986 --> 00:03:53.253
+which is similar to an S3 bucket policy.
+
+96
+00:03:54.330 --> 00:03:56.570
+So, because glacier is asynchronous
+
+97
+00:03:56.570 --> 00:03:57.980
+because you have to initiate resource
+
+98
+00:03:57.980 --> 00:04:01.150
+and then they will happen in time in the future.
+
+99
+00:04:01.150 --> 00:04:02.570
+Then you need to have notification
+
+100
+00:04:02.570 --> 00:04:04.900
+for the restore operations so you can configure
+
+101
+00:04:04.900 --> 00:04:08.240
+a vault notification which is to send notifications
+
+102
+00:04:08.240 --> 00:04:10.620
+directly to an SNS topic when the job
+
+103
+00:04:10.620 --> 00:04:13.470
+of restoring is complete and then you can also
+
+104
+00:04:13.470 --> 00:04:15.710
+have an SNS topic when you initiate jobs.
+
+105
+00:04:15.710 --> 00:04:18.300
+So the idea is that Amazon Glacier has a bunch
+
+106
+00:04:18.300 --> 00:04:19.930
+of vaults with archives in it
+
+107
+00:04:19.930 --> 00:04:22.560
+and then the user will initiate or restore archive job.
+
+108
+00:04:22.560 --> 00:04:24.570
+It could be for example, in bulk,
+
+109
+00:04:24.570 --> 00:04:27.130
+so you get the result between five to 12 hours.
+
+110
+00:04:27.130 --> 00:04:28.640
+Now this is going to take a bit of time
+
+111
+00:04:28.640 --> 00:04:31.810
+so Amazon Glacier will initiate the restore of these files.
+
+112
+00:04:31.810 --> 00:04:33.570
+And when the archives are going to be ready
+
+113
+00:04:33.570 --> 00:04:36.380
+to be downloaded, then Glacier can send a notification
+
+114
+00:04:36.380 --> 00:04:39.920
+into an SNS topic which will notify us maybe by email
+
+115
+00:04:39.920 --> 00:04:42.820
+or whatever means you want and then the user can go ahead
+
+116
+00:04:42.820 --> 00:04:46.510
+and download the file within the timeframe allotted for it.
+
+117
+00:04:46.510 --> 00:04:48.950
+The other option is to use S3 Event Notification.
+
+118
+00:04:48.950 --> 00:04:51.320
+So, this is when you restore objects directly
+
+119
+00:04:51.320 --> 00:04:53.770
+from the S3 Glacier storage class, okay?
+
+120
+00:04:53.770 --> 00:04:56.850
+In which case you can look for two notifications.
+
+121
+00:04:56.850 --> 00:05:00.420
+The first one is S3 Object Restore Post which is to notify
+
+122
+00:05:00.420 --> 00:05:02.740
+when an object restoration has been initiated.
+
+123
+00:05:02.740 --> 00:05:05.547
+And the second one is S3 Object Restore Completed which is
+
+124
+00:05:05.547 --> 00:05:09.000
+to notify when the object restoration has been completed.
+
+125
+00:05:09.000 --> 00:05:10.780
+So, that's it for Glacier, I hope you liked it,
+
+126
+00:05:10.780 --> 00:05:12.730
+and I will see you in the next lecture.
+

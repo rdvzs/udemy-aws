@@ -1,0 +1,478 @@
+WEBVTT
+
+1
+00:00:00.400 --> 00:00:01.430
+<v Instructor>Okay, so now let's talk</v>
+
+2
+00:00:01.430 --> 00:00:04.160
+about RDS Events and event subscriptions.
+
+3
+00:00:04.160 --> 00:00:06.770
+So RDS will keep a record of events related
+
+4
+00:00:06.770 --> 00:00:10.260
+to multiple events related to database instances,
+
+5
+00:00:10.260 --> 00:00:12.310
+to your snapshots, to changes made
+
+6
+00:00:12.310 --> 00:00:14.890
+to your parameter groups or your security groups, et cetera.
+
+7
+00:00:14.890 --> 00:00:15.810
+So what is an event?
+
+8
+00:00:15.810 --> 00:00:17.540
+Well, an event can be, for example,
+
+9
+00:00:17.540 --> 00:00:21.460
+that a database state changed from pending to running.
+
+10
+00:00:21.460 --> 00:00:23.620
+So we're going to have RDS Event subscriptions,
+
+11
+00:00:23.620 --> 00:00:26.250
+and to be alerted of these events,
+
+12
+00:00:26.250 --> 00:00:30.100
+and it could be an SNS topic, to get notified
+
+13
+00:00:30.100 --> 00:00:31.840
+of some events or old events,
+
+14
+00:00:31.840 --> 00:00:33.790
+and you can specify the event source,
+
+15
+00:00:33.790 --> 00:00:35.080
+and even category, if you wanted
+
+16
+00:00:35.080 --> 00:00:38.680
+to have a more granular type of event sent to SNS.
+
+17
+00:00:38.680 --> 00:00:42.370
+But also, it's possible for you to get these events coming
+
+18
+00:00:42.370 --> 00:00:43.340
+out of EventBridge.
+
+19
+00:00:43.340 --> 00:00:45.220
+So it's possible for you to set up some rules.
+
+20
+00:00:45.220 --> 00:00:49.000
+And then the EventBridge will react to your RDS events.
+
+21
+00:00:49.000 --> 00:00:51.690
+So here's an example, for example, of an event.
+
+22
+00:00:51.690 --> 00:00:54.910
+So it could be a backup event of your DB instance
+
+23
+00:00:54.910 --> 00:00:56.660
+that would be sent to RDS Events,
+
+24
+00:00:56.660 --> 00:01:00.400
+which can, in turn, trigger a notification in SNS,
+
+25
+00:01:00.400 --> 00:01:04.790
+or it can trigger an event in EventBridge.
+
+26
+00:01:04.790 --> 00:01:07.090
+The second thing I want to talk to you about is
+
+27
+00:01:07.090 --> 00:01:08.800
+around database log files.
+
+28
+00:01:08.800 --> 00:01:12.390
+So your RDS database instance has some logs.
+
+29
+00:01:12.390 --> 00:01:14.460
+For example, general logs, audit logs,
+
+30
+00:01:14.460 --> 00:01:16.700
+error logs, slow query logs, that kind of things.
+
+31
+00:01:16.700 --> 00:01:19.530
+So you can send these logs into CloudWatch Logs,
+
+32
+00:01:19.530 --> 00:01:22.180
+and then you can apply, on top of CloudWatch Logs,
+
+33
+00:01:22.180 --> 00:01:23.150
+a metric filter.
+
+34
+00:01:23.150 --> 00:01:24.500
+For example, you can have a look
+
+35
+00:01:24.500 --> 00:01:27.900
+at the Error keyword, and in case it happens
+
+36
+00:01:27.900 --> 00:01:29.490
+too many times or too often,
+
+37
+00:01:29.490 --> 00:01:32.530
+then you can set up a CloudWatch Alarm on top of it.
+
+38
+00:01:32.530 --> 00:01:35.530
+So this allows you to do some log alerting.
+
+39
+00:01:35.530 --> 00:01:37.840
+And then this CloudWatch Alarm can send an alert,
+
+40
+00:01:37.840 --> 00:01:39.540
+for example, to an SNS topic,
+
+41
+00:01:39.540 --> 00:01:41.780
+and then this SNS topic can send a notification
+
+42
+00:01:41.780 --> 00:01:43.300
+to the database admin.
+
+43
+00:01:43.300 --> 00:01:46.180
+So this allows you to do some more alerting
+
+44
+00:01:46.180 --> 00:01:48.620
+and some more eventing on top of your RDS database,
+
+45
+00:01:48.620 --> 00:01:51.450
+based, this time, not on the database events,
+
+46
+00:01:51.450 --> 00:01:53.830
+but on the logs themselves.
+
+47
+00:01:53.830 --> 00:01:54.990
+So now let's go see, in the consoles,
+
+48
+00:01:54.990 --> 00:01:56.253
+how we can set things up.
+
+49
+00:01:57.130 --> 00:01:59.520
+So here you have, on the left-hand side,
+
+50
+00:01:59.520 --> 00:02:01.460
+the Events tab, and in the events,
+
+51
+00:02:01.460 --> 00:02:03.340
+you can see all the events that happened
+
+52
+00:02:03.340 --> 00:02:04.173
+within your account.
+
+53
+00:02:04.173 --> 00:02:06.940
+So I think you get 24 hours of data within the console.
+
+54
+00:02:06.940 --> 00:02:08.410
+And so the idea is that, you can see,
+
+55
+00:02:08.410 --> 00:02:10.850
+for example, that I created a database here.
+
+56
+00:02:10.850 --> 00:02:14.040
+Then some things were changed, a backup was initiated.
+
+57
+00:02:14.040 --> 00:02:17.660
+Then I deleted this database, and then I created a new one.
+
+58
+00:02:17.660 --> 00:02:20.190
+And so you can see all the messages right here.
+
+59
+00:02:20.190 --> 00:02:23.100
+So it could be instance-related type of events
+
+60
+00:02:23.100 --> 00:02:24.960
+or snapshots-related type of events,
+
+61
+00:02:24.960 --> 00:02:27.290
+or it could be security group or a parameter group.
+
+62
+00:02:27.290 --> 00:02:29.490
+And you can see the message of all these events right here.
+
+63
+00:02:29.490 --> 00:02:31.210
+So here, this is cool, because you see a log
+
+64
+00:02:31.210 --> 00:02:34.500
+of all the events that happened within the RDS databases,
+
+65
+00:02:34.500 --> 00:02:37.140
+and you can set up your event subscriptions.
+
+66
+00:02:37.140 --> 00:02:38.290
+You can create one.
+
+67
+00:02:38.290 --> 00:02:41.520
+Interesting, okay, I'll do a demo subscription.
+
+68
+00:02:41.520 --> 00:02:45.720
+And you could have a new topic to create,
+
+69
+00:02:45.720 --> 00:02:48.410
+or you can set up your own ARN topic
+
+70
+00:02:48.410 --> 00:02:50.470
+to send to, your notifications.
+
+71
+00:02:50.470 --> 00:02:52.380
+And then the source of these events.
+
+72
+00:02:52.380 --> 00:02:54.430
+So it could be your instances,
+
+73
+00:02:54.430 --> 00:02:56.570
+and you could say, okay, all instances,
+
+74
+00:02:56.570 --> 00:03:00.990
+or some instances only, and all event categories
+
+75
+00:03:00.990 --> 00:03:03.140
+or specific range of categories,
+
+76
+00:03:03.140 --> 00:03:06.310
+and you can be alerted based on all these ranges.
+
+77
+00:03:06.310 --> 00:03:07.200
+So it's quite handy.
+
+78
+00:03:07.200 --> 00:03:08.960
+And you could have instances, security group,
+
+79
+00:03:08.960 --> 00:03:10.350
+parameter groups, snapshot, cluster,
+
+80
+00:03:10.350 --> 00:03:12.680
+cluster snapshots, and custom engine version
+
+81
+00:03:12.680 --> 00:03:14.850
+as a source type of your event subscription.
+
+82
+00:03:14.850 --> 00:03:16.900
+So you can get very, very creative.
+
+83
+00:03:16.900 --> 00:03:20.010
+And the destination of that is going to be an SNS topic.
+
+84
+00:03:20.010 --> 00:03:22.600
+And alternately, you could go into CloudWatch Events
+
+85
+00:03:22.600 --> 00:03:26.563
+or EventBridge and set up your own events there, as well.
+
+86
+00:03:28.010 --> 00:03:30.480
+So if I go into my database, I can have a look
+
+87
+00:03:30.480 --> 00:03:33.030
+at the Logs &amp; Events page.
+
+88
+00:03:33.030 --> 00:03:34.650
+And so we can see CloudWatch alarms related
+
+89
+00:03:34.650 --> 00:03:38.010
+to my database, recent events from a database,
+
+90
+00:03:38.010 --> 00:03:39.700
+and logs, and here we can have a look
+
+91
+00:03:39.700 --> 00:03:41.510
+at the logs available to us.
+
+92
+00:03:41.510 --> 00:03:44.100
+So we have the mysql-error-running.log,
+
+93
+00:03:44.100 --> 00:03:46.280
+the mysqlUpgrade log, and you can view,
+
+94
+00:03:46.280 --> 00:03:47.140
+watch, or download.
+
+95
+00:03:47.140 --> 00:03:49.310
+So you can view this one, for example,
+
+96
+00:03:49.310 --> 00:03:51.520
+and we get some information around what happened.
+
+97
+00:03:51.520 --> 00:03:52.690
+And we can refresh this,
+
+98
+00:03:52.690 --> 00:03:56.700
+and this will display approximately 1,000 lines of this log.
+
+99
+00:03:56.700 --> 00:03:58.500
+And if you wanted to send these logs
+
+100
+00:03:58.500 --> 00:04:00.430
+into CloudWatch Logs for analysis
+
+101
+00:04:00.430 --> 00:04:02.170
+and to create some metrics filter,
+
+102
+00:04:02.170 --> 00:04:05.020
+what you could do is that you could modify the database,
+
+103
+00:04:05.020 --> 00:04:06.750
+and here you can modify the settings.
+
+104
+00:04:06.750 --> 00:04:09.970
+Now we have to find the log-related settings.
+
+105
+00:04:09.970 --> 00:04:12.130
+So I will go ahead and scroll down,
+
+106
+00:04:12.130 --> 00:04:13.660
+when this is available.
+
+107
+00:04:13.660 --> 00:04:15.640
+So here we go.
+
+108
+00:04:15.640 --> 00:04:18.360
+And under additional configuration, right here,
+
+109
+00:04:18.360 --> 00:04:22.850
+I scroll down and I see that there is a logs export option.
+
+110
+00:04:22.850 --> 00:04:25.550
+So I can export the audit, error, general log,
+
+111
+00:04:25.550 --> 00:04:26.950
+and slow query logs.
+
+112
+00:04:26.950 --> 00:04:29.020
+And if I enable this, then this is going to publish
+
+113
+00:04:29.020 --> 00:04:32.450
+those automatically to CloudWatch Logs.
+
+114
+00:04:32.450 --> 00:04:34.160
+And then you could set up your own metrics
+
+115
+00:04:34.160 --> 00:04:37.090
+on top of those to do some alerting based
+
+116
+00:04:37.090 --> 00:04:39.080
+on some keywords, or whatever you wanna find,
+
+117
+00:04:39.080 --> 00:04:40.860
+or some analytics.
+
+118
+00:04:40.860 --> 00:04:43.780
+So that's it for the RDS Events and logging.
+
+119
+00:04:43.780 --> 00:04:46.780
+I hope you liked it, and I will see you in the next lecture.
+

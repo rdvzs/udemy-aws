@@ -1,0 +1,634 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:01.950
+<v Lecturer>Now let's talk about CloudFront.</v>
+
+2
+00:00:01.950 --> 00:00:04.950
+CloudFront is a content delivery network or CDN.
+
+3
+00:00:04.950 --> 00:00:07.020
+So anytime you see CDN in the exam,
+
+4
+00:00:07.020 --> 00:00:08.580
+think CloudFront.
+
+5
+00:00:08.580 --> 00:00:10.380
+It improves the read performance
+
+6
+00:00:10.380 --> 00:00:12.900
+by caching the content of your website
+
+7
+00:00:12.900 --> 00:00:15.030
+at the different edge locations.
+
+8
+00:00:15.030 --> 00:00:16.920
+And because your content is cached
+
+9
+00:00:16.920 --> 00:00:18.060
+all around the world,
+
+10
+00:00:18.060 --> 00:00:19.620
+then your users all around the world
+
+11
+00:00:19.620 --> 00:00:21.120
+will have a lower latency
+
+12
+00:00:21.120 --> 00:00:23.700
+and this will improve the user experience.
+
+13
+00:00:23.700 --> 00:00:25.860
+CloudFront is made of hundreds of points
+
+14
+00:00:25.860 --> 00:00:27.180
+of presence globally
+
+15
+00:00:27.180 --> 00:00:28.980
+and that includes edge locations
+
+16
+00:00:28.980 --> 00:00:31.320
+and caches across the world.
+
+17
+00:00:31.320 --> 00:00:32.250
+On top of it,
+
+18
+00:00:32.250 --> 00:00:34.770
+by having the content distributed globally,
+
+19
+00:00:34.770 --> 00:00:36.870
+we are getting DDoS protection.
+
+20
+00:00:36.870 --> 00:00:38.970
+So DDoS is a sort of attack where
+
+21
+00:00:38.970 --> 00:00:40.350
+all your servers around the world
+
+22
+00:00:40.350 --> 00:00:41.580
+are getting attacked at the same time.
+
+23
+00:00:41.580 --> 00:00:43.470
+We'll see this later on in this course.
+
+24
+00:00:43.470 --> 00:00:44.580
+And the idea is that CloudFront,
+
+25
+00:00:44.580 --> 00:00:46.710
+because your application is worldwide,
+
+26
+00:00:46.710 --> 00:00:48.630
+then you're protected against these attacks
+
+27
+00:00:48.630 --> 00:00:50.490
+also using something called Shield
+
+28
+00:00:50.490 --> 00:00:52.140
+and Web Application Firewall
+
+29
+00:00:52.140 --> 00:00:54.570
+that we will be seeing in the security section.
+
+30
+00:00:54.570 --> 00:00:57.270
+So if you wanna look at a map of the world,
+
+31
+00:00:57.270 --> 00:01:00.330
+these are the map and we see some edge locations
+
+32
+00:01:00.330 --> 00:01:01.800
+as well at edge caches.
+
+33
+00:01:01.800 --> 00:01:03.870
+And so say we had created an S3 bucket
+
+34
+00:01:03.870 --> 00:01:06.927
+and a website on our S3 bucket in Australia,
+
+35
+00:01:06.927 --> 00:01:09.660
+but we had a user maybe in America.
+
+36
+00:01:09.660 --> 00:01:10.920
+Then what the user will do is
+
+37
+00:01:10.920 --> 00:01:12.570
+that it will request the content
+
+38
+00:01:12.570 --> 00:01:15.450
+from an American edge location using CloudFront
+
+39
+00:01:15.450 --> 00:01:17.490
+and CloudFront will be able to fetch the content
+
+40
+00:01:17.490 --> 00:01:18.720
+from Australia.
+
+41
+00:01:18.720 --> 00:01:20.400
+Now, if another user in the US
+
+42
+00:01:20.400 --> 00:01:22.230
+will be requesting the same content,
+
+43
+00:01:22.230 --> 00:01:24.270
+then it will be served directly from the edge
+
+44
+00:01:24.270 --> 00:01:25.920
+and it will not go all the way to Australia
+
+45
+00:01:25.920 --> 00:01:27.270
+to serve that content.
+
+46
+00:01:27.270 --> 00:01:29.220
+Same if a user is in China,
+
+47
+00:01:29.220 --> 00:01:30.053
+then it'll be talking
+
+48
+00:01:30.053 --> 00:01:32.130
+to a Chinese point of presence
+
+49
+00:01:32.130 --> 00:01:34.620
+and then redirected to the S3 buckets,
+
+50
+00:01:34.620 --> 00:01:37.620
+and then the content will be cached at the edge.
+
+51
+00:01:37.620 --> 00:01:39.690
+CloudFront has several types of origins,
+
+52
+00:01:39.690 --> 00:01:41.490
+which are basically backends you want
+
+53
+00:01:41.490 --> 00:01:43.140
+to connect CloudFront to.
+
+54
+00:01:43.140 --> 00:01:45.000
+So we have Amazon S3 buckets
+
+55
+00:01:45.000 --> 00:01:46.440
+for distributing files
+
+56
+00:01:46.440 --> 00:01:48.990
+and caching them at the edge.
+
+57
+00:01:48.990 --> 00:01:51.510
+And also for the other way to upload files
+
+58
+00:01:51.510 --> 00:01:54.750
+to Amazon S3 directly through CloudFront.
+
+59
+00:01:54.750 --> 00:01:56.430
+And the connection between CloudFront
+
+60
+00:01:56.430 --> 00:01:57.900
+and your S3 bucket is secured
+
+61
+00:01:57.900 --> 00:01:59.400
+using something called an OAC,
+
+62
+00:01:59.400 --> 00:02:01.530
+an Origin Access Control.
+
+63
+00:02:01.530 --> 00:02:03.210
+You can also have a VPC origin.
+
+64
+00:02:03.210 --> 00:02:05.700
+So this is if you have an application hosted
+
+65
+00:02:05.700 --> 00:02:09.030
+in a private subnets, in a VPC, then for example,
+
+66
+00:02:09.030 --> 00:02:10.500
+it could be an Application Balancer,
+
+67
+00:02:10.500 --> 00:02:12.840
+a Network Load Balancer, an EC2 Instance.
+
+68
+00:02:12.840 --> 00:02:16.110
+You can connect CloudFront directly to them privately.
+
+69
+00:02:16.110 --> 00:02:18.330
+You can also have any custom origin.
+
+70
+00:02:18.330 --> 00:02:19.950
+So anything that uses HTTP
+
+71
+00:02:19.950 --> 00:02:21.750
+can be used in the backend.
+
+72
+00:02:21.750 --> 00:02:23.340
+For example, it could be a website
+
+73
+00:02:23.340 --> 00:02:24.840
+hosted on Amazon S3.
+
+74
+00:02:24.840 --> 00:02:26.940
+And first we must make sure that the S3 bucket
+
+75
+00:02:26.940 --> 00:02:29.880
+is enabled as a static S3 website
+
+76
+00:02:29.880 --> 00:02:33.090
+or any public HTTP backend you want
+
+77
+00:02:33.090 --> 00:02:37.020
+within or outside of AWS.
+
+78
+00:02:37.020 --> 00:02:39.060
+So at a high level, how does CloudFront work?
+
+79
+00:02:39.060 --> 00:02:40.680
+We have the edge location
+
+80
+00:02:40.680 --> 00:02:42.150
+all around the world, okay?
+
+81
+00:02:42.150 --> 00:02:44.400
+And then it will be connecting to your origin.
+
+82
+00:02:44.400 --> 00:02:48.180
+So would it be an S3 bucket or an HGTP server?
+
+83
+00:02:48.180 --> 00:02:49.770
+And when the client connects
+
+84
+00:02:49.770 --> 00:02:53.400
+and does an HTTP request into your edge location,
+
+85
+00:02:53.400 --> 00:02:56.760
+then the edge location will see if
+
+86
+00:02:56.760 --> 00:02:58.140
+it has it in the cache.
+
+87
+00:02:58.140 --> 00:02:59.790
+If it doesn't have it in the cache,
+
+88
+00:02:59.790 --> 00:03:01.680
+then it will go to the origin
+
+89
+00:03:01.680 --> 00:03:03.660
+to get the request results.
+
+90
+00:03:03.660 --> 00:03:05.460
+And then once it retrieves the results,
+
+91
+00:03:05.460 --> 00:03:07.680
+it will be caching it into a local cache so
+
+92
+00:03:07.680 --> 00:03:10.140
+that if another client requests the same content
+
+93
+00:03:10.140 --> 00:03:11.790
+from the same edge location,
+
+94
+00:03:11.790 --> 00:03:13.230
+then the edge location does not need
+
+95
+00:03:13.230 --> 00:03:15.420
+to go to the origin.
+
+96
+00:03:15.420 --> 00:03:17.490
+So if we have S3 as an origin,
+
+97
+00:03:17.490 --> 00:03:18.780
+then if you look at the cloud,
+
+98
+00:03:18.780 --> 00:03:21.450
+your S3 bucket is your origin in some region,
+
+99
+00:03:21.450 --> 00:03:22.560
+and then you have edge locations
+
+100
+00:03:22.560 --> 00:03:23.393
+all around the world,
+
+101
+00:03:23.393 --> 00:03:25.620
+for example, at Los Angeles.
+
+102
+00:03:25.620 --> 00:03:27.720
+And your users accessing the edge location
+
+103
+00:03:27.720 --> 00:03:30.090
+in Los Angeles will get their content
+
+104
+00:03:30.090 --> 00:03:32.550
+directly served through the edge location.
+
+105
+00:03:32.550 --> 00:03:34.380
+But first the edge location will get it
+
+106
+00:03:34.380 --> 00:03:36.300
+from the origin S3 bucket
+
+107
+00:03:36.300 --> 00:03:38.250
+through the private network.
+
+108
+00:03:38.250 --> 00:03:39.990
+And the S3 bucket will be secured
+
+109
+00:03:39.990 --> 00:03:41.910
+using an origin access control.
+
+110
+00:03:41.910 --> 00:03:44.160
+And by modifying the S3 bucket policy
+
+111
+00:03:44.160 --> 00:03:45.840
+on the S3 bucket.
+
+112
+00:03:45.840 --> 00:03:48.240
+So this is the same when we have a user
+
+113
+00:03:48.240 --> 00:03:50.370
+in Sao Paulo, for example, in Brazil.
+
+114
+00:03:50.370 --> 00:03:53.070
+Again, this will be another edge location,
+
+115
+00:03:53.070 --> 00:03:55.800
+which will be serving users close to Brazil,
+
+116
+00:03:55.800 --> 00:03:57.780
+and then it will be a private connection
+
+117
+00:03:57.780 --> 00:04:00.690
+between your edge location and your S3 bucket
+
+118
+00:04:00.690 --> 00:04:01.710
+and so on.
+
+119
+00:04:01.710 --> 00:04:03.960
+So using CloudFront and the edge locations,
+
+120
+00:04:03.960 --> 00:04:05.580
+we can see that the content
+
+121
+00:04:05.580 --> 00:04:07.560
+of our S3 bucket in one region
+
+122
+00:04:07.560 --> 00:04:10.020
+can be distributed all around the world
+
+123
+00:04:10.020 --> 00:04:13.260
+through the edge locations or points of presence.
+
+124
+00:04:13.260 --> 00:04:14.760
+So one question that's common is
+
+125
+00:04:14.760 --> 00:04:16.500
+what is the difference between CloudFront
+
+126
+00:04:16.500 --> 00:04:18.720
+and something like S3 Replication?
+
+127
+00:04:18.720 --> 00:04:19.950
+Well, if you have CloudFront,
+
+128
+00:04:19.950 --> 00:04:21.720
+you're using the Global Edge network.
+
+129
+00:04:21.720 --> 00:04:24.900
+So this is about 216 points of presence
+
+130
+00:04:24.900 --> 00:04:27.030
+and the files that are going to be cached
+
+131
+00:04:27.030 --> 00:04:29.580
+in each edge location maybe for a day.
+
+132
+00:04:29.580 --> 00:04:31.830
+So this is amazing if you have static content
+
+133
+00:04:31.830 --> 00:04:34.020
+that must be able to be available
+
+134
+00:04:34.020 --> 00:04:36.030
+everywhere around the world.
+
+135
+00:04:36.030 --> 00:04:38.250
+S3 Cross Region Replication is different.
+
+136
+00:04:38.250 --> 00:04:39.870
+It must be set up for each region
+
+137
+00:04:39.870 --> 00:04:41.220
+you want replication to happen.
+
+138
+00:04:41.220 --> 00:04:43.530
+So this is not for every region in the world.
+
+139
+00:04:43.530 --> 00:04:45.210
+And then files are going to be updated
+
+140
+00:04:45.210 --> 00:04:46.043
+in near real time.
+
+141
+00:04:46.043 --> 00:04:47.730
+So there's no caching that happens.
+
+142
+00:04:47.730 --> 00:04:49.530
+And it is only for read only.
+
+143
+00:04:49.530 --> 00:04:51.930
+And so this is great if you have dynamic content
+
+144
+00:04:51.930 --> 00:04:53.160
+that needs to change all the time
+
+145
+00:04:53.160 --> 00:04:54.930
+and be available at low latency
+
+146
+00:04:54.930 --> 00:04:56.400
+in a few regions.
+
+147
+00:04:56.400 --> 00:04:58.080
+So these serve very different purposes.
+
+148
+00:04:58.080 --> 00:05:00.270
+CloudFront is a CDN,
+
+149
+00:05:00.270 --> 00:05:02.970
+which is to cache content all around the world,
+
+150
+00:05:02.970 --> 00:05:05.280
+whereas S3 Cross Region Replication is
+
+151
+00:05:05.280 --> 00:05:07.020
+to really replicate an entire bucket
+
+152
+00:05:07.020 --> 00:05:08.670
+into another region.
+
+153
+00:05:08.670 --> 00:05:10.220
+So hopefully that makes sense about CloudFront.
+
+154
+00:05:10.220 --> 00:05:12.000
+In the next lecture we'll have a play
+
+155
+00:05:12.000 --> 00:05:13.020
+and see how we can set up
+
+156
+00:05:13.020 --> 00:05:15.150
+a CloudFront distribution on the cloud
+
+157
+00:05:15.150 --> 00:05:16.230
+for an S3 bucket.
+
+158
+00:05:16.230 --> 00:05:18.080
+So we'll see you in the next lecture.
+

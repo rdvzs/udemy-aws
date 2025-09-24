@@ -1,0 +1,394 @@
+WEBVTT
+
+1
+00:00:00.190 --> 00:00:02.300
+<v Instructor>Okay, so one operation you need to know about</v>
+
+2
+00:00:02.300 --> 00:00:04.650
+is how to change the EC2 instance type.
+
+3
+00:00:04.650 --> 00:00:05.483
+So for example,
+
+4
+00:00:05.483 --> 00:00:08.230
+you want to go from a t2.micro to a t2.small,
+
+5
+00:00:08.230 --> 00:00:10.710
+maybe because you need more RAM
+
+6
+00:00:10.710 --> 00:00:12.620
+and more CPU for your application.
+
+7
+00:00:12.620 --> 00:00:14.260
+So this only works if your instance
+
+8
+00:00:14.260 --> 00:00:15.909
+is an EBS backed instance.
+
+9
+00:00:15.909 --> 00:00:17.987
+So the steps are to stop the instance,
+
+10
+00:00:17.987 --> 00:00:19.680
+then change the instance type,
+
+11
+00:00:19.680 --> 00:00:21.713
+and then start the instance again.
+
+12
+00:00:22.700 --> 00:00:24.680
+So let's connect to our instance,
+
+13
+00:00:24.680 --> 00:00:27.460
+and first we're going to create a file on it.
+
+14
+00:00:27.460 --> 00:00:30.000
+And then also look at the available memory.
+
+15
+00:00:30.000 --> 00:00:32.480
+So if I do echo "hello" into a text file
+
+16
+00:00:32.480 --> 00:00:34.500
+called hello.txt,
+
+17
+00:00:34.500 --> 00:00:36.560
+as we can see now we have that hello.txt
+
+18
+00:00:36.560 --> 00:00:38.050
+file available to us
+
+19
+00:00:38.050 --> 00:00:40.760
+and within it says the word hello. Okay.
+
+20
+00:00:40.760 --> 00:00:42.840
+If we do free minus m the screen to give us some
+
+21
+00:00:42.840 --> 00:00:45.340
+information around the memory, on our instance,
+
+22
+00:00:45.340 --> 00:00:50.340
+as we can see, we have 993 megs of memory, okay,
+
+23
+00:00:50.340 --> 00:00:52.900
+now let's close this
+
+24
+00:00:52.900 --> 00:00:55.768
+or I'll keep it in this app just to compare.
+
+25
+00:00:55.768 --> 00:00:57.218
+And I'm going to cancel this.
+
+26
+00:00:57.218 --> 00:00:59.130
+And I want to change the instance type
+
+27
+00:00:59.130 --> 00:01:01.030
+from micro to t2.small.
+
+28
+00:01:01.030 --> 00:01:03.548
+So to do so I'm going to stop my instance.
+
+29
+00:01:03.548 --> 00:01:05.840
+And once the instance has stopped,
+
+30
+00:01:05.840 --> 00:01:07.812
+I will be able to change its type.
+
+31
+00:01:07.812 --> 00:01:10.014
+So my instance is now stopped.
+
+32
+00:01:10.014 --> 00:01:13.700
+And what I can do is right click instance settings,
+
+33
+00:01:13.700 --> 00:01:15.840
+and then change instance type.
+
+34
+00:01:15.840 --> 00:01:18.020
+So you can see, we have a t2.micro right now,
+
+35
+00:01:18.020 --> 00:01:20.050
+but we can upgrade to a t2.small, for example,
+
+36
+00:01:20.050 --> 00:01:22.950
+if only to increase the size vertically
+
+37
+00:01:22.950 --> 00:01:24.980
+or to go to to go t2.nano
+
+38
+00:01:24.980 --> 00:01:27.350
+to go down. Okay.
+
+39
+00:01:27.350 --> 00:01:28.183
+But as we can see,
+
+40
+00:01:28.183 --> 00:01:30.620
+we can also choose any kind of a gap instance.
+
+41
+00:01:30.620 --> 00:01:31.453
+For example,
+
+42
+00:01:31.453 --> 00:01:35.280
+we can go into an r5dn.4xlarge,
+
+43
+00:01:35.280 --> 00:01:38.080
+and based on the instance type you choose, as you can see,
+
+44
+00:01:38.080 --> 00:01:40.330
+you get either an EBS-optimized instance,
+
+45
+00:01:40.330 --> 00:01:41.742
+which is enabled by default,
+
+46
+00:01:41.742 --> 00:01:44.503
+or if we go in and stay in the t2 range, for example,
+
+47
+00:01:44.503 --> 00:01:48.180
+t2.small, EBS-optimized is not supportive for this instance.
+
+48
+00:01:48.180 --> 00:01:50.980
+So EBS-optimized means that you are going to have better
+
+49
+00:01:50.980 --> 00:01:52.840
+throughput to your EBS volumes.
+
+50
+00:01:52.840 --> 00:01:56.120
+And this is available to newer type generations type of
+
+51
+00:01:56.120 --> 00:01:57.000
+EC2 instances.
+
+52
+00:01:57.000 --> 00:01:58.540
+For example, a t3
+
+53
+00:01:58.540 --> 00:02:02.000
+will have an EBS optimized type of instance. Okay?
+
+54
+00:02:02.000 --> 00:02:04.340
+So in this example, I'll just keep it as a t2.small.
+
+55
+00:02:04.340 --> 00:02:05.480
+Please know that if you do this,
+
+56
+00:02:05.480 --> 00:02:08.120
+then you're going to get the charges because the t2.small is
+
+57
+00:02:08.120 --> 00:02:09.479
+not part of the free tier,
+
+58
+00:02:09.479 --> 00:02:11.221
+so I will just apply it.
+
+59
+00:02:11.221 --> 00:02:14.251
+And now my instance type is t2.small.
+
+60
+00:02:14.251 --> 00:02:16.186
+Now, when I start my instance, okay,
+
+61
+00:02:16.186 --> 00:02:17.530
+and I'm going to start it,
+
+62
+00:02:17.530 --> 00:02:19.520
+what's going to happen is that's my EC2 instance.
+
+63
+00:02:19.520 --> 00:02:21.520
+When you stop and start an instance,
+
+64
+00:02:21.520 --> 00:02:24.213
+is going to be restarted on another physical
+
+65
+00:02:24.213 --> 00:02:26.597
+host within the AWS data center.
+
+66
+00:02:26.597 --> 00:02:28.300
+So that means that yes,
+
+67
+00:02:28.300 --> 00:02:30.446
+the instance will change its hardware. Okay.
+
+68
+00:02:30.446 --> 00:02:33.430
+But because the storage is EBS based,
+
+69
+00:02:33.430 --> 00:02:36.390
+this is a block device as an EBS volume,
+
+70
+00:02:36.390 --> 00:02:38.250
+then the data will remain the same.
+
+71
+00:02:38.250 --> 00:02:40.109
+And I will show you this in a second.
+
+72
+00:02:40.109 --> 00:02:43.060
+So I want to do is to wait for the instance to be running.
+
+73
+00:02:43.060 --> 00:02:45.390
+And here we go. And we want to yet, again,
+
+74
+00:02:45.390 --> 00:02:47.690
+connect to our instance.
+
+75
+00:02:47.690 --> 00:02:48.920
+So in this example,
+
+76
+00:02:48.920 --> 00:02:50.790
+I'm going to connect again, using the,
+
+77
+00:02:50.790 --> 00:02:53.430
+EC2 connect instance connect.
+
+78
+00:02:53.430 --> 00:02:55.980
+So let's try because probably instance is rebooting
+
+79
+00:02:58.580 --> 00:02:59.950
+and I am back in my the instance.
+
+80
+00:02:59.950 --> 00:03:02.640
+So we know that there's the same instance,
+
+81
+00:03:02.640 --> 00:03:06.200
+because if we look at the files we have hello world.txt,
+
+82
+00:03:06.200 --> 00:03:07.280
+hello.txt.
+
+83
+00:03:07.280 --> 00:03:09.510
+And if we look within it, we have the word hello.
+
+84
+00:03:09.510 --> 00:03:12.450
+So that means that our file system is the same,
+
+85
+00:03:12.450 --> 00:03:14.878
+but if you do free -m to look at some memory,
+
+86
+00:03:14.878 --> 00:03:19.878
+we can see that now we have 1,991 megabytes of Ram available
+
+87
+00:03:20.150 --> 00:03:21.040
+on this instance,
+
+88
+00:03:21.040 --> 00:03:23.370
+which is different from what we had from before. Okay.
+
+89
+00:03:23.370 --> 00:03:28.020
+So this is the whole power of using this resize
+
+90
+00:03:28.020 --> 00:03:28.853
+of the instance.
+
+91
+00:03:28.853 --> 00:03:30.280
+Now, just to close this off,
+
+92
+00:03:30.280 --> 00:03:31.591
+please stop your instance
+
+93
+00:03:31.591 --> 00:03:33.010
+and make sure you go back to your
+
+94
+00:03:33.010 --> 00:03:35.490
+t2.micro for the reason that you want to remain
+
+95
+00:03:35.490 --> 00:03:36.590
+within the free tier.
+
+96
+00:03:36.590 --> 00:03:37.582
+So to (indistinct) end the lecture,
+
+97
+00:03:37.582 --> 00:03:38.415
+I hope you liked it.
+
+98
+00:03:38.415 --> 00:03:40.000
+And I will see you in the next lecture.
+

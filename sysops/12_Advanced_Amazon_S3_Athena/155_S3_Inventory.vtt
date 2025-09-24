@@ -1,0 +1,610 @@
+WEBVTT
+
+1
+00:00:00.330 --> 00:00:02.400
+<v Instructor>So let's have a look at S3 Inventory.</v>
+
+2
+00:00:02.400 --> 00:00:05.130
+So the idea is that using an S3 Inventory operation,
+
+3
+00:00:05.130 --> 00:00:06.720
+you can list all the objects
+
+4
+00:00:06.720 --> 00:00:09.870
+as well as their corresponding metadata in your S3 bucket,
+
+5
+00:00:09.870 --> 00:00:13.680
+which is a better way than using an S3 list API operation
+
+6
+00:00:13.680 --> 00:00:14.580
+to list all your objects
+
+7
+00:00:14.580 --> 00:00:17.220
+and get all the associated metadata.
+
+8
+00:00:17.220 --> 00:00:18.300
+So some usage example
+
+9
+00:00:18.300 --> 00:00:21.000
+for S3 inventory include creating an audit
+
+10
+00:00:21.000 --> 00:00:22.950
+and reports on the replication
+
+11
+00:00:22.950 --> 00:00:24.690
+and the encryption status of all your objects.
+
+12
+00:00:24.690 --> 00:00:25.920
+So using this for example,
+
+13
+00:00:25.920 --> 00:00:29.280
+you can identify which objects are not encrypted.
+
+14
+00:00:29.280 --> 00:00:32.430
+You can get the number of objects in an S3 bucket,
+
+15
+00:00:32.430 --> 00:00:34.770
+or you can identify the total storage
+
+16
+00:00:34.770 --> 00:00:37.680
+of all the previous object versions of your bucket
+
+17
+00:00:37.680 --> 00:00:40.860
+because S3 Inventory can list all object versions.
+
+18
+00:00:40.860 --> 00:00:44.190
+So the output files is CSV, ORC or Apache Parquet,
+
+19
+00:00:44.190 --> 00:00:47.670
+and this inventory can be generated on a daily
+
+20
+00:00:47.670 --> 00:00:49.380
+or weekly basis.
+
+21
+00:00:49.380 --> 00:00:50.670
+All the data can be queried,
+
+22
+00:00:50.670 --> 00:00:52.323
+then using the famous tools you have in AWS
+
+23
+00:00:52.323 --> 00:00:55.590
+such as Amazon Athena, Redshift, Presto, Hive
+
+24
+00:00:55.590 --> 00:00:58.740
+and Spark, including that Presto, Hive
+
+25
+00:00:58.740 --> 00:01:02.580
+and Spark are not within AWS, it can be from outside.
+
+26
+00:01:02.580 --> 00:01:04.590
+And the use cases for inventory is going
+
+27
+00:01:04.590 --> 00:01:08.010
+to be business compliance and regulatory needs.
+
+28
+00:01:08.010 --> 00:01:10.500
+So let's go in the hands-on to see how it works.
+
+29
+00:01:10.500 --> 00:01:12.660
+So let's set up S3 inventory.
+
+30
+00:01:12.660 --> 00:01:14.790
+And for this I'm going to create a bucket
+
+31
+00:01:14.790 --> 00:01:19.740
+and the bucket name is going to inventory-stephane-demo,
+
+32
+00:01:19.740 --> 00:01:21.030
+something like this.
+
+33
+00:01:21.030 --> 00:01:24.783
+And then I will go ahead and just create this bucket.
+
+34
+00:01:25.890 --> 00:01:28.980
+So my bucket is not created and I can view the details.
+
+35
+00:01:28.980 --> 00:01:30.570
+And now I need to set up inventory
+
+36
+00:01:30.570 --> 00:01:32.580
+on another bucket of mine.
+
+37
+00:01:32.580 --> 00:01:33.810
+Then I picked one of my buckets,
+
+38
+00:01:33.810 --> 00:01:37.110
+so demo-stephane-s3-bucket-2020 which has some data in it,
+
+39
+00:01:37.110 --> 00:01:38.730
+so that's all that matters to me.
+
+40
+00:01:38.730 --> 00:01:42.420
+And I'm going to click on Management and then scroll down.
+
+41
+00:01:42.420 --> 00:01:45.120
+And at the very bottom I have Inventory configurations.
+
+42
+00:01:45.120 --> 00:01:47.430
+So I can create an inventory configuration right here,
+
+43
+00:01:47.430 --> 00:01:49.140
+I'll call it DemoInventory.
+
+44
+00:01:52.110 --> 00:01:53.760
+You can set up a prefix if you want to apply
+
+45
+00:01:53.760 --> 00:01:55.560
+to a second prefix, but we won't.
+
+46
+00:01:55.560 --> 00:01:57.630
+And this will include current version only,
+
+47
+00:01:57.630 --> 00:02:00.270
+but you can include all object versions if you wanted to.
+
+48
+00:02:00.270 --> 00:02:02.700
+And then the report detail should go in this account
+
+49
+00:02:02.700 --> 00:02:05.790
+and then you need to specify a destination for it.
+
+50
+00:02:05.790 --> 00:02:08.440
+So we can go into my s3
+
+51
+00:02:09.510 --> 00:02:11.790
+in s3-inventory-stephane-demo
+
+52
+00:02:11.790 --> 00:02:13.770
+which has just created before.
+
+53
+00:02:13.770 --> 00:02:15.810
+And then there is going to be a following statement
+
+54
+00:02:15.810 --> 00:02:18.810
+that will be added to the destination bucket policy
+
+55
+00:02:18.810 --> 00:02:21.030
+to allow Amazon S3 to place data in that bucket.
+
+56
+00:02:21.030 --> 00:02:24.180
+So here is the bucket policy that will be applied.
+
+57
+00:02:24.180 --> 00:02:27.060
+Then what do we want the frequency to be? So, daily.
+
+58
+00:02:27.060 --> 00:02:29.520
+And the first report will be delivered within 48 hours
+
+59
+00:02:29.520 --> 00:02:31.770
+or weekly as well as the the output format,
+
+60
+00:02:31.770 --> 00:02:34.410
+so CSV, ORC or Parquet
+
+61
+00:02:34.410 --> 00:02:37.020
+and CSV is the format you need to use,
+
+62
+00:02:37.020 --> 00:02:40.470
+if you plan to use S3 batch operations to,
+
+63
+00:02:40.470 --> 00:02:43.320
+or if you want to analyze the S3 inventory using Excel.
+
+64
+00:02:43.320 --> 00:02:45.780
+And if you use ORC and Parquet, then you can for example,
+
+65
+00:02:45.780 --> 00:02:49.530
+analyze it using a tool like Athena.
+
+66
+00:02:49.530 --> 00:02:53.640
+So this configuration is going to be enabled. Okay?
+
+67
+00:02:53.640 --> 00:02:55.020
+And we'll select CSV,
+
+68
+00:02:55.020 --> 00:02:56.460
+whether or not we want server that encryption,
+
+69
+00:02:56.460 --> 00:02:58.140
+so I can disable it for now.
+
+70
+00:02:58.140 --> 00:03:00.870
+And if you want additional fields for the reports,
+
+71
+00:03:00.870 --> 00:03:03.780
+you can have Size, Last modified, Storage class, ETag,
+
+72
+00:03:03.780 --> 00:03:05.130
+Multiple workload, Replication status,
+
+73
+00:03:05.130 --> 00:03:07.260
+Encryption, Bucket key status,
+
+74
+00:03:07.260 --> 00:03:09.120
+then whether or not they're Intelligent-tier
+
+75
+00:03:09.120 --> 00:03:12.240
+and the All Object Lock configurations.
+
+76
+00:03:12.240 --> 00:03:13.230
+So we're good to go.
+
+77
+00:03:13.230 --> 00:03:16.350
+So this bucket has not been found in the eu-west-1 region,
+
+78
+00:03:16.350 --> 00:03:19.410
+so I need to choose to recreate that buckets,
+
+79
+00:03:19.410 --> 00:03:22.140
+but in the same region that I'm in right now.
+
+80
+00:03:22.140 --> 00:03:23.700
+So let's go ahead and do this.
+
+81
+00:03:23.700 --> 00:03:26.130
+So I'll take this S3.
+
+82
+00:03:26.130 --> 00:03:28.330
+So this inventory buckets
+
+83
+00:03:29.610 --> 00:03:30.990
+and it's always good to have errors,
+
+84
+00:03:30.990 --> 00:03:32.580
+so that's why I always keep them on video.
+
+85
+00:03:32.580 --> 00:03:34.563
+So we'll delete it.
+
+86
+00:03:36.060 --> 00:03:37.830
+And as you can see, it shows that inventory has
+
+87
+00:03:37.830 --> 00:03:39.990
+to be done from within the same region.
+
+88
+00:03:39.990 --> 00:03:42.867
+So I will recreate this, but this time in eu-west-1
+
+89
+00:03:44.820 --> 00:03:46.170
+and then create my buckets.
+
+90
+00:03:47.640 --> 00:03:49.680
+And this is not going to work right now
+
+91
+00:03:49.680 --> 00:03:51.600
+because the old bucket is being deleted.
+
+92
+00:03:51.600 --> 00:03:55.650
+So let me pause for a second or I will just rename it,
+
+93
+00:03:55.650 --> 00:03:59.190
+demo-2, and this should work just fine.
+
+94
+00:03:59.190 --> 00:04:01.800
+My bucket is now created
+
+95
+00:04:01.800 --> 00:04:04.110
+and I will just add demo-2 in here
+
+96
+00:04:04.110 --> 00:04:05.610
+and we should be good to go.
+
+97
+00:04:05.610 --> 00:04:06.780
+Let's create this.
+
+98
+00:04:06.780 --> 00:04:09.420
+And now my inventory configuration is created.
+
+99
+00:04:09.420 --> 00:04:11.460
+So what I need to do now is to wait a little bit
+
+100
+00:04:11.460 --> 00:04:13.650
+for this inventory to be active.
+
+101
+00:04:13.650 --> 00:04:15.450
+And this could take up to 48 hours.
+
+102
+00:04:15.450 --> 00:04:17.493
+So I'll get back to you in 48 hours.
+
+103
+00:04:18.420 --> 00:04:22.080
+Okay, so I've left the inventory on for a few days now.
+
+104
+00:04:22.080 --> 00:04:23.760
+And if you go into the demo inventory bucket,
+
+105
+00:04:23.760 --> 00:04:27.240
+you can see that a folder has been created for every day.
+
+106
+00:04:27.240 --> 00:04:28.620
+So if I take any of these days,
+
+107
+00:04:28.620 --> 00:04:30.900
+as we can see, we get a manifest.checksum,
+
+108
+00:04:30.900 --> 00:04:32.277
+and a manifest.json.
+
+109
+00:04:32.277 --> 00:04:35.850
+And this contains metadata around the data itself.
+
+110
+00:04:35.850 --> 00:04:37.980
+So if we look at the manifest.json file
+
+111
+00:04:37.980 --> 00:04:41.100
+and we download it, that file manifest.json,
+
+112
+00:04:41.100 --> 00:04:42.570
+is going to show us the sourceBucket,
+
+113
+00:04:42.570 --> 00:04:43.920
+the destinationBucket,
+
+114
+00:04:43.920 --> 00:04:46.050
+the version of the manifest file,
+
+115
+00:04:46.050 --> 00:04:46.883
+the fileFormat,
+
+116
+00:04:46.883 --> 00:04:48.600
+which is CSV and the fileSchema.
+
+117
+00:04:48.600 --> 00:04:51.960
+So all the columns that are belonging into my CSV file,
+
+118
+00:04:51.960 --> 00:04:54.930
+as well as the files that correspond to this manifest.
+
+119
+00:04:54.930 --> 00:04:57.030
+As you can see, one file is in it.
+
+120
+00:04:57.030 --> 00:05:00.210
+This is this one right here, DemoInventory/data.
+
+121
+00:05:00.210 --> 00:05:04.290
+So DemoInventory/data, and then this key right here.
+
+122
+00:05:04.290 --> 00:05:06.663
+So let's go ahead and find that file right now.
+
+123
+00:05:07.530 --> 00:05:10.200
+So back in my folder, I go back to the DemoInventory
+
+124
+00:05:10.200 --> 00:05:12.690
+and then scroll down, find data.
+
+125
+00:05:12.690 --> 00:05:15.060
+And in here I have found all the files
+
+126
+00:05:15.060 --> 00:05:16.860
+that correspond to every single day.
+
+127
+00:05:16.860 --> 00:05:18.810
+So July 4th is this one.
+
+128
+00:05:18.810 --> 00:05:20.220
+So I will take this file,
+
+129
+00:05:20.220 --> 00:05:21.150
+but they should all be the same
+
+130
+00:05:21.150 --> 00:05:23.280
+because my bucket content has not changed.
+
+131
+00:05:23.280 --> 00:05:26.430
+And I'm going to save this file and extract it.
+
+132
+00:05:26.430 --> 00:05:29.190
+And so if we have a look at the content of the CSV file,
+
+133
+00:05:29.190 --> 00:05:32.790
+we can find the first column corresponds to the bucket name,
+
+134
+00:05:32.790 --> 00:05:36.480
+the second column corresponds to the files in it.
+
+135
+00:05:36.480 --> 00:05:39.120
+The third column is going to correspond
+
+136
+00:05:39.120 --> 00:05:41.460
+to a version ID of the files.
+
+137
+00:05:41.460 --> 00:05:43.590
+Then we get some true false information
+
+138
+00:05:43.590 --> 00:05:45.000
+around encryption, I guess,
+
+139
+00:05:45.000 --> 00:05:48.060
+some file size, dates and so on,
+
+140
+00:05:48.060 --> 00:05:50.310
+as well as the last column, which is going to be, sorry,
+
+141
+00:05:50.310 --> 00:05:53.700
+the type of encryption right here that we have, okay?
+
+142
+00:05:53.700 --> 00:05:56.580
+So this file contains really all the metadata
+
+143
+00:05:56.580 --> 00:05:58.290
+around all our S3 files,
+
+144
+00:05:58.290 --> 00:05:59.880
+which is very helpful if you wanna get a list
+
+145
+00:05:59.880 --> 00:06:02.530
+or if you want to get an encryption status and so on.
+
+146
+00:06:03.720 --> 00:06:05.130
+And when you're done with the hands-on,
+
+147
+00:06:05.130 --> 00:06:07.200
+please make sure to go to Management
+
+148
+00:06:07.200 --> 00:06:11.580
+and then to delete or disable this inventory configuration
+
+149
+00:06:11.580 --> 00:06:14.280
+because otherwise you will keep on running every single day.
+
+150
+00:06:14.280 --> 00:06:15.240
+So let's it for this lecture.
+
+151
+00:06:15.240 --> 00:06:16.110
+I hope you liked it
+
+152
+00:06:16.110 --> 00:06:18.123
+and I will see you in the next lecture.
+

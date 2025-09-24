@@ -1,0 +1,198 @@
+WEBVTT
+
+1
+00:00:00.500 --> 00:00:01.800
+<v Instructor>And so let's go to the</v>
+
+2
+00:00:01.800 --> 00:00:05.310
+Auto Scaling Service in AWS to you have a look at it.
+
+3
+00:00:05.310 --> 00:00:07.730
+So as you can see, there's a dedicated console
+
+4
+00:00:07.730 --> 00:00:09.372
+for the Auto Scaling itself.
+
+5
+00:00:09.372 --> 00:00:13.840
+So we can find scalable resources
+
+6
+00:00:13.840 --> 00:00:16.310
+by CloudFormation stack or by tags
+
+7
+00:00:16.310 --> 00:00:17.820
+or by Auto Scaling groups.
+
+8
+00:00:17.820 --> 00:00:20.462
+So as you can see, we can select the DemoASG right now,
+
+9
+00:00:20.462 --> 00:00:21.903
+and I click on next.
+
+10
+00:00:21.903 --> 00:00:25.042
+Then we need to specify a demo name,
+
+11
+00:00:25.042 --> 00:00:28.160
+so a name for this scaling plan, so DemoScalingPlan.
+
+12
+00:00:28.160 --> 00:00:30.950
+Then what do we want to optimize my ASG for?
+
+13
+00:00:30.950 --> 00:00:32.300
+So as you can see this is an alternative
+
+14
+00:00:32.300 --> 00:00:34.890
+to configuring scaling directly from here.
+
+15
+00:00:34.890 --> 00:00:38.380
+You can do scaling directly from the Auto Scaling UI,
+
+16
+00:00:38.380 --> 00:00:40.240
+so you can optimize for availability
+
+17
+00:00:41.540 --> 00:00:43.280
+to be stabilizing at 40%.
+
+18
+00:00:43.280 --> 00:00:45.890
+You can balance, optimize for cost or custom.
+
+19
+00:00:45.890 --> 00:00:48.610
+And in custom you can choose your own metric
+
+20
+00:00:48.610 --> 00:00:51.440
+as well as a target value, okay?
+
+21
+00:00:51.440 --> 00:00:52.330
+But let's say for example,
+
+22
+00:00:52.330 --> 00:00:54.800
+we want to optimize for availability.
+
+23
+00:00:54.800 --> 00:00:56.980
+Do we want on top of it to enable predictive scaling,
+
+24
+00:00:56.980 --> 00:00:57.813
+yes or no?
+
+25
+00:00:57.813 --> 00:01:00.150
+And dynamic scaling, yes or no, okay?
+
+26
+00:01:00.150 --> 00:01:03.170
+And then it will specify you the configuration details.
+
+27
+00:01:03.170 --> 00:01:05.730
+So here we are choosing CPU utilization
+
+28
+00:01:05.730 --> 00:01:07.560
+and have a target value of 40%.
+
+29
+00:01:07.560 --> 00:01:09.850
+And when you're done, you click on next,
+
+30
+00:01:09.850 --> 00:01:14.380
+then you can set up your DemoASG, okay?
+
+31
+00:01:14.380 --> 00:01:16.850
+And so we want to configure some advanced settings.
+
+32
+00:01:16.850 --> 00:01:20.350
+For example, we can set up all the settings here
+
+33
+00:01:20.350 --> 00:01:22.310
+to change their values if we wanted to.
+
+34
+00:01:22.310 --> 00:01:25.120
+Same for dynamic scaling and same for predictive scaling.
+
+35
+00:01:25.120 --> 00:01:26.350
+Then I'll click on next.
+
+36
+00:01:26.350 --> 00:01:29.370
+And then we review and we would create this scaling plan
+
+37
+00:01:29.370 --> 00:01:30.860
+and we'll be good to go.
+
+38
+00:01:30.860 --> 00:01:32.470
+So I'm not going to do it because it's going to create
+
+39
+00:01:32.470 --> 00:01:34.290
+the exact same thing that we had from before.
+
+40
+00:01:34.290 --> 00:01:37.950
+But as you can see from within the Auto Scaling UI,
+
+41
+00:01:37.950 --> 00:01:39.870
+you can not only configure Auto Scaling group,
+
+42
+00:01:39.870 --> 00:01:42.390
+but also if we had easier services
+
+43
+00:01:42.390 --> 00:01:44.400
+or if we DynamoDB tables and so on,
+
+44
+00:01:44.400 --> 00:01:47.540
+we could find them here and then set up an Auto Scaling plan
+
+45
+00:01:47.540 --> 00:01:49.900
+that will be appearing right here in these
+
+46
+00:01:49.900 --> 00:01:51.700
+Auto Scaling plans for you to have a central place
+
+47
+00:01:51.700 --> 00:01:53.040
+to manage them, okay?
+
+48
+00:01:53.040 --> 00:01:54.710
+So that's it for this lecture, I hope you liked it.
+
+49
+00:01:54.710 --> 00:01:56.660
+And I will see you in the next lecture.
+

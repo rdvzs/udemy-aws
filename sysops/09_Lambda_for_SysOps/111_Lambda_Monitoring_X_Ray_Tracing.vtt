@@ -1,0 +1,198 @@
+WEBVTT
+
+1
+00:00:00.110 --> 00:00:01.410
+<v Instructor>So now let's talk about</v>
+
+2
+00:00:01.410 --> 00:00:04.490
+how Lambda does logging, monitoring, and tracing.
+
+3
+00:00:04.490 --> 00:00:06.350
+So the first thing we know is that Lambda has
+
+4
+00:00:06.350 --> 00:00:08.000
+an integration with CloudWatch Logs
+
+5
+00:00:08.000 --> 00:00:10.930
+because all of the Lambda execution logs are
+
+6
+00:00:10.930 --> 00:00:13.020
+automatically stored in CloudWatch Logs.
+
+7
+00:00:13.020 --> 00:00:16.000
+If your Lambda function has an execution role
+
+8
+00:00:16.000 --> 00:00:18.310
+with the correct IAM policy that authorizes
+
+9
+00:00:18.310 --> 00:00:20.880
+your Lambda function to write to CloudWatch Logs,
+
+10
+00:00:20.880 --> 00:00:23.820
+and this is included in the Lambda basic execution role
+
+11
+00:00:23.820 --> 00:00:25.220
+as we've seen before.
+
+12
+00:00:25.220 --> 00:00:26.660
+Then we haven't seen this yet,
+
+13
+00:00:26.660 --> 00:00:28.035
+but there are CloudWatch metrics.
+
+14
+00:00:28.035 --> 00:00:31.280
+And so they are displayed in the CloudWatch Metrics UI
+
+15
+00:00:31.280 --> 00:00:32.640
+or the Lambda UI.
+
+16
+00:00:32.640 --> 00:00:34.913
+And they will represent information about
+
+17
+00:00:34.913 --> 00:00:38.017
+your invocations, duration, concurrent execution,
+
+18
+00:00:38.017 --> 00:00:39.870
+error counts, success rate,
+
+19
+00:00:39.870 --> 00:00:41.688
+throttles, Async delivery failures.
+
+20
+00:00:41.688 --> 00:00:43.264
+And if you are reading
+
+21
+00:00:43.264 --> 00:00:47.020
+from Kinesis or DynamoDB streams, your iterator age
+
+22
+00:00:47.020 --> 00:00:49.990
+which means how far you are into your,
+
+23
+00:00:49.990 --> 00:00:52.620
+how lagging you are into your reading of the streams.
+
+24
+00:00:52.620 --> 00:00:54.520
+So we'll have a look at those in a second.
+
+25
+00:00:54.520 --> 00:00:57.320
+And then finally you can do tracing
+
+26
+00:00:57.320 --> 00:00:59.430
+with x-ray in your Lambda function.
+
+27
+00:00:59.430 --> 00:01:00.520
+So it's super easy.
+
+28
+00:01:00.520 --> 00:01:02.210
+You just enable it in your Lambda
+
+29
+00:01:02.210 --> 00:01:04.220
+configuration, it's called active tracing.
+
+30
+00:01:04.220 --> 00:01:06.640
+It will run the x-ray daemon for you.
+
+31
+00:01:06.640 --> 00:01:08.660
+Now, the only thing you have to do is to use the
+
+32
+00:01:08.660 --> 00:01:10.238
+x-ray SDK in your code.
+
+33
+00:01:10.238 --> 00:01:12.200
+You need to ensure that you're Lambda function
+
+34
+00:01:12.200 --> 00:01:16.000
+has the correct IAM execution role to write into x-ray.
+
+35
+00:01:16.000 --> 00:01:17.659
+And so there is a managed policy called
+
+36
+00:01:17.659 --> 00:01:19.879
+AWS x-ray daemon write access.
+
+37
+00:01:19.879 --> 00:01:22.920
+And then the environment variables to communicate
+
+38
+00:01:22.920 --> 00:01:27.360
+with x-ray if you needed them are these three right here.
+
+39
+00:01:27.360 --> 00:01:28.680
+And so you just need to see them once.
+
+40
+00:01:28.680 --> 00:01:31.540
+I'm not going to read them out to you, but see them once.
+
+41
+00:01:31.540 --> 00:01:33.100
+And they can come up in the exam.
+
+42
+00:01:33.100 --> 00:01:35.180
+I think the most important one is the latest
+
+43
+00:01:35.180 --> 00:01:38.110
+which is AWS x-ray daemon address
+
+44
+00:01:38.110 --> 00:01:41.350
+which presents where the IP and the port of
+
+45
+00:01:41.350 --> 00:01:44.690
+the x-ray daemon is running regarding your Lambda function.
+
+46
+00:01:44.690 --> 00:01:47.430
+And these environment variables can be accessed the same way
+
+47
+00:01:47.430 --> 00:01:50.600
+as we've done before with other environment variables.
+
+48
+00:01:50.600 --> 00:01:51.700
+So that's it now lets go into
+
+49
+00:01:51.700 --> 00:01:53.450
+the hands-on to see how that works.
+

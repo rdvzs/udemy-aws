@@ -1,0 +1,250 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:01.260
+<v Instructor>Finally, you need to learn</v>
+
+2
+00:00:01.260 --> 00:00:03.660
+about CloudFormation capabilities.
+
+3
+00:00:03.660 --> 00:00:07.560
+So we have CAPABILITY_NAMED_IAM and CAPABILITY_IAM.
+
+4
+00:00:07.560 --> 00:00:11.700
+So they are capabilities you need to give to CloudFormation
+
+5
+00:00:11.700 --> 00:00:13.470
+whenever your CloudFormation template
+
+6
+00:00:13.470 --> 00:00:16.530
+is going to create or update IAM resources,
+
+7
+00:00:16.530 --> 00:00:18.450
+such as when you create a IAM user,
+
+8
+00:00:18.450 --> 00:00:21.240
+a role, a group, a policy, and so on,
+
+9
+00:00:21.240 --> 00:00:22.920
+through your CloudFormation templates.
+
+10
+00:00:22.920 --> 00:00:26.850
+So you specify NAMED_IAM if the resources are named,
+
+11
+00:00:26.850 --> 00:00:29.700
+otherwise, just CAPABILITY_IAM.
+
+12
+00:00:29.700 --> 00:00:30.630
+And the reason we do so
+
+13
+00:00:30.630 --> 00:00:33.600
+is that we want to explicitly acknowledge the fact
+
+14
+00:00:33.600 --> 00:00:37.650
+that CloudFormation is going to create IAM resources.
+
+15
+00:00:37.650 --> 00:00:39.570
+We have CAPABILITY_AUTO_EXPAND,
+
+16
+00:00:39.570 --> 00:00:41.100
+which is when your CloudFormation template
+
+17
+00:00:41.100 --> 00:00:43.620
+is including macro and nested stacks,
+
+18
+00:00:43.620 --> 00:00:45.000
+so stacks within stacks,
+
+19
+00:00:45.000 --> 00:00:47.190
+to perform dynamic transformations.
+
+20
+00:00:47.190 --> 00:00:50.190
+And in here, we're acknowledging that the template
+
+21
+00:00:50.190 --> 00:00:53.310
+may change before being deployed.
+
+22
+00:00:53.310 --> 00:00:54.210
+And finally,
+
+23
+00:00:54.210 --> 00:00:57.540
+if you obtain a InsufficientCapabilitiesException
+
+24
+00:00:57.540 --> 00:00:59.430
+while launching a template,
+
+25
+00:00:59.430 --> 00:01:01.290
+that means that the CloudFormation templates
+
+26
+00:01:01.290 --> 00:01:03.120
+was requiring capabilities,
+
+27
+00:01:03.120 --> 00:01:04.710
+but you haven't acknowledged them.
+
+28
+00:01:04.710 --> 00:01:09.360
+So, as a security measure, you need to redo the templates,
+
+29
+00:01:09.360 --> 00:01:13.620
+upload, and launch using, this time, these capabilities.
+
+30
+00:01:13.620 --> 00:01:16.890
+It's just an extra argument in your API call,
+
+31
+00:01:16.890 --> 00:01:21.890
+or a box to tick on your AWS console.
+
+32
+00:01:22.620 --> 00:01:26.310
+So here, under 3_capabilities.yaml,
+
+33
+00:01:26.310 --> 00:01:29.160
+I'm going to show you a CloudFormation template,
+
+34
+00:01:29.160 --> 00:01:32.700
+which actually has an IAM role being created.
+
+35
+00:01:32.700 --> 00:01:36.180
+And it's named, so there's a role name, MyCustomRoleName.
+
+36
+00:01:36.180 --> 00:01:38.370
+And it's using a managed policy,
+
+37
+00:01:38.370 --> 00:01:40.710
+which is the AmazonEC2FullAccess.
+
+38
+00:01:40.710 --> 00:01:42.600
+So we're dealing with IAM,
+
+39
+00:01:42.600 --> 00:01:46.230
+and so as such, we are creating some IAM roles.
+
+40
+00:01:46.230 --> 00:01:48.900
+And so therefore, if I create this stack
+
+41
+00:01:48.900 --> 00:01:53.900
+and upload the template file being the capabilities.yaml.
+
+42
+00:01:53.970 --> 00:01:55.653
+And I'll call this one DemoIAM.
+
+43
+00:01:56.550 --> 00:01:57.810
+Next.
+
+44
+00:01:57.810 --> 00:01:59.760
+And scroll all the way down.
+
+45
+00:01:59.760 --> 00:02:00.810
+Next.
+
+46
+00:02:00.810 --> 00:02:02.280
+And scroll all the way down.
+
+47
+00:02:02.280 --> 00:02:05.370
+As you can see, there is an acknowledgement
+
+48
+00:02:05.370 --> 00:02:08.220
+that says that you need to have this capability,
+
+49
+00:02:08.220 --> 00:02:10.140
+and it says, "Yes, I acknowledge the fact
+
+50
+00:02:10.140 --> 00:02:13.740
+that CloudFormation might create IAM resources
+
+51
+00:02:13.740 --> 00:02:14.880
+with custom names."
+
+52
+00:02:14.880 --> 00:02:18.060
+And so therefore, we are giving the capability
+
+53
+00:02:18.060 --> 00:02:21.270
+to CloudFormation to actually run this template
+
+54
+00:02:21.270 --> 00:02:22.680
+and to create this role.
+
+55
+00:02:22.680 --> 00:02:24.330
+If we don't do this,
+
+56
+00:02:24.330 --> 00:02:27.180
+then the submission is going to fail, as you can see.
+
+57
+00:02:27.180 --> 00:02:29.557
+But if we do do this, then now we're saying,
+
+58
+00:02:29.557 --> 00:02:31.080
+"Hey, I understand the risk of it.
+
+59
+00:02:31.080 --> 00:02:34.740
+I understand the fact that we are creating IAM resources
+
+60
+00:02:34.740 --> 00:02:36.120
+from within CloudFormation."
+
+61
+00:02:36.120 --> 00:02:37.920
+And that's it, that's all I want to show you.
+
+62
+00:02:37.920 --> 00:02:40.220
+All right, I will see you in the next lecture.
+

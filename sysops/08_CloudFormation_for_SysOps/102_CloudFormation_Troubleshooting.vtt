@@ -1,0 +1,322 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:01.860
+<v Instructor>So let's go over a little bit</v>
+
+2
+00:00:01.860 --> 00:00:04.380
+of troubleshooting on CloudFormation.
+
+3
+00:00:04.380 --> 00:00:06.780
+So if you have a DELETE_FAILED status,
+
+4
+00:00:06.780 --> 00:00:08.790
+that means that you're trying to delete a stack,
+
+5
+00:00:08.790 --> 00:00:11.640
+but somehow the delete did not work.
+
+6
+00:00:11.640 --> 00:00:15.385
+So it could be a reason such as some resources
+
+7
+00:00:15.385 --> 00:00:17.700
+must be emptied before being deleted,
+
+8
+00:00:17.700 --> 00:00:19.290
+such as your S3 buckets.
+
+9
+00:00:19.290 --> 00:00:21.390
+So this is a very common exam question.
+
+10
+00:00:21.390 --> 00:00:23.340
+If your S3 buckets cannot be deleted,
+
+11
+00:00:23.340 --> 00:00:25.140
+it's because they're not empty.
+
+12
+00:00:25.140 --> 00:00:27.630
+So either you empty them manually,
+
+13
+00:00:27.630 --> 00:00:30.570
+or you use Custom Resources with Lambda function
+
+14
+00:00:30.570 --> 00:00:34.440
+to automate the emptying action of your S3 buckets.
+
+15
+00:00:34.440 --> 00:00:37.980
+Also, for example, you cannot delete a security group
+
+16
+00:00:37.980 --> 00:00:41.820
+if other EC2 instances are using the group.
+
+17
+00:00:41.820 --> 00:00:43.650
+And so therefore, if you're using, for example,
+
+18
+00:00:43.650 --> 00:00:46.200
+different stacks that use the same security group,
+
+19
+00:00:46.200 --> 00:00:48.150
+or you've done a manual attachment
+
+20
+00:00:48.150 --> 00:00:50.550
+of that security group to other instances
+
+21
+00:00:50.550 --> 00:00:52.680
+then, of course, the delete will be failing
+
+22
+00:00:52.680 --> 00:00:54.210
+because it cannot be deleted even
+
+23
+00:00:54.210 --> 00:00:56.340
+if you tried through the console.
+
+24
+00:00:56.340 --> 00:00:59.610
+Also, if you have too much trouble with the deletion
+
+25
+00:00:59.610 --> 00:01:03.960
+of a resource, you can use DeletionPolicy=Retain
+
+26
+00:01:03.960 --> 00:01:05.970
+and it's going to skip the deletion
+
+27
+00:01:05.970 --> 00:01:08.040
+of that specific resource.
+
+28
+00:01:08.040 --> 00:01:10.740
+If you get UPDATE_ROLLBACK_FAILED,
+
+29
+00:01:10.740 --> 00:01:13.200
+that means that you didn't update,
+
+30
+00:01:13.200 --> 00:01:14.850
+it failed, and then it tried to rollback,
+
+31
+00:01:14.850 --> 00:01:16.890
+and even the rollback has failed.
+
+32
+00:01:16.890 --> 00:01:18.480
+So this could mean several things.
+
+33
+00:01:18.480 --> 00:01:20.580
+This can be caused by resources changed
+
+34
+00:01:20.580 --> 00:01:22.140
+outside of CloudFormation.
+
+35
+00:01:22.140 --> 00:01:24.870
+This could be insufficient IAM permissions.
+
+36
+00:01:24.870 --> 00:01:26.490
+This could be an Auto Scaling Group
+
+37
+00:01:26.490 --> 00:01:29.130
+that doesn't receive enough signals, and so on.
+
+38
+00:01:29.130 --> 00:01:32.130
+So the advice here is to manually fix the error
+
+39
+00:01:32.130 --> 00:01:34.710
+to make sure that you've troubleshooted it and it works.
+
+40
+00:01:34.710 --> 00:01:37.950
+And usually, the event log is going to give you some hints.
+
+41
+00:01:37.950 --> 00:01:40.710
+And then, once you know the errors have been fixed,
+
+42
+00:01:40.710 --> 00:01:42.480
+you need to issue an API call,
+
+43
+00:01:42.480 --> 00:01:44.700
+called ContinueUpdateRollback.
+
+44
+00:01:44.700 --> 00:01:47.370
+The rollback will continue and hopefully,
+
+45
+00:01:47.370 --> 00:01:49.260
+because you fixed the error, the rollback
+
+46
+00:01:49.260 --> 00:01:50.973
+will be successful at the end.
+
+47
+00:01:52.200 --> 00:01:55.230
+Now, for stacksets troubleshooting, so for example,
+
+48
+00:01:55.230 --> 00:01:57.540
+you'll have a stack operation, it has failed,
+
+49
+00:01:57.540 --> 00:01:59.190
+and then the stack instant status
+
+50
+00:01:59.190 --> 00:02:01.110
+is going to be an OUTDATED.
+
+51
+00:02:01.110 --> 00:02:04.770
+So it could be an issue with insufficient permissions
+
+52
+00:02:04.770 --> 00:02:06.960
+in the target accounts for creating the resources
+
+53
+00:02:06.960 --> 00:02:09.150
+that are specified in your template.
+
+54
+00:02:09.150 --> 00:02:10.590
+Or the template could be trying
+
+55
+00:02:10.590 --> 00:02:13.350
+to create global resources, but they must be unique.
+
+56
+00:02:13.350 --> 00:02:15.810
+For example, if you have an S3 bucket,
+
+57
+00:02:15.810 --> 00:02:18.120
+the name should be unique and if you specified
+
+58
+00:02:18.120 --> 00:02:20.790
+a name in your template, then in one
+
+59
+00:02:20.790 --> 00:02:23.130
+of the stack instances it's going to work.
+
+60
+00:02:23.130 --> 00:02:25.710
+But in another account or another region,
+
+61
+00:02:25.710 --> 00:02:27.180
+it's not going to work because the name
+
+62
+00:02:27.180 --> 00:02:30.150
+will have already been taken by you, of course.
+
+63
+00:02:30.150 --> 00:02:33.120
+And so it could also be an issue with trust relationship.
+
+64
+00:02:33.120 --> 00:02:35.340
+For example, the admin account does not have
+
+65
+00:02:35.340 --> 00:02:38.670
+the required trust relationship with the target accounts.
+
+66
+00:02:38.670 --> 00:02:42.330
+Or for example, you're creating EC2 instances
+
+67
+00:02:42.330 --> 00:02:45.180
+and somehow in one of the target accounts
+
+68
+00:02:45.180 --> 00:02:47.370
+you've created one too many EC2 instance
+
+69
+00:02:47.370 --> 00:02:48.810
+and therefore, you'll have reached
+
+70
+00:02:48.810 --> 00:02:51.300
+a limit or a quota, and you will have
+
+71
+00:02:51.300 --> 00:02:53.610
+an issue with that specific stack instance.
+
+72
+00:02:53.610 --> 00:02:55.770
+So stacksets are a bit more difficult to troubleshoot
+
+73
+00:02:55.770 --> 00:02:59.430
+because you're deploying the same stack to many accounts
+
+74
+00:02:59.430 --> 00:03:01.260
+and, for some reason, for some accounts
+
+75
+00:03:01.260 --> 00:03:03.780
+it may not work again based on permissions,
+
+76
+00:03:03.780 --> 00:03:05.580
+quotas, resource names, and so on.
+
+77
+00:03:05.580 --> 00:03:07.890
+So it's something to have a look at
+
+78
+00:03:07.890 --> 00:03:10.140
+and something to be able to troubleshoot.
+
+79
+00:03:10.140 --> 00:03:11.550
+All right, that's it for this lecture.
+
+80
+00:03:11.550 --> 00:03:14.913
+I hope you liked it and I will see you in the next lecture.
+

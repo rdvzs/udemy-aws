@@ -1,0 +1,114 @@
+WEBVTT
+
+1
+00:00:00.250 --> 00:00:01.440
+<v Instructor>Okay, so just a very,</v>
+
+2
+00:00:01.440 --> 00:00:02.770
+very short theory lecture,
+
+3
+00:00:02.770 --> 00:00:05.850
+but what are the failover conditions for Multi AZ?
+
+4
+00:00:05.850 --> 00:00:06.840
+You need to remember them.
+
+5
+00:00:06.840 --> 00:00:09.900
+So the failover will happen from the primary DB
+
+6
+00:00:09.900 --> 00:00:11.730
+to the secondary DB
+
+7
+00:00:11.730 --> 00:00:14.487
+if there is a failure of the primary DB,
+
+8
+00:00:14.487 --> 00:00:17.789
+or if the operating system of your primary DB
+
+9
+00:00:17.789 --> 00:00:20.620
+is undergoing some software patching,
+
+10
+00:00:20.620 --> 00:00:22.900
+or if your primary DB becomes unreachable
+
+11
+00:00:22.900 --> 00:00:25.740
+due to loss of network of connectivity,
+
+12
+00:00:25.740 --> 00:00:27.810
+or if you modify your primary DB instance,
+
+13
+00:00:27.810 --> 00:00:30.320
+for example, you're changing the instance type,
+
+14
+00:00:30.320 --> 00:00:32.880
+or if it's busy and unresponsive,
+
+15
+00:00:32.880 --> 00:00:35.250
+if there's an underlying storage failure.
+
+16
+00:00:35.250 --> 00:00:37.610
+And you need to remember those, okay?
+
+17
+00:00:37.610 --> 00:00:39.700
+Because they can be tested on the exam.
+
+18
+00:00:39.700 --> 00:00:42.170
+So just need to make sure that you are on with it.
+
+19
+00:00:42.170 --> 00:00:44.080
+But they're quite natural.
+
+20
+00:00:44.080 --> 00:00:45.490
+And also, you will have,
+
+21
+00:00:45.490 --> 00:00:46.820
+if you have an AZ outage,
+
+22
+00:00:46.820 --> 00:00:47.840
+and obviously, it's going to failover
+
+23
+00:00:47.840 --> 00:00:49.470
+because it's Multi AZ,
+
+24
+00:00:49.470 --> 00:00:53.800
+or if you initiate a manual failover of the DB instance,
+
+25
+00:00:53.800 --> 00:00:57.300
+using the option named Reboot with failover.
+
+26
+00:00:57.300 --> 00:00:58.133
+So that's it.
+
+27
+00:00:58.133 --> 00:00:58.966
+That's all you need to know.
+
+28
+00:00:58.966 --> 00:01:00.480
+I will see you in the next lecture.
+

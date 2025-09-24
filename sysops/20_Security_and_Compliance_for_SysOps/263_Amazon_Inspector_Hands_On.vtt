@@ -1,0 +1,578 @@
+WEBVTT
+
+1
+00:00:00.670 --> 00:00:04.390
+<v Male Speaker>So let's do a demo of the Inspector service</v>
+
+2
+00:00:04.390 --> 00:00:07.380
+and this is a new iteration of the Inspector service.
+
+3
+00:00:07.380 --> 00:00:10.370
+So we get a 15-day trial for accounts new to Inspector
+
+4
+00:00:10.370 --> 00:00:12.370
+and then you have a Pricing
+
+5
+00:00:12.370 --> 00:00:15.650
+and the Pricing page is going to be right here.
+
+6
+00:00:15.650 --> 00:00:18.100
+And it's going to give you some information such
+
+7
+00:00:18.100 --> 00:00:20.920
+as the fact that you're going to get, for example,
+
+8
+00:00:20.920 --> 00:00:25.020
+a Pricing Table of $0.09 per image being scanned,
+
+9
+00:00:25.020 --> 00:00:26.546
+$0.01 per rescan,
+
+10
+00:00:26.546 --> 00:00:29.520
+and then a cost per instance.
+
+11
+00:00:29.520 --> 00:00:30.353
+Okay?
+
+12
+00:00:30.353 --> 00:00:32.840
+So, let's get started with Inspector
+
+13
+00:00:32.840 --> 00:00:35.480
+and for this we need to enable Service Permissions.
+
+14
+00:00:35.480 --> 00:00:36.680
+So there's a role.
+
+15
+00:00:36.680 --> 00:00:39.020
+The role has all these permissions to be able to
+
+16
+00:00:39.020 --> 00:00:40.270
+do what it needs to do.
+
+17
+00:00:40.270 --> 00:00:41.420
+So it's quite a lot
+
+18
+00:00:41.420 --> 00:00:44.300
+but it's only managed by the Inspector service.
+
+19
+00:00:44.300 --> 00:00:46.450
+So we just click on Enable Inspector
+
+20
+00:00:46.450 --> 00:00:48.683
+and that role is created for us.
+
+21
+00:00:49.940 --> 00:00:51.700
+So as we can see, we started Inspector
+
+22
+00:00:51.700 --> 00:00:53.150
+and a first scan is underway,
+
+23
+00:00:53.150 --> 00:00:55.860
+but for this I need to have EC2 instances.
+
+24
+00:00:55.860 --> 00:00:58.580
+So if we refresh this page, as we can see,
+
+25
+00:00:58.580 --> 00:01:03.580
+it goes into finding vulnerabilities for our ECR containers
+
+26
+00:01:03.630 --> 00:01:06.470
+finding vulnerabilities for EC2 instances
+
+27
+00:01:06.470 --> 00:01:10.290
+as well as Network reachability findings for EC2 instances.
+
+28
+00:01:10.290 --> 00:01:13.750
+Also, the best thing to do is to start an EC2 instance
+
+29
+00:01:13.750 --> 00:01:14.920
+and let's get started.
+
+30
+00:01:14.920 --> 00:01:18.180
+So the cool thing about EC2 instances is
+
+31
+00:01:18.180 --> 00:01:21.230
+that if you launch an instance, okay?
+
+32
+00:01:21.230 --> 00:01:23.980
+And you use, let's use the new UI by the way
+
+33
+00:01:23.980 --> 00:01:24.813
+just to try it out.
+
+34
+00:01:24.813 --> 00:01:29.573
+So we use a EC2 instance, I call this Demo EC2 Instance.
+
+35
+00:01:30.870 --> 00:01:33.070
+What you need to do is just use Amazon Linux
+
+36
+00:01:33.070 --> 00:01:34.060
+and Amazon Linux Why?
+
+37
+00:01:34.060 --> 00:01:35.070
+Well, because it comes
+
+38
+00:01:35.070 --> 00:01:39.330
+with the SSM Agent pre-installed and enabled on it.
+
+39
+00:01:39.330 --> 00:01:40.810
+So this image is launched.
+
+40
+00:01:40.810 --> 00:01:43.060
+We're going to use a Free tier eligible image.
+
+41
+00:01:43.060 --> 00:01:46.380
+We use a t2.micro, and we don't need a key pair and so on.
+
+42
+00:01:46.380 --> 00:01:48.260
+So I can just scroll down.
+
+43
+00:01:48.260 --> 00:01:49.430
+We don't need to do anything special.
+
+44
+00:01:49.430 --> 00:01:51.760
+Let's just launch that instance.
+
+45
+00:01:51.760 --> 00:01:55.093
+We can proceed without a key pair and be good to go.
+
+46
+00:01:58.040 --> 00:02:00.660
+Okay. So now the instance is launching.
+
+47
+00:02:00.660 --> 00:02:02.390
+And as we launch this instance
+
+48
+00:02:02.390 --> 00:02:05.830
+it is going to be scanned by the Inspector service.
+
+49
+00:02:05.830 --> 00:02:08.760
+So let me wait, and then I'll get back to you.
+
+50
+00:02:08.760 --> 00:02:11.800
+So my instance is now running, and if I go into Inspector
+
+51
+00:02:11.800 --> 00:02:14.440
+and refresh this page, as you can see, there is 0% coverage
+
+52
+00:02:14.440 --> 00:02:16.920
+but we have 0/1 instances.
+
+53
+00:02:16.920 --> 00:02:19.730
+So it's been detected, but let's troubleshoot a little bit.
+
+54
+00:02:19.730 --> 00:02:21.330
+So if I scroll down
+
+55
+00:02:21.330 --> 00:02:23.900
+and I go to Account Management,
+
+56
+00:02:23.900 --> 00:02:26.720
+I can see that I have my account enabled for
+
+57
+00:02:26.720 --> 00:02:27.590
+Amazon Inspector.
+
+58
+00:02:27.590 --> 00:02:29.060
+And by the way you could Enable Inspector
+
+59
+00:02:29.060 --> 00:02:31.480
+on your entire organization if you wanted to.
+
+60
+00:02:31.480 --> 00:02:34.000
+Then under Instances, we have one instance.
+
+61
+00:02:34.000 --> 00:02:36.400
+We put 0 because we have 0 ECR Repositories.
+
+62
+00:02:36.400 --> 00:02:37.900
+And then as images
+
+63
+00:02:37.900 --> 00:02:41.560
+we have 0 ECR container images, to scan.
+
+64
+00:02:41.560 --> 00:02:43.670
+So Instances we have 1, okay?
+
+65
+00:02:43.670 --> 00:02:45.960
+But Scanning 0, Not Scanning 1.
+
+66
+00:02:45.960 --> 00:02:49.390
+So the thing is, if we look at this instance and have a look
+
+67
+00:02:49.390 --> 00:02:53.510
+at it we scrolled right, it says "Unmanaged EC2 Instance."
+
+68
+00:02:53.510 --> 00:02:56.210
+So somehow something is wrong with this instance.
+
+69
+00:02:56.210 --> 00:02:59.447
+And so what we can do is click on this and it says
+
+70
+00:02:59.447 --> 00:03:02.660
+"follow these instructions to remediate the issue".
+
+71
+00:03:02.660 --> 00:03:04.380
+So we're going to follow these instructions,
+
+72
+00:03:04.380 --> 00:03:07.180
+and it takes me straight into the Systems Manager page.
+
+73
+00:03:07.180 --> 00:03:08.120
+And there is
+
+74
+00:03:08.120 --> 00:03:12.240
+a AWSSupport-TroubleshootManagedInstance document,
+
+75
+00:03:12.240 --> 00:03:14.350
+An Automation that we can run,
+
+76
+00:03:14.350 --> 00:03:16.780
+and we need to provide the Instance Id.
+
+77
+00:03:16.780 --> 00:03:20.490
+So to do so let's copy the Instance Id
+
+78
+00:03:20.490 --> 00:03:23.010
+and figure out what is wrong with it.
+
+79
+00:03:23.010 --> 00:03:24.987
+So we're going to execute this
+
+80
+00:03:24.987 --> 00:03:28.930
+and we're going to wait until we get the results.
+
+81
+00:03:28.930 --> 00:03:32.490
+And so it turns out that the instance is online.
+
+82
+00:03:32.490 --> 00:03:33.480
+So Ping Status is good
+
+83
+00:03:33.480 --> 00:03:36.180
+but then the GetEC2InstanceProperties fails.
+
+84
+00:03:36.180 --> 00:03:37.230
+And then the rest
+
+85
+00:03:37.230 --> 00:03:39.590
+of these things aws:executeScript are Pending.
+
+86
+00:03:39.590 --> 00:03:41.750
+And so I know what the issue is, of course.
+
+87
+00:03:41.750 --> 00:03:45.263
+So if you go into Systems Manager, I go in Quick Setup.
+
+88
+00:03:46.920 --> 00:03:49.470
+And then in Quick Setup, I'm going to get started.
+
+89
+00:03:49.470 --> 00:03:51.270
+So, we choose a home region for eu-west-1
+
+90
+00:03:51.270 --> 00:03:52.770
+which is where I am.
+
+91
+00:03:52.770 --> 00:03:54.650
+And it's going to create the Instance Roles
+
+92
+00:03:54.650 --> 00:03:57.600
+for me and everything that's needed, and then attach them
+
+93
+00:03:57.600 --> 00:04:01.440
+to my EC2 instances so that they are properly registered
+
+94
+00:04:01.440 --> 00:04:03.970
+within the AWS Systems Manager.
+
+95
+00:04:03.970 --> 00:04:06.890
+So we are going to do Host Management and
+
+96
+00:04:06.890 --> 00:04:11.200
+as we'll just click on it, and then we'll update the agent
+
+97
+00:04:11.200 --> 00:04:13.200
+we'll collect inventories kinda instances
+
+98
+00:04:13.200 --> 00:04:15.240
+and then we are good to go.
+
+99
+00:04:15.240 --> 00:04:18.170
+The targets are all the instances within my region.
+
+100
+00:04:18.170 --> 00:04:19.323
+Let's click on Create.
+
+101
+00:04:23.600 --> 00:04:25.260
+And now we just wait.
+
+102
+00:04:25.260 --> 00:04:27.820
+So, my Host Management Quick Setup was completed.
+
+103
+00:04:27.820 --> 00:04:31.123
+And then if we go into our Fleet Manager,
+
+104
+00:04:33.090 --> 00:04:36.960
+we can see that my instance is being detected by SSM.
+
+105
+00:04:36.960 --> 00:04:38.250
+So now this is good.
+
+106
+00:04:38.250 --> 00:04:40.410
+And if I go to my instance and refresh it
+
+107
+00:04:40.410 --> 00:04:42.350
+I can have a look at the Security tab.
+
+108
+00:04:42.350 --> 00:04:45.170
+And the fact that yes, an IAM Role was attached
+
+109
+00:04:45.170 --> 00:04:49.160
+to my instance to be registering it within SSM.
+
+110
+00:04:49.160 --> 00:04:50.130
+So back in Inspector
+
+111
+00:04:50.130 --> 00:04:53.080
+if I refresh this page and look at my instances
+
+112
+00:04:53.080 --> 00:04:56.980
+we can see that my Demo Instance is detected
+
+113
+00:04:56.980 --> 00:04:59.190
+and now it is in state scanning.
+
+114
+00:04:59.190 --> 00:05:01.920
+So it is continuously being monitored by Inspector.
+
+115
+00:05:01.920 --> 00:05:03.810
+And what I need to do now is just wait
+
+116
+00:05:03.810 --> 00:05:05.610
+for it to find vulnerability.
+
+117
+00:05:05.610 --> 00:05:08.890
+So as we can see, right now 0 critical findings
+
+118
+00:05:08.890 --> 00:05:12.470
+but I'm going to pause and come back to you in a few hours.
+
+119
+00:05:12.470 --> 00:05:14.890
+So I let it run for the whole weekend.
+
+120
+00:05:14.890 --> 00:05:16.990
+And there are no critical findings, which is good news
+
+121
+00:05:16.990 --> 00:05:18.880
+because I'm using an Amazon Linux AMI.
+
+122
+00:05:18.880 --> 00:05:21.210
+And I think they fix most of the issues.
+
+123
+00:05:21.210 --> 00:05:24.240
+But if you scroll down, you see, they have image
+
+124
+00:05:24.240 --> 00:05:25.410
+with most critical findings.
+
+125
+00:05:25.410 --> 00:05:28.460
+And they are all two findings in here.
+
+126
+00:05:28.460 --> 00:05:31.450
+So if I go into this EC2 Instance has been scanned.
+
+127
+00:05:31.450 --> 00:05:34.330
+There's been 1 Medium finding, which is something.
+
+128
+00:05:34.330 --> 00:05:36.150
+And that is that the port reachable,
+
+129
+00:05:36.150 --> 00:05:38.250
+the port 22 is reachable from an Internal Gateway.
+
+130
+00:05:38.250 --> 00:05:40.260
+So this is a security group issue,
+
+131
+00:05:40.260 --> 00:05:43.130
+and it's a Network Reachability type of issue.
+
+132
+00:05:43.130 --> 00:05:46.440
+So that's it for Inspector.
+
+133
+00:05:46.440 --> 00:05:48.440
+Obviously you get more findings, the more you run it.
+
+134
+00:05:48.440 --> 00:05:50.330
+And the more instances you have and the more stuff
+
+135
+00:05:50.330 --> 00:05:52.590
+you install onto your instances,
+
+136
+00:05:52.590 --> 00:05:54.180
+but I hope that was helpful.
+
+137
+00:05:54.180 --> 00:05:57.750
+And to finish, you need to just go into General
+
+138
+00:05:57.750 --> 00:06:00.050
+and Disable Inspector, because then
+
+139
+00:06:00.050 --> 00:06:03.640
+you will be billed after 14 days, and then
+
+140
+00:06:03.640 --> 00:06:06.240
+don't forget as well to terminate
+
+141
+00:06:06.240 --> 00:06:09.190
+your EC2 instance if you had one.
+
+142
+00:06:09.190 --> 00:06:10.750
+Okay, that's just for this lecture.
+
+143
+00:06:10.750 --> 00:06:11.700
+I hope you liked it.
+
+144
+00:06:11.700 --> 00:06:13.733
+And I will see you in the next lecture.
+

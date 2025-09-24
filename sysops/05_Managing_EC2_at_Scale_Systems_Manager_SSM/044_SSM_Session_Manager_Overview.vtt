@@ -1,0 +1,274 @@
+WEBVTT
+
+1
+00:00:00.580 --> 00:00:03.580
+<v Host>So now let's talk about SSM session manager,</v>
+
+2
+00:00:03.580 --> 00:00:06.400
+which is a way for you to start a secure shell environment
+
+3
+00:00:06.400 --> 00:00:09.210
+on your EC2 instances and on-premises servers,
+
+4
+00:00:09.210 --> 00:00:11.420
+but you access it through the console,
+
+5
+00:00:11.420 --> 00:00:14.230
+the CLI or the session manager SDK,
+
+6
+00:00:14.230 --> 00:00:16.344
+and the real power of session manager is that you do not
+
+7
+00:00:16.344 --> 00:00:20.478
+need to get direct SSH access into your instances. Okay.
+
+8
+00:00:20.478 --> 00:00:23.780
+Neither using a bastion host or SSH key.
+
+9
+00:00:23.780 --> 00:00:27.130
+So this is different from the SSH traditional SSH,
+
+10
+00:00:27.130 --> 00:00:28.980
+or even the EC2 instance connect
+
+11
+00:00:28.980 --> 00:00:32.080
+that is in the backend using SSH. Okay.
+
+12
+00:00:32.080 --> 00:00:32.913
+So how does that work?
+
+13
+00:00:32.913 --> 00:00:35.870
+Where are EC2 instance is running the SSM agents
+
+14
+00:00:35.870 --> 00:00:38.790
+and is having the right permissions to be registered
+
+15
+00:00:38.790 --> 00:00:40.840
+with this SSM service.
+
+16
+00:00:40.840 --> 00:00:43.530
+And so our user is going to connect to the session manager
+
+17
+00:00:43.530 --> 00:00:45.880
+service with a correct IAM permission, of course.
+
+18
+00:00:45.880 --> 00:00:48.340
+And then the session manager will be able to execute
+
+19
+00:00:48.340 --> 00:00:50.380
+commands on our EC2 instance.
+
+20
+00:00:50.380 --> 00:00:52.630
+So it's using the same mechanism if you want,
+
+21
+00:00:52.630 --> 00:00:57.140
+as the run commands, the service feature. Okay.
+
+22
+00:00:57.140 --> 00:00:57.973
+But this time,
+
+23
+00:00:57.973 --> 00:01:01.050
+the session manager is used to just have a common shell
+
+24
+00:01:01.050 --> 00:01:02.740
+against our EC2 instance.
+
+25
+00:01:02.740 --> 00:01:06.597
+The cool thing is that it supports Linux, macOS and windows.
+
+26
+00:01:06.597 --> 00:01:08.901
+Okay. And all the connections, your instances,
+
+27
+00:01:08.901 --> 00:01:11.780
+and the executed commands are going to be logged.
+
+28
+00:01:11.780 --> 00:01:15.340
+So you can have them being sent to Amazon S3 or
+
+29
+00:01:15.340 --> 00:01:16.173
+CloudWatch Logs.
+
+30
+00:01:16.173 --> 00:01:18.160
+And the idea is that you have more control
+
+31
+00:01:18.160 --> 00:01:19.370
+and more security.
+
+32
+00:01:19.370 --> 00:01:21.700
+When someone does an SSH command into an EC2 instance,
+
+33
+00:01:21.700 --> 00:01:23.930
+you do not have the history of all the commands
+
+34
+00:01:23.930 --> 00:01:27.180
+that will run, and so less security, less compliance.
+
+35
+00:01:27.180 --> 00:01:29.810
+And CloudTrail can also be used to intercept
+
+36
+00:01:29.810 --> 00:01:31.110
+the StartSession events,
+
+37
+00:01:31.110 --> 00:01:33.890
+which is when session and measure is being used to start a
+
+38
+00:01:33.890 --> 00:01:36.250
+session onto your EC2 instance. For example, again,
+
+39
+00:01:36.250 --> 00:01:39.590
+for some automation, compliance and alerting.
+
+40
+00:01:39.590 --> 00:01:41.960
+So session manager requires IAM permissions,
+
+41
+00:01:41.960 --> 00:01:44.840
+and this is allowing you to control which users or groups
+
+42
+00:01:44.840 --> 00:01:47.540
+can access session manager and which instances,
+
+43
+00:01:47.540 --> 00:01:49.540
+and you can use tags to restrict access
+
+44
+00:01:49.540 --> 00:01:51.090
+to only specific EC2 instances.
+
+45
+00:01:52.190 --> 00:01:53.023
+So in this example,
+
+46
+00:01:53.023 --> 00:01:54.880
+this is an IAM policy that allows you
+
+47
+00:01:54.880 --> 00:01:56.650
+to connect to any instance,
+
+48
+00:01:56.650 --> 00:02:01.650
+as long as the resource type of environment is named dev.
+
+49
+00:02:02.110 --> 00:02:04.300
+So you also need access to SSM and write to S3 and
+
+50
+00:02:04.300 --> 00:02:07.050
+write to CloudWatch to allow you to send the Log there.
+
+51
+00:02:07.050 --> 00:02:08.190
+And optionally,
+
+52
+00:02:08.190 --> 00:02:10.550
+you can restrict even restrict commands that the user
+
+53
+00:02:10.550 --> 00:02:11.850
+can run in a session.
+
+54
+00:02:11.850 --> 00:02:14.500
+if you wanted to go deep down the security route.
+
+55
+00:02:14.500 --> 00:02:16.480
+So just for you to understand, using SSH,
+
+56
+00:02:16.480 --> 00:02:19.252
+well we have to open up our security group and our user with
+
+57
+00:02:19.252 --> 00:02:22.900
+specific IP address as a session to our instance and do
+
+58
+00:02:22.900 --> 00:02:25.240
+whatever he wants there, but using session manager,
+
+59
+00:02:25.240 --> 00:02:26.880
+we don't need any inbound rules. Okay.
+
+60
+00:02:26.880 --> 00:02:29.078
+You just need the instance with the SSM agents
+
+61
+00:02:29.078 --> 00:02:30.930
+and the right IAM role,
+
+62
+00:02:30.930 --> 00:02:32.860
+and then a user with a correct IAM permission
+
+63
+00:02:32.860 --> 00:02:35.910
+can use session manager to run commands against
+
+64
+00:02:35.910 --> 00:02:37.570
+our EC2 instance.
+
+65
+00:02:37.570 --> 00:02:39.910
+All the data of the session is going to be logged
+
+66
+00:02:39.910 --> 00:02:42.680
+or could be logged into Amazon S3 or CloudWatch logs.
+
+67
+00:02:42.680 --> 00:02:44.280
+So it's quite a cool service. I hope you liked it.
+
+68
+00:02:44.280 --> 00:02:47.223
+And I will see you in the next lecture to do some hands-on.
+

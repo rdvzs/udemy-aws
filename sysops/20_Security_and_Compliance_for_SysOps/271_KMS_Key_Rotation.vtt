@@ -1,0 +1,370 @@
+WEBVTT
+
+1
+00:00:00.120 --> 00:00:02.880
+<v Instructor>So let's talk about KMS key rotation.</v>
+
+2
+00:00:02.880 --> 00:00:05.490
+So first of all, you can have automatic rotation
+
+3
+00:00:05.490 --> 00:00:08.880
+for any KMS keys that is managed by AWS.
+
+4
+00:00:08.880 --> 00:00:12.000
+They are automatically rotated every one year.
+
+5
+00:00:12.000 --> 00:00:15.840
+If you have your own customer-managed symmetric KMS key,
+
+6
+00:00:15.840 --> 00:00:18.810
+then you can enable automatic key rotation,
+
+7
+00:00:18.810 --> 00:00:20.370
+but this is optional.
+
+8
+00:00:20.370 --> 00:00:23.010
+And then you need to set the rotation period
+
+9
+00:00:23.010 --> 00:00:27.540
+any time between 90 and 2,560 days.
+
+10
+00:00:27.540 --> 00:00:29.850
+But by default, it is also one year.
+
+11
+00:00:29.850 --> 00:00:32.850
+And when you enable the key rotation,
+
+12
+00:00:32.850 --> 00:00:34.920
+of course the previous key is kept active
+
+13
+00:00:34.920 --> 00:00:36.960
+so you can decrypt all data.
+
+14
+00:00:36.960 --> 00:00:39.360
+The new key will have the same KMS key ID,
+
+15
+00:00:39.360 --> 00:00:40.950
+so only the backing key is changed.
+
+16
+00:00:40.950 --> 00:00:43.140
+For example, here is the backing key,
+
+17
+00:00:43.140 --> 00:00:44.910
+and we have a KMS key ID.
+
+18
+00:00:44.910 --> 00:00:47.280
+We're going to have automatic key rotation,
+
+19
+00:00:47.280 --> 00:00:48.930
+and the backing key is changing,
+
+20
+00:00:48.930 --> 00:00:51.630
+but the KMS key ID is not changing.
+
+21
+00:00:51.630 --> 00:00:53.370
+And behind the scenes, well now,
+
+22
+00:00:53.370 --> 00:00:54.960
+you have the current backing key
+
+23
+00:00:54.960 --> 00:00:57.630
+and also the saved backing key.
+
+24
+00:00:57.630 --> 00:00:59.460
+So on top of automatic key rotation,
+
+25
+00:00:59.460 --> 00:01:01.680
+we have on-demand key rotation.
+
+26
+00:01:01.680 --> 00:01:04.830
+So this is for your customer managed symmetric KMS keys.
+
+27
+00:01:04.830 --> 00:01:08.670
+So not for the CMK that are managed by AWS.
+
+28
+00:01:08.670 --> 00:01:11.070
+And this does not require automatic
+
+29
+00:01:11.070 --> 00:01:12.930
+key rotation to be enabled.
+
+30
+00:01:12.930 --> 00:01:15.510
+It also does not change any existing
+
+31
+00:01:15.510 --> 00:01:17.550
+automatic rotation schedule.
+
+32
+00:01:17.550 --> 00:01:20.460
+And you have a limit to how many times you can trigger
+
+33
+00:01:20.460 --> 00:01:22.620
+an on-demand key rotation.
+
+34
+00:01:22.620 --> 00:01:24.810
+So same idea, you have a backing key,
+
+35
+00:01:24.810 --> 00:01:27.840
+you're going to trigger an on-demand key rotation,
+
+36
+00:01:27.840 --> 00:01:29.160
+and then at the end, you're going to get
+
+37
+00:01:29.160 --> 00:01:31.320
+a new backing key and a saved backing key.
+
+38
+00:01:31.320 --> 00:01:34.890
+But the KMS key ID will not have changed.
+
+39
+00:01:34.890 --> 00:01:37.290
+Next, we have manual key rotation.
+
+40
+00:01:37.290 --> 00:01:40.110
+So this is very much an edge case now, I would say.
+
+41
+00:01:40.110 --> 00:01:42.030
+This is when you want to rotate key, for example,
+
+42
+00:01:42.030 --> 00:01:45.180
+every month, and this is not supported by KMS.
+
+43
+00:01:45.180 --> 00:01:47.550
+Then you have to create a new key.
+
+44
+00:01:47.550 --> 00:01:50.550
+And the new key will have a different KMS key ID.
+
+45
+00:01:50.550 --> 00:01:53.190
+And you're going to have to keep the previous key active
+
+46
+00:01:53.190 --> 00:01:55.350
+so you can decrypt your old data.
+
+47
+00:01:55.350 --> 00:01:58.380
+In this case, to have your application function seamlessly,
+
+48
+00:01:58.380 --> 00:02:00.240
+it's better to use aliases
+
+49
+00:02:00.240 --> 00:02:02.760
+to hide the change of key for the application.
+
+50
+00:02:02.760 --> 00:02:05.010
+So it's a good solution to rotate KMS keys.
+
+51
+00:02:05.010 --> 00:02:08.220
+For keys that are not eligible for automatic rotation,
+
+52
+00:02:08.220 --> 00:02:11.220
+for example, the asymmetric KMS key.
+
+53
+00:02:11.220 --> 00:02:12.060
+So how does it work?
+
+54
+00:02:12.060 --> 00:02:16.350
+Well, let's say our client is talking to a KMS key ID,
+
+55
+00:02:16.350 --> 00:02:19.050
+and it has an alias called MyCustomKey.
+
+56
+00:02:19.050 --> 00:02:20.540
+And we're going to rotate the key manually.
+
+57
+00:02:20.540 --> 00:02:23.190
+So that means we're going to create a new key
+
+58
+00:02:23.190 --> 00:02:25.800
+that's going to have a new KMS key ID,
+
+59
+00:02:25.800 --> 00:02:27.840
+and we're going to update the alias
+
+60
+00:02:27.840 --> 00:02:31.230
+so that now, my custom key is pointing into that key.
+
+61
+00:02:31.230 --> 00:02:33.450
+And the previous key is still going to be kept.
+
+62
+00:02:33.450 --> 00:02:36.240
+And so therefore, we'll have performed a manual key rotation
+
+63
+00:02:36.240 --> 00:02:38.490
+because our application is going to seamlessly talk
+
+64
+00:02:38.490 --> 00:02:41.010
+to the new key while having the old one preserved
+
+65
+00:02:41.010 --> 00:02:44.580
+for any kind of decryption and operation.
+
+66
+00:02:44.580 --> 00:02:46.560
+So how does it work to update the alias?
+
+67
+00:02:46.560 --> 00:02:48.750
+Well, you update the alias to hide, again,
+
+68
+00:02:48.750 --> 00:02:50.250
+the change to your application.
+
+69
+00:02:50.250 --> 00:02:52.110
+So your application only interacts
+
+70
+00:02:52.110 --> 00:02:56.520
+from an API perspective with your key alias, MyAppKey.
+
+71
+00:02:56.520 --> 00:02:59.040
+And then the old key of the key alias
+
+72
+00:02:59.040 --> 00:03:01.200
+is the one you had before rotation.
+
+73
+00:03:01.200 --> 00:03:03.780
+And after rotation, you're going to create a new key,
+
+74
+00:03:03.780 --> 00:03:07.260
+and you're going to issue an UpdateAlias API call.
+
+75
+00:03:07.260 --> 00:03:08.280
+And this added alias
+
+76
+00:03:08.280 --> 00:03:10.380
+will have the alias point to the new key.
+
+77
+00:03:10.380 --> 00:03:12.510
+And therefore, from an application perspective,
+
+78
+00:03:12.510 --> 00:03:14.970
+the change will not be detected,
+
+79
+00:03:14.970 --> 00:03:17.580
+it will just be transparent, okay?
+
+80
+00:03:17.580 --> 00:03:20.010
+So what you need to remember from an exam perspective
+
+81
+00:03:20.010 --> 00:03:23.340
+is that if you want to have automatic key rotation,
+
+82
+00:03:23.340 --> 00:03:24.930
+the period is one year.
+
+83
+00:03:24.930 --> 00:03:27.030
+But if you want to have manual key rotation,
+
+84
+00:03:27.030 --> 00:03:29.730
+then you can go to 90 days or 180 days
+
+85
+00:03:29.730 --> 00:03:31.230
+based on the requirements.
+
+86
+00:03:31.230 --> 00:03:33.060
+And all the extra information I gave you
+
+87
+00:03:33.060 --> 00:03:35.430
+is just to show you how this would work in real life,
+
+88
+00:03:35.430 --> 00:03:36.720
+but the exam will not test you
+
+89
+00:03:36.720 --> 00:03:38.880
+on the details as far as I know, okay?
+
+90
+00:03:38.880 --> 00:03:39.810
+So that's it for this lecture.
+
+91
+00:03:39.810 --> 00:03:40.770
+I hope you liked it,
+
+92
+00:03:40.770 --> 00:03:42.720
+and I will see you in the next lecture.
+

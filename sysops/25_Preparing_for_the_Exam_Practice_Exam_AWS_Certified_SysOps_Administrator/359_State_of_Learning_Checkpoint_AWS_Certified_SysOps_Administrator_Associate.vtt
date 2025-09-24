@@ -1,0 +1,382 @@
+WEBVTT
+
+1
+00:00:00.060 --> 00:00:01.140
+<v Lecturer>So congratulations</v>
+
+2
+00:00:01.140 --> 00:00:03.300
+on making it this far in the course.
+
+3
+00:00:03.300 --> 00:00:05.280
+Now let's look at the certifications page
+
+4
+00:00:05.280 --> 00:00:08.220
+to see how far we've gone on our learning journey.
+
+5
+00:00:08.220 --> 00:00:10.590
+So here I am on the certified CSOPs Administrator
+
+6
+00:00:10.590 --> 00:00:13.050
+Associate certification page.
+
+7
+00:00:13.050 --> 00:00:16.080
+And what you can do is that you can scroll down
+
+8
+00:00:16.080 --> 00:00:19.260
+and as you can see, as of March 28th, 2023,
+
+9
+00:00:19.260 --> 00:00:21.570
+there is no exam labs until further notice.
+
+10
+00:00:21.570 --> 00:00:24.360
+So if you have seen somewhere on the internet
+
+11
+00:00:24.360 --> 00:00:28.680
+that there is an exam lab, this is not the case anymore.
+
+12
+00:00:28.680 --> 00:00:31.050
+And in case the exam labs do come back,
+
+13
+00:00:31.050 --> 00:00:32.850
+I will update this lecture
+
+14
+00:00:32.850 --> 00:00:34.860
+or you can tell me to update this lecture.
+
+15
+00:00:34.860 --> 00:00:37.800
+Okay, so let's have a look at a few things.
+
+16
+00:00:37.800 --> 00:00:40.350
+So first of all, let's look at the exam guide
+
+17
+00:00:40.350 --> 00:00:42.120
+and then in your own time you can have a look
+
+18
+00:00:42.120 --> 00:00:44.220
+at the sample questions, they're great.
+
+19
+00:00:44.220 --> 00:00:45.090
+So you have questions
+
+20
+00:00:45.090 --> 00:00:48.210
+and at the bottom of it you can have a look at the answers
+
+21
+00:00:48.210 --> 00:00:51.660
+and know why they are or they're not the correct answers.
+
+22
+00:00:51.660 --> 00:00:53.730
+Now if we look at this exam guide right here,
+
+23
+00:00:53.730 --> 00:00:57.000
+so this is for the SOA-C02 exam
+
+24
+00:00:57.000 --> 00:00:59.220
+and is going to validate your ability
+
+25
+00:00:59.220 --> 00:01:03.180
+to look at workloads from the well architected framework
+
+26
+00:01:03.180 --> 00:01:06.000
+to perform tasks using the console or the CLI,
+
+27
+00:01:06.000 --> 00:01:08.310
+to look at logs to have security controls,
+
+28
+00:01:08.310 --> 00:01:11.580
+apply networking concepts and so on.
+
+29
+00:01:11.580 --> 00:01:13.590
+So your ideal description is
+
+30
+00:01:13.590 --> 00:01:15.690
+that you should have at least one year of experience
+
+31
+00:01:15.690 --> 00:01:16.740
+with deployment management,
+
+32
+00:01:16.740 --> 00:01:19.410
+networking and security on AWS.
+
+33
+00:01:19.410 --> 00:01:21.060
+But if you have done the course,
+
+34
+00:01:21.060 --> 00:01:22.980
+you should have gained this experience,
+
+35
+00:01:22.980 --> 00:01:27.090
+especially if you practiced in the hands-on alongside me.
+
+36
+00:01:27.090 --> 00:01:28.650
+So all the knowledge
+
+37
+00:01:28.650 --> 00:01:30.780
+for general IT is taught in this course.
+
+38
+00:01:30.780 --> 00:01:33.840
+And then for the recommended risk knowledge of fully,
+
+39
+00:01:33.840 --> 00:01:36.570
+I do teach you it, but I always get feedback from the
+
+40
+00:01:36.570 --> 00:01:38.280
+students that they pass the exam
+
+41
+00:01:38.280 --> 00:01:40.560
+after working and practicing.
+
+42
+00:01:40.560 --> 00:01:42.390
+So this is perfect.
+
+43
+00:01:42.390 --> 00:01:44.550
+Just so you know, there are some tests that are scope
+
+44
+00:01:44.550 --> 00:01:46.230
+for the target candidates such as
+
+45
+00:01:46.230 --> 00:01:50.640
+distributed architectures doing CI/CD pipelines and so on.
+
+46
+00:01:50.640 --> 00:01:53.220
+So the exam content is only questions.
+
+47
+00:01:53.220 --> 00:01:56.130
+Okay, so we have multiple choice and multiple response.
+
+48
+00:01:56.130 --> 00:01:58.230
+So multiple choice, you have one correct response
+
+49
+00:01:58.230 --> 00:01:59.910
+out of four answers.
+
+50
+00:01:59.910 --> 00:02:01.920
+So three or wrong, one is correct,
+
+51
+00:02:01.920 --> 00:02:04.740
+and multiple responses that you have, two or more correct.
+
+52
+00:02:04.740 --> 00:02:06.720
+And the exam will ask you
+
+53
+00:02:06.720 --> 00:02:08.190
+how many answers should be correct.
+
+54
+00:02:08.190 --> 00:02:11.370
+So say select two or select three.
+
+55
+00:02:11.370 --> 00:02:16.170
+If you don't reply correctly to the question,
+
+56
+00:02:16.170 --> 00:02:17.490
+you are not penalized.
+
+57
+00:02:17.490 --> 00:02:20.579
+So you need to just answer all the questions.
+
+58
+00:02:20.579 --> 00:02:22.140
+There are no more labs.
+
+59
+00:02:22.140 --> 00:02:25.830
+You have 50 scored questions and 15 unscored questions,
+
+60
+00:02:25.830 --> 00:02:28.530
+but you do not know which ones are which
+
+61
+00:02:28.530 --> 00:02:32.070
+and the exam time is 130 minutes.
+
+62
+00:02:32.070 --> 00:02:35.370
+So here, just describe the exam labs part
+
+63
+00:02:35.370 --> 00:02:37.650
+because it's not relevant for now.
+
+64
+00:02:37.650 --> 00:02:40.080
+And then the result is that you're scored out of
+
+65
+00:02:40.080 --> 00:02:43.777
+between 100 and 1,000 and the passing score is 720.
+
+66
+00:02:46.140 --> 00:02:48.210
+Now if you look at the content outline, I invite you
+
+67
+00:02:48.210 --> 00:02:50.100
+to look at each of the domains
+
+68
+00:02:50.100 --> 00:02:52.140
+and make sure that you are comfortable
+
+69
+00:02:52.140 --> 00:02:56.700
+with all these things such as monitoring, reliability,
+
+70
+00:02:56.700 --> 00:02:58.650
+you have deployments,
+
+71
+00:02:58.650 --> 00:03:00.690
+security and compliance
+
+72
+00:03:00.690 --> 00:03:03.090
+and networking and content delivery
+
+73
+00:03:03.090 --> 00:03:05.910
+and cost and performance optimization.
+
+74
+00:03:05.910 --> 00:03:08.337
+In the appendix you have the in-scope
+
+75
+00:03:08.337 --> 00:03:10.020
+AWS services and features.
+
+76
+00:03:10.020 --> 00:03:11.940
+So this is a very long list
+
+77
+00:03:11.940 --> 00:03:13.530
+and if there is something
+
+78
+00:03:13.530 --> 00:03:16.110
+that I don't treat specifically in the course
+
+79
+00:03:16.110 --> 00:03:19.020
+is because I haven't heard from anyone
+
+80
+00:03:19.020 --> 00:03:20.730
+that it is actually at the exam.
+
+81
+00:03:20.730 --> 00:03:24.240
+So the exam guide is always wider than the exam itself.
+
+82
+00:03:24.240 --> 00:03:26.550
+Of course if something does appear at the exam
+
+83
+00:03:26.550 --> 00:03:30.240
+and is not dealt with in the course, please reach out to me
+
+84
+00:03:30.240 --> 00:03:32.610
+and I will make sure to create a lecture on it.
+
+85
+00:03:32.610 --> 00:03:36.030
+This is how I proceed and it's been very successful so far.
+
+86
+00:03:36.030 --> 00:03:38.310
+Still you have the in-scope services
+
+87
+00:03:38.310 --> 00:03:40.410
+and the out of scope services
+
+88
+00:03:40.410 --> 00:03:42.750
+and hopefully that should give you more confidence.
+
+89
+00:03:42.750 --> 00:03:44.280
+So I hope you liked it.
+
+90
+00:03:44.280 --> 00:03:46.860
+I hope you are going to train with the sample questions
+
+91
+00:03:46.860 --> 00:03:48.300
+and so on for your exam.
+
+92
+00:03:48.300 --> 00:03:51.360
+But so far if you've practiced alongside me in the course,
+
+93
+00:03:51.360 --> 00:03:53.070
+you should be quite ready for it.
+
+94
+00:03:53.070 --> 00:03:55.050
+Alright, that's it. I hope you liked it
+
+95
+00:03:55.050 --> 00:03:57.123
+and I will see you in the next lecture.
+

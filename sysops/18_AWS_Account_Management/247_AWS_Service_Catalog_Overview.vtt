@@ -1,0 +1,402 @@
+WEBVTT
+
+1
+00:00:00.310 --> 00:00:01.470
+<v Instructor>Now let's talk a service</v>
+
+2
+00:00:01.470 --> 00:00:04.020
+that can come up at the exam on one or two questions,
+
+3
+00:00:04.020 --> 00:00:06.480
+which is the AWS Service Catalog.
+
+4
+00:00:06.480 --> 00:00:09.580
+So the idea is that when you go and start with AWS,
+
+5
+00:00:09.580 --> 00:00:11.300
+you have too many options,
+
+6
+00:00:11.300 --> 00:00:13.810
+and it's very complicated for beginners to get started,
+
+7
+00:00:13.810 --> 00:00:18.370
+and sometimes your users just want to be using the services,
+
+8
+00:00:18.370 --> 00:00:20.230
+and so they may create stacks,
+
+9
+00:00:20.230 --> 00:00:21.760
+though they are not going to be compliant,
+
+10
+00:00:21.760 --> 00:00:23.410
+or in line with the rest of your organization.
+
+11
+00:00:23.410 --> 00:00:26.430
+So they just want a quick, self-service portal,
+
+12
+00:00:26.430 --> 00:00:28.240
+that allows them to be launching
+
+13
+00:00:28.240 --> 00:00:30.070
+a set of authorized products,
+
+14
+00:00:30.070 --> 00:00:33.850
+that will be predefined by admins in the Service Catalog.
+
+15
+00:00:33.850 --> 00:00:36.060
+So for example, you may have a user that say, hey,
+
+16
+00:00:36.060 --> 00:00:38.410
+I want a virtual machine for doing my machine learning.
+
+17
+00:00:38.410 --> 00:00:40.410
+I want a database for my application,
+
+18
+00:00:40.410 --> 00:00:42.600
+I want storage options, etc, etc.
+
+19
+00:00:42.600 --> 00:00:45.190
+So this is where the Service Catalog comes in.
+
+20
+00:00:45.190 --> 00:00:47.820
+So the idea is that you have admins and users.
+
+21
+00:00:47.820 --> 00:00:50.590
+So your admins are going to create products,
+
+22
+00:00:50.590 --> 00:00:54.010
+and products are a short name for CloudFormation templates.
+
+23
+00:00:54.010 --> 00:00:55.890
+So we already know CloudFormation templates,
+
+24
+00:00:55.890 --> 00:00:59.018
+the idea is that we'll use products to encapsulate them.
+
+25
+00:00:59.018 --> 00:01:01.610
+Then we build a portfolio,
+
+26
+00:01:01.610 --> 00:01:03.820
+which is a collection of products, okay,
+
+27
+00:01:03.820 --> 00:01:05.870
+a collection of CloudFormation templates.
+
+28
+00:01:05.870 --> 00:01:08.640
+And then we define controls such as IAM Permissions,
+
+29
+00:01:08.640 --> 00:01:10.839
+for who can access this portfolio.
+
+30
+00:01:10.839 --> 00:01:12.477
+Now your users on the other side,
+
+31
+00:01:12.477 --> 00:01:15.470
+they will have a product list available to them,
+
+32
+00:01:15.470 --> 00:01:16.580
+and they will see that list,
+
+33
+00:01:16.580 --> 00:01:19.510
+thanks to the IAM Permissions we have defined from before.
+
+34
+00:01:19.510 --> 00:01:21.920
+And if they're happy with the product, they will launch it,
+
+35
+00:01:21.920 --> 00:01:23.550
+and then the product will be provisioned,
+
+36
+00:01:23.550 --> 00:01:25.650
+which is ready to use, properly configured,
+
+37
+00:01:25.650 --> 00:01:27.060
+and properly typed.
+
+38
+00:01:27.060 --> 00:01:28.670
+So the idea is that here,
+
+39
+00:01:28.670 --> 00:01:31.010
+we allow our users to pick and choose
+
+40
+00:01:31.010 --> 00:01:32.830
+from a list of CloudFormation templates,
+
+41
+00:01:32.830 --> 00:01:36.090
+organizing portfolios, and launch them safely.
+
+42
+00:01:36.090 --> 00:01:38.790
+So our users may not have access to AWS at all,
+
+43
+00:01:38.790 --> 00:01:40.460
+but only to the Service Catalog,
+
+44
+00:01:40.460 --> 00:01:42.850
+and they can launch full stacks, okay,
+
+45
+00:01:42.850 --> 00:01:45.070
+without directly accessing CloudFormation,
+
+46
+00:01:45.070 --> 00:01:47.000
+only by using the CloudFormation templates
+
+47
+00:01:47.000 --> 00:01:48.900
+authorized in the Service Catalog.
+
+48
+00:01:48.900 --> 00:01:51.213
+But this allows them to be faster,
+
+49
+00:01:51.213 --> 00:01:53.810
+and launch exactly what they can.
+
+50
+00:01:53.810 --> 00:01:55.940
+Okay, so now let's talk about sharing catalogs,
+
+51
+00:01:55.940 --> 00:01:58.518
+so you have a catalog in your account, okay?
+
+52
+00:01:58.518 --> 00:02:01.120
+And you can share it with other accounts,
+
+53
+00:02:01.120 --> 00:02:03.090
+or within an organization.
+
+54
+00:02:03.090 --> 00:02:04.340
+So let's say there's a portfolio,
+
+55
+00:02:04.340 --> 00:02:05.930
+you have two sharing options.
+
+56
+00:02:05.930 --> 00:02:08.583
+The first one is to share a reference to the portfolio,
+
+57
+00:02:08.583 --> 00:02:11.330
+and then import the shared portfolio
+
+58
+00:02:11.330 --> 00:02:12.940
+in the recipient accounts.
+
+59
+00:02:12.940 --> 00:02:15.350
+And in that case, that will be synchronized
+
+60
+00:02:15.350 --> 00:02:17.260
+with the original portfolio.
+
+61
+00:02:17.260 --> 00:02:19.240
+So that means that the admin in account B,
+
+62
+00:02:19.240 --> 00:02:20.730
+can import the full portfolio,
+
+63
+00:02:20.730 --> 00:02:23.239
+and launch products out of the portfolio.
+
+64
+00:02:23.239 --> 00:02:26.340
+And then in case we add more products to the portfolio
+
+65
+00:02:26.340 --> 00:02:28.480
+in account A, then the admins will see them,
+
+66
+00:02:28.480 --> 00:02:29.560
+because they're in sync.
+
+67
+00:02:29.560 --> 00:02:32.970
+And so will be able to launch products from them as well.
+
+68
+00:02:32.970 --> 00:02:35.870
+But we can also deploy a copy of the portfolio
+
+69
+00:02:35.870 --> 00:02:37.550
+into the recipient accounts,
+
+70
+00:02:37.550 --> 00:02:40.190
+in which case, well, in case of updates happening
+
+71
+00:02:40.190 --> 00:02:42.960
+in portfolio A, they need as well to be copied
+
+72
+00:02:42.960 --> 00:02:45.250
+into the account B.
+
+73
+00:02:45.250 --> 00:02:48.370
+Because this is a copy, and not an in-sync sharing.
+
+74
+00:02:48.370 --> 00:02:50.550
+So two options in different use cases.
+
+75
+00:02:50.550 --> 00:02:52.160
+And then based on this,
+
+76
+00:02:52.160 --> 00:02:55.490
+you can create products from the imported portfolio,
+
+77
+00:02:55.490 --> 00:02:57.520
+to your local portfolios.
+
+78
+00:02:57.520 --> 00:03:01.430
+Okay, finally, let's talk about tags with Service Catalog.
+
+79
+00:03:01.430 --> 00:03:03.810
+So you can manage tags on your provision products,
+
+80
+00:03:03.810 --> 00:03:05.670
+and this is called a TagOption.
+
+81
+00:03:05.670 --> 00:03:07.920
+So this is a key value pair you predefine
+
+82
+00:03:07.920 --> 00:03:10.466
+in the Service Catalog, and it's managed by it.
+
+83
+00:03:10.466 --> 00:03:13.680
+And this is used to create a tag in AWS,
+
+84
+00:03:13.680 --> 00:03:15.620
+so you can associate a TagOption
+
+85
+00:03:15.620 --> 00:03:16.990
+with a portfolio and a product.
+
+86
+00:03:16.990 --> 00:03:20.200
+For example, we can associate the TagOption environment
+
+87
+00:03:21.433 --> 00:03:24.740
+with the key and value prod, okay.
+
+88
+00:03:24.740 --> 00:03:26.450
+We associate it with portfolio A,
+
+89
+00:03:26.450 --> 00:03:28.940
+and that means at any time we launch a stack
+
+90
+00:03:28.940 --> 00:03:30.940
+from a product in portfolio A,
+
+91
+00:03:30.940 --> 00:03:33.950
+then it will inherit the tags, key environment
+
+92
+00:03:33.950 --> 00:03:36.300
+and value prod, and as you can see, for example,
+
+93
+00:03:36.300 --> 00:03:39.030
+my EC2 instances now are tagged properly.
+
+94
+00:03:39.030 --> 00:03:41.860
+So the use cases of that is to do proper resource tagging,
+
+95
+00:03:41.860 --> 00:03:43.740
+or to only use allowed tags
+
+96
+00:03:43.740 --> 00:03:46.110
+that are defined in the Service Catalog.
+
+97
+00:03:46.110 --> 00:03:48.600
+And these TagOptions can also be shared
+
+98
+00:03:48.600 --> 00:03:51.620
+with other accounts, or with an organization.
+
+99
+00:03:51.620 --> 00:03:53.460
+So that's it for the Service Catalog, I hope you liked it,
+
+100
+00:03:53.460 --> 00:03:55.410
+And I will see you in the next lecture.
+

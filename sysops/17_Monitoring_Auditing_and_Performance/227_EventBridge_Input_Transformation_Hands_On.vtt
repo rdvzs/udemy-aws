@@ -1,0 +1,766 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.620
+<v Instructor>So let's practice using</v>
+
+2
+00:00:01.620 --> 00:00:03.720
+EventBridge input transformers.
+
+3
+00:00:03.720 --> 00:00:05.850
+So to do so, let's go into EventBridge.
+
+4
+00:00:05.850 --> 00:00:07.320
+Let's go under Rules.
+
+5
+00:00:07.320 --> 00:00:09.240
+And we're going to create a rule,
+
+6
+00:00:09.240 --> 00:00:11.243
+and this was going to be DemoInputTransformer.
+
+7
+00:00:13.800 --> 00:00:15.450
+Okay, so what we're going to do is that
+
+8
+00:00:15.450 --> 00:00:16.800
+we want to have an input,
+
+9
+00:00:16.800 --> 00:00:18.240
+but we want to transform it
+
+10
+00:00:18.240 --> 00:00:19.073
+because this is something
+
+11
+00:00:19.073 --> 00:00:20.100
+that can come up in the exam
+
+12
+00:00:20.100 --> 00:00:22.530
+even as a hands-on lab.
+
+13
+00:00:22.530 --> 00:00:23.363
+So how do we do it?
+
+14
+00:00:23.363 --> 00:00:25.230
+Well, we have an event bus,
+
+15
+00:00:25.230 --> 00:00:26.460
+and then we're going to have a rule
+
+16
+00:00:26.460 --> 00:00:28.680
+that matches an event pattern.
+
+17
+00:00:28.680 --> 00:00:30.000
+So we send next.
+
+18
+00:00:30.000 --> 00:00:34.050
+Then the event source is going to be an AWS event.
+
+19
+00:00:34.050 --> 00:00:36.150
+And for sample events for now,
+
+20
+00:00:36.150 --> 00:00:37.620
+we're going to trigger it.
+
+21
+00:00:37.620 --> 00:00:39.900
+This is a AWS event.
+
+22
+00:00:39.900 --> 00:00:42.240
+And the event we want to filter on
+
+23
+00:00:42.240 --> 00:00:46.230
+is the EC2 instance state-change notification.
+
+24
+00:00:46.230 --> 00:00:47.550
+So you paste this in,
+
+25
+00:00:47.550 --> 00:00:51.270
+and this is what the input event looks like.
+
+26
+00:00:51.270 --> 00:00:52.410
+So we have an id,
+
+27
+00:00:52.410 --> 00:00:54.720
+we have a detail type, we have a source,
+
+28
+00:00:54.720 --> 00:00:57.060
+an account, a timestamp,
+
+29
+00:00:57.060 --> 00:00:58.080
+we have a region,
+
+30
+00:00:58.080 --> 00:00:59.160
+we have resource
+
+31
+00:00:59.160 --> 00:01:00.060
+which is the instance ID
+
+32
+00:01:00.060 --> 00:01:02.130
+that it supplies to the full ARN.
+
+33
+00:01:02.130 --> 00:01:05.100
+Then detail, we have instance ID and states.
+
+34
+00:01:05.100 --> 00:01:06.690
+And this is a JSON document
+
+35
+00:01:06.690 --> 00:01:08.550
+and it may look fine,
+
+36
+00:01:08.550 --> 00:01:11.190
+but maybe a downstream application
+
+37
+00:01:11.190 --> 00:01:13.440
+wants to have a specific event type
+
+38
+00:01:13.440 --> 00:01:15.300
+and doesn't want to use this,
+
+39
+00:01:15.300 --> 00:01:16.650
+but instead wants to use
+
+40
+00:01:16.650 --> 00:01:18.510
+a simplified version of it
+
+41
+00:01:18.510 --> 00:01:22.590
+where maybe the instance ID is not under detail
+
+42
+00:01:22.590 --> 00:01:24.240
+but it's just one level up.
+
+43
+00:01:24.240 --> 00:01:25.073
+For whatever reason
+
+44
+00:01:25.073 --> 00:01:27.270
+you may want to transform this.
+
+45
+00:01:27.270 --> 00:01:28.950
+So let's see how we can do it.
+
+46
+00:01:28.950 --> 00:01:30.600
+So first, we are going to use
+
+47
+00:01:30.600 --> 00:01:33.540
+a creation method of use pattern form,
+
+48
+00:01:33.540 --> 00:01:36.450
+and then AWS services, EC2 again.
+
+49
+00:01:36.450 --> 00:01:38.640
+So we have to reselect the event type.
+
+50
+00:01:38.640 --> 00:01:41.343
+So take this one and then paste it in.
+
+51
+00:01:42.630 --> 00:01:43.710
+And then we just have
+
+52
+00:01:43.710 --> 00:01:44.880
+this event pattern right here
+
+53
+00:01:44.880 --> 00:01:46.200
+that has been created.
+
+54
+00:01:46.200 --> 00:01:47.033
+So this is good.
+
+55
+00:01:47.033 --> 00:01:48.480
+We'll click on Next.
+
+56
+00:01:48.480 --> 00:01:51.600
+Next, we want to target an AWS service.
+
+57
+00:01:51.600 --> 00:01:54.870
+So to do so, I'm going to target CloudWatch log groups,
+
+58
+00:01:54.870 --> 00:01:56.240
+and it is going to be under
+
+59
+00:01:56.240 --> 00:02:01.240
+/aws/events/event input transformation.
+
+60
+00:02:04.560 --> 00:02:06.300
+And then where we actually
+
+61
+00:02:06.300 --> 00:02:08.430
+configure the input transformation
+
+62
+00:02:08.430 --> 00:02:10.650
+is under additional settings.
+
+63
+00:02:10.650 --> 00:02:13.410
+And then here under configure target inputs,
+
+64
+00:02:13.410 --> 00:02:14.550
+we're going to click here
+
+65
+00:02:14.550 --> 00:02:17.340
+and say we want an input transformer.
+
+66
+00:02:17.340 --> 00:02:19.650
+And here we can configure this input transformer
+
+67
+00:02:19.650 --> 00:02:21.060
+and it gets fun.
+
+68
+00:02:21.060 --> 00:02:25.410
+So again, we have to respecify the sample events.
+
+69
+00:02:25.410 --> 00:02:27.930
+So let's filter and have it here.
+
+70
+00:02:27.930 --> 00:02:30.930
+So now we have the sampled events just like before,
+
+71
+00:02:30.930 --> 00:02:34.440
+but now we have an input path that we can have.
+
+72
+00:02:34.440 --> 00:02:36.210
+So the doc, this console gives you
+
+73
+00:02:36.210 --> 00:02:38.670
+some information around what you can have.
+
+74
+00:02:38.670 --> 00:02:40.560
+So it gives you, for example,
+
+75
+00:02:40.560 --> 00:02:42.090
+I'll show you right now.
+
+76
+00:02:42.090 --> 00:02:44.340
+It gives you like input path like this.
+
+77
+00:02:44.340 --> 00:02:45.660
+This is the template
+
+78
+00:02:45.660 --> 00:02:46.890
+and this is the output.
+
+79
+00:02:46.890 --> 00:02:48.300
+And we're going to use something similar,
+
+80
+00:02:48.300 --> 00:02:50.700
+but you can have a look at this in your own time.
+
+81
+00:02:50.700 --> 00:02:53.340
+But let's go into target input transformer.
+
+82
+00:02:53.340 --> 00:02:55.140
+So this is to define variables
+
+83
+00:02:55.140 --> 00:02:57.060
+and you can have at least as right now
+
+84
+00:02:57.060 --> 00:02:59.100
+as up to 100 variables in there.
+
+85
+00:02:59.100 --> 00:03:00.210
+And then we can use the variable
+
+86
+00:03:00.210 --> 00:03:02.220
+as this variable name.
+
+87
+00:03:02.220 --> 00:03:03.450
+So to define variables,
+
+88
+00:03:03.450 --> 00:03:04.980
+we have to use a JSON documents.
+
+89
+00:03:04.980 --> 00:03:05.813
+I'll paste it in
+
+90
+00:03:05.813 --> 00:03:07.590
+and we have a look at it in a second.
+
+91
+00:03:07.590 --> 00:03:09.270
+So here on the left hand side,
+
+92
+00:03:09.270 --> 00:03:13.080
+we define the variable name which is timestamp.
+
+93
+00:03:13.080 --> 00:03:15.630
+And here we define the value of timestamp.
+
+94
+00:03:15.630 --> 00:03:18.870
+Dollar means to take the inputs,
+
+95
+00:03:18.870 --> 00:03:20.070
+dot means to look up
+
+96
+00:03:20.070 --> 00:03:22.350
+for a field in a JSON form,
+
+97
+00:03:22.350 --> 00:03:24.600
+and time is to look for the time field.
+
+98
+00:03:24.600 --> 00:03:27.340
+So dollar dot time brings us here
+
+99
+00:03:28.440 --> 00:03:30.690
+to this time field.
+
+100
+00:03:30.690 --> 00:03:32.310
+So we take this value
+
+101
+00:03:32.310 --> 00:03:33.360
+and it's going to be stored
+
+102
+00:03:33.360 --> 00:03:36.270
+under the name "timestamp."
+
+103
+00:03:36.270 --> 00:03:37.950
+We can go as down as we want.
+
+104
+00:03:37.950 --> 00:03:42.750
+So if we do dollar dot detail dot instance id,
+
+105
+00:03:42.750 --> 00:03:44.430
+we go in here in detail.
+
+106
+00:03:44.430 --> 00:03:45.720
+Then underneath detail,
+
+107
+00:03:45.720 --> 00:03:46.740
+we have JSON documents.
+
+108
+00:03:46.740 --> 00:03:48.300
+So instance-id,
+
+109
+00:03:48.300 --> 00:03:51.210
+and then we get the instance ID out of it.
+
+110
+00:03:51.210 --> 00:03:52.680
+So we have the same for states.
+
+111
+00:03:52.680 --> 00:03:54.180
+And finally, if you have arrays,
+
+112
+00:03:54.180 --> 00:03:55.980
+you can use the brackets
+
+113
+00:03:55.980 --> 00:03:57.420
+to specify the value
+
+114
+00:03:57.420 --> 00:03:58.470
+in the position in the array.
+
+115
+00:03:58.470 --> 00:04:01.530
+So dollar dot resources is an array,
+
+116
+00:04:01.530 --> 00:04:05.370
+and bracket zero means number zero.
+
+117
+00:04:05.370 --> 00:04:08.610
+So here we have the resources.
+
+118
+00:04:08.610 --> 00:04:09.780
+This is an array,
+
+119
+00:04:09.780 --> 00:04:13.530
+and zero means this one right here.
+
+120
+00:04:13.530 --> 00:04:14.363
+Awesome.
+
+121
+00:04:14.363 --> 00:04:16.350
+So we have defined four input variables
+
+122
+00:04:16.350 --> 00:04:18.480
+and then we can do whatever we want with it.
+
+123
+00:04:18.480 --> 00:04:21.030
+For example, I could say something like
+
+124
+00:04:21.030 --> 00:04:26.030
+instance was launched at timestamp,
+
+125
+00:04:26.250 --> 00:04:27.870
+and so we can try it out.
+
+126
+00:04:27.870 --> 00:04:29.280
+So we can generate output.
+
+127
+00:04:29.280 --> 00:04:30.390
+And as we can see,
+
+128
+00:04:30.390 --> 00:04:31.530
+we see that our instance
+
+129
+00:04:31.530 --> 00:04:33.570
+was launched at this timestamp
+
+130
+00:04:33.570 --> 00:04:36.690
+just by having this input template as this output.
+
+131
+00:04:36.690 --> 00:04:38.430
+So everything is working great,
+
+132
+00:04:38.430 --> 00:04:41.670
+but to send stuff into CloudWatch log groups,
+
+133
+00:04:41.670 --> 00:04:43.950
+you need to actually include a JSON document.
+
+134
+00:04:43.950 --> 00:04:46.680
+So we'll include this JSON document,
+
+135
+00:04:46.680 --> 00:04:48.360
+and it's going to be a very simple one.
+
+136
+00:04:48.360 --> 00:04:49.417
+It's going to be saying,
+
+137
+00:04:49.417 --> 00:04:50.820
+"Hey, the timestamp is this timestamp
+
+138
+00:04:50.820 --> 00:04:53.520
+and this is necessary by CloudWatch log groups."
+
+139
+00:04:53.520 --> 00:04:54.397
+And then the message is,
+
+140
+00:04:54.397 --> 00:04:56.940
+"Instance blah blah is in state state
+
+141
+00:04:56.940 --> 00:04:59.670
+at timestamp with ARN resource."
+
+142
+00:04:59.670 --> 00:05:00.990
+Let's generate the outputs.
+
+143
+00:05:00.990 --> 00:05:01.823
+And as you can see,
+
+144
+00:05:01.823 --> 00:05:03.600
+we see the proper messages
+
+145
+00:05:03.600 --> 00:05:05.130
+that we want out of it.
+
+146
+00:05:05.130 --> 00:05:07.230
+So let's confirm this
+
+147
+00:05:07.230 --> 00:05:08.910
+and then save our events.
+
+148
+00:05:08.910 --> 00:05:11.340
+So save right here,
+
+149
+00:05:11.340 --> 00:05:13.470
+update this rule or create it.
+
+150
+00:05:13.470 --> 00:05:14.760
+So how do we test this?
+
+151
+00:05:14.760 --> 00:05:17.400
+Well, let's go into the EC2 console,
+
+152
+00:05:17.400 --> 00:05:20.100
+and I'm going to just create an EC2 instance
+
+153
+00:05:20.100 --> 00:05:21.150
+and see whether or not
+
+154
+00:05:21.150 --> 00:05:22.710
+we see some things in EventBridge.
+
+155
+00:05:22.710 --> 00:05:25.380
+So let's launch an instance "demo,"
+
+156
+00:05:25.380 --> 00:05:27.960
+and I'm going to scroll down very quickly.
+
+157
+00:05:27.960 --> 00:05:29.430
+We don't need a key pair.
+
+158
+00:05:29.430 --> 00:05:30.480
+Everything else looks good.
+
+159
+00:05:30.480 --> 00:05:32.580
+Let's launch this instance.
+
+160
+00:05:32.580 --> 00:05:34.260
+So these instances being launched
+
+161
+00:05:34.260 --> 00:05:37.770
+is going to actually generate some EventBridge data.
+
+162
+00:05:37.770 --> 00:05:39.870
+So EventBridge will send it to CloudWatch log.
+
+163
+00:05:39.870 --> 00:05:43.683
+So I need to go into CloudWatch logs now.
+
+164
+00:05:44.880 --> 00:05:45.713
+Okay.
+
+165
+00:05:48.810 --> 00:05:51.780
+And I go into Logs, Log groups,
+
+166
+00:05:51.780 --> 00:05:55.230
+then I look for AWS event input transformation.
+
+167
+00:05:55.230 --> 00:05:56.190
+And as you can see right now
+
+168
+00:05:56.190 --> 00:05:58.110
+we have log streams being created.
+
+169
+00:05:58.110 --> 00:05:59.430
+So if you have a look at one of this,
+
+170
+00:05:59.430 --> 00:06:02.280
+for example, we have the timestamp that was included,
+
+171
+00:06:02.280 --> 00:06:04.230
+and then the message's instance
+
+172
+00:06:04.230 --> 00:06:06.690
+is in state pending at this timestamp
+
+173
+00:06:06.690 --> 00:06:08.610
+with ARN like this.
+
+174
+00:06:08.610 --> 00:06:09.690
+So this is fully working,
+
+175
+00:06:09.690 --> 00:06:11.820
+and we can have a look at this event right here
+
+176
+00:06:11.820 --> 00:06:12.653
+where it says
+
+177
+00:06:12.653 --> 00:06:15.330
+now the instance is in state running.
+
+178
+00:06:15.330 --> 00:06:17.970
+So our integration is perfectly working.
+
+179
+00:06:17.970 --> 00:06:18.990
+This is awesome.
+
+180
+00:06:18.990 --> 00:06:21.180
+We have taken an event from EventBridge,
+
+181
+00:06:21.180 --> 00:06:22.140
+we've transformed it,
+
+182
+00:06:22.140 --> 00:06:23.250
+thanks to input transformers.
+
+183
+00:06:23.250 --> 00:06:24.930
+And now it's in CloudWatch logs.
+
+184
+00:06:24.930 --> 00:06:25.950
+So to just complete this,
+
+185
+00:06:25.950 --> 00:06:27.150
+terminate your instance
+
+186
+00:06:27.150 --> 00:06:30.390
+so you don't have any cost associated with this.
+
+187
+00:06:30.390 --> 00:06:31.650
+And you can leave the row running
+
+188
+00:06:31.650 --> 00:06:32.483
+if you want it to,
+
+189
+00:06:32.483 --> 00:06:34.440
+or you can just disable it.
+
+190
+00:06:34.440 --> 00:06:35.910
+All right, that's it for this lecture.
+
+191
+00:06:35.910 --> 00:06:38.943
+I hope you liked it and I will see you in the next lecture.
+

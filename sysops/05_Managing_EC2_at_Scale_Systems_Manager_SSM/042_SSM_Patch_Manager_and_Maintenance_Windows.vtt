@@ -1,0 +1,550 @@
+WEBVTT
+
+1
+00:00:00.240 --> 00:00:01.680
+<v Lecturer>So now let's see an overview</v>
+
+2
+00:00:01.680 --> 00:00:03.660
+of the SSM Patch Manager.
+
+3
+00:00:03.660 --> 00:00:06.090
+So we use the Patch Manager to automate the process
+
+4
+00:00:06.090 --> 00:00:08.220
+of patching our managed instances.
+
+5
+00:00:08.220 --> 00:00:10.770
+This includes OS updates, applications updates
+
+6
+00:00:10.770 --> 00:00:12.180
+and security updates.
+
+7
+00:00:12.180 --> 00:00:14.340
+Of course, it supports both EC2 instances
+
+8
+00:00:14.340 --> 00:00:15.780
+and on-premises server
+
+9
+00:00:15.780 --> 00:00:18.090
+and Linux, MacOS and Windows.
+
+10
+00:00:18.090 --> 00:00:19.710
+You're going to patch on demand
+
+11
+00:00:19.710 --> 00:00:22.080
+so you can run the patch manager as you want
+
+12
+00:00:22.080 --> 00:00:25.740
+or on the schedule if you want to use a maintenance window.
+
+13
+00:00:25.740 --> 00:00:26.573
+What's going to happen
+
+14
+00:00:26.573 --> 00:00:28.770
+is that the patch manager will scan the instances
+
+15
+00:00:28.770 --> 00:00:30.780
+and will generate a patch compliance report
+
+16
+00:00:30.780 --> 00:00:33.120
+which is a list of all the machine patches.
+
+17
+00:00:33.120 --> 00:00:35.640
+And then this report can be sent to S3
+
+18
+00:00:35.640 --> 00:00:37.680
+and then we can act upon this report.
+
+19
+00:00:37.680 --> 00:00:39.544
+So patch manager has two components
+
+20
+00:00:39.544 --> 00:00:40.860
+we need to know about,
+
+21
+00:00:40.860 --> 00:00:42.960
+which is the number one is the patch baseline
+
+22
+00:00:42.960 --> 00:00:45.060
+and the number two is patch groups.
+
+23
+00:00:45.060 --> 00:00:47.880
+So patch baseline defines which patches should
+
+24
+00:00:47.880 --> 00:00:51.150
+and shouldn't be installed on your EC2 instances
+
+25
+00:00:51.150 --> 00:00:54.330
+and the ability to create custom patch baseline
+
+26
+00:00:54.330 --> 00:00:57.030
+is up to you if you want to specify approved
+
+27
+00:00:57.030 --> 00:00:59.400
+or rejected patches on your instance.
+
+28
+00:00:59.400 --> 00:01:01.200
+The patches can also be auto approved
+
+29
+00:01:01.200 --> 00:01:02.580
+within days of their release
+
+30
+00:01:02.580 --> 00:01:04.920
+in case someone is not there to approve them.
+
+31
+00:01:04.920 --> 00:01:07.410
+By default, the patch baseline is to install
+
+32
+00:01:07.410 --> 00:01:08.670
+only critical patches
+
+33
+00:01:08.670 --> 00:01:10.560
+and patches related to security
+
+34
+00:01:10.560 --> 00:01:13.350
+onto your SSM managed instances.
+
+35
+00:01:13.350 --> 00:01:14.430
+Now for patch group,
+
+36
+00:01:14.430 --> 00:01:17.070
+this is to associate a set of instances
+
+37
+00:01:17.070 --> 00:01:18.570
+with a specific patch baseline.
+
+38
+00:01:18.570 --> 00:01:20.223
+So if you define custom patch baselines,
+
+39
+00:01:20.223 --> 00:01:21.870
+then you can create patch groups
+
+40
+00:01:21.870 --> 00:01:23.490
+to associate them together.
+
+41
+00:01:23.490 --> 00:01:24.390
+And for example,
+
+42
+00:01:24.390 --> 00:01:26.010
+you can have a patch group for dev,
+
+43
+00:01:26.010 --> 00:01:27.480
+test and prod.
+
+44
+00:01:27.480 --> 00:01:29.160
+Now, instances when using patch groups
+
+45
+00:01:29.160 --> 00:01:31.980
+should be defined with a tech key patch group
+
+46
+00:01:31.980 --> 00:01:33.420
+and an instance at any time,
+
+47
+00:01:33.420 --> 00:01:37.320
+therefore can only be part of one patch group.
+
+48
+00:01:37.320 --> 00:01:39.270
+And the patch group can only be registered
+
+49
+00:01:39.270 --> 00:01:41.190
+with one patch baseline.
+
+50
+00:01:41.190 --> 00:01:43.170
+So we have two kind of patch baselines
+
+51
+00:01:43.170 --> 00:01:44.003
+in Patch Manager.
+
+52
+00:01:44.003 --> 00:01:46.050
+We have the predefined patch baselines
+
+53
+00:01:46.050 --> 00:01:47.550
+and they're managed by AWS
+
+54
+00:01:47.550 --> 00:01:49.680
+and they're defined for operating systems
+
+55
+00:01:49.680 --> 00:01:50.513
+that are different
+
+56
+00:01:50.513 --> 00:01:52.170
+and you cannot modify them.
+
+57
+00:01:52.170 --> 00:01:54.780
+Now to run one of these predefined patch baseline,
+
+58
+00:01:54.780 --> 00:01:56.580
+you can use the SSM document
+
+59
+00:01:56.580 --> 00:01:58.590
+named AWS Run Patch Baseline,
+
+60
+00:01:58.590 --> 00:02:01.500
+to apply both operating system
+
+61
+00:02:01.500 --> 00:02:03.240
+and application patches for Linux,
+
+62
+00:02:03.240 --> 00:02:05.250
+MacOS and Windows server.
+
+63
+00:02:05.250 --> 00:02:07.920
+You can also define your custom patch baseline.
+
+64
+00:02:07.920 --> 00:02:09.600
+So you define your own patch baseline
+
+65
+00:02:09.600 --> 00:02:12.420
+and you choose which patches are auto-approved,
+
+66
+00:02:12.420 --> 00:02:13.500
+which are allowed,
+
+67
+00:02:13.500 --> 00:02:14.490
+which are rejected,
+
+68
+00:02:14.490 --> 00:02:16.410
+and the operating system.
+
+69
+00:02:16.410 --> 00:02:19.050
+And you can also specify custom
+
+70
+00:02:19.050 --> 00:02:20.970
+or alternative patch repository.
+
+71
+00:02:20.970 --> 00:02:22.440
+So you can really, for example,
+
+72
+00:02:22.440 --> 00:02:25.830
+have an internal corporate patch repository for this.
+
+73
+00:02:25.830 --> 00:02:28.110
+Now I want to make this clear with a diagram.
+
+74
+00:02:28.110 --> 00:02:31.337
+So we have three types of easy two instances
+
+75
+00:02:31.337 --> 00:02:33.240
+all running the SSM agents.
+
+76
+00:02:33.240 --> 00:02:34.830
+The number ones are going to be tagged
+
+77
+00:02:34.830 --> 00:02:36.780
+with OS Windows patch group dev,
+
+78
+00:02:36.780 --> 00:02:38.130
+number two is OS Windows,
+
+79
+00:02:38.130 --> 00:02:41.130
+number three is OS Windows Patch Group prod.
+
+80
+00:02:41.130 --> 00:02:42.300
+And in Patch Manager
+
+81
+00:02:42.300 --> 00:02:45.120
+we're going to define patch baselines.
+
+82
+00:02:45.120 --> 00:02:46.290
+So the first patch baseline
+
+83
+00:02:46.290 --> 00:02:47.910
+is attached to the default patch group
+
+84
+00:02:47.910 --> 00:02:51.360
+which is when a patch group is not defined by default.
+
+85
+00:02:51.360 --> 00:02:52.410
+And this is default yes.
+
+86
+00:02:52.410 --> 00:02:54.330
+So any instance that doesn't have
+
+87
+00:02:54.330 --> 00:02:55.560
+a specific patch group
+
+88
+00:02:55.560 --> 00:02:58.590
+is going to get the first patch baseline ID.
+
+89
+00:02:58.590 --> 00:02:59.940
+And the second one
+
+90
+00:02:59.940 --> 00:03:01.797
+is running the patch group dev,
+
+91
+00:03:01.797 --> 00:03:04.500
+which is not a default patch baseline.
+
+92
+00:03:04.500 --> 00:03:06.960
+And we have a specific patch baseline ID.
+
+93
+00:03:06.960 --> 00:03:08.280
+So thanks to this tagging
+
+94
+00:03:08.280 --> 00:03:10.920
+the first instance which is under patch group dev
+
+95
+00:03:10.920 --> 00:03:15.180
+is going to have the PB98, whatever, patch baseline ID.
+
+96
+00:03:15.180 --> 00:03:18.330
+And the other two are going to have the PB0123
+
+97
+00:03:18.330 --> 00:03:19.590
+patch baseline ID
+
+98
+00:03:19.590 --> 00:03:24.123
+because they are not tagged with a patch group dev.
+
+99
+00:03:24.990 --> 00:03:27.510
+So here we're going to run a command
+
+100
+00:03:27.510 --> 00:03:29.850
+and this command is going to be running a document
+
+101
+00:03:29.850 --> 00:03:34.080
+called AWS Run Patch Baseline.
+
+102
+00:03:34.080 --> 00:03:36.420
+And this can be initiated from the console,
+
+103
+00:03:36.420 --> 00:03:38.880
+the SDK or the maintenance window.
+
+104
+00:03:38.880 --> 00:03:41.130
+And then the run command itself
+
+105
+00:03:41.130 --> 00:03:43.950
+will be applied to all these EC2 instances,
+
+106
+00:03:43.950 --> 00:03:45.240
+from within obviously,
+
+107
+00:03:45.240 --> 00:03:47.430
+to install the patches.
+
+108
+00:03:47.430 --> 00:03:50.040
+Now, the SSM agent on these instances
+
+109
+00:03:50.040 --> 00:03:52.380
+will query to the patch manager service
+
+110
+00:03:52.380 --> 00:03:54.689
+to get an idea of which patches to include
+
+111
+00:03:54.689 --> 00:03:57.510
+and to run thanks to the patch baseline.
+
+112
+00:03:57.510 --> 00:03:58.740
+So this may seem complicated
+
+113
+00:03:58.740 --> 00:04:00.480
+but hopefully this is something you understand.
+
+114
+00:04:00.480 --> 00:04:02.340
+And then obviously you can have rate control,
+
+115
+00:04:02.340 --> 00:04:04.050
+just like anything in SSM,
+
+116
+00:04:04.050 --> 00:04:06.330
+using a maintenance window.
+
+117
+00:04:06.330 --> 00:04:07.770
+So talking about maintenance windows,
+
+118
+00:04:07.770 --> 00:04:09.300
+this is when you want to define a schedule
+
+119
+00:04:09.300 --> 00:04:11.310
+for when to perform actions on your instances.
+
+120
+00:04:11.310 --> 00:04:13.050
+For example, OS patching,
+
+121
+00:04:13.050 --> 00:04:14.760
+updating drivers and installing software.
+
+122
+00:04:14.760 --> 00:04:15.990
+For example, this could be done
+
+123
+00:04:15.990 --> 00:04:18.750
+at night between 3:00 and 5:00 AM.
+
+124
+00:04:18.750 --> 00:04:20.970
+And a maintenance window contains a schedule,
+
+125
+00:04:20.970 --> 00:04:23.520
+a duration and a set of registered instances,
+
+126
+00:04:23.520 --> 00:04:25.440
+as well as a set of tasks
+
+127
+00:04:25.440 --> 00:04:28.230
+that can be run during that maintenance window.
+
+128
+00:04:28.230 --> 00:04:29.160
+So hopefully that makes sense.
+
+129
+00:04:29.160 --> 00:04:31.200
+From a exam perspective,
+
+130
+00:04:31.200 --> 00:04:32.430
+what you need to know is that
+
+131
+00:04:32.430 --> 00:04:34.920
+patch manager is used to patch your instances
+
+132
+00:04:34.920 --> 00:04:36.840
+but that comes, I guess, naturally.
+
+133
+00:04:36.840 --> 00:04:38.550
+And these patches can be run
+
+134
+00:04:38.550 --> 00:04:40.530
+within a specific maintenance window
+
+135
+00:04:40.530 --> 00:04:42.900
+with a specific rate control if you need to.
+
+136
+00:04:42.900 --> 00:04:43.733
+Okay, that's it.
+
+137
+00:04:43.733 --> 00:04:45.220
+I will see you in the next lecture.
+

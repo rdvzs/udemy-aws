@@ -1,0 +1,990 @@
+WEBVTT
+
+1
+00:00:01.260 --> 00:00:03.090
+<v Instructor>So let's go and practice</v>
+
+2
+00:00:03.090 --> 00:00:07.110
+a little bit more in depth the web application firewall.
+
+3
+00:00:07.110 --> 00:00:12.110
+So on AWS WAF, you will have the option to create Web ACLs,
+
+4
+00:00:12.300 --> 00:00:14.700
+and this is where you're going to create your rules
+
+5
+00:00:14.700 --> 00:00:18.600
+that will prevent people from exploiting or accessing
+
+6
+00:00:18.600 --> 00:00:21.810
+your API in way that you think are abusive.
+
+7
+00:00:21.810 --> 00:00:25.170
+And the other thing I want to show you is IP sets.
+
+8
+00:00:25.170 --> 00:00:27.960
+And I will start with IP sets just to go all the way
+
+9
+00:00:27.960 --> 00:00:30.060
+with creating a Web ACLs, so.
+
+10
+00:00:30.060 --> 00:00:33.120
+An IP set is a set of IPs,
+
+11
+00:00:33.120 --> 00:00:35.250
+and in this UI right now you have to select the region,
+
+12
+00:00:35.250 --> 00:00:37.710
+so I will choose, for example, Frankfurt.
+
+13
+00:00:37.710 --> 00:00:39.450
+And you create an IP set,
+
+14
+00:00:39.450 --> 00:00:42.593
+and this IP set, I'll call this MyCorporateIPS.
+
+15
+00:00:44.610 --> 00:00:47.010
+You will define what is a set of IP
+
+16
+00:00:47.010 --> 00:00:48.510
+that you consider to be in this IP set.
+
+17
+00:00:48.510 --> 00:00:50.724
+So it's either IPv4 or IPv6 formats
+
+18
+00:00:50.724 --> 00:00:55.290
+and then you define a CIDR, so 10 0 0 0/32,
+
+19
+00:00:55.290 --> 00:00:57.440
+or you can define your own IP, for example,
+
+20
+00:00:57.440 --> 00:01:01.560
+165 and 44 and 35 and 32/32
+
+21
+00:01:01.560 --> 00:01:05.070
+and maybe this is a whole CIDR here, so /24,
+
+22
+00:01:05.070 --> 00:01:06.000
+whatever you want.
+
+23
+00:01:06.000 --> 00:01:08.430
+They can be public and private IP addresses.
+
+24
+00:01:08.430 --> 00:01:12.450
+You enter one CIDR per line and you're good to go.
+
+25
+00:01:12.450 --> 00:01:15.150
+We will use this IP set very soon,
+
+26
+00:01:15.150 --> 00:01:17.180
+but right now, as you can see we've created
+
+27
+00:01:17.180 --> 00:01:20.040
+MyCorporateIPS in Frankfurt.
+
+28
+00:01:20.040 --> 00:01:24.360
+Okay, so next let's go into the Web ACLs of WAF.
+
+29
+00:01:24.360 --> 00:01:26.520
+And again, you need to choose the region you're in.
+
+30
+00:01:26.520 --> 00:01:28.650
+So, we'll choose Europe, Frankfurt.
+
+31
+00:01:28.650 --> 00:01:30.720
+I'm not sure why this is not on the right hand side,
+
+32
+00:01:30.720 --> 00:01:31.890
+but here we go.
+
+33
+00:01:31.890 --> 00:01:33.780
+Let's create a Web ACL.
+
+34
+00:01:33.780 --> 00:01:38.290
+So, now we'll call this my demo protections
+
+35
+00:01:39.420 --> 00:01:42.000
+and this is associated with the CloudWatch metrics,
+
+36
+00:01:42.000 --> 00:01:43.410
+so, here it is.
+
+37
+00:01:43.410 --> 00:01:45.480
+And the resource type we can attach it to
+
+38
+00:01:45.480 --> 00:01:47.760
+is either a CloudFront distribution,
+
+39
+00:01:47.760 --> 00:01:50.880
+in which case, well you define this in US East-1,
+
+40
+00:01:50.880 --> 00:01:53.490
+otherwise it's for regional resources such as,
+
+41
+00:01:53.490 --> 00:01:57.180
+your Application balancers, your AppsSync GraphQL API,
+
+42
+00:01:57.180 --> 00:01:59.370
+your Amazon API Gateway REST APIs,
+
+43
+00:01:59.370 --> 00:02:02.460
+or your Cognito user pools, whatever you want to protect.
+
+44
+00:02:02.460 --> 00:02:05.610
+So right now, I want to protect regional resources,
+
+45
+00:02:05.610 --> 00:02:07.440
+so, here I choose the region.
+
+46
+00:02:07.440 --> 00:02:10.380
+And optionally, if you had created, for example an ALB,
+
+47
+00:02:10.380 --> 00:02:13.080
+you could go ahead and add it directly from this UI
+
+48
+00:02:13.080 --> 00:02:15.120
+or whatever you want to protect.
+
+49
+00:02:15.120 --> 00:02:17.430
+So, I can just add this as a test,
+
+50
+00:02:17.430 --> 00:02:19.380
+but you don't need to have
+
+51
+00:02:19.380 --> 00:02:21.210
+an application about instead you go with this hands-on.
+
+52
+00:02:21.210 --> 00:02:24.030
+I just want to show you the rules of creation
+
+53
+00:02:24.030 --> 00:02:25.860
+of things in WAF.
+
+54
+00:02:25.860 --> 00:02:30.150
+Okay, so now that we have created an associated ACLs,
+
+55
+00:02:30.150 --> 00:02:32.460
+we need to add rules and rule groups.
+
+56
+00:02:32.460 --> 00:02:35.730
+So, we have what's called WCUs,
+
+57
+00:02:35.730 --> 00:02:38.550
+which is the Web ACL rule capacity units.
+
+58
+00:02:38.550 --> 00:02:42.750
+And the idea is that you cannot exceed 5,500 units in this.
+
+59
+00:02:42.750 --> 00:02:44.820
+This is because otherwise it requests,
+
+60
+00:02:44.820 --> 00:02:46.950
+it requests too much processing power
+
+61
+00:02:46.950 --> 00:02:48.360
+and cannot go through all the rules
+
+62
+00:02:48.360 --> 00:02:51.690
+in enough time to actually serve the request.
+
+63
+00:02:51.690 --> 00:02:54.570
+So obviously, now we need to add some rules.
+
+64
+00:02:54.570 --> 00:02:57.450
+So, let's add a rule and we have two options,
+
+65
+00:02:57.450 --> 00:02:59.310
+we can add managed rules,
+
+66
+00:02:59.310 --> 00:03:02.070
+and this is where you can have AWS manage rules,
+
+67
+00:03:02.070 --> 00:03:05.010
+and you can have a look at them, for example, bot control
+
+68
+00:03:05.010 --> 00:03:06.360
+or for free rule groups.
+
+69
+00:03:06.360 --> 00:03:09.000
+So these one cost you money, but these ones are free.
+
+70
+00:03:09.000 --> 00:03:11.880
+And one of them, for example, is like Known bad inputs,
+
+71
+00:03:11.880 --> 00:03:13.740
+or SQL database protection,
+
+72
+00:03:13.740 --> 00:03:15.030
+but it says full on,
+
+73
+00:03:15.030 --> 00:03:17.730
+so this is 200 credits that it costs you
+
+74
+00:03:17.730 --> 00:03:20.820
+or how to protect a WordPress application and so on.
+
+75
+00:03:20.820 --> 00:03:23.400
+But you can also create your own customer rules,
+
+76
+00:03:23.400 --> 00:03:26.013
+and this is what I want to explore in this hands-on.
+
+77
+00:03:27.120 --> 00:03:28.470
+So, here we have three options,
+
+78
+00:03:28.470 --> 00:03:30.360
+we can work with an IP set,
+
+79
+00:03:30.360 --> 00:03:32.460
+in which case we can choose an IP set,
+
+80
+00:03:32.460 --> 00:03:34.140
+for example, the one we've created,
+
+81
+00:03:34.140 --> 00:03:36.000
+and say, okay for this IP set
+
+82
+00:03:36.000 --> 00:03:40.410
+simply allow or block or count or have a CAPTCHA,
+
+83
+00:03:40.410 --> 00:03:42.810
+to have like a challenge, or a challenge,
+
+84
+00:03:42.810 --> 00:03:44.430
+either CAPTCHA or challenge.
+
+85
+00:03:44.430 --> 00:03:46.500
+And this is quite simple.
+
+86
+00:03:46.500 --> 00:03:48.600
+So if you wanted to allow them, you could choose allow,
+
+87
+00:03:48.600 --> 00:03:50.820
+if you want to block anything from this IP set,
+
+88
+00:03:50.820 --> 00:03:53.040
+you could block them as well.
+
+89
+00:03:53.040 --> 00:03:58.040
+But what if you wanted to block anything but the IP set?
+
+90
+00:03:58.380 --> 00:04:01.680
+So there is not the option in this UI.
+
+91
+00:04:01.680 --> 00:04:04.590
+So you would have to go through a rule builder.
+
+92
+00:04:04.590 --> 00:04:06.210
+And if you use a rule builder,
+
+93
+00:04:06.210 --> 00:04:09.000
+I will say block anything
+
+94
+00:04:09.000 --> 00:04:11.430
+but IP sets.
+
+95
+00:04:11.430 --> 00:04:15.090
+And so this is a regular rule, and the condition is,
+
+96
+00:04:15.090 --> 00:04:18.090
+if a request does not match the statement,
+
+97
+00:04:18.090 --> 00:04:18.923
+and the statement is
+
+98
+00:04:18.923 --> 00:04:23.670
+that the, originates from an IP address in my IP sets.
+
+99
+00:04:23.670 --> 00:04:26.490
+So we're saying, "Hey, if this request does not come
+
+100
+00:04:26.490 --> 00:04:28.950
+from an IP in my IP sets,
+
+101
+00:04:28.950 --> 00:04:30.480
+then block."
+
+102
+00:04:30.480 --> 00:04:34.140
+And in this case we block anything but the IP sets.
+
+103
+00:04:34.140 --> 00:04:35.250
+So it's something you need to know,
+
+104
+00:04:35.250 --> 00:04:37.053
+in case you have to reproduce this.
+
+105
+00:04:37.950 --> 00:04:40.950
+The IP address to use as the originating address
+
+106
+00:04:40.950 --> 00:04:43.830
+is best practice to put it as a source IP address.
+
+107
+00:04:43.830 --> 00:04:45.810
+You can also have it as an IP address in the header
+
+108
+00:04:45.810 --> 00:04:48.600
+and you specify the header, but headers can be modified,
+
+109
+00:04:48.600 --> 00:04:50.640
+and so this is more risky.
+
+110
+00:04:50.640 --> 00:04:53.130
+So, we'll use the source IP address,
+
+111
+00:04:53.130 --> 00:04:55.800
+and we'll add this rule and we're good.
+
+112
+00:04:55.800 --> 00:04:58.620
+So now we block all the IP address
+
+113
+00:04:58.620 --> 00:05:01.050
+except the one from the IP sets.
+
+114
+00:05:01.050 --> 00:05:04.830
+Next, we can add another rule, so, we can add my own rules.
+
+115
+00:05:04.830 --> 00:05:08.163
+And the next rule maybe a rate limiting, so rate limiting,
+
+116
+00:05:09.000 --> 00:05:11.550
+and we create a rate based rule.
+
+117
+00:05:11.550 --> 00:05:12.383
+And this time we're saying,
+
+118
+00:05:12.383 --> 00:05:15.630
+"Hey, I want a single IP address
+
+119
+00:05:15.630 --> 00:05:20.430
+to be allowed 100 requests within a five minute period,
+
+120
+00:05:20.430 --> 00:05:23.760
+and if it's going to reach this limit
+
+121
+00:05:23.760 --> 00:05:25.380
+then it's going to be blocked
+
+122
+00:05:25.380 --> 00:05:27.930
+but after five minutes it will be unblocked."
+
+123
+00:05:27.930 --> 00:05:31.980
+So you can set between anything from 100 to 20 million,
+
+124
+00:05:31.980 --> 00:05:34.140
+but we'll use 100.
+
+125
+00:05:34.140 --> 00:05:35.342
+And we're saying,
+
+126
+00:05:35.342 --> 00:05:37.380
+"Okay, look at the source IP address again to figure out
+
+127
+00:05:37.380 --> 00:05:40.230
+where this request is coming from."
+
+128
+00:05:40.230 --> 00:05:42.690
+And then do you want to count all requests
+
+129
+00:05:42.690 --> 00:05:46.980
+or just a request that match a specific subset of request?
+
+130
+00:05:46.980 --> 00:05:48.840
+And it could be matching the statement
+
+131
+00:05:48.840 --> 00:05:51.600
+and you have like, all the information such as, for example,
+
+132
+00:05:51.600 --> 00:05:53.040
+the country or the cookies
+
+133
+00:05:53.040 --> 00:05:55.080
+or the query parameters or the path,
+
+134
+00:05:55.080 --> 00:05:57.150
+and the body, and the method, and so on.
+
+135
+00:05:57.150 --> 00:05:59.160
+So you can say, "Hey, you can read all you want,
+
+136
+00:05:59.160 --> 00:06:02.160
+but you can post only a 100 times every five minutes."
+
+137
+00:06:02.160 --> 00:06:04.080
+This is the kind of things that you would have
+
+138
+00:06:04.080 --> 00:06:05.400
+in this statement.
+
+139
+00:06:05.400 --> 00:06:07.080
+But we'll consider all requests,
+
+140
+00:06:07.080 --> 00:06:10.920
+and we're saying, "Okay, hey, do this and then block."
+
+141
+00:06:10.920 --> 00:06:11.797
+But you can also say,
+
+142
+00:06:11.797 --> 00:06:13.980
+"Okay, let's make sure it's not a bot,
+
+143
+00:06:13.980 --> 00:06:17.370
+so we can instead we can do a CAPTCHA or a challenge,
+
+144
+00:06:17.370 --> 00:06:18.840
+but we'll do the block."
+
+145
+00:06:18.840 --> 00:06:22.080
+So now we're saying we'll block anything by this IP set,
+
+146
+00:06:22.080 --> 00:06:25.410
+and by the way, they cannot do more than 100 requests
+
+147
+00:06:25.410 --> 00:06:27.750
+in a five minute period.
+
+148
+00:06:27.750 --> 00:06:31.230
+Finally, let's say that we know that we are using a database
+
+149
+00:06:31.230 --> 00:06:33.780
+and we're very concerned about SQL injections.
+
+150
+00:06:33.780 --> 00:06:37.350
+So, we can of course use the manageable group from AWS,
+
+151
+00:06:37.350 --> 00:06:39.420
+but you can also add your own rule.
+
+152
+00:06:39.420 --> 00:06:42.030
+So, let's go under the rule builder again.
+
+153
+00:06:42.030 --> 00:06:46.560
+And we're saying, "Hey, block SQL injections from body."
+
+154
+00:06:46.560 --> 00:06:48.390
+And you'll see why I say from body.
+
+155
+00:06:48.390 --> 00:06:51.367
+So, we're doing a regular rule and we're saying,
+
+156
+00:06:51.367 --> 00:06:53.850
+"Hey, if a request matches the statement
+
+157
+00:06:53.850 --> 00:06:54.750
+and the statement is,"
+
+158
+00:06:54.750 --> 00:06:58.150
+and you scroll all the way down and you go for
+
+159
+00:06:59.737 --> 00:07:01.350
+"body,"
+
+160
+00:07:01.350 --> 00:07:04.170
+and then the body, the match type we want is
+
+161
+00:07:04.170 --> 00:07:05.317
+and you scroll down,
+
+162
+00:07:05.317 --> 00:07:07.740
+"contains SQL injection attack."
+
+163
+00:07:07.740 --> 00:07:09.660
+So it's saying, "Hey, if in the body
+
+164
+00:07:09.660 --> 00:07:13.140
+it looks like there's a SQL injection attach, attack
+
+165
+00:07:13.140 --> 00:07:14.640
+then
+
+166
+00:07:14.640 --> 00:07:15.900
+block."
+
+167
+00:07:15.900 --> 00:07:19.080
+And the sensitivity level is to detect
+
+168
+00:07:19.080 --> 00:07:20.820
+whether or not you want to have
+
+169
+00:07:20.820 --> 00:07:22.680
+more false positive or less false positive,
+
+170
+00:07:22.680 --> 00:07:24.690
+so, low is a better choice,
+
+171
+00:07:24.690 --> 00:07:26.730
+if you have protection against SQL injections
+
+172
+00:07:26.730 --> 00:07:29.070
+and you have a low tolerance for false positives,
+
+173
+00:07:29.070 --> 00:07:30.840
+but if you want the highest level
+
+174
+00:07:30.840 --> 00:07:32.910
+of protection against SQL attacks,
+
+175
+00:07:32.910 --> 00:07:35.730
+you need to set the sensitivity level to high,
+
+176
+00:07:35.730 --> 00:07:38.910
+but it's possible that valid request will be
+
+177
+00:07:38.910 --> 00:07:41.400
+considered as being SQL injection attack, so.
+
+178
+00:07:41.400 --> 00:07:44.910
+It's up to you for for testing and so on, so please test it,
+
+179
+00:07:44.910 --> 00:07:47.970
+but the recommended way is to set it as high.
+
+180
+00:07:47.970 --> 00:07:49.740
+And again you can add text transformations,
+
+181
+00:07:49.740 --> 00:07:51.930
+for example, to modify the content
+
+182
+00:07:51.930 --> 00:07:56.430
+before it is being evaluated for a SQL injection attack.
+
+183
+00:07:56.430 --> 00:07:58.980
+So we're saying, "Hey let's add this rule,"
+
+184
+00:07:58.980 --> 00:08:02.040
+an oversize link, so what happens if the request is too big?
+
+185
+00:08:02.040 --> 00:08:03.270
+Maybe continue
+
+186
+00:08:03.270 --> 00:08:05.670
+to inspect the content within the size limitation,
+
+187
+00:08:05.670 --> 00:08:07.800
+and that's a good, that's a good start
+
+188
+00:08:07.800 --> 00:08:10.410
+or a match or no match if you wanted to just,
+
+189
+00:08:10.410 --> 00:08:12.660
+wanted to get a result right away.
+
+190
+00:08:12.660 --> 00:08:14.340
+So we'll add this rule,
+
+191
+00:08:14.340 --> 00:08:16.380
+and now we block SQL injection from the body,
+
+192
+00:08:16.380 --> 00:08:18.690
+and you can actually add your own rule,
+
+193
+00:08:18.690 --> 00:08:23.690
+and again, you can block SQL injections from query strings.
+
+194
+00:08:24.480 --> 00:08:25.867
+And again, you would select,
+
+195
+00:08:25.867 --> 00:08:30.120
+"Hey, if the query string parameters all of them
+
+196
+00:08:30.120 --> 00:08:32.910
+match a SQL injection attack
+
+197
+00:08:32.910 --> 00:08:36.630
+then have a sensitive high, then block it.
+
+198
+00:08:36.630 --> 00:08:37.980
+And again, you can have as many rules as you want,
+
+199
+00:08:37.980 --> 00:08:41.940
+and I really invite you to explore in your own way
+
+200
+00:08:41.940 --> 00:08:43.470
+all the request components
+
+201
+00:08:43.470 --> 00:08:45.000
+and all the statements and possibilities
+
+202
+00:08:45.000 --> 00:08:47.430
+because you will learn a lot, okay?
+
+203
+00:08:47.430 --> 00:08:49.050
+Once you have these rules,
+
+204
+00:08:49.050 --> 00:08:50.610
+you see how much capacity you're using,
+
+205
+00:08:50.610 --> 00:08:54.000
+so, 73 out of 1500 WCUs.
+
+206
+00:08:54.000 --> 00:08:55.380
+And what is happening for requests
+
+207
+00:08:55.380 --> 00:08:56.760
+that don't match any rule?
+
+208
+00:08:56.760 --> 00:08:58.800
+Then I want to block them maybe,
+
+209
+00:08:58.800 --> 00:09:01.470
+or I want to allow them, it's up to you.
+
+210
+00:09:01.470 --> 00:09:04.290
+Next, you click on next, you can set the rule priority,
+
+211
+00:09:04.290 --> 00:09:08.370
+so, which rule will be evaluated first for whatever reason,
+
+212
+00:09:08.370 --> 00:09:10.770
+but I can keep this order right now.
+
+213
+00:09:10.770 --> 00:09:11.700
+Say next.
+
+214
+00:09:11.700 --> 00:09:13.230
+Then we have CloudWatch metrics
+
+215
+00:09:13.230 --> 00:09:17.190
+to see which rules are being matched and how much,
+
+216
+00:09:17.190 --> 00:09:18.900
+and then do we want request sampling?
+
+217
+00:09:18.900 --> 00:09:21.750
+So we can view the request and sample them
+
+218
+00:09:21.750 --> 00:09:23.220
+and view how they're being treated
+
+219
+00:09:23.220 --> 00:09:25.560
+by the web application firewall.
+
+220
+00:09:25.560 --> 00:09:26.400
+Next.
+
+221
+00:09:26.400 --> 00:09:28.530
+And then create Web ACL.
+
+222
+00:09:28.530 --> 00:09:29.363
+And there you go,
+
+223
+00:09:29.363 --> 00:09:32.100
+you have created your first set of protection
+
+224
+00:09:32.100 --> 00:09:34.770
+on your web application firewall.
+
+225
+00:09:34.770 --> 00:09:37.260
+Another thing you can look at is rule groups.
+
+226
+00:09:37.260 --> 00:09:38.580
+So, rule groups allow you to actually
+
+227
+00:09:38.580 --> 00:09:40.860
+create these rules as a group,
+
+228
+00:09:40.860 --> 00:09:43.470
+and then you can just assign a group to a Web ACL,
+
+229
+00:09:43.470 --> 00:09:46.530
+so it's a little bit faster to create Web ACLs
+
+230
+00:09:46.530 --> 00:09:48.300
+by using rule groups, but I want to show you,
+
+231
+00:09:48.300 --> 00:09:51.300
+how to create a Web ACL directly.
+
+232
+00:09:51.300 --> 00:09:54.480
+So my Web ACL is now created,
+
+233
+00:09:54.480 --> 00:09:57.600
+and I absolutely want to actually delete it
+
+234
+00:09:57.600 --> 00:09:59.730
+because it's going to cost me money
+
+235
+00:09:59.730 --> 00:10:01.560
+even if it's not associated with any resource.
+
+236
+00:10:01.560 --> 00:10:04.350
+So first, if you did associate it with any resource
+
+237
+00:10:04.350 --> 00:10:05.490
+but you didn't have to,
+
+238
+00:10:05.490 --> 00:10:07.350
+you need to disassociate it
+
+239
+00:10:07.350 --> 00:10:09.030
+from your Load Balancers, for example.
+
+240
+00:10:09.030 --> 00:10:10.260
+And then you can go ahead,
+
+241
+00:10:10.260 --> 00:10:13.180
+and you can take the Web ACL itself
+
+242
+00:10:14.070 --> 00:10:15.510
+and you can delete it.
+
+243
+00:10:15.510 --> 00:10:18.660
+So type in, delete, and you're good to go.
+
+244
+00:10:18.660 --> 00:10:20.850
+And finally, your IP set as well,
+
+245
+00:10:20.850 --> 00:10:23.190
+you can go ahead and delete it.
+
+246
+00:10:23.190 --> 00:10:25.440
+So, that's it for this lecture, I hope you liked it.
+
+247
+00:10:25.440 --> 00:10:27.543
+And I will see you in the next lecture.
+

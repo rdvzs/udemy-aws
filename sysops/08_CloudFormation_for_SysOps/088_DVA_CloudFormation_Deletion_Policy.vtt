@@ -1,0 +1,455 @@
+WEBVTT
+
+1
+00:00:00.120 --> 00:00:01.022
+<v Presenter>So let's talk about</v>
+
+2
+00:00:01.022 --> 00:00:03.330
+CloudFormation- DeletionPolicy.
+
+3
+00:00:03.330 --> 00:00:06.000
+DeletionPolicy is a setting you can apply
+
+4
+00:00:06.000 --> 00:00:08.090
+to resources on your CloudFormation templates,
+
+5
+00:00:08.090 --> 00:00:10.470
+which allows you to control what happens
+
+6
+00:00:10.470 --> 00:00:12.749
+to a resource when the resource is removed
+
+7
+00:00:12.749 --> 00:00:14.220
+from your CloudFormation templates
+
+8
+00:00:14.220 --> 00:00:17.585
+or when the CloudFormation stack is deleted.
+
+9
+00:00:17.585 --> 00:00:20.040
+It's a way for you to actually preserve
+
+10
+00:00:20.040 --> 00:00:21.326
+and backup up resources.
+
+11
+00:00:21.326 --> 00:00:22.800
+So by default, we've seen
+
+12
+00:00:22.800 --> 00:00:25.065
+that when we delete a CloudFormation template,
+
+13
+00:00:25.065 --> 00:00:27.654
+all the resources within are also deleted.
+
+14
+00:00:27.654 --> 00:00:31.680
+That means that the default DeletionPolicy is delete,
+
+15
+00:00:31.680 --> 00:00:35.220
+so you don't have to specify it because it is the default.
+
+16
+00:00:35.220 --> 00:00:37.275
+Sometimes you wanna specify to be really explicit
+
+17
+00:00:37.275 --> 00:00:40.920
+that things are being deleted, but so here's an example.
+
+18
+00:00:40.920 --> 00:00:42.017
+We have an EC2 instance,
+
+19
+00:00:42.017 --> 00:00:45.630
+and as you can see, DeletionPolicy is delete.
+
+20
+00:00:45.630 --> 00:00:48.366
+So that means that the EC2 instance will be deleted
+
+21
+00:00:48.366 --> 00:00:51.875
+whenever the CloudFormation stack is deleted.
+
+22
+00:00:51.875 --> 00:00:54.840
+Okay.
+Here is another example.
+
+23
+00:00:54.840 --> 00:00:55.673
+We have an S3 buckets
+
+24
+00:00:55.673 --> 00:00:59.940
+and we have DeletionPolicy=Delete.
+
+25
+00:00:59.940 --> 00:01:02.700
+So everything probably should be working fine,
+
+26
+00:01:02.700 --> 00:01:06.293
+but actually if you have an S3 bucket, this is an exception,
+
+27
+00:01:06.293 --> 00:01:10.380
+and you have DeletionPolicy=Delete on it.
+
+28
+00:01:10.380 --> 00:01:14.730
+It will work only if the S3 bucket is empty.
+
+29
+00:01:14.730 --> 00:01:18.630
+If it's not empty, then the delete will fail.
+
+30
+00:01:18.630 --> 00:01:20.940
+So the way to fix this if you wanted to would be
+
+31
+00:01:20.940 --> 00:01:24.870
+to either manually delete everything within the S3 bucket
+
+32
+00:01:24.870 --> 00:01:27.330
+and then continue with the deletion
+
+33
+00:01:27.330 --> 00:01:29.190
+of your CloudFormation templates.
+
+34
+00:01:29.190 --> 00:01:31.802
+Or it would be for you to implement a custom resource
+
+35
+00:01:31.802 --> 00:01:34.950
+to actually delete everything within the S3 bucket
+
+36
+00:01:34.950 --> 00:01:38.733
+before automatically having the S3 bucket go away.
+
+37
+00:01:39.690 --> 00:01:41.774
+Now let's talk about DeletionPolicy retain.
+
+38
+00:01:41.774 --> 00:01:44.223
+So for the retain DeletionPolicy,
+
+39
+00:01:44.223 --> 00:01:47.700
+it's actually specifying which resources you want
+
+40
+00:01:47.700 --> 00:01:49.860
+to preserve in your CloudFormation templates.
+
+41
+00:01:49.860 --> 00:01:52.172
+So example here, we have a DynamoDB table,
+
+42
+00:01:52.172 --> 00:01:55.761
+and we know that by default, it would be deleted
+
+43
+00:01:55.761 --> 00:01:57.750
+when I delete my CloudFormation template,
+
+44
+00:01:57.750 --> 00:02:01.290
+but maybe we actually wanna keep it, keep the data within
+
+45
+00:02:01.290 --> 00:02:03.930
+because we care about the data of this table.
+
+46
+00:02:03.930 --> 00:02:06.150
+And so we would specify at the bottom
+
+47
+00:02:06.150 --> 00:02:07.752
+DeletionPolicy retain.
+
+48
+00:02:07.752 --> 00:02:11.045
+And so even if I delete my CloudFormation templates,
+
+49
+00:02:11.045 --> 00:02:13.920
+this DynamoDB table would stay,
+
+50
+00:02:13.920 --> 00:02:16.740
+and this works with any resources.
+
+51
+00:02:16.740 --> 00:02:19.320
+Finally, the last DeletionPolicy you need
+
+52
+00:02:19.320 --> 00:02:21.450
+to know about is snapshots.
+
+53
+00:02:21.450 --> 00:02:23.730
+So this is to create one final snapshot
+
+54
+00:02:23.730 --> 00:02:25.590
+before deleting the resource.
+
+55
+00:02:25.590 --> 00:02:27.430
+And it's supported by EBS volumes,
+
+56
+00:02:27.430 --> 00:02:30.430
+ElastiCache Cluster, ElastiCache ReplicationGroup,
+
+57
+00:02:30.430 --> 00:02:33.690
+RDS DBInstance, DB cluster, Redshift, Neptune,
+
+58
+00:02:33.690 --> 00:02:36.150
+DocumentDB, and maybe more.
+
+59
+00:02:36.150 --> 00:02:39.270
+And the idea is that you would specify at the bottom,
+
+60
+00:02:39.270 --> 00:02:41.460
+of course, a DeletionPolicy snapshot.
+
+61
+00:02:41.460 --> 00:02:46.140
+And so that instance of database from RDS would be deleted,
+
+62
+00:02:46.140 --> 00:02:48.600
+but a last snapshot would be taken
+
+63
+00:02:48.600 --> 00:02:51.480
+before that instance is gone.
+
+64
+00:02:51.480 --> 00:02:54.900
+And so that's very helpful for backups and safety purposes.
+
+65
+00:02:54.900 --> 00:02:56.190
+So, let's have a look.
+
+66
+00:02:56.190 --> 00:02:59.028
+And in this file deletionpolicy.yaml,
+
+67
+00:02:59.028 --> 00:03:00.559
+there is a security group
+
+68
+00:03:00.559 --> 00:03:04.470
+and the DeletionPolicy is retained.
+
+69
+00:03:04.470 --> 00:03:06.939
+So that means that if I delete my transformation stack,
+
+70
+00:03:06.939 --> 00:03:09.393
+this security group should stay.
+
+71
+00:03:10.230 --> 00:03:13.050
+And there is an EBS volume,
+
+72
+00:03:13.050 --> 00:03:16.350
+and the DeletionPolicy is a snapshot.
+
+73
+00:03:16.350 --> 00:03:19.230
+So that means that upon deleting the stack,
+
+74
+00:03:19.230 --> 00:03:20.310
+the volume should go away,
+
+75
+00:03:20.310 --> 00:03:23.130
+but a snapshot should be created first.
+
+76
+00:03:23.130 --> 00:03:26.580
+So let's verify this behavior by creating a stack
+
+77
+00:03:26.580 --> 00:03:30.980
+and uploading the template file being DeletionPolicy.
+
+78
+00:03:30.980 --> 00:03:35.980
+Next, DeletionPolicyDemo is the name of my stack.
+
+79
+00:03:39.600 --> 00:03:43.920
+Scroll down next and submit.
+
+80
+00:03:43.920 --> 00:03:45.240
+So this goes ahead
+
+81
+00:03:45.240 --> 00:03:48.577
+and creates very quickly my CloudFormation stack,
+
+82
+00:03:48.577 --> 00:03:51.960
+which is going to be made again of two resources.
+
+83
+00:03:51.960 --> 00:03:53.925
+We have an EBS volume,
+
+84
+00:03:53.925 --> 00:03:56.730
+and then we have an EC2 security group.
+
+85
+00:03:56.730 --> 00:03:58.039
+So now they're both created
+
+86
+00:03:58.039 --> 00:04:00.399
+and my stack has been fully created.
+
+87
+00:04:00.399 --> 00:04:02.970
+Now let's go ahead and try to delete it.
+
+88
+00:04:02.970 --> 00:04:07.230
+So let's delete the stack and let's look at the events.
+
+89
+00:04:07.230 --> 00:04:10.620
+So we see here that the My Security group
+
+90
+00:04:10.620 --> 00:04:12.780
+has a delete skipped.
+
+91
+00:04:12.780 --> 00:04:14.788
+This is because we did specify
+
+92
+00:04:14.788 --> 00:04:18.360
+a DeletionPolicy of retain.
+
+93
+00:04:18.360 --> 00:04:21.930
+So if I wanted to get rid of this security group,
+
+94
+00:04:21.930 --> 00:04:24.210
+as you can see, it is still here.
+
+95
+00:04:24.210 --> 00:04:25.530
+If I wanted to get rid of it, I would need
+
+96
+00:04:25.530 --> 00:04:26.700
+to manually delete it
+
+97
+00:04:26.700 --> 00:04:30.540
+because I told CloudFormation not to delete it.
+
+98
+00:04:30.540 --> 00:04:34.319
+Now, regarding the EBS volume, it has been deleted.
+
+99
+00:04:34.319 --> 00:04:37.599
+But if I go into the events, it turns out that
+
+100
+00:04:37.599 --> 00:04:41.820
+a snapshot has been created and it was successful.
+
+101
+00:04:41.820 --> 00:04:44.340
+And here is the snapshot ID.
+
+102
+00:04:44.340 --> 00:04:47.340
+Therefore, if I go into
+
+103
+00:04:47.340 --> 00:04:50.820
+my snapshots on the left-hand side, I have a new snapshot
+
+104
+00:04:50.820 --> 00:04:53.880
+of one gigabytes that was just created right now
+
+105
+00:04:53.880 --> 00:04:55.350
+from my EBS volume,
+
+106
+00:04:55.350 --> 00:04:59.190
+but my EBS volume, as you can see, is gone.
+
+107
+00:04:59.190 --> 00:05:02.160
+So if you wanted to fully clean up, please make sure
+
+108
+00:05:02.160 --> 00:05:05.490
+to also delete this snapshot manually.
+
+109
+00:05:05.490 --> 00:05:07.167
+And please make sure to also delete
+
+110
+00:05:07.167 --> 00:05:09.450
+the security group if you wanted to.
+
+111
+00:05:09.450 --> 00:05:10.283
+But that's it.
+
+112
+00:05:10.283 --> 00:05:12.591
+We've seen the power of the DeletionPolicy.
+
+113
+00:05:12.591 --> 00:05:16.593
+I hope you liked it, and I will see you in the next lecture.
+
